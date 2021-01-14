@@ -25,7 +25,7 @@
         android:layout_below="@id/img"
         android:text="@string/request_complete"
         android:textColor="@color/grey_800"
-        android:fontFamily="@font/font_regular"
+        android:fontFamily="@font/font_subtext"
         android:id="@+id/text"
         android:paddingTop="3dp"
         android:layout_width="wrap_content"

@@ -143,7 +143,7 @@ public class utl {
     public static Pattern pattern = Pattern.compile(HTML_PATTERN);
 
     ;
-    public static String BOLD = "font_bold.otf",
+    public static String
             REGULAR = "font_regular.ttf", TEXT = "font_style.ttf", THIN = "font_thin.ttf";
     public static String TAG = "TAG UTL";
     public static Integer TYPE_EMAIL = 120, TYPE_PHONE = 293, TYPE_DEF = 101;

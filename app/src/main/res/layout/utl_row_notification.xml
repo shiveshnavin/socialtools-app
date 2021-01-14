@@ -30,7 +30,7 @@
 
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/image"
-            android:fontFamily="@font/font_regular"
+            android:fontFamily="@font/font_subtext"
             android:textColor="@color/colorPrimary"
             android:text="@string/abc"
             android:textSize="16sp"
@@ -47,7 +47,7 @@
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/icon"
-        android:fontFamily="@font/font_regular"
+        android:fontFamily="@font/font_subtext"
         android:textColor="@color/black"
         android:text="@string/abc"
         android:textSize="14sp"

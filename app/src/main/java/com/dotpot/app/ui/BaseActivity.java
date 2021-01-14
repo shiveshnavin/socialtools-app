@@ -695,7 +695,7 @@ public class BaseActivity extends AppCompatActivity {
                     , utl.pxFromDp(ctx, 100).intValue());
             params.gravity = Gravity.CENTER;
 
-            utl.setFace(R.font.font_regular, im);
+            utl.setFace(R.font.font_subtext, im);
             im.setTextColor(getcolor(R.color.black));
             im.setTextSize(20);
             im.setGravity(Gravity.CENTER);

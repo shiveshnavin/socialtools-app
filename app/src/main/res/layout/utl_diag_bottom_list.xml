@@ -33,7 +33,7 @@
                 android:textColor="@color/grey_900"
                 android:layout_width="match_parent"
                 android:maxLines="20"
-                android:fontFamily="@font/font_regular"
+                android:fontFamily="@font/font_subtext"
                 android:id="@+id/title"
                 android:text="@string/title"
                 android:textSize="18sp"
