@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:paddingTop="6dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/bg_rounded_filled_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+
+            <LinearLayout
+                android:id="@+id/disease_cont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/opt_cont"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <com.dotpot.app.views.RoundedImageView
+                    android:layout_marginTop="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/disease_thumb"
+                    android:scaleType="fitXY"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="6dp"
+                    android:src="@drawable/logo" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/disease_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_text"
+                        android:text="@string/app_name"
+                        android:textColor="@color/material_grey_700"
+                        android:textSize="15sp" />
+
+
+                    <LinearLayout
+                        android:layout_below="@+id/disease_cont"
+                        android:id="@+id/ngo_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/opt_cont"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:visibility="gone"
+                            app:tint="@color/material_grey_500"
+                            android:layout_marginTop="1dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/user_thumb"
+                            android:scaleType="fitXY"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/ic_users" />
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_text"
+                            android:text="username"
+                            android:textColor="@color/material_grey_500"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/dot5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingTop="0.1dp"
+                            android:layout_margin="4dp"
+                            android:fontFamily="@font/font_thin"
+                            android:text="●"
+                            android:textColor="@color/material_grey_500"
+                            android:textSize="8sp" />
+
+                        <TextView
+                            android:id="@+id/date2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_text"
+                            android:text="@string/_24_feb_2019"
+                            android:textColor="@color/material_grey_500"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginRight="4dp"
+                android:gravity="center_vertical"
+                android:id="@+id/opt_cont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/options"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vd_options"
+                    app:tint="@color/black" />
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/opt_cont"
+                    android:id="@+id/subscribe"
+                    android:paddingLeft="5dp"
+                    style="@style/small_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_plus_grey_12dp"
+                    android:drawablePadding="1dp"
+                    android:text="Subscribe" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+        <LinearLayout
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardImage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_margin="5dp">
+
+                <ImageView
+                    android:background="@color/white"
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/loading_bg"
+                     />
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="7dp"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/about"
+                    android:textColor="@color/offblack"
+                    android:fontFamily="@font/font_style"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <LinearLayout
+                    android:id="@+id/cont_bottom"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:drawablePadding="4dp"
+                         android:drawableLeft="@drawable/ic_view_eye_12dp"
+                        style="@style/small_button"
+                        android:id="@+id/view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="View More" />
+
+
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/dot2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/font_thin"
+                        android:text="  \u25CF  "
+                        android:textColor="@color/grey_600"
+                        android:textSize="3sp" />
+
+                    <TextView
+                        android:id="@+id/discuss"
+                        style="@style/small_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:drawableLeft="@drawable/ic_message_black_24dp"
+                        android:drawablePadding="4dp"
+                        android:text="Discuss" />
+
+
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/dot3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/font_thin"
+                        android:text="  \u25CF  "
+                        android:textColor="@color/grey_600"
+                        android:textSize="3sp" />
+
+
+                    <TextView
+                        android:id="@+id/share"
+                        style="@style/small_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:drawableLeft="@drawable/ic_share_black_12dp"
+                        android:drawablePadding="4dp"
+                        android:text="Share" />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

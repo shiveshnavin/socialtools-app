@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center_vertical"
+    android:id="@+id/search_layout"
+    android:background="@android:color/white"
+    android:paddingLeft="13.0dip"
+    android:paddingTop="9.0dip"
+    android:paddingRight="13.0dip"
+    android:paddingBottom="9.0dip"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditText
+        android:textSize="12.0sp"
+        android:textColor="@color/text_data_color"
+        android:textColorHint="@color/text_data_color"
+        android:gravity="start|center"
+        android:id="@+id/search_et"
+        android:background="@drawable/bg_rounded_search"
+        android:paddingLeft="10.0dip"
+        android:paddingRight="13.0dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/search"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
+        android:drawableTint="@color/text_data_color"
+        android:drawableLeft="@drawable/ic_small_search"
+        android:drawablePadding="10dp"
+        android:textCursorDrawable="@drawable/search_cursor" />
+
+    <LinearLayout
+
+        android:layout_alignLeft="@+id/search_et"
+        android:layout_alignRight="@+id/search_et"
+        android:layout_alignTop="@+id/search_et"
+        android:layout_alignBottom="@+id/search_et"
+        android:orientation="vertical"
+        android:id="@+id/search_layout_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

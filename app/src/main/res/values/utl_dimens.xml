@@ -1,0 +1,37 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="top_sheet_modal_elevation">16dp</dimen>
+    <dimen name="top_sheet_modal_peek_height">256dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
+    <dimen name="loginScreenTextSize">14sp</dimen>
+    <dimen name="articleCardVertical">10dp</dimen>
+    <dimen name="app_bar_height">210dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="inputWidth">270dp</dimen>
+    <dimen name="inputTextSize">16sp</dimen>
+    <dimen name="profilePicSize">80dp</dimen>
+
+    <dimen name="drawable_size">18dp</dimen>
+
+
+    <dimen name="splash_rotation_radius">30dp</dimen>
+    <dimen name="splash_circle_radius">6dp</dimen>
+    <integer name="splash_rotation_duration">1200</integer>
+    <integer name="splash_duration">2000</integer>
+
+
+    <dimen name="rounded_corner_rad">4dp</dimen>
+
+    <dimen name="login_margin">40dp</dimen>
+    <dimen name="filter_btn_margin">5dp</dimen>
+
+    <item name="zoom_from" format="float" type="dimen">0.98</item>
+    <item name="zoom_to" format="float" type="dimen">1.0</item>
+</resources>

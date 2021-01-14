@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/bg_rounded_blue_hollow"
+        android:id="@+id/cont_image"
+        android:padding="2dp"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" >
+
+        <ImageView
+
+            android:id="@+id/sub_image"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_toLeftOf="@+id/done"
+            android:id="@+id/cont_text"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textSize="16sp"
+                android:fontFamily="@font/font_text"
+                android:id="@+id/sub_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <ImageView
+            android:layout_centerVertical="true"
+            app:tint="@color/colorPrimary"
+            android:src="@drawable/ic_done_tick"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:fontFamily="@font/font_text"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:id="@+id/done"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

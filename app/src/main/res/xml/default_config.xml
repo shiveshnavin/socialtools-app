@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>cache_config</key>
+        <value>{"/api/feed":62440,"/api/groupInfo":62440,"/api/assignGroup":62440,"/api/users":60,"/api/getUser":60,"/api/posts":60,"/api/users_lite":620,"/api/searchx?getTrending=1":3600,"/api/searchx?query=&amp;getTrending=1":3600}</value>
+    </entry>
+    <entry>
+        <key>caching_enabled</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>firebase_token_expiry</key>
+        <value>3600000</value>
+    </entry>
+    <entry>
+        <key>firebase_key</key>
+        <value>AAAAhDu8YXE:APA91bEn-YgIzAzX7YhaO4PRHZ4_PKCduF8H7nH4TPSYDtq_xJmNw5sPQoiWcSKFW77qZhwrbdQOlSQHu6zXsttFtTLI_x4x3-0IGBrVCdUXy4rSGdMgEzlKhSqi9BkSR9b5LgIoJvOp</value>
+    </entry>
+    <entry>
+        <key>debug</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>IDLEN</key>
+        <value>8</value>
+    </entry>
+    <entry>
+        <key>access_token</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>location_api</key>
+        <value>https://ipinfo.io/?token=d4cfb2478f156e</value>
+    </entry>
+    <entry>
+        <key>host</key>
+        <value>https://rugged-silo-243413.uc.r.appspot.com</value>
+    </entry>
+    <entry>
+        <key>upcoming</key>
+        <value>Something great is coming soon ! Keep coming back we will have it here in no time .</value>
+    </entry>
+    <entry>
+        <key>max_file_size</key>
+        <value>3145728</value>
+    </entry>
+    <entry>
+        <key>places_api_key</key>
+        <value>AIzaSyAzXDQCPhTYVRO9k7CehuoTMSxPbNcivZw</value>
+    </entry>
+    <entry>
+        <key>email</key>
+        <value>admin@juntos.com</value>
+    </entry>
+</defaultsMap>

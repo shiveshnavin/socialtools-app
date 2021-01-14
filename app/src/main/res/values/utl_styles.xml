@@ -1,0 +1,112 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="FullScreen"    parent="Theme.AppCompat.NoActionBar">
+
+
+    </style>
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#4dd0e1</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- Used for the background -->
+        <item name="android:background">#388e3c</item>
+        <item name="android:windowTitleStyle">@style/MyTitleTextStyle</item>
+
+    </style>
+
+
+    <style name="MyTitleTextStyle">
+        <item name="android:textColor">#448aff</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="PopupDialog" parent="@android:style/Theme">
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/pop_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide</item>
+    </style>
+    <attr name="text" format="dimension"/>
+    <attr name="text_head" format="dimension"/>
+    <attr name="text_subhead" format="dimension"/>
+    <attr name="text_xhead" format="dimension"/>
+    <attr name="button" format="dimension"/>
+    <attr name="ico_size" format="dimension"/>
+    <attr name="ico_xsize" format="dimension"/>
+    <style name="AppTheme_Normal" parent="AppTheme">
+        <item name="text">14sp</item>
+        <item name="text_head">18sp</item>
+        <item name="text_subhead">16sp</item>
+        <item name="text_xhead">27sp</item>
+        <item name="ico_size">24dp</item>
+        <item name="ico_xsize">32dp</item>
+    </style>
+    <style name="AppTheme_Large" parent="AppTheme">
+        <item name="text">16sp</item>
+        <item name="text_head">23sp</item>
+        <item name="text_subhead">18sp</item>
+        <item name="text_xhead">29sp</item>
+        <item name="button">18sp</item>
+        <item name="ico_size">40dp</item>
+        <item name="ico_xsize">40dp</item>
+    </style>
+    <style name="AppTheme_XLarge" parent="AppTheme">
+        <item name="text">18sp</item>
+        <item name="text_head">27sp</item>
+        <item name="text_subhead">23sp</item>
+        <item name="text_xhead">31sp</item>
+        <item name="button">23sp</item>
+        <item name="ico_size">60dp</item>
+        <item name="ico_xsize">60dp</item>
+    </style>
+    <style name="small_button" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">@color/grey_700</item>
+        <item name="android:fontFamily">@font/font_style</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/bg_round_grey_filled</item>
+        <item name="android:clickable">true</item>
+    </style>
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorTextFade</item>
+        <item name="android:background">@color/colorTextBright</item>
+    </style>
+
+    <style name="MyAlertDialogStyleCircular" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+    </style>
+
+    <declare-styleable name="GradientLoader">
+        <attr name="animationDuration" format="integer"/>
+        <attr name="gradientStartColor" format="color"/>
+        <attr name="gradientEndColor" format="color"/>
+    </declare-styleable>
+</resources>

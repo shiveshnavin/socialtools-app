@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+
+        android:padding="7dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:weightSum="1.1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/icon"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:minWidth="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_text"
+                android:gravity="left"
+                android:text="@string/text"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/name"
+                android:textSize="16sp" />
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_weight="0.3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_text"
+                    android:gravity="left"
+                    android:text="@string/_7_jan_2018"
+                    android:textColor="@color/material_green_700"
+                    android:id="@+id/btm_t0"
+                    android:textSize="23sp" />
+
+
+                <TextView
+                    android:layout_weight="0.6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_regular"
+                    android:gravity="left"
+                    android:maxLines="2"
+                    android:ellipsize="marquee"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/btm_t1"
+                    android:textSize="11sp" />
+
+
+                <TextView
+                    android:layout_weight="0.3"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/font_thin"
+                    android:gravity="left"
+                    android:layout_gravity="left"
+                    android:text="@string/_24_dec_2017"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/btm_t2"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="2dp"
+            android:layout_weight="0.1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                app:tint="@color/black"
+                android:src="@drawable/ic_arrow_right_black_24dp"
+                android:id="@+id/del"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <View
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/grey_400"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"/>
+
+</LinearLayout>

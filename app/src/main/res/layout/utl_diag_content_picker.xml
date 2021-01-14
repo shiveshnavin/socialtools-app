@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_above="@+id/cont_btns"
+        android:id="@+id/cont_all"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/cont_image"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                tools:listitem="@layout/utl_row_story"
+                tools:itemCount="4"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/content_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/cont_text_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/cont_text"
+                android:background="@drawable/bg_round_grey_filled"
+                android:layout_marginLeft="10dp"
+                android:hint="Say something..."
+                android:layout_marginRight="10dp"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="15sp"
+                    android:maxLines="15"
+                    android:fontFamily="@font/font_style"
+                    android:id="@+id/sub_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/cont_text"
+                android:orientation="vertical"
+                android:id="@+id/cont_stuff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+
+        </RelativeLayout>
+
+        <include layout="@layout/utl_include_search_view"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@android:color/white"
+        app:elevation="3dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/cont_btns"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Cancel"
+            android:padding="11dp"
+            android:layout_weight="0.5"
+            android:layout_centerVertical="true"
+            android:textColor="@color/material_red_700"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_text"
+            android:id="@+id/cancel"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Done"
+            android:textColor="@color/colorPrimary"
+            android:layout_weight="0.5"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:fontFamily="@font/font_text"
+            android:id="@+id/done"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+</RelativeLayout>
