@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#43bccd</color>
+    <color name="colorBackground">#231530</color>
+    <color name="colorPrimary">#003BFF</color>
+    <color name="colorPrimaryDark">#1A237E</color>
+    <color name="colorAccent">#003BFF</color>
+    <color name="colorAccentLight">#29B6F6</color>
+    <color name="colorTextPrimary">#DDDBDB</color>
+    <color name="colorTextSecondary">#C5C2C2</color>
+    <color name="colorIcon">#C5C2C2</color>
+    <color name="inputBackground">#43FFFFFF</color>
+    <color name="inputBackgroundFocused">#6AFFFFFF</color>
+
+
     <color name="colorGradEnd">@color/material_green_500</color>
     <color name="accent_light">@color/colorPrimary</color>
-    <color name="colorPrimaryDark">@color/white</color>
     <color name="colorPrimaryDark2">#0097A7</color>
     <color name="colorPrimaryDark3">@color/material_green_700</color>
     <color name="colorChatMe">#E9FFFF</color>
-    <color name="colorAccent">@color/colorPrimary</color>
 
 </resources>

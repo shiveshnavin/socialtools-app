@@ -18,7 +18,6 @@
 
     -->
 
-    <color name="colorText">#222824</color>
     <color name="colorTextFade">@color/material_greyy_300</color>
     <color name="colorTextBright">#fff</color>
 
@@ -129,7 +128,7 @@
 
 
     <color name="transblack">#cd1a1a1c</color>
-    <color name="transparent">#001a1a1c</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="transblack2">#601a1a1c</color>
     <color name="transblack3">#a81a1a1c</color>
     <color name="transblue">#3429b6f6</color>

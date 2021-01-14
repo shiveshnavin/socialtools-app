@@ -10,7 +10,7 @@
         android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/bg_rounded_blue_hollow"
+        android:background="@drawable/bg_rounded_btn_hollow"
         android:id="@+id/cont_image"
         android:padding="2dp"
         android:layout_margin="5dp"
