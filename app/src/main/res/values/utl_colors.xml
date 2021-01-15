@@ -536,7 +536,6 @@
 
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
-    <!-- TODO: This is 40% alpha on the default accent color. -->
 
     <!-- Text & foreground colors -->
     <eat-comment />
@@ -544,13 +543,11 @@
     <!-- Black 87% -->
     <!-- Black 54% -->
     <color name="secondary_text_material_light">#8a000000</color>
-    <!-- Black 54% (TODO: same as secondary?) -->
     <color name="tertiary_text_material_light">#8a000000</color>
 
     <!-- White 87% -->
     <!-- White 38% -->
     <color name="secondary_text_material_dark">#61ffffff</color>
-    <!-- White 38% (TODO: same as secondary?) -->
     <color name="tertiary_text_material_dark">#61ffffff</color>
 
     <!-- Primary & accent colors -->

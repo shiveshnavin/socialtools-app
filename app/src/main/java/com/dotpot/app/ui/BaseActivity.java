@@ -37,6 +37,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +57,7 @@ import com.dotpot.app.services.CacheService;
 import com.dotpot.app.services.DBService;
 import com.dotpot.app.services.DownloadOpenService;
 import com.dotpot.app.services.EventBusService;
+import com.dotpot.app.services.InAppNavService;
 import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.splash.SplashActivity;
 import com.dotpot.app.utils.FadePopup;
@@ -88,7 +90,7 @@ import java.util.Locale;
  * Created by shivesh on 7/1/18.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static final int REQ_UPLOAD_IMG_CAM = 1991;
     public static final int REQ_UPLOAD_IMG_GAL = 1990;
@@ -123,7 +125,8 @@ public class BaseActivity extends AppCompatActivity {
     ProgressDialog pd;
     TextAndContentPicker picker;
     ProgressDialog hideShow;
-
+    public InAppNavService inAppNavService;
+    public FragmentManager fragmentManager;
 
     public void setUpToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -152,6 +155,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        fragmentManager = getSupportFragmentManager();
+        inAppNavService = new InAppNavService(this);
         super.onCreate(savedInstanceState);
 
         try {
@@ -191,23 +196,20 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void startMyAccount() {
-
-        // todo
-    }
-
     public void startHome() {
 
-
-        user = utl.readUserData();
-        FirebaseCrashlytics.getInstance().setUserId(user.getId());
-        user = utl.readUserData();
-
-
-        if (processDeepLink() == null) {
-            startActivity(new Intent(ctx, HomeActivity.class));
-            finishAffinity();
-        }
+        // TODO: 15/1/21 refactor
+        startActivity(new Intent(ctx, HomeActivity.class));
+//
+//        user = utl.readUserData();
+//        FirebaseCrashlytics.getInstance().setUserId(user.getId());
+//        user = utl.readUserData();
+//
+//
+//        if (processDeepLink() == null) {
+//            startActivity(new Intent(ctx, HomeActivity.class));
+//            finishAffinity();
+//        }
     }
 
     ActionItem processDeepLink() {
@@ -559,7 +561,7 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case R.id.menu_account:
 
-                        startMyAccount();
+                        inAppNavService.starMyAccount();
                         // mIntent = new Intent(ctx,MyAccount.class);
 
                         break;

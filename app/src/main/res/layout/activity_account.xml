@@ -9,11 +9,9 @@
 
     <ImageView
         android:id="@+id/head_img"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:layout_marginBottom="@+id/head"
         android:src="@drawable/bg_login"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +28,7 @@
         android:gravity="left"
         android:text="@string/login"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="?attr/text_xhead"
+        android:textSize="@dimen/text_xhead"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/head_img" />
 
@@ -43,7 +41,7 @@
         android:gravity="left"
         android:text="@string/please_login_to_continue"
         android:textColor="@color/colorTextSecondary"
-        android:textSize="?attr/text_subhead"
+        android:textSize="@dimen/text_subhead"
         app:layout_constraintLeft_toLeftOf="@+id/head"
         app:layout_constraintTop_toBottomOf="@+id/head" />
 
@@ -59,7 +57,6 @@
         app:layout_constraintTop_toBottomOf="@+id/subtext"
         app:layout_constraintBottom_toTopOf="@+id/cont_footer"
         app:layout_constraintVertical_chainStyle="spread"
-        app:navGraph="@navigation/mobile_navigation"
         tools:layout="@layout/fragment_signup" />
 
 
@@ -80,7 +77,7 @@
         <TextView
             android:id="@+id/gotologin"
             android:fontFamily="@font/font_text"
-            android:textSize="?attr/text_subhead"
+            android:textSize="@dimen/text_subhead"
             android:gravity="center"
             android:text="@string/already_have_a_account"
             android:textColor="@color/colorTextSecondary"
@@ -91,7 +88,7 @@
             android:layout_marginLeft="5dp"
             android:id="@+id/gotologin_2"
             android:fontFamily="@font/font_text"
-            android:textSize="?attr/text_subhead"
+            android:textSize="@dimen/text_subhead"
             android:text="@string/login"
             android:textColor="@color/colorAccentLight"
             app:layout_constraintLeft_toRightOf="@+id/gotologin"

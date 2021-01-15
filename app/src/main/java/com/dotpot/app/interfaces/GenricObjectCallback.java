@@ -12,4 +12,7 @@ public interface GenricObjectCallback<T> {
     default void onEntitySet(ArrayList<T> listItems){
         utl.e("GenricObjectCallback::onEntitySet Not Implemented");
     };
+    default void onError(String message){
+        utl.e("GenricObjectCallback::onError Not Implemented");
+    }
 }

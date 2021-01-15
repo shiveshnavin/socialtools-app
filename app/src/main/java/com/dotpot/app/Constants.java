@@ -27,6 +27,10 @@ public class Constants {
     public static String V2V_VERIFIED=O2O+"_VERIFIED_";
 
     public final static String ACTION_HOME = "home";
+    public static String ACTION_LOGIN = "ACTION_LOGIN";
+    public static String ACTION_SIGNUP = "ACTION_SIGNUP";
+    public static String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
+    public static String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
 
     public final static String ATTACHMENT_TYPE_IMAGE = "Image";
     public final static String ATTACHMENT_TYPE_DOC = "Doc";

@@ -6,15 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.multidex.BuildConfig;
-
+import com.dotpot.app.BuildConfig;
 import com.dotpot.app.models.InAppMessage;
 import com.dotpot.app.utl;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 
-import static com.dotpot.app.Constants.*;
+import static com.dotpot.app.Constants.C2C_DELETE;
 
 
 public class DBService extends SQLiteOpenHelper {

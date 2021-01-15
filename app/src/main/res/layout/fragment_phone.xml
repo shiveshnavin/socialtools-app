@@ -77,7 +77,7 @@
             android:layout_marginTop="5dp"
             android:id="@+id/subtext"
             android:fontFamily="@font/font_text"
-            android:textSize="?attr/text_subhead"
+            android:textSize="@dimen/text_subhead"
             android:gravity="center"
             android:text="@string/retry_in_30s"
             android:textColor="@color/colorTextPrimary"

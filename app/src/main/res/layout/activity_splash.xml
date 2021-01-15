@@ -25,9 +25,10 @@
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/head"
         android:fontFamily="@font/font_text"
-        android:textSize="?attr/text_xhead"
+        android:textSize="@dimen/text_xhead"
         android:gravity="center"
         android:text="@string/welcome"
         android:textColor="@color/colorTextPrimary"
@@ -38,8 +39,10 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/subhead"
+        android:visibility="gone"
         android:fontFamily="@font/font_text"
-        android:textSize="?attr/text_subhead"
+        android:textSize="@dimen/text_subhead"
         android:gravity="center"
         android:text="@string/tagline"
         android:textColor="@color/colorTextSecondary"
@@ -49,7 +52,8 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:visibility="gone"
+        android:id="@+id/bottomContSplash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
