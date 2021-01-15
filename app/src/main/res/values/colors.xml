@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#1A237E</color>
     <color name="colorAccent">#003BFF</color>
     <color name="colorAccentLight">#29B6F6</color>
+    <color name="colorAccentHighLighted">@color/material_red_500</color>
     <color name="colorTextPrimary">#DDDBDB</color>
     <color name="colorTextSecondary">#C5C2C2</color>
     <color name="colorIcon">#C5C2C2</color>

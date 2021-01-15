@@ -13,4 +13,17 @@
     <string name="don_t_have_a_account">Don\'t have a account ?</string>
     <string name="sign_up">Sign Up</string>
     <string name="please_login_to_continue">Please login to continue</string>
+    <string name="logingoogle">Login with Google</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="tnc"><![CDATA[By continuing you agree to our <br><b><u>Terms and Contidions</u></b>.]]></string>
+    <string name="already_have_a_account">Already have a account ?</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="finish">Finish</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="verify">Verify</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="retry_in_30s">Retry in 30s</string>
 </resources>

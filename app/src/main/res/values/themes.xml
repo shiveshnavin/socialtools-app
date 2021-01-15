@@ -18,4 +18,8 @@
         <item name="android:textColorHint">@color/colorTextSecondary</item>
 
     </style>
+
+    <style name="Theme.DotPot.Highighted" parent="Theme.DotPot">
+        <item name="colorPrimary">@color/material_red_500</item>
+    </style>
 </resources>
