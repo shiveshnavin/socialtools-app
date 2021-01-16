@@ -2,10 +2,11 @@
 <resources>
     <color name="colorBackground">#231530</color>
     <color name="colorBackgroundDark">#1B1025</color>
-    <color name="colorPrimary">#4527A0</color>
-    <color name="colorPrimaryDark">#311B92</color>
-    <color name="colorAccent">#4527A0</color>
-    <color name="colorAccentLight">#7986CB</color>
+    <color name="colorBackgroundLight">#2D1C3C</color>
+    <color name="colorPrimary">#206FF7</color>
+    <color name="colorPrimaryDark">#103A81</color>
+    <color name="colorAccent">#206FF7</color>
+    <color name="colorAccentLight">#206FF7</color>
     <color name="colorAccentHighLighted">@color/material_red_500</color>
     <color name="colorTextPrimary">#DDDBDB</color>
     <color name="colorTextSecondary">#C5C2C2</color>

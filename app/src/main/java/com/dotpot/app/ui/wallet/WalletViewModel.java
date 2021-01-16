@@ -1,14 +1,14 @@
-package com.dotpot.app.ui.notifications;
+package com.dotpot.app.ui.wallet;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class WalletViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public WalletViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }

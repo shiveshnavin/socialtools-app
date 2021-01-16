@@ -6,7 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_poster"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        android:id="@+id/poster"
+        app:layout_constraintBottom_toTopOf="@+id/bottomText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
     <TextView
+        android:text="@string/app_name"
         android:id="@+id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,9 +27,49 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textAllCaps="true"
+        android:fontFamily="@font/font_style"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_xhead"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        app:tint="@color/white"
+        android:src="@drawable/motion_play"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
+
+    <TextView
+        app:layout_constraintVertical_chainStyle="spread"
+        android:id="@+id/bottomText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/font_text"
+        android:gravity="left"
+        android:text="@string/about"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_head"
+        app:layout_constraintBottom_toTopOf="@+id/listItems"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/poster" />
+
+    <ScrollView
+        android:id="@+id/listItems"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintTop_toBottomOf="@+id/bottomText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

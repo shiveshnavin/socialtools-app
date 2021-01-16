@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.notifications;
+package com.dotpot.app.ui.wallet;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.dotpot.app.R;
 
-public class NotificationsFragment extends Fragment {
+public class WalletFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private WalletViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+                new ViewModelProvider(this).get(WalletViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         final TextView textView = root.findViewById(R.id.text_notifications);
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

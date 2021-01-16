@@ -37,5 +37,7 @@
     <string name="verifyphone">Verify Phone</string>
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
+    <string name="title_wallet">Wallet</string>
+    <string name="sampleusername">Bill Gates</string>
 
 </resources>
