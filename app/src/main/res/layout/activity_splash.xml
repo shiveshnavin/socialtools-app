@@ -68,7 +68,7 @@
             android:padding="15dp"
             android:textColor="@color/colorTextPrimary"
             android:layout_marginRight="30dp"
-            android:background="@drawable/bg_rounded_btn_filled"
+            android:background="@drawable/bg_selector_rounded_btn_filled"
             android:id="@+id/signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

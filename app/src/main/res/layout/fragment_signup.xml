@@ -19,14 +19,15 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email"
             android:id="@+id/contentmail"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/ic_mail">
+            android:hint="@string/email"
+            app:endIconMode="none"
+            app:startIconDrawable="@drawable/ic_mail"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/email"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
+                android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -38,12 +39,13 @@
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:id="@+id/contentname"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/account">
+            app:startIconDrawable="@drawable/account"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/name"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -56,15 +58,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/pick_date_of_birth"
             android:id="@+id/contentpaswd"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/calendar_month">
+           app:startIconDrawable="@drawable/calendar_month"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/paswd"
+                style="@style/Theme.DotPot.TextEditTextStyle"
+               android:id="@+id/paswd"
                 android:focusable="false"
                 android:clickable="true"
                 android:inputType="textCapWords"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -86,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_rounded_btn_filled"
+                android:background="@drawable/bg_selector_rounded_btn_filled"
                 android:padding="10dp"
                 android:text="@string/next" />
 

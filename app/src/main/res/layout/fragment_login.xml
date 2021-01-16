@@ -20,13 +20,16 @@
             android:layout_height="wrap_content"
             android:hint="@string/emailorphone"
             android:id="@+id/contentmail"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/ic_mail">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
-                android:layout_width="match_parent"
+            app:startIconDrawable="@drawable/ic_mail"
+            style="@style/Theme.DotPot.TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+                style="@style/Theme.DotPot.TextEditTextStyle"
+                 android:id="@+id/email"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,14 +40,19 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_your_password"
             android:id="@+id/contentpaswd"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/ic_password">
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_password"
+            style="@style/Theme.DotPot.TextInputStyle">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/paswd"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
+                style="@style/Theme.DotPot.TextEditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:imeOptions="actionGo"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -65,7 +73,7 @@
                 android:padding="10dp"
                 android:textColor="@color/colorTextPrimary"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/bg_rounded_btn_filled"
+                android:background="@drawable/bg_selector_rounded_btn_filled"
                 android:id="@+id/signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@drawable/bg_rounded_btn_filled"
+                android:background="@drawable/bg_selector_rounded_btn_filled"
                 android:padding="10dp"
                 android:text="@string/login" />
 

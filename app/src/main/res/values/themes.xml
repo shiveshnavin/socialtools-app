@@ -2,24 +2,52 @@
     <!-- Base application theme. -->
     <style name="Theme.DotPot" parent="AppTheme_Normal">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#003BFF</item>
-        <item name="colorPrimaryVariant">#100917</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorBackgroundDark</item>
         <item name="colorOnPrimary">@color/colorTextPrimary</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#003BFF</item>
-        <item name="colorSecondaryVariant">#003BFF</item>
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name = "android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:fontFamily">@font/font_text</item>
-        <item name="fontFamily">@font/font_text</item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+        <item name="fontFamily">@font/font_text
+        </item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
         <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeColor">@color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
 
     </style>
 
     <style name="Theme.DotPot.Highighted" parent="Theme.DotPot">
         <item name="colorPrimary">@color/material_red_500</item>
     </style>
+
+
+
+        <style name="Theme.DotPot.TextInputStyle" parent="Theme.DotPot">
+            <item name="boxStrokeWidthFocused">0dp</item>
+            <item name="boxStrokeWidth">0dp</item>
+            <item name="boxBackgroundMode">filled</item>
+            <item name="hintTextColor">@color/colorTextSecondary</item>
+            <item name="android:background">@drawable/bg_selector</item>
+            <item name="endIconMode">clear_text</item>
+            <item name="endIconTint">@color/colorBackground</item>
+        </style>
+
+        <style name="Theme.DotPot.TextEditTextStyle" parent="Theme.DotPot">
+            <item name="maxLines">1</item>
+            <item name="singleLine">true</item>
+            <item name="android:imeOptions">actionNext</item>
+            <item name="android:textColor">@color/colorTextPrimary</item>
+            <item name="android:background">@color/transparent</item>
+        </style>
+
 </resources>

@@ -23,13 +23,13 @@
             android:layout_height="wrap_content"
             android:hint="@string/old_password"
             android:id="@+id/contentpaswd"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/account">
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_password"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
+                style="@style/Theme.DotPot.TextEditTextStyle"
+                 android:id="@+id/password"
                 android:inputType="textPassword"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -40,13 +40,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/new_password"
             android:id="@+id/contentpaswd2"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/account">
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_password"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password2"
+                style="@style/Theme.DotPot.TextEditTextStyle"
+                 android:id="@+id/password2"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -68,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_rounded_btn_filled"
+                android:background="@drawable/bg_selector_rounded_btn_filled"
                 android:padding="10dp"
                 android:text="@string/finish" />
 
@@ -81,7 +82,7 @@
             android:textSize="@dimen/text_subhead"
             android:gravity="center"
             android:text="@string/tnc"
-            android:textColor="@color/colorAccentLight"
+            android:textColor="@color/colorTextSecondary"
             app:layout_constraintLeft_toLeftOf="@+id/head"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             android:layout_width="match_parent"

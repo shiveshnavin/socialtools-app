@@ -1,6 +1,7 @@
 package com.dotpot.app.ui.password;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class ChangePasswordFragment extends BaseFragment {
         act = (AccountActivity) getActivity();
         View root = inflater.inflate(R.layout.fragment_paswd, container, false);
         findViews(root);
+        String textBtm = subtext.getText().toString();
+        subtext.setText(Html.fromHtml(textBtm));
 
         login.setOnClickListener(v->act.loginService.updatePassword(
                 password2.getText().toString()

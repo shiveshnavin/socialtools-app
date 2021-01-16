@@ -20,13 +20,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone"
+            app:endIconMode="none"
             android:id="@+id/contentphone"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/phone">
+            app:startIconDrawable="@drawable/phone"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/phone"
+                android:maxLines="1"
+                android:inputType="phone"
+                android:imeOptions="actionNext"
                 android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -37,14 +41,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_otp"
+            app:endIconMode="password_toggle"
             android:id="@+id/contentpaswd"
-            app:hintTextColor="@color/colorTextSecondary"
-            app:startIconDrawable="@drawable/ic_password">
+            app:startIconDrawable="@drawable/ic_password"
+            style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/password"
+                android:maxLines="1"
                 android:inputType="textPassword"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@drawable/bg_selector"
+                android:imeOptions="actionGo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_rounded_btn_filled"
+                android:background="@drawable/bg_selector_rounded_btn_filled"
                 android:padding="10dp"
                 android:text="@string/send_otp" />
 
