@@ -55,7 +55,7 @@ public class SignupFragment extends BaseFragment {
 
         //todo upadate generic user and move to phone
         // todo OR move to paswd if already exists
-        login.setOnClickListener(v->act.beginPhone());
+        login.setOnClickListener(v->act.beginPhone(true));
 
         return root;
     }

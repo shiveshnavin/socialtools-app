@@ -27,6 +27,7 @@
                 style="@style/Theme.DotPot.TextEditTextStyle"
                  android:id="@+id/email"
             android:maxLines="1"
+            android:digits="@string/digitsEmail"
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:layout_width="match_parent"

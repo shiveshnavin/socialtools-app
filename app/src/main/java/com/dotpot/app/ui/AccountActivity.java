@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.Fragment;
 
 import com.dotpot.app.R;
 import com.dotpot.app.services.LoginService;
@@ -23,23 +23,21 @@ public class AccountActivity extends BaseActivity {
 
     public LoginService loginService;
 
-    private String action ;
+    private String action;
     private ImageView headImg;
     private TextView head;
     private TextView subtext;
-    private NavHostFragment navHostFragment;
     private LinearLayout contFooter;
     private TextView gotologin;
     private TextView gotologin2;
 
     private void findViews() {
-        headImg = (ImageView)findViewById( R.id.head_img );
-        head = (TextView)findViewById( R.id.head );
-        subtext = (TextView)findViewById( R.id.subtext );
-        navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById( R.id.nav_host_fragment );
-        contFooter = (LinearLayout)findViewById( R.id.cont_footer );
-        gotologin = (TextView)findViewById( R.id.gotologin );
-        gotologin2 = (TextView)findViewById( R.id.gotologin_2 );
+        headImg = (ImageView) findViewById(R.id.head_img);
+        head = (TextView) findViewById(R.id.head);
+        subtext = (TextView) findViewById(R.id.subtext);
+        contFooter = (LinearLayout) findViewById(R.id.cont_footer);
+        gotologin = (TextView) findViewById(R.id.gotologin);
+        gotologin2 = (TextView) findViewById(R.id.gotologin_2);
     }
 
     @Override
@@ -49,45 +47,65 @@ public class AccountActivity extends BaseActivity {
         findViews();
         loginService = new LoginService(this);
         action = getIntent().getStringExtra("action");
-        if(action==null || action.equals(ACTION_LOGIN)){
-            beginLogin();
+        String fgmtName = "androidx.navigation.fragment.NavHostFragment";
+
+        Fragment blank = null;
+        if(fragmentManager.getFragments().size()>0)
+        {
+            blank = fragmentManager.getFragments().get(0);
         }
-        else if(action.equals(ACTION_SIGNUP)){
-            beginSignup();
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
+
+        if (action == null || action.equals(ACTION_LOGIN)) {
+            fgmtName = getString(R.string.login);
+            beginLogin(false);
+        } else if (action.equals(ACTION_SIGNUP)) {
+            fgmtName = getString(R.string.signup);
+            beginSignup(false);
+        } else if (action.equals(ACTION_VERIFY_PHONE)) {
+            fgmtName = getString(R.string.verifyphone);
+            beginPhone(false);
+        } else if (action.equals(ACTION_CHANGE_PASSWORD)) {
+            fgmtName = getString(R.string.changepassword);
+            beginChangePassword(false);
         }
-        else if(action.equals(ACTION_VERIFY_PHONE)){
-            beginPhone();
-        }
-        else if(action.equals(ACTION_CHANGE_PASSWORD)){
-            beginChangePassword();
-        }
+        if(blank!=null)
+            fragmentManager.beginTransaction().remove(blank).commitNow();
+
+        //        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
 
     }
 
-    public void beginLogin(){
+    public void beginLogin(boolean addToBackStack) {
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, LoginFragment.class,
                 getString(R.string.login),
-                null);
+                null,addToBackStack);
     }
 
-    public void beginSignup() {
+    public void beginSignup(boolean addToBackStack) {
         headImg.setImageResource(R.drawable.bg_signup);
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, SignupFragment.class,
                 getString(R.string.signup),
-                null);
+                null,addToBackStack);
     }
 
-    public void beginPhone() {
+    public void beginPhone(boolean addToBackStack) {
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, VerifyPhoneFragment.class,
                 getString(R.string.verifyphone),
-                null);
+                null,addToBackStack);
     }
 
-    public void beginChangePassword() {
+    public void beginChangePassword(boolean addToBackStack ){
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, ChangePasswordFragment.class,
                 getString(R.string.changepassword),
-                null);
+                null,addToBackStack);
     }
+
 
 
 }

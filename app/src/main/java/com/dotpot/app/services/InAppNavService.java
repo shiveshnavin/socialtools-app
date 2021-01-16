@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.ui.AccountActivity;
@@ -63,12 +64,19 @@ public class InAppNavService {
     }
 
     public void fragmentTransaction(@IdRes int fragmentViewId, Class<? extends androidx.fragment.app.Fragment> target
-            , String name, Bundle data){
-        fragmentManager.beginTransaction()
+            , String name, Bundle data,boolean addToBackStack ){
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                 .replace(fragmentViewId, target, data)
-                .setReorderingAllowed(true)
-                .addToBackStack(name)
-                .commit();
+                .setReorderingAllowed(true);
+        if(addToBackStack){
+            fragmentTransaction =  fragmentTransaction.addToBackStack(name);
+        }else {
+            fragmentTransaction =  fragmentTransaction
+                    .disallowAddToBackStack();
+        }
+        fragmentTransaction.commit();
+
     }
 
 }

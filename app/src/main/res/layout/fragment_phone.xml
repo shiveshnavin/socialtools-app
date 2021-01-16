@@ -20,14 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone"
-            app:endIconMode="none"
+            app:endIconMode="clear_text"
             android:id="@+id/contentphone"
             app:startIconDrawable="@drawable/phone"
             style="@style/Theme.DotPot.TextInputStyle">
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/phone"
+                android:maxLength="10"
                 android:maxLines="1"
+                android:digits="@string/digits123"
                 android:inputType="phone"
                 android:imeOptions="actionNext"
                 android:textColor="@color/colorTextPrimary"
@@ -48,8 +50,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/password"
+                android:digits="@string/digits123"
                 android:maxLines="1"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:imeOptions="actionGo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

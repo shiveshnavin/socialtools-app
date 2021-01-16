@@ -45,19 +45,18 @@
         app:layout_constraintLeft_toLeftOf="@+id/head"
         app:layout_constraintTop_toBottomOf="@+id/head" />
 
-
-    <fragment
+    <FrameLayout
         android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:defaultNavHost="true"
         app:layout_constraintLeft_toLeftOf="@+id/subtext"
         app:layout_constraintRight_toRightOf="@+id/subtext"
         app:layout_constraintTop_toBottomOf="@+id/subtext"
         app:layout_constraintBottom_toTopOf="@+id/cont_footer"
         app:layout_constraintVertical_chainStyle="spread"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 
 
 

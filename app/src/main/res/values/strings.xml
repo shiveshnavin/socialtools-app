@@ -6,6 +6,10 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="digitsABC123.">abcdefghijklmnopqrstuvwxyz1234567890.</string>
+    <string name="digits123">0123456789</string>
+    <string name="digitsEmail">abcdefghijklmnopqrstuvwxyz1234567890@._</string>
+
     <string name="signup">Signup</string>
     <string name="welcome">Welcome to Dotpot</string>
     <string name="tagline">Play the Players !</string>

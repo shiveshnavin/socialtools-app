@@ -47,7 +47,7 @@ public class VerifyPhoneFragment extends BaseFragment {
         findViews(root);
 
         //todo verify phone
-        login.setOnClickListener(v->act.beginChangePassword());
+        login.setOnClickListener(v->act.beginChangePassword(true));
 
         return root;
     }

@@ -16,7 +16,7 @@ public class LoginService {
     }
 
     public void googleLogin(AccountActivity act){
-        act.beginSignup();
+        act.beginSignup(true);
     }
 
     public void updatePassword(String newPassword,String oldPassword,GenricObjectCallback<GenricUser> cb){
