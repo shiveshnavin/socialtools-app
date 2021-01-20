@@ -42,7 +42,7 @@ public class WalletFragment extends Fragment {
     private RoundRectCornerImageView addMoneyBalIcon;
     private RoundRectCornerImageView next;
     private Button addBtn;
-    private Button withdrawBtn;
+    private View withdrawBtn;
     private LinearLayout contNumbers;
     private ConstraintLayout contAwardBalance;
     private Button awardBalAction;
@@ -79,7 +79,7 @@ public class WalletFragment extends Fragment {
         addMoneyBalIcon = (RoundRectCornerImageView)root.findViewById( R.id.addMoneyBalIcon );
         next = (RoundRectCornerImageView)root.findViewById( R.id.next );
         addBtn = (Button)root.findViewById( R.id.addBtn );
-        withdrawBtn = (Button)root.findViewById( R.id.withdrawBtn );
+        withdrawBtn =  root.findViewById( R.id.withdrawBtn );
         contNumbers = (LinearLayout)root.findViewById( R.id.contNumbers );
         contAwardBalance = (ConstraintLayout)root.findViewById( R.id.contAwardBalance );
         awardBalAction = (Button)root.findViewById( R.id.awardBalAction );
