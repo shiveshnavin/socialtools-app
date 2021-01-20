@@ -82,6 +82,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     public void beginLogin(boolean addToBackStack) {
+        headImg.setImageResource(R.drawable.bg_login);
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, LoginFragment.class,
                 getString(R.string.login),
                 null,addToBackStack);
@@ -95,6 +96,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     public void beginPhone(boolean addToBackStack) {
+        headImg.setImageResource(R.drawable.bg_signup);
         inAppNavService.fragmentTransaction(R.id.nav_host_fragment, VerifyPhoneFragment.class,
                 getString(R.string.verifyphone),
                 null,addToBackStack);

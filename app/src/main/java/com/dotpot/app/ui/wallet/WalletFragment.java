@@ -12,11 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.Transaction;
+import com.dotpot.app.utl;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -118,6 +120,9 @@ public class WalletFragment extends Fragment {
                 vh.textView(R.id.txnId).setText("ID #"+transaction.getId());
             }
         };
+
+        listTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+        listTransactions.setAdapter(adapter);
 
 
     }
