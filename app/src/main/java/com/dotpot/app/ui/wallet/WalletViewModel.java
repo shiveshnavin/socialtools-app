@@ -16,11 +16,9 @@ public class WalletViewModel extends ViewModel {
     public WalletViewModel() {
         mText = new MutableLiveData<>();
         List<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction());
-        transactions.add(new Transaction());
-        transactions.add(new Transaction());
-        transactions.add(new Transaction());
-        transactions.add(new Transaction());
+        int N=20;
+        while (N -- > 0)
+            transactions.add(new Transaction());
         mText.setValue(transactions);
     }
 
