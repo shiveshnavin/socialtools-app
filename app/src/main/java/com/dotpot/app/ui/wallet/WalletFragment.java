@@ -39,6 +39,8 @@ public class WalletFragment extends Fragment {
     private TextView addMoneyBalTxt;
     private RoundRectCornerImageView addMoneyBalIcon;
     private RoundRectCornerImageView next;
+    private Button addBtn;
+    private Button withdrawBtn;
     private LinearLayout contNumbers;
     private ConstraintLayout contAwardBalance;
     private Button awardBalAction;
@@ -59,7 +61,7 @@ public class WalletFragment extends Fragment {
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2021-01-21 01:36:49 by Android Layout Finder
+     * Auto-created on 2021-01-21 02:22:51 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View root) {
@@ -74,6 +76,8 @@ public class WalletFragment extends Fragment {
         addMoneyBalTxt = (TextView)root.findViewById( R.id.addMoneyBalTxt );
         addMoneyBalIcon = (RoundRectCornerImageView)root.findViewById( R.id.addMoneyBalIcon );
         next = (RoundRectCornerImageView)root.findViewById( R.id.next );
+        addBtn = (Button)root.findViewById( R.id.addBtn );
+        withdrawBtn = (Button)root.findViewById( R.id.withdrawBtn );
         contNumbers = (LinearLayout)root.findViewById( R.id.contNumbers );
         contAwardBalance = (ConstraintLayout)root.findViewById( R.id.contAwardBalance );
         awardBalAction = (Button)root.findViewById( R.id.awardBalAction );

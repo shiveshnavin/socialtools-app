@@ -27,9 +27,10 @@
             android:layout_height="wrap_content">
 
             <com.dotpot.app.views.RoundRectCornerImageView
+                app:roundedCornerRadius="20"
                 android:layout_centerVertical="true"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                android:background="@drawable/bg_round_outline"
+                android:background="@drawable/bg_round_clip_outline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:src="@drawable/bill"
@@ -40,7 +41,7 @@
             <TextView
                 android:backgroundTint="@color/white"
                 android:background="@drawable/bg_rounded_btn_hollow"
-                android:drawableRight="@drawable/account_edit"
+                android:drawableRight="@drawable/edit"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/userImage"
@@ -67,7 +68,9 @@
 
 
     <LinearLayout
-
+        android:paddingTop="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:background="@drawable/bg_curve_right_top"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -75,6 +78,405 @@
         android:id="@+id/menuMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contAwardBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+
+
+            <TextView
+                android:id="@+id/awardBal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/edit_profile"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/awardBalIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/awardBalIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/account_edit"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/expandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contpasswordance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/changepassword"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/passwordIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/passwordIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/change_password"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/passwordexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contnotifBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+
+
+            <TextView
+                android:id="@+id/notifBal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="Notifications"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/notifBalIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/notifBalIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/ic_notifications_black_24dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/notifexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contwalletance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+
+            <TextView
+                android:id="@+id/wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/title_wallet"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/walletIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/walletIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/cash"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/walletexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contguideance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+
+            <TextView
+                android:id="@+id/guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/help_and_guide"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/guideIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/guideIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/help_circle_outline"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/guideexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contsupportance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+
+            <TextView
+                android:id="@+id/support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/support"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/supportIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/supportIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/support_it_contact"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/supportexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contlogoutance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/logout"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/logoutIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/logoutIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/logout"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/logoutexpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
 
     </LinearLayout>
 

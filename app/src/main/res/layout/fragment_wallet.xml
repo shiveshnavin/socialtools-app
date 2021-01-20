@@ -11,6 +11,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:elevation="5dp"
         android:id="@+id/contWalletBalancecont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="3dp"
                 android:fontFamily="@font/font_text"
-                android:text="@string/add_credits"
+                android:text="@string/help_add_money"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="@dimen/text_subhead"
                 app:layout_constraintLeft_toRightOf="@+id/addMoneyBalIcon"
@@ -100,6 +101,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/addMoneyBalTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,6 +131,7 @@
 
             <com.dotpot.app.views.RoundRectCornerImageView
                 android:id="@+id/next"
+                android:visibility="gone"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -143,6 +146,31 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <Button
+            android:layout_marginTop="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contaddMoneyBalance"
+            android:theme="@style/Theme.DotPot.DarkGreen"
+            android:textColor="@color/colorTextPrimary"
+            android:background="@drawable/bg_rounded_btn_hollow"
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_credits" />
+
+        <Button
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addBtn"
+            android:textColor="@color/colorTextPrimary"
+            android:background="@drawable/bg_rounded_btn_hollow"
+            android:id="@+id/withdrawBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/withdraw" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

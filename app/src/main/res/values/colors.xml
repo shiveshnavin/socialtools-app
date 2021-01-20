@@ -14,6 +14,7 @@
     <color name="colorTextWarning">@color/material_orange_500</color>
     <color name="colorTextError">@color/material_red_500</color>
     <color name="colorIcon">#DDDBDB</color>
+    <color name="colorIconSecondary">#6AFFFFFF</color>
     <color name="inputBackground">#43FFFFFF</color>
     <color name="inputBackgroundFocused">#6AFFFFFF</color>
     <color name="dotpotblue">#206FF7</color>
