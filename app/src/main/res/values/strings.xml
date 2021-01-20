@@ -39,5 +39,16 @@
     <string name="new_password">New Password</string>
     <string name="title_wallet">Wallet</string>
     <string name="sampleusername">Bill Gates</string>
+    <string name="currency">₹</string>
+    <string name="your_wallet_balance">Your wallet balance</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="help_award_bal">Balance you can withdraw into you bank account .</string>
+    <string name="help_referral_bal">Earnings by referring app to your friends</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="add_credits">Add Credits</string>
+    <string name="help_add_money">Use the credits to play more games</string>
+    <string name="all">All</string>
+    <string name="credit">Credit</string>
+    <string name="debit">Debit</string>
 
 </resources>

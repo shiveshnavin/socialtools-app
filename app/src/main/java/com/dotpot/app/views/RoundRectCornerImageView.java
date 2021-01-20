@@ -1,11 +1,13 @@
 package com.dotpot.app.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
+import com.dotpot.app.R;
 
 public class RoundRectCornerImageView extends androidx.appcompat.widget.AppCompatImageView {
 
@@ -20,15 +22,26 @@ public class RoundRectCornerImageView extends androidx.appcompat.widget.AppCompa
 
     public RoundRectCornerImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public RoundRectCornerImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(attrs);
     }
 
     private void init() {
+        path = new Path();
+    }
+
+    private void init(AttributeSet attrs) {
+
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.RoundRectCornerImageView, 0, 0);
+        try {
+            radius = ta.getInt(R.styleable.RoundRectCornerImageView_roundedCornerRadius, 18);
+        } finally {
+            ta.recycle();
+        }
         path = new Path();
 
     }

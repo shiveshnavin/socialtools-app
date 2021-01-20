@@ -6,6 +6,8 @@
     <dimen name="text_head">18sp</dimen>
     <dimen name="text_subhead">16sp</dimen>
     <dimen name="text_xhead">24sp</dimen>
+    <dimen name="text_xxhead">36sp</dimen>
     <dimen name="ico_size">24dp</dimen>
     <dimen name="ico_xsize">32dp</dimen>
+    <dimen name="rounded_icon_radius">4dp</dimen>
 </resources>

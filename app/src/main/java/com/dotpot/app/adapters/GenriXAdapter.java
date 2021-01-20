@@ -17,15 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dotpot.app.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class GenriXAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public ArrayList<T> itemList;
+    public List<T> itemList;
     private Context mContext;
     private int layout=-1;
 
-    public GenriXAdapter(Context context,@LayoutRes int layout, ArrayList<T> feedItemList) {
+    public GenriXAdapter(Context context,@LayoutRes int layout, List<T> feedItemList) {
         this.itemList = feedItemList;
         this.mContext = context;
         this.layout=layout;
@@ -47,7 +47,7 @@ public class GenriXAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
         final T item= itemList.get(pos);
     }
 
-    public void update(ArrayList<T> newList)
+    public void update(List<T> newList)
     {
         itemList.clear();;
         itemList.addAll(newList);

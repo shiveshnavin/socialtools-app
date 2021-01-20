@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxHeight="65dp"
+    android:layout_marginTop="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="10dp"
+        android:background="@drawable/bg_round_filled_dark"
+        android:backgroundTint="@color/colorBackgroundDark"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/contTxnTypance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/txnId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/font_text"
+            android:text="ID #J78HS87"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_subhead"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+        <com.dotpot.app.views.RoundRectCornerImageView
+            android:id="@+id/expandIcon"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="5dp"
+            android:tint="@color/colorTextPrimary"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow"
+            app:layout_constraintTop_toTopOf="@+id/txnId"
+            app:layout_constraintBottom_toBottomOf="@+id/txnId"
+            app:layout_constraintLeft_toRightOf="@+id/txnId"
+            app:roundedCornerRadius="1" />
+
+
+
+        <TextView
+            android:id="@+id/txnDateTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/font_text"
+            android:text="Credit   •   20 Dec 2020"
+            android:textColor="@color/colorTextSecondary"
+            app:layout_constraintLeft_toRightOf="@+id/expandIcon"
+            app:layout_constraintStart_toStartOf="@+id/txnId"
+            app:layout_constraintTop_toBottomOf="@+id/txnId" />
+
+
+
+
+        <TextView
+            android:id="@+id/txnAmtTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/font_text"
+            android:text="₹ 50.99"
+            android:textSize="@dimen/text_head"
+            android:textColor="@color/colorTextSuccess"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            />
+        <TextView
+            android:id="@+id/txnStatusTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/font_text"
+            android:text="Txn Success"
+            android:textColor="@color/colorTextSuccess"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txnAmtTxt"
+            app:layout_constraintRight_toRightOf="@+id/txnAmtTxt"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

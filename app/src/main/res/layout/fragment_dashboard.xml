@@ -29,7 +29,7 @@
             <com.dotpot.app.views.RoundRectCornerImageView
                 android:layout_centerVertical="true"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                android:background="@drawable/round_outline"
+                android:background="@drawable/bg_round_outline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:src="@drawable/bill"
