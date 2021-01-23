@@ -33,7 +33,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomText"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"/>
+                android:layout_height="320dp"/>
 
             <TextView
                 android:text="@string/app_name"

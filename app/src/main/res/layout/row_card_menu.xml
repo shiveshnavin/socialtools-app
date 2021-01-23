@@ -49,6 +49,7 @@
     </LinearLayout>
 
     <TextView
+
         android:layout_marginTop="@dimen/marginHome"
         android:gravity="center"
         android:id="@+id/yourWalletBalanceTxt"
@@ -64,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/contWalletBalance" />
 
     <Button
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/marginHome"
         android:paddingLeft="@dimen/marginHome"
         android:paddingRight="@dimen/marginHome"
         android:paddingTop="6dp"
