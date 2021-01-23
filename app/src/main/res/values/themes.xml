@@ -35,6 +35,7 @@
     <style name="Theme.DotPot.DarkGreen" parent="Theme.DotPot">
         <item name="colorPrimary">@color/material_green_700</item>
         <item name="colorAccent">@color/material_green_700</item>
+
     </style>
 
 

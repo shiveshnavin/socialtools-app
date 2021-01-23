@@ -55,5 +55,6 @@
     <string name="support">Support</string>
     <string name="logout">Logout</string>
     <string name="referral">Referrals</string>
+    <string name="weekly_leaderboard">Weekly Leaderboard</string>
 
 </resources>

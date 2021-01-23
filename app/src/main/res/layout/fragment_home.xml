@@ -8,68 +8,174 @@
 
 
 
-    <ImageView
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_poster"
-        app:layout_constraintVertical_chainStyle="spread_inside"
-        android:id="@+id/poster"
-        app:layout_constraintBottom_toTopOf="@+id/bottomText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-
-    <TextView
-        android:text="@string/app_name"
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:fontFamily="@font/font_style"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="@dimen/text_xhead"
+    <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        app:tint="@color/white"
-        android:src="@drawable/motion_play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="70dp"
-        android:layout_height="70dp"/>
-
-    <TextView
-        app:layout_constraintVertical_chainStyle="spread"
-        android:id="@+id/bottomText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/font_text"
-        android:gravity="left"
-        android:text="@string/about"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="@dimen/text_head"
-        app:layout_constraintBottom_toTopOf="@+id/listItems"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/poster" />
-
-    <ScrollView
-        android:id="@+id/listItems"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintTop_toBottomOf="@+id/bottomText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_poster"
+                app:layout_constraintVertical_chainStyle="spread_inside"
+                android:id="@+id/poster"
+                app:layout_constraintBottom_toTopOf="@+id/bottomText"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"/>
+
+            <TextView
+                android:text="@string/app_name"
+                android:id="@+id/text_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:fontFamily="@font/font_style"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_xhead"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ImageView
+                app:tint="@color/white"
+                android:src="@drawable/motion_play"
+                app:layout_constraintBottom_toBottomOf="@+id/poster"
+                app:layout_constraintTop_toTopOf="@+id/poster"
+                app:layout_constraintRight_toRightOf="@+id/poster"
+                app:layout_constraintLeft_toLeftOf="@+id/poster"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
+
+            <TextView
+                app:layout_constraintVertical_chainStyle="spread"
+                android:id="@+id/bottomText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/font_text"
+                android:gravity="left"
+                android:text="@string/about"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poster" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_centerVertical="true"
+                tools:listitem="@layout/row_card_menu"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bottomText"
+                android:id="@+id/listItems"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/bg_round_filled_dark"
+                    android:layout_margin="20dp"
+                    android:padding="20dp"
+                    android:id="@+id/contNotif"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/listItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:drawableLeft="@drawable/ic_notifications_black_24dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_rounded_filled_white"
+                        android:id="@+id/notifAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_text"
+                        android:text="2"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_subhead"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/notifTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_text"
+                        android:text="You have 2 new notifications !"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_subhead"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/bg_round_filled_dark"
+                android:layout_margin="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contNotif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weeklyLeaderboardtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_text"
+                    android:text="@string/weekly_leaderboard"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_subhead"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/row_user"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/weeklyLeaderboardtxt"
+                    android:id="@+id/listLeaderboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

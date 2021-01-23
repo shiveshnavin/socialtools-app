@@ -48,6 +48,7 @@
                     android:textSize="@dimen/text_head" />
 
                 <TextView
+                    android:textStyle="bold"
                     android:id="@+id/walletBalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
