@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,26 @@ public class BaseFragment extends Fragment {
     public BaseActivity act;
     public Context ctx;
     public InAppNavService navService;
+    public int fragmentId;
+
+    public TextView title ;
+    public ImageView logo;
+
+    public void setUpToolbar(View root){
+        title = root.findViewById(R.id.title);
+        logo = root.findViewById(R.id.logo);
+        if(logo!=null)
+        {
+            logo.setOnClickListener(v->{
+                getActivity().onBackPressed();
+            });
+        }
+    }
+
+    public void setTitle(String titl){
+        if(title!=null)
+            title.setText(titl);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -24,6 +46,7 @@ public class BaseFragment extends Fragment {
 
         act = (BaseActivity) getActivity();
         ctx = getContext();
+        fragmentId = container.getId();
         navService = new InAppNavService(act);
         View root = inflater.inflate(R.layout.fragment_blank, container, false);
         return root;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:background="@android:color/white"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@color/colorBackground"
     android:elevation="10dp"
     android:id="@+id/tool_cont"
     android:layout_width="match_parent"
@@ -10,8 +10,24 @@
 
 
 
+    <ImageView
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="3dp"
+        android:id="@+id/logo"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:baselineAligned="false"
+        android:src="@drawable/left_arrow" />
+
 
         <androidx.appcompat.widget.Toolbar
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -20,8 +36,10 @@
 
 
     <LinearLayout
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="105dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/head_cont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,19 +47,10 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.dotpot.app.views.RoundedImageView
-            android:visibility="gone"
-            android:padding="10dp"
-            android:id="@+id/logo"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:baselineAligned="false"
-            android:src="@drawable/logo" />
 
 
         <TextView
-
+            android:textStyle="bold"
             android:ellipsize="end"
             android:maxLines="1"
             android:id="@+id/title"
@@ -52,8 +61,8 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_head" />
 
 
 
@@ -61,4 +70,4 @@
 
 
     </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

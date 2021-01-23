@@ -41,14 +41,22 @@ public class SplashActivity extends BaseActivity {
             head.setVisibility(View.VISIBLE);
             subhead.setVisibility(View.VISIBLE);
             bottomContSplash.setVisibility(View.VISIBLE);
-            signup.setOnClickListener(v->inAppNavService.startRegister());
-            login.setOnClickListener(v->inAppNavService.startLogin());
+            signup.setOnClickListener(v->{
+                inAppNavService.startRegister();
+                finish();
+            });
+            login.setOnClickListener(v->{
+                inAppNavService.startLogin();
+                finish();
+            });
         }
     }
 
     private void animateAndHome() {
         //todo animate
         inAppNavService.startHome();
+        finish();
+
     }
 
 

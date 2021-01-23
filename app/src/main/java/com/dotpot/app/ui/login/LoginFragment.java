@@ -54,6 +54,7 @@ public class LoginFragment extends BaseFragment {
         login.setOnClickListener(v->act.loginService.emailPhoneLogin(email.getText().toString(), paswd.getText().toString(), new GenricObjectCallback<GenricUser>() {
             @Override
             public void onEntity(GenricUser data) {
+                act.finish();
                 act.inAppNavService.startHome();
             }
 

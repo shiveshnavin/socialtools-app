@@ -61,6 +61,12 @@ public class HomeFragment extends Fragment {
         homeViewModel.getActions().observe(getViewLifecycleOwner(), this::setUpActionList);
         homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), this::setUpLeaderboardList);
 
+
+
+        contNotif.setOnClickListener(view -> {
+
+        });
+
         return root;
     }
 
@@ -72,6 +78,9 @@ public class HomeFragment extends Fragment {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
+                vh.itemView.setOnClickListener(view -> {
+
+                });
             }
         };
         listActions.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -89,6 +98,11 @@ public class HomeFragment extends Fragment {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
+
+
+                vh.itemView.setOnClickListener(view -> {
+
+                });
             }
         };
 

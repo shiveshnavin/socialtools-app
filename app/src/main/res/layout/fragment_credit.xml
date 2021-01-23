@@ -7,13 +7,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/utl_toolbar"/>
+    <include android:id="@+id/tool_cont"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        layout="@layout/utl_toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"
         android:overScrollMode="never"
         android:id="@+id/list"
-        tools:listitem="@layout/row_transaction"
+        android:layout_marginRight="@dimen/marginHomeDouble"
+        android:layout_marginLeft="@dimen/marginHomeDouble"
+        tools:listitem="@layout/row_credit"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool_cont"
         android:layout_width="match_parent"

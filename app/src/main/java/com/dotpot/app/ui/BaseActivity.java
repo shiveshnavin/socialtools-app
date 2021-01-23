@@ -111,7 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public FirebaseAnalytics mfbanalytics;
     public FirebaseRemoteConfig mFirebaseRemoteConfig;
     public RestAPI restApi;
-    public RoundedImageView logo;
+    public ImageView logo;
     public GenricUser user;
     public View list;
     public Dialog lastDialog = null;

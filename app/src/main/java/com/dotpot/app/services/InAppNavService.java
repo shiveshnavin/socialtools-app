@@ -11,6 +11,7 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.ui.credit.AddCreditFragment;
 import com.dotpot.app.ui.list.ViewListFragment;
 
 public class InAppNavService {
@@ -67,6 +68,11 @@ public class InAppNavService {
         Intent it = new Intent(ctx, AccountActivity.class);
         it.putExtra("action", Constants.ACTION_VERIFY_PHONE);
         startActivity(it);
+    }
+
+
+    public void startAddCredits(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, AddCreditFragment.class, "credits", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
     public void startGameListPage(@IdRes int fragmentViewId) {

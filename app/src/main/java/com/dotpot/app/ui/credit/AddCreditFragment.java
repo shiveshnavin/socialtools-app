@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.list;
+package com.dotpot.app.ui.credit;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dotpot.app.R;
@@ -18,7 +18,7 @@ import com.dotpot.app.ui.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewListFragment<T extends GenericItem> extends BaseFragment {
+public class AddCreditFragment extends BaseFragment {
 
     private GenriXAdapter<GenericItem> adapter;
     private RecyclerView listTransactions;
@@ -27,10 +27,10 @@ public class ViewListFragment<T extends GenericItem> extends BaseFragment {
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         act = (BaseActivity) getActivity();
-        View root = inflater.inflate(R.layout.fragment_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_credit, container, false);
         listTransactions=root.findViewById(R.id.list);
         setUpToolbar(root);
-        setTitle(getString(R.string.mygames));
+        setTitle(getString(R.string.add_credits));
         List<GenericItem> items=new ArrayList<>();
         items.add(new GenericItem());
         items.add(new GenericItem());
@@ -43,18 +43,24 @@ public class ViewListFragment<T extends GenericItem> extends BaseFragment {
 
     private void setUpTransactionsList(List<GenericItem> listData){
 
-        adapter = new GenriXAdapter<GenericItem>(getContext(),R.layout.row_transaction,listData){
+        adapter = new GenriXAdapter<GenericItem>(getContext(),R.layout.row_credit,listData){
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
-                final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
+                final CustomViewHolder vh = (CustomViewHolder)viewHolder;
                 final GenericItem item = listData.get(pos);
-                vh.textView(R.id.txnId).setText("ID #"+item.getId());
+                int amount = ((2+pos)*100);
+                vh.textView(R.id.walletBalance).setText(""+amount);
+                vh.textView(R.id.yourWalletBalanceTxt).setText("Possible rewards upto "+getString(R.string.currency)+" "+(amount * 1.8));
+                vh.itemView.setOnClickListener(view -> {
+
+                });
+
             }
         };
 
-        listTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+        listTransactions.setLayoutManager(new GridLayoutManager(getContext(),2));
         listTransactions.setAdapter(adapter);
 
 

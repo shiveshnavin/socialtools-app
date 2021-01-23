@@ -108,7 +108,6 @@ public class DashboardFragment extends BaseFragment {
         userViewModel =
                 new ViewModelProvider(this).get(GenericUserViewModel.class);
 
-        int id = container.getId();
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         findViews(root);
@@ -121,7 +120,7 @@ public class DashboardFragment extends BaseFragment {
         textDashboard.setOnClickListener(view -> editProfileCont.callOnClick());
         contpasswordance.setOnClickListener(view -> navService.startChangePassword());
 
-        contreferralBalance.setOnClickListener(view -> navService.startGameListPage(id));
+        contreferralBalance.setOnClickListener(view -> navService.startGameListPage(fragmentId));
 
         return root;
     }

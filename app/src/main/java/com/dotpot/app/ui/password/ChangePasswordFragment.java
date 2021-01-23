@@ -57,6 +57,7 @@ public class ChangePasswordFragment extends BaseFragment {
             @Override
             public void onEntity(GenricUser data) {
                 act.inAppNavService.startHome();
+                act.finishAffinity();
             }
 
             @Override

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.Transaction;
+import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
-public class WalletFragment extends Fragment {
+public class WalletFragment extends BaseFragment {
 
     private WalletViewModel walletViewModel;
     private GenriXAdapter<Transaction> adapter;
@@ -99,11 +99,13 @@ public class WalletFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         walletViewModel =
                 new ViewModelProvider(this).get(WalletViewModel.class);
         View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         findViews(root);
         walletViewModel.getText().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
+        addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
         return root;
     }
 
