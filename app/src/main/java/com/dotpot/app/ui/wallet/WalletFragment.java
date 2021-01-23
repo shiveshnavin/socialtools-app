@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,6 +105,9 @@ public class WalletFragment extends BaseFragment {
                 new ViewModelProvider(this).get(WalletViewModel.class);
         View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         findViews(root);
+        if (act.fragmentManager.getBackStackEntryCount() > 0)
+            act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         walletViewModel.getText().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
         return root;

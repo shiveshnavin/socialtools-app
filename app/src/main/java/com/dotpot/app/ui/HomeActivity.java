@@ -12,6 +12,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends BaseActivity {
 
+    NavController navController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,26 +25,25 @@ public class HomeActivity extends BaseActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_wallet)
                 .build();
-          navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+
     }
-    NavController navController;
 
     @Override
     public void onBackPressed() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
         int seletedItemId = bottomNavigationView.getSelectedItemId();
         int backStack = fragmentManager.getBackStackEntryCount();
-        if(backStack < 1){
+        if (backStack < 1) {
             if (R.id.navigation_dashboard == seletedItemId || R.id.navigation_wallet == seletedItemId) {
                 navController.navigateUp();
-            }
-            else {
+            } else {
                 super.onBackPressed();
             }
-        }
-        else {
+        } else {
             getSupportFragmentManager().popBackStack();
         }
 

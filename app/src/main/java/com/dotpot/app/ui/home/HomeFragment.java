@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +18,11 @@ import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.GenricUser;
+import com.dotpot.app.ui.BaseFragment;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     private HomeViewModel homeViewModel;
     private GenriXAdapter<ActionItem> actionAdapter;
@@ -38,29 +39,31 @@ public class HomeFragment extends Fragment {
     private RecyclerView listLeaderboard;
 
 
-
     private void findViews(View root) {
-        poster = (ImageView)root.findViewById( R.id.poster );
-        textHome = (TextView)root.findViewById( R.id.text_home );
-        bottomText = (TextView)root.findViewById( R.id.bottomText );
-        listActions = (RecyclerView)root.findViewById( R.id.listItems );
-        contNotif = (ConstraintLayout)root.findViewById( R.id.contNotif );
-        notifAction = (TextView)root.findViewById( R.id.notifAction );
-        notifTxt = (TextView)root.findViewById( R.id.notifTxt );
-        weeklyLeaderboardtxt = (TextView)root.findViewById( R.id.weeklyLeaderboardtxt );
-        listLeaderboard = (RecyclerView)root.findViewById( R.id.listLeaderboard );
+        poster = (ImageView) root.findViewById(R.id.poster);
+        textHome = (TextView) root.findViewById(R.id.text_home);
+        bottomText = (TextView) root.findViewById(R.id.bottomText);
+        listActions = (RecyclerView) root.findViewById(R.id.listItems);
+        contNotif = (ConstraintLayout) root.findViewById(R.id.contNotif);
+        notifAction = (TextView) root.findViewById(R.id.notifAction);
+        notifTxt = (TextView) root.findViewById(R.id.notifTxt);
+        weeklyLeaderboardtxt = (TextView) root.findViewById(R.id.weeklyLeaderboardtxt);
+        listLeaderboard = (RecyclerView) root.findViewById(R.id.listLeaderboard);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         findViews(root);
+        if (act.fragmentManager.getBackStackEntryCount() > 0)
+            act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getActions().observe(getViewLifecycleOwner(), this::setUpActionList);
         homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), this::setUpLeaderboardList);
-
 
 
         contNotif.setOnClickListener(view -> {
@@ -70,14 +73,14 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void setUpActionList(List<ActionItem> actionList){
+    private void setUpActionList(List<ActionItem> actionList) {
 
-        actionAdapter = new GenriXAdapter<ActionItem>(getContext(),R.layout.row_card_menu,actionList){
+        actionAdapter = new GenriXAdapter<ActionItem>(getContext(), R.layout.row_card_menu, actionList) {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
-                final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
+                final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder) viewHolder;
                 vh.itemView.setOnClickListener(view -> {
 
                 });
@@ -90,14 +93,14 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void setUpLeaderboardList(List<GenricUser> genricUsers){
+    private void setUpLeaderboardList(List<GenricUser> genricUsers) {
 
-        leaderBoardAdapter = new GenriXAdapter<GenricUser>(getContext(),R.layout.row_user,genricUsers){
+        leaderBoardAdapter = new GenriXAdapter<GenricUser>(getContext(), R.layout.row_user, genricUsers) {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
-                final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
+                final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder) viewHolder;
 
 
                 vh.itemView.setOnClickListener(view -> {

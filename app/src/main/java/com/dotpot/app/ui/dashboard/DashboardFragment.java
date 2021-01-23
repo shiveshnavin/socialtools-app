@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dotpot.app.R;
@@ -111,6 +112,10 @@ public class DashboardFragment extends BaseFragment {
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         findViews(root);
+        if (act.fragmentManager.getBackStackEntryCount() > 0)
+            act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+
         final TextView textView = root.findViewById(R.id.text_dashboard);
 
         editProfileCont.setOnClickListener(v -> {
