@@ -39,5 +39,9 @@ public class Constants {
     public final static String ATTACHMENT_TYPE_FILE = "File";
     public final static String ATTACHMENT_TYPE_ENTITY_DISEASE = "Text";
 
+    public static int TRANSITION_VERTICAL = 1;
+    public static int TRANSITION_HORIZONTAL = -1;
+    public static int TRANSITION_NONE = 0;
+
 
 }

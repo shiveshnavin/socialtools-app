@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/contAwardBalance"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/editProfileCont"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -58,7 +58,7 @@
     <TextView
         android:textStyle="bold"
         android:textColor="@color/colorTextPrimary"
-        android:id="@+id/awardBal"
+        android:id="@+id/editProfileTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

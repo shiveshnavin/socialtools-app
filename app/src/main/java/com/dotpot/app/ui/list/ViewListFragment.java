@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.GenericItem;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
 
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import java.util.List;
 
 public class ViewListFragment<T extends GenericItem> extends BaseFragment {
 
-    private GenriXAdapter<T> adapter;
+    private GenriXAdapter<GenericItem> adapter;
     private RecyclerView listTransactions;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        act = (AccountActivity) getActivity();
+        act = (BaseActivity) getActivity();
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         listTransactions=root.findViewById(R.id.list);
 
@@ -36,19 +36,19 @@ public class ViewListFragment<T extends GenericItem> extends BaseFragment {
         items.add(new GenericItem());
         items.add(new GenericItem());
         items.add(new GenericItem());
-
+        setUpTransactionsList(items);
         return root;
     }
 
-    private void setUpTransactionsList(List<T> listData){
+    private void setUpTransactionsList(List<GenericItem> listData){
 
-        adapter = new GenriXAdapter<T>(getContext(),R.layout.row_transaction,listData){
+        adapter = new GenriXAdapter<GenericItem>(getContext(),R.layout.row_transaction,listData){
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
-                final T item = listData.get(pos);
+                final GenericItem item = listData.get(pos);
                 vh.textView(R.id.txnId).setText("ID #"+item.getId());
             }
         };

@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">DotPot</string>
+    <string name="app_name">CashPot</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -11,8 +11,8 @@
     <string name="digitsEmail">abcdefghijklmnopqrstuvwxyz1234567890@._</string>
 
     <string name="signup">Signup</string>
-    <string name="welcome">Welcome to Dotpot</string>
-    <string name="tagline">Play the Players !</string>
+    <string name="welcome">Welcome to CashPot</string>
+    <string name="tagline">Break Pot Win Lot !</string>
     <string name="emailorphone">Enter Email or Phone</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="forgot_password">Forgot Password ?</string>

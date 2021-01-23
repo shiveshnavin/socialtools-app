@@ -23,9 +23,28 @@ public class HomeActivity extends BaseActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_wallet)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+          navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
+    NavController navController;
 
+    @Override
+    public void onBackPressed() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
+        int seletedItemId = bottomNavigationView.getSelectedItemId();
+        int backStack = fragmentManager.getBackStackEntryCount();
+        if(backStack < 1){
+            if (R.id.navigation_dashboard == seletedItemId || R.id.navigation_wallet == seletedItemId) {
+                navController.navigateUp();
+            }
+            else {
+                super.onBackPressed();
+            }
+        }
+        else {
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }
 }
