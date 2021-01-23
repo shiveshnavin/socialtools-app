@@ -33,6 +33,6 @@ public class LoginService {
     }
 
     public GenricUser getLoggedInUser() {
-        return null;
+        return new GenricUser();
     }
 }

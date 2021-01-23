@@ -1,8 +1,8 @@
 package com.dotpot.app.ui.splash;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -62,12 +62,7 @@ public class SplashActivity extends BaseActivity {
     private void animateAndHome() {
         //todo animate
         splashVideo();
-        inAppNavService.startHome();
-
-
-
-
-        //inAppNavService.startHome();
+//        inAppNavService.startHome();
     }
     private void splashVideo()
     {
@@ -81,11 +76,29 @@ public class SplashActivity extends BaseActivity {
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splashccr);
 
         //Setting MediaController and URI, then starting the videoView
-
+        mediaController.hide();
+        mediaController.setVisibility(View.GONE);
         videoView.setMediaController(mediaController);
         videoView.setVideoURI(uri);
         videoView.requestFocus();
         videoView.start();
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                head.animate().setDuration(500).alpha(1.0f);
+                subhead.animate().setDuration(500).alpha(1.0f);
+                bottomContSplash.animate().setDuration(500).alpha(1.0f);
+                signup.setOnClickListener(v->{
+                    inAppNavService.startRegister();
+                    finish();
+                });
+                login.setOnClickListener(v->{
+                    inAppNavService.startLogin();
+                    finish();
+                });
+            }
+        });
 
     }
 
