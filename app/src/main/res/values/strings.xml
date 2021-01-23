@@ -56,5 +56,6 @@
     <string name="logout">Logout</string>
     <string name="referral">Referrals</string>
     <string name="weekly_leaderboard">Weekly Leaderboard</string>
+    <string name="refer">Refer</string>
 
 </resources>

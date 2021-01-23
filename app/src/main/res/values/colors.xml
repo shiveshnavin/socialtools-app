@@ -3,6 +3,7 @@
     <color name="colorBackground">#231530</color>
     <color name="colorBackgroundDark">#1B1025</color>
     <color name="colorBackgroundLight">#2D1C3C</color>
+    <color name="colorBackgroundLighter">#422959</color>
     <color name="colorPrimary">@color/dotpotblue</color>
     <color name="colorPrimaryDark">#103A81</color>
     <color name="colorAccent">@color/dotpotblue</color>
