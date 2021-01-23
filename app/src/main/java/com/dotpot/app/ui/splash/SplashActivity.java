@@ -1,10 +1,14 @@
 package com.dotpot.app.ui.splash;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.dotpot.app.R;
 import com.dotpot.app.services.LoginService;
@@ -15,6 +19,7 @@ public class SplashActivity extends BaseActivity {
     private TextView head;
     private TextView subhead;
     private LinearLayout bottomContSplash;
+    private VideoView videoView;
     private Button signup;
     private Button login;
     private LoginService loginService;
@@ -22,6 +27,8 @@ public class SplashActivity extends BaseActivity {
     private void findViews() {
         head = (TextView)findViewById( R.id.head );
         subhead = (TextView)findViewById( R.id.subhead );
+        videoView=(VideoView)findViewById(R.id.videoView1);
+
         bottomContSplash = (LinearLayout)findViewById( R.id.bottomContSplash );
         signup = (Button)findViewById( R.id.signup );
         login = (Button)findViewById( R.id.login );
@@ -54,8 +61,31 @@ public class SplashActivity extends BaseActivity {
 
     private void animateAndHome() {
         //todo animate
+        splashVideo();
         inAppNavService.startHome();
-        finish();
+
+
+
+
+        //inAppNavService.startHome();
+    }
+    private void splashVideo()
+    {
+        //Creating MediaController
+        MediaController mediaController= new MediaController(this);
+        mediaController.setAnchorView(videoView);
+
+        //specify the location of media file
+
+//        Uri uri=Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/raw/splashccr.mp4");
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splashccr);
+
+        //Setting MediaController and URI, then starting the videoView
+
+        videoView.setMediaController(mediaController);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
 
     }
 
