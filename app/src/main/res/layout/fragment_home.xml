@@ -71,6 +71,7 @@
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/font_text"
                 android:gravity="left"
+                android:text="@string/welcome"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="@dimen/text_head"
                 app:layout_constraintLeft_toLeftOf="parent"

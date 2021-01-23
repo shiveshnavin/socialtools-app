@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.dotpot.app.Constants;
+import com.dotpot.app.R;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseActivity;
 
@@ -65,10 +66,19 @@ public class InAppNavService {
 
     public void fragmentTransaction(@IdRes int fragmentViewId, Class<? extends androidx.fragment.app.Fragment> target
             , String name, Bundle data,boolean addToBackStack ){
-
+//        .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
+//        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(fragmentViewId, target, data)
                 .setReorderingAllowed(true);
+
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+//                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_in_right,
+//                        R.anim.slide_in_right, R.anim.slide_out_left)
+//                .replace(fragmentViewId, target, data)
+//                .setReorderingAllowed(true);
+
         if(addToBackStack){
             fragmentTransaction =  fragmentTransaction.addToBackStack(name);
         }else {

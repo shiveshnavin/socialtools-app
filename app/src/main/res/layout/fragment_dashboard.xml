@@ -213,7 +213,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="3dp"
                     android:fontFamily="@font/font_text"
-                    android:text="@string/referral"
+                    android:text="@string/games"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_head"
                     android:textStyle="bold"
@@ -229,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_round_outline"
-                    android:src="@drawable/accounts_refer"
+                    android:src="@drawable/gamepad_variant_outline"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -254,6 +254,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/contnotifBalance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -312,6 +313,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/contwalletance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

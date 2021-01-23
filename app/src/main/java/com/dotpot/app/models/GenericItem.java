@@ -14,6 +14,10 @@ public class GenericItem {
     public String type;
     public Long dateTime;
 
+    public GenericItem() {
+        id = utl.uid(10);
+    }
+
     public String getTags() {
         if(tags==null)
             tags="";

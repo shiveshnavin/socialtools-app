@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
                 android:fontFamily="@font/font_text"
-                android:text="Total Earnings  ₹"
+                android:text="Referral Earnings  ₹"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="@dimen/text_subhead" />
 
