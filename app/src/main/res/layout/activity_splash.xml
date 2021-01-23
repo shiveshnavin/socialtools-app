@@ -12,7 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+
+    <VideoView
+        android:id="@+id/videoView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        tools:ignore="MissingConstraints" />
+
+<!--    <pl.droidsonroids.gif.GifTextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@drawable/splashlogo"-->
+<!--        />-->
+
+
     <ImageView
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
