@@ -118,6 +118,7 @@ public class DashboardFragment extends BaseFragment {
             navService.startRegister();
         });
 
+        textDashboard.setOnClickListener(view -> editProfileCont.callOnClick());
         contpasswordance.setOnClickListener(view -> navService.startChangePassword());
 
         contreferralBalance.setOnClickListener(view -> navService.startGameListPage(id));

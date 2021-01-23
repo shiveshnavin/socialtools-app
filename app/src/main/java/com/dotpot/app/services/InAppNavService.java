@@ -70,7 +70,7 @@ public class InAppNavService {
     }
 
     public void startGameListPage(@IdRes int fragmentViewId) {
-        fragmentTransaction(fragmentViewId, ViewListFragment.class, "games", null, true,Constants.TRANSITION_HORIZONTAL);
+        fragmentTransaction(fragmentViewId, ViewListFragment.class, "games", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
     public void starMyAccount() {
@@ -90,9 +90,9 @@ public class InAppNavService {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (transition == Constants.TRANSITION_HORIZONTAL)
-            fragmentTransaction = fragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top, R.anim.slide_in_top, R.anim.slide_out_bottom);
+            fragmentTransaction = fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
         else if (transition == Constants.TRANSITION_VERTICAL)
-            fragmentTransaction = fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+            fragmentTransaction = fragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top, R.anim.slide_in_top, R.anim.slide_out_bottom);
 
 
         fragmentTransaction.replace(fragmentViewId, target, data)

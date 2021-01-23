@@ -26,20 +26,19 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/font_text"
         android:gravity="left"
-        android:text="@string/login"
         android:textColor="@color/colorTextPrimary"
         android:textSize="@dimen/text_xhead"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/head_img" />
 
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/subtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:fontFamily="@font/font_text"
         android:gravity="left"
-        android:text="@string/please_login_to_continue"
         android:textColor="@color/colorTextSecondary"
         android:textSize="@dimen/text_subhead"
         app:layout_constraintLeft_toLeftOf="@+id/head"
