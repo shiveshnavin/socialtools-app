@@ -19,6 +19,15 @@
     <color name="inputBackgroundFocused">#6AFFFFFF</color>
     <color name="dotpotblue">#206FF7</color>
 
+<!--    <color name="posterBg0">#8C81BB</color>-->
+<!--    <color name="posterBg">#6058AA</color>-->
+<!--    <color name="posterMg">@color/colorBackgroundLight</color>-->
+<!--    <color name="posterFg">#231530</color>-->
+
+    <color name="posterBg">@color/colorBackgroundLight</color>
+    <color name="posterBg0">@color/colorBackgroundLight</color>
+    <color name="posterMg">@color/colorBackgroundLight</color>
+    <color name="posterFg">@color/colorBackground</color>
 
     <color name="colorGradEnd">@color/material_green_500</color>
     <color name="accent_light">@color/colorPrimary</color>
