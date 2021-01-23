@@ -20,7 +20,7 @@
         android:bottom="10dp"/>
 
     <corners
-        android:bottomLeftRadius="30dp" >
+        android:radius="8dp"   >
     </corners>
 
 </shape>

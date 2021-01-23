@@ -64,6 +64,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
+            android:elevation="@dimen/default_elevation"
             android:layout_weight="0.5"
             android:padding="15dp"
             android:textColor="@color/colorTextPrimary"
@@ -81,6 +82,7 @@
 
 
         <Button
+            android:elevation="@dimen/default_elevation"
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
