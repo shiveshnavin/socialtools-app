@@ -5,13 +5,11 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,15 +29,12 @@ public class GenricUser {
     private String phone;
     private String gender ="male";
     private String type;
-    private String dateofbirth;
+    private String dateofbirthLong;
     private String about;
 
     private String webIdToken;
     private boolean isAnonymous=true;
 
-    @SerializedName("diseasesIds")
-    @Expose
-    private ArrayList<String> diseaseIds  ;
     private String fcmToken;
     private String status;
     private String verifdoc;
@@ -62,17 +57,6 @@ public class GenricUser {
 
     public String getName() {
         return ""+name;
-    }
-
-    public String getDisplayName() {
-        String name=getName();
-        if(name.startsWith("Dr."))
-            return name;
-        if(type.equals(Constants.userCategories[2]))
-        {
-            return "Dr. "+name;
-        }
-        return name;
     }
 
     public void setName(String name) {
@@ -159,27 +143,12 @@ public class GenricUser {
     }
 
     @Nullable
-    public String getAge() {
+    public int getAge() {
 
-        if(dateofbirth==null )
-            return null;
-
-        Date d=new Date(Long.parseLong(dateofbirth));
-        int age= Calendar.getInstance().getTime().getYear()-
-                d.getYear();
-
-        return ""+age;
-
-    }
-
-
-    @Nullable
-    public int getAgeInt() {
-
-        if(dateofbirth==null )
+        if(dateofbirthLong ==null || dateofbirthLong.length()<5)
             return 0;
 
-        Date d=new Date(Long.parseLong(dateofbirth));
+        Date d=new Date(Long.parseLong(dateofbirthLong));
         int age= Calendar.getInstance().getTime().getYear()-
                 d.getYear();
 
@@ -187,22 +156,34 @@ public class GenricUser {
 
     }
 
-    public String  getDateofbirth() {
-        return dateofbirth;
+
+    @Nullable
+    public int getAgeInt() {
+
+        if(dateofbirthLong ==null )
+            return 0;
+
+        Date d=new Date(Long.parseLong(dateofbirthLong));
+        int age= Calendar.getInstance().getTime().getYear()-
+                d.getYear();
+
+        return  age;
+
     }
 
-    public void setDateofbirth(String dateofbirth) {
-        this.dateofbirth = dateofbirth;
+    public String  getDateofbirthString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+        Date date = new Date(Long.parseLong(dateofbirthLong));
+        return formatter.format(date);
     }
 
-    public ArrayList<String> getDiseaseIds() {
-        return diseaseIds;
+    public String getDateofbirthLong() {
+        return dateofbirthLong;
     }
 
-    public void setDiseaseIds(ArrayList<String> diseaseIds) {
-        this.diseaseIds = diseaseIds;
+    public void setDateofbirthLong(String dateofbirthLong) {
+        this.dateofbirthLong = dateofbirthLong;
     }
-
 
     public String getAvatar() {
         return avatar;

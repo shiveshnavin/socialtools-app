@@ -203,6 +203,8 @@ public class DateTimePicker {
                         if(cbT!=null)
                             cbT.picked(calendar.getTime().getTime());
 
+                        lastPickedString = output;
+                        lastPickedMilis = calendar.getTime().getTime();
                      }
 
 
@@ -214,7 +216,17 @@ public class DateTimePicker {
 
     }
 
+    long lastPickedMilis = 0l;
+    String lastPickedString = "";
 
+    public String getLastPickedString() {
+        return lastPickedString;
+    }
+
+
+    public long getPickedMilis(){
+       return lastPickedMilis;
+    }
 
 
 

@@ -9,6 +9,10 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>otp_timeout_sec</key>
+        <value>30</value>
+    </entry>
+    <entry>
         <key>google_web_client_id</key>
         <value>472590500824-t5hbnnapq72i78b29nao0cv9ba0rm1t8.apps.googleusercontent.com</value>
     </entry>

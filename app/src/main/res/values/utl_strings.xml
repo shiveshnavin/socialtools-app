@@ -75,7 +75,6 @@
     <string name="attach_certificate">Attach Registration Certificate</string>
     <string name="uploading">Uploading...</string>
     <string name="upload_failed">Upload Failed !</string>
-    <string name="processing">Processing...</string>
     <string name="sd_card_perm">File IO Error : Make sure you have given SD Card Permission</string>
     <string name="login_fail">Login Failed !</string>
     <string name="auth_failed">Authentication Failed !</string>
