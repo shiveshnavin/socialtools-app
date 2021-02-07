@@ -27,13 +27,13 @@ public class SplashActivity extends BaseActivity {
     private LoginService loginService;
 
     private void findViews() {
-        head = (TextView)findViewById( R.id.head );
-        subhead = (TextView)findViewById( R.id.subhead );
-        videoView=(VideoView)findViewById(R.id.videoView1);
+        head = (TextView) findViewById(R.id.head);
+        subhead = (TextView) findViewById(R.id.subhead);
+        videoView = (VideoView) findViewById(R.id.videoView1);
 
-        bottomContSplash = (LinearLayout)findViewById( R.id.bottomContSplash );
-        signup = (Button)findViewById( R.id.signup );
-        login = (Button)findViewById( R.id.login );
+        bottomContSplash = (LinearLayout) findViewById(R.id.bottomContSplash);
+        signup = (Button) findViewById(R.id.signup);
+        login = (Button) findViewById(R.id.login);
 
     }
 
@@ -43,18 +43,17 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         findViews();
         loginService = new LoginService(this);
-        if(loginService.getLoggedInUser()!=null){
+        if (loginService.getLoggedInUser() != null) {
             animateAndHome();
-        }
-        else {
+        } else {
             head.setVisibility(View.VISIBLE);
             subhead.setVisibility(View.VISIBLE);
             bottomContSplash.setVisibility(View.VISIBLE);
-            signup.setOnClickListener(v->{
+            signup.setOnClickListener(v -> {
                 inAppNavService.startRegister();
                 finish();
             });
-            login.setOnClickListener(v->{
+            login.setOnClickListener(v -> {
                 inAppNavService.startLogin();
                 finish();
             });
@@ -62,23 +61,22 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void animateAndHome() {
-        //todo animate
         ImageView animLogo = findViewById(R.id.animLogo);
         utl.animate_avd(animLogo);
-        animLogo.postDelayed(this::showButtoms,1000);
-//        splashVideo();
-//        inAppNavService.startHome();
+        animLogo.postDelayed(this::showButtoms, 1000);
+    //        splashVideo();
+    //        inAppNavService.startHome();
     }
-    private void splashVideo()
-    {
+
+    private void splashVideo() {
         //Creating MediaController
-        MediaController mediaController= new MediaController(this);
+        MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
 
         //specify the location of media file
 
 //        Uri uri=Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/raw/splashccr.mp4");
-        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splashccr);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.splashccr);
 
         //Setting MediaController and URI, then starting the videoView
         mediaController.hide();
@@ -91,21 +89,21 @@ public class SplashActivity extends BaseActivity {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-               showButtoms();
+                showButtoms();
             }
         });
 
     }
 
-    private void showButtoms(){
+    private void showButtoms() {
         head.animate().setDuration(500).alpha(1.0f);
         subhead.animate().setDuration(500).alpha(1.0f);
         bottomContSplash.animate().setDuration(500).alpha(1.0f);
-        signup.setOnClickListener(v->{
+        signup.setOnClickListener(v -> {
             inAppNavService.startRegister();
             finish();
         });
-        login.setOnClickListener(v->{
+        login.setOnClickListener(v -> {
             inAppNavService.startLogin();
             finish();
         });

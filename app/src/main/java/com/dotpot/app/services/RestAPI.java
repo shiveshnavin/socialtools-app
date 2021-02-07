@@ -1,7 +1,9 @@
 package com.dotpot.app.services;
 
 import com.dotpot.app.interfaces.API;
+import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkService;
+import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.BaseActivity;
 
 
@@ -16,5 +18,10 @@ public class RestAPI implements API {
         this.act = b;
         service=b.netService;
         localAPI=new LocalAPIService(b);
+    }
+
+    @Override
+    public void getGenricUser(String userId, GenricObjectCallback<GenricUser> cb) {
+
     }
 }

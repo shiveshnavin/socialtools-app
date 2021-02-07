@@ -27,6 +27,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Theme.DotPot.TextEditTextStyle"
                 android:id="@+id/email"
+                android:enabled="false"
                 android:digits="@string/digitsEmail"
                 android:inputType="textEmailAddress"
                 android:layout_width="match_parent"

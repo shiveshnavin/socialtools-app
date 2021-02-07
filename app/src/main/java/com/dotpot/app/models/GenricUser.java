@@ -33,6 +33,8 @@ public class GenricUser {
     private String type;
     private String dateofbirth;
     private String about;
+
+    private String webIdToken;
     private boolean isAnonymous=true;
 
     @SerializedName("diseasesIds")
@@ -260,4 +262,14 @@ public class GenricUser {
     public String hisHer() {
         return getGender().replace("female","her").replace("male","his");
     }
+
+
+    public String getWebIdToken() {
+        return webIdToken;
+    }
+
+    public void setWebIdToken(String webIdToken) {
+        this.webIdToken = webIdToken;
+    }
+
 }

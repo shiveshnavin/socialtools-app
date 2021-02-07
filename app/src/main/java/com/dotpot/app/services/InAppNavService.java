@@ -81,6 +81,9 @@ public class InAppNavService {
 
     public void starMyAccount() {
 
+        Intent it = new Intent(ctx, AccountActivity.class);
+        it.putExtra("action", Constants.ACTION_ACCOUNT);
+        startActivity(it);
     }
 
     public void fragmentTransaction(@IdRes int fragmentViewId, Class<? extends androidx.fragment.app.Fragment> target

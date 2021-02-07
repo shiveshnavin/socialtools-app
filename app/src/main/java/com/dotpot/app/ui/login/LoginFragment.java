@@ -50,7 +50,7 @@ public class LoginFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         findViews(root);
 
-        signup.setOnClickListener(v->act.loginService.googleLogin(act));
+        signup.setOnClickListener(v->act.loginService.googleLogin());
         login.setOnClickListener(v->act.loginService.emailPhoneLogin(email.getText().toString(), paswd.getText().toString(), new GenricObjectCallback<GenricUser>() {
             @Override
             public void onEntity(GenricUser data) {

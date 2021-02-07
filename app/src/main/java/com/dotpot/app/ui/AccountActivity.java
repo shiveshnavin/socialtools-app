@@ -1,7 +1,9 @@
 package com.dotpot.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,12 +13,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dotpot.app.R;
+import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.login.LoginFragment;
 import com.dotpot.app.ui.password.ChangePasswordFragment;
 import com.dotpot.app.ui.signup.SignupFragment;
 import com.dotpot.app.ui.verifyphone.VerifyPhoneFragment;
+import com.dotpot.app.utl;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
+import static com.dotpot.app.Constants.ACTION_ACCOUNT;
 import static com.dotpot.app.Constants.ACTION_CHANGE_PASSWORD;
 import static com.dotpot.app.Constants.ACTION_LOGIN;
 import static com.dotpot.app.Constants.ACTION_SIGNUP;
@@ -65,7 +74,11 @@ public class AccountActivity extends BaseActivity {
         if (action == null || action.equals(ACTION_LOGIN)) {
             fgmtName = getString(R.string.login);
             beginLogin(false);
-        } else if (action.equals(ACTION_SIGNUP)) {
+        }else if (action.equals(ACTION_SIGNUP)) {
+
+            loginService.googleLogin();
+
+        }  else if (action.equals(ACTION_ACCOUNT)) {
             fgmtName = getString(R.string.signup);
             beginSignup(false);
         } else if (action.equals(ACTION_VERIFY_PHONE)) {
@@ -77,10 +90,14 @@ public class AccountActivity extends BaseActivity {
         }
         if (blank != null)
             fragmentManager.beginTransaction().remove(blank).commitNow();
+    }
 
-        //        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-
+    public void handleSignInResult(GoogleSignInAccount account) {
+        loginService.setTempGenricUser(new GenricUser());
+        loginService.getTempGenricUser().setName(account.getDisplayName());
+        loginService.getTempGenricUser().setEmail(account.getEmail());
+        loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
+        beginSignup(false);
     }
 
     public void beginLogin(boolean addToBackStack) {
@@ -165,4 +182,22 @@ public class AccountActivity extends BaseActivity {
             });
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LoginService.RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                handleSignInResult(account);
+            } catch (ApiException e) {
+                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                utl.snack(act,getString(R.string.error_msg)+e.getMessage());
+                finish();
+            }
+
+        }
+    }
+
 }

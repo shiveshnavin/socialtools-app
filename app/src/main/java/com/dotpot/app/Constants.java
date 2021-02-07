@@ -26,9 +26,10 @@ public class Constants {
     public static String C2C_EXIT=O2O+"_EXITED_";
     public static String V2V_VERIFIED=O2O+"_VERIFIED_";
 
-    public final static String ACTION_HOME = "home";
+    public static String ACTION_HOME = "home";
     public static String ACTION_LOGIN = "ACTION_LOGIN";
     public static String ACTION_SIGNUP = "ACTION_SIGNUP";
+    public static String ACTION_ACCOUNT = "ACTION_ACCOUNT";
     public static String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
     public static String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
 

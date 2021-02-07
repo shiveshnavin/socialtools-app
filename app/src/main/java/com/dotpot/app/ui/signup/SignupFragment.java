@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.dotpot.app.R;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utl;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,12 +29,7 @@ public class SignupFragment extends BaseFragment {
     private LinearLayout linearLayout;
     private Button login;
 
-    /**
-     * Find the Views in the layout<br />
-     * <br />
-     * Auto-created on 2021-01-15 14:06:09 by Android Layout Finder
-     * (http://www.buzzingandroid.com/tools/android-layout-finder)
-     */
+
     private void findViews(View root) {
         contLogin = (LinearLayout)root.findViewById( R.id.cont_login );
         contentmail = (TextInputLayout)root.findViewById( R.id.contentmail );
@@ -53,7 +49,13 @@ public class SignupFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_signup, container, false);
         findViews(root);
 
-        //todo upadate generic user and move to phone
+        if(act.loginService.getTempGenricUser()!=null){
+            email.setText(act.loginService.getTempGenricUser().getEmail());
+        }else {
+            utl.toast(ctx,getString(R.string.error_msg));
+            act.beginLogin(false);
+        }
+        //todo update generic user and move to phone
         // todo OR move to paswd if already exists
         login.setOnClickListener(v->act.beginPhone(true));
 
