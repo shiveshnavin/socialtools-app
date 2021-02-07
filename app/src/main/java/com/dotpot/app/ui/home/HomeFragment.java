@@ -26,6 +26,8 @@ import com.dotpot.app.ui.BaseFragment;
 
 import java.util.List;
 
+import tyrantgit.explosionfield.ExplosionField;
+
 public class HomeFragment extends BaseFragment {
 
     private HomeViewModel homeViewModel;
@@ -75,6 +77,7 @@ public class HomeFragment extends BaseFragment {
         final Animation press = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
         final Animation release = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
         release.setInterpolator(paramFloat -> Math.abs(paramFloat -1f));
+        ExplosionField explosionField = ExplosionField.attach2Window(getActivity());
 
         playIcon.setOnTouchListener((view, event) -> {
 
@@ -88,6 +91,11 @@ public class HomeFragment extends BaseFragment {
                     playIcon.animate().scaleX(1)
                             .scaleY(1f).setDuration(300)
                             .rotation(0f).start();
+//                    view.postDelayed(()->explosionField.explode(view),300);
+//                    new Handler().postDelayed(()->{
+//                        view.invalidate();
+//                        explosionField.clear();
+//                    },1000);
                     break;
                 case MotionEvent.ACTION_CANCEL:
                     playIcon.animate().scaleX(1f)
