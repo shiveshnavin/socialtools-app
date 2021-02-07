@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.VideoView;
 import com.dotpot.app.R;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.utl;
 
 public class SplashActivity extends BaseActivity {
 
@@ -61,7 +63,10 @@ public class SplashActivity extends BaseActivity {
 
     private void animateAndHome() {
         //todo animate
-        splashVideo();
+        ImageView animLogo = findViewById(R.id.animLogo);
+        utl.animate_avd(animLogo);
+        animLogo.postDelayed(this::showButtoms,1000);
+//        splashVideo();
 //        inAppNavService.startHome();
     }
     private void splashVideo()
@@ -86,20 +91,24 @@ public class SplashActivity extends BaseActivity {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                head.animate().setDuration(500).alpha(1.0f);
-                subhead.animate().setDuration(500).alpha(1.0f);
-                bottomContSplash.animate().setDuration(500).alpha(1.0f);
-                signup.setOnClickListener(v->{
-                    inAppNavService.startRegister();
-                    finish();
-                });
-                login.setOnClickListener(v->{
-                    inAppNavService.startLogin();
-                    finish();
-                });
+               showButtoms();
             }
         });
 
+    }
+
+    private void showButtoms(){
+        head.animate().setDuration(500).alpha(1.0f);
+        subhead.animate().setDuration(500).alpha(1.0f);
+        bottomContSplash.animate().setDuration(500).alpha(1.0f);
+        signup.setOnClickListener(v->{
+            inAppNavService.startRegister();
+            finish();
+        });
+        login.setOnClickListener(v->{
+            inAppNavService.startLogin();
+            finish();
+        });
     }
 
 
