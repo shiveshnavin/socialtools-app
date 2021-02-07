@@ -17,11 +17,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_poster">
+            android:layout_height="wrap_content">
 
 
             <ImageView
+                android:src="@drawable/bg_poster"
                 android:id="@+id/poster"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
