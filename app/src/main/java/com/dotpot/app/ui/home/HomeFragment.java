@@ -1,9 +1,13 @@
 package com.dotpot.app.ui.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,9 +41,11 @@ public class HomeFragment extends BaseFragment {
     private TextView notifTxt;
     private TextView weeklyLeaderboardtxt;
     private RecyclerView listLeaderboard;
+    private ImageView playIcon;
 
 
     private void findViews(View root) {
+        playIcon = root.findViewById(R.id.playIcon);
         poster = (ImageView) root.findViewById(R.id.poster);
         textHome = (TextView) root.findViewById(R.id.text_home);
         bottomText = (TextView) root.findViewById(R.id.bottomText);
@@ -51,6 +57,7 @@ public class HomeFragment extends BaseFragment {
         listLeaderboard = (RecyclerView) root.findViewById(R.id.listLeaderboard);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -65,6 +72,35 @@ public class HomeFragment extends BaseFragment {
         homeViewModel.getActions().observe(getViewLifecycleOwner(), this::setUpActionList);
         homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), this::setUpLeaderboardList);
 
+        final Animation press = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
+        final Animation release = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
+        release.setInterpolator(paramFloat -> Math.abs(paramFloat -1f));
+
+        playIcon.setOnTouchListener((view, event) -> {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    playIcon.animate().scaleX(1.5f)
+                            .scaleY(1.5f).setDuration(300)
+                            .rotation(360f).start();
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    playIcon.animate().scaleX(1)
+                            .scaleY(1f).setDuration(300)
+                            .rotation(0f).start();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    playIcon.animate().scaleX(1f)
+                            .scaleY(1f).setDuration(300)
+                            .rotation(0f).start();
+                    break;
+                default:
+                    break;
+            }
+
+
+            return false;
+        });
 
         contNotif.setOnClickListener(view -> {
 

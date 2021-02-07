@@ -54,14 +54,17 @@
                 />
 
             <ImageView
+                android:id="@+id/playIcon"
+                android:background="@color/transparent"
+                android:elevation="10dp"
                 app:tint="@color/white"
                 android:src="@drawable/motion_play"
                 app:layout_constraintBottom_toBottomOf="@+id/poster"
                 app:layout_constraintTop_toTopOf="@+id/poster"
                 app:layout_constraintRight_toRightOf="@+id/poster"
                 app:layout_constraintLeft_toLeftOf="@+id/poster"
-                android:layout_width="70dp"
-                android:layout_height="70dp"/>
+                android:layout_width="128dp"
+                android:layout_height="128dp"/>
 
             <TextView
                 app:layout_constraintVertical_chainStyle="spread"
