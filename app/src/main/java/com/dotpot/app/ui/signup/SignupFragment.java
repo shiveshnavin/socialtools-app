@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.models.GenricUser;
+import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.DateTimePicker;
@@ -66,6 +68,7 @@ public class SignupFragment extends BaseFragment {
     private void setUpUI(GenricUser user) {
         email.setText(user.getEmail());
         name.setText(user.getName());
+        paswd.setText(user.getDateofbirthString());
 
         DateTimePicker dateTimePicker = new DateTimePicker(act, DateTimePicker.DATE_ONLY, (DateTimePicker.MiliisCallback) dateTime -> {
             user.setDateofbirthLong("" + dateTime);
@@ -81,31 +84,27 @@ public class SignupFragment extends BaseFragment {
             if (user.getDateofbirthLong() == null || user.getAge() < 18) {
                 ok = false;
                 contentpaswd.setError(getString(R.string.must_be18));
-            }
-            else
+            } else
                 contentpaswd.setError(null);
 
             if (user.getName() == null || user.getName().length() <= 1) {
                 ok = false;
                 contentname.setError(getString(R.string.invalidinput));
-            }
-            else
+            } else
                 contentname.setError(null);
 
             if (user.getEmail() == null || user.getEmail().length() <= 1 || !user.getEmail().contains("@")) {
                 ok = false;
                 contentmail.setError(getString(R.string.invalidinput));
-            }
-            else
+            } else
                 contentmail.setError(null);
 
             if (ok) {
-
-                if (act.loginService.isValidPhone(user.getPhone()))
+                GenericUserViewModel.getInstance().update(act, user);
+                if (LoginService.isValidPhone(user.getPhone())) {
                     act.beginSignup(true);
-                else
+                } else
                     act.beginPhone(true);
-
             }
 
         });

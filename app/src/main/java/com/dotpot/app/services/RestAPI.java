@@ -5,6 +5,7 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.utl;
 
 
 public class RestAPI implements API {
@@ -22,6 +23,6 @@ public class RestAPI implements API {
 
     @Override
     public void getGenricUser(String userId, GenricObjectCallback<GenricUser> cb) {
-
+        cb.onEntity(utl.readUserData());
     }
 }

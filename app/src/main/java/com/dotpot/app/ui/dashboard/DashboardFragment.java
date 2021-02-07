@@ -12,12 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.views.RoundRectCornerImageView;
+import com.squareup.picasso.Picasso;
 
 public class DashboardFragment extends BaseFragment {
 
@@ -127,6 +130,16 @@ public class DashboardFragment extends BaseFragment {
 
         contreferralBalance.setOnClickListener(view -> navService.startGameListPage(fragmentId));
 
+        contlogoutance.setOnClickListener(v->act.startLogout());
+        GenericUserViewModel.getInstance().getUser().observe(getViewLifecycleOwner(), new Observer<GenricUser>() {
+            @Override
+            public void onChanged(GenricUser user) {
+                textDashboard.setText(user.getName());
+                if(user.getImage()!=null && user.getImage().contains("http")){
+                    Picasso.get().load(user.getImage()).placeholder(R.drawable.account).into(userImage);
+                }
+            }
+        });
         return root;
     }
 }

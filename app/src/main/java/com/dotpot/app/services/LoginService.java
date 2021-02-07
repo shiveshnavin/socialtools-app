@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import com.dotpot.app.App;
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkService;
@@ -79,8 +80,7 @@ public class LoginService {
                     .requestProfile()
                     .requestIdToken(ctx.mFirebaseRemoteConfig.getString("google_web_client_id"))
                     .build();
-            mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso);
-            mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso);
+            mGoogleSignInClient = GoogleSignIn.getClient(App.getAppContext(), gso);
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             ctx.startActivityForResult(signInIntent, RC_SIGN_IN);
         }

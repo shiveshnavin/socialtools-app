@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.AccountActivity;
@@ -36,19 +37,30 @@ public class VerifyPhoneFragment extends BaseFragment {
     GenricObjectCallback<Task<AuthResult>> onVerificatoinComplete = new GenricObjectCallback<Task<AuthResult>>() {
         @Override
         public void onEntity(Task<AuthResult> task) {
+            GenericUserViewModel.getInstance().update(act,act.loginService.getTempGenricUser());
             act.beginChangePassword(true);
-            contentpaswd.setError(null);
-            login.setOnClickListener(onClickLoginSendOtp);
-            contentpaswd.setVisibility(View.GONE);
-            password.setText("");
-            login.setText(R.string.send_otp);
+            setUpPhoneVerif();
         }
 
         @Override
         public void onError(String message) {
             contentpaswd.setError(message);
+            setUpPhoneVerif();
         }
     };
+
+
+    private void setUpPhoneVerif() {
+
+        contentpaswd.setError(null);
+        login.setOnClickListener(onClickLoginSendOtp);
+        contentpaswd.setVisibility(View.GONE);
+        password.setText("");
+        login.setText(R.string.send_otp);
+        countDownTimer.cancel();
+    }
+
+
     private AccountActivity act;
     private LinearLayout contLogin;
     private TextInputLayout contentphone;
@@ -139,7 +151,6 @@ public class VerifyPhoneFragment extends BaseFragment {
         if (act.loginService.getTempGenricUser().getPhone() != null) {
             phone.setText(act.loginService.getTempGenricUser().getPhone());
         }
-        //todo verify phone
         login.setOnClickListener(onClickLoginSendOtp);
 
         return root;
@@ -165,6 +176,7 @@ public class VerifyPhoneFragment extends BaseFragment {
             next();
             return;
         }
+        act.loginService.getTempGenricUser().setPhone(phoneNumber);
         login.setOnClickListener(null);
         act.loginService.sendOTP(phoneNumber, timeout, callbacks);
         login.setText(R.string.processing);

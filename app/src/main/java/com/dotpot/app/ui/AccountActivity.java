@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.login.LoginFragment;
@@ -93,11 +94,17 @@ public class AccountActivity extends BaseActivity {
     }
 
     public void handleSignInResult(GoogleSignInAccount account) {
+
+        //todo call API to getCompleteUser if it exists then
         loginService.setTempGenricUser(new GenricUser());
         loginService.getTempGenricUser().setName(account.getDisplayName());
         loginService.getTempGenricUser().setEmail(account.getEmail());
         loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
+        loginService.getTempGenricUser().setImage(""+account.getPhotoUrl());
+        GenericUserViewModel.getInstance().update(act,loginService.getTempGenricUser());
         beginSignup(false);
+
+
     }
 
     public void beginLogin(boolean addToBackStack) {

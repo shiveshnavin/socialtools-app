@@ -78,6 +78,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.dotpot.app.adapters.GenriXAdapter;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.models.GenricUser;
@@ -86,8 +87,9 @@ import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utils.CircularRevealPopup;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.ResourceUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -613,19 +615,22 @@ public class utl {
         }
 
         try {
-            App.mGoogleApiClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.
+                    Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                    build();
 
-                }
-            });
+            GoogleSignInClient googleSignInClient= GoogleSignIn.getClient(App.getAppContext(),gso);
+            googleSignInClient.signOut();
+
 
         } catch (Exception e) {
             if (utl.DEBUG_ENABLED) e.printStackTrace();
         }
 
+
         try {
             removeUserData();
+            GenericUserViewModel.getInstance().update(null,null);
             DBService helper = DBService.getInstance(App.getAppContext());
             helper.deleteAllData();
 

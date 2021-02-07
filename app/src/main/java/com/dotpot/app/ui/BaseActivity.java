@@ -63,7 +63,6 @@ import com.dotpot.app.ui.splash.SplashActivity;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.TextAndContentPicker;
 import com.dotpot.app.utl;
-import com.dotpot.app.views.RoundedImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -194,6 +193,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         super.onDestroy();
+    }
+
+    public void startLogout(){
+        utl.logout();
+        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+        finishAffinity();
+        startActivity(intent);
     }
 
     public void startHome() {
@@ -574,10 +580,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         break;
                     case R.id.menu_logout:
 
-                        utl.logout();
-                        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                        finishAffinity();
-                        startActivity(intent);
+                      startLogout();
                         break;
 
                 }
