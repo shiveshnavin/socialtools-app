@@ -173,7 +173,9 @@ public class GenricUser {
 
     public String  getDateofbirthString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-        Date date = new Date(Long.parseLong(dateofbirthLong));
+        if(getDateofbirthLong()==null)
+        return null;
+        Date date = new Date(Long.parseLong(getDateofbirthLong()));
         return formatter.format(date);
     }
 

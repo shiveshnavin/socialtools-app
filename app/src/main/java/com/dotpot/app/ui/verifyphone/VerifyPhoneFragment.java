@@ -1,5 +1,6 @@
 package com.dotpot.app.ui.verifyphone;
 
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.ResourceUtils;
+import com.dotpot.app.utl;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,6 +27,8 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class VerifyPhoneFragment extends BaseFragment {
 
@@ -180,6 +184,25 @@ public class VerifyPhoneFragment extends BaseFragment {
         login.setOnClickListener(null);
         act.loginService.sendOTP(phoneNumber, timeout, callbacks);
         login.setText(R.string.processing);
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+                    if( clipboard!=null && clipboard.hasPrimaryClip()){
+                        try {
+                            String possibleOTP = clipboard.getPrimaryClip().getItemAt(0).getText().toString();
+                            if(utl.isNumeric(possibleOTP) && possibleOTP.length() < 8){
+                                password.setText(possibleOTP);
+                            }
+                        } catch (Exception e) {
+                            utl.e("Unable to get oTP from clipboard ! : 200");
+                        }
+                    }
+                }
+            }
+        });
 
     };
 

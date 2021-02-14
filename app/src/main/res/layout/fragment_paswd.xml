@@ -29,6 +29,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Theme.DotPot.TextEditTextStyle"
                  android:id="@+id/password"
+                android:text=""
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -47,6 +48,7 @@
                 style="@style/Theme.DotPot.TextEditTextStyle"
                  android:id="@+id/password2"
                 android:imeOptions="actionDone"
+                android:text=""
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

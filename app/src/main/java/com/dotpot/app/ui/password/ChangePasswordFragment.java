@@ -50,21 +50,40 @@ public class ChangePasswordFragment extends BaseFragment {
         String textBtm = subtext.getText().toString();
         subtext.setText(Html.fromHtml(textBtm));
 
-        login.setOnClickListener(v->act.loginService.updatePassword(
-                password2.getText().toString()
-                ,password.getText().toString()
-                , new GenricObjectCallback<GenricUser>() {
-            @Override
-            public void onEntity(GenricUser data) {
-                act.inAppNavService.startHome();
-                act.finishAffinity();
+        login.setOnClickListener(v->{
+            String oldPasswd = password.getText().toString();
+            String newPasswd = password2.getText().toString();
+            if(oldPasswd.isEmpty()){
+                contentpaswd.setError(getString(R.string.invalidinput));
+                return;
+            }
+            else {
+                contentpaswd.setError(null);
             }
 
-            @Override
-            public void onError(String message) {
-                password2.setError(message);
+            if(newPasswd.isEmpty()){
+                contentpaswd2.setError(getString(R.string.invalidinput));
+                return;
             }
-        }));
+            else {
+                contentpaswd2.setError(null);
+            }
+            act.loginService.updatePassword(
+                    newPasswd
+                    ,oldPasswd
+                    , new GenricObjectCallback<GenricUser>() {
+                        @Override
+                        public void onEntity(GenricUser data) {
+                            act.inAppNavService.startHome();
+                            act.finishAffinity();
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            password2.setError(message);
+                        }
+                    });
+        });
 
         return root;
     }

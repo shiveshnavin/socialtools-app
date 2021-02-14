@@ -74,6 +74,11 @@ public class SignupFragment extends BaseFragment {
             user.setDateofbirthLong("" + dateTime);
             paswd.setText(user.getDateofbirthString());
         });
+
+        long maxBirth = System.currentTimeMillis() - 15 * 31556952000L;
+        long initBirth = System.currentTimeMillis() - 23 * 31556952000L;
+
+        dateTimePicker.setDateConstraints(0,initBirth,maxBirth);
         paswd.setOnClickListener(v -> {
             dateTimePicker.pick(false);
         });
@@ -81,7 +86,7 @@ public class SignupFragment extends BaseFragment {
 
             boolean ok = true;
 
-            if (user.getDateofbirthLong() == null || user.getAge() < 18) {
+            if (user.getDateofbirthLong() == null || user.getAge() < 16) {
                 ok = false;
                 contentpaswd.setError(getString(R.string.must_be18));
             } else

@@ -377,6 +377,10 @@ public class utl {
         return (s == null) ? false : s.matches("[^A-Za-z0-9 ]");
     }
 
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+    }
+
     public static boolean isEmpty(String s) {
         return isNull(s) || s.length() < 1;
     }

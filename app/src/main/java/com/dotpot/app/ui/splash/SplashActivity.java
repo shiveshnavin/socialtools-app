@@ -42,6 +42,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         findViews();
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.notif_tone);
+        mp.start();
         loginService = new LoginService(this);
         if (loginService.getLoggedInUser() != null) {
             animateAndHome();

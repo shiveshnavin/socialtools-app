@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_otp"
-            app:endIconMode="password_toggle"
+            app:endIconMode="clear_text"
             android:id="@+id/contentpaswd"
             app:startIconDrawable="@drawable/ic_password"
             style="@style/Theme.DotPot.TextInputStyle">

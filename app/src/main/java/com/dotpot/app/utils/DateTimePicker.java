@@ -89,6 +89,9 @@ public class DateTimePicker {
     public Dialog getDig() {
         return dig;
     }
+    long minDate = 0;
+    long initDate = 0;
+    long maxDate = 0;
 
     private Dialog dig;
     public void pick( boolean datePicked){
@@ -111,10 +114,20 @@ public class DateTimePicker {
 
 
         if(v!=null) {
-            final DatePicker date = (DatePicker) v.findViewById(R.id.datePicker1);
+                final DatePicker date = (DatePicker) v.findViewById(R.id.datePicker1);
             final TimePicker time = (TimePicker) v.findViewById(R.id.timePicker1);
             final Button next = (Button) v.findViewById(R.id.login);
 
+            if(maxDate>0)
+                date.setMaxDate(maxDate);
+            if(minDate>0)
+                date.setMinDate(minDate);
+            if(initDate>0)
+            {
+                Calendar init = Calendar.getInstance();
+                init.setTimeInMillis(initDate);
+                date.updateDate(init.get(Calendar.YEAR),init.get(Calendar.MONTH),init.get(Calendar.DAY_OF_MONTH));
+            }
 
             if(PICK_TYPE== TIME_ONLY)
             {
@@ -228,7 +241,11 @@ public class DateTimePicker {
        return lastPickedMilis;
     }
 
-
+    public void setDateConstraints(long min,long init,long max){
+        minDate=min;
+        initDate=init;
+        maxDate=max;
+    }
 
 
 
