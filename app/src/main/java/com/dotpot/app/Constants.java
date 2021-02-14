@@ -13,7 +13,7 @@ public class Constants {
         return HOST+endpoint;
     }
 
-    public static String HOST="https://dotpot.herokuapp.com/";
+    public static String HOST="https://dotpot.herokuapp.com";
     public static String API_USERS = HOST+"/api/users";
     public static String API_CHECK_PHONE = HOST+"/api/users/checkphone";
     public static String API_RESET_PASSWORD = HOST+"/api/users/resetpassword";
