@@ -69,6 +69,8 @@
     <string name="retry">Retry</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="processing">Please wait…</string>
+    <string name="reset_sent">Password Reset Request Processed ! </string>
+    <string name="reset_sent_info">If an account exists with the given details , you will receive an email with a link . Kindly use the link to reset your password .</string>
 
 
 </resources>

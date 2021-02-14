@@ -15,6 +15,7 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utl;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,7 +33,7 @@ public class LoginFragment extends BaseFragment {
     private LinearLayout linearLayout;
     private Button signup;
     private Button login;
-    private TextView subtext;
+    private TextView forgotPassword;
 
     private void findViews(View root) {
         contLogin = (LinearLayout) root.findViewById(R.id.cont_login);
@@ -43,7 +44,7 @@ public class LoginFragment extends BaseFragment {
         linearLayout = (LinearLayout) root.findViewById(R.id.linearLayout);
         signup = (Button) root.findViewById(R.id.signup);
         login = (Button) root.findViewById(R.id.login);
-        subtext = (TextView) root.findViewById(R.id.subtext);
+        forgotPassword = (TextView) root.findViewById(R.id.forgotPassword);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,6 +72,40 @@ public class LoginFragment extends BaseFragment {
                             }
                         }));
 
+
+        forgotPassword.setOnClickListener(v -> {
+
+            if (email.getText().toString().isEmpty()) {
+                contentmail.setError(getString(R.string.emailorphone));
+                return;
+            } else {
+                contentmail.setError(null);
+            }
+            forgotPassword.setText(R.string.processing);
+            act.loginService.sendPasswordResetMail(email.getText().toString(),
+                    (data1, data2) -> {
+                        forgotPassword.setText(R.string.forgot_password);
+
+                        if (data2 == 1)
+                        {
+                            try {
+                                utl.diagBottom(act, getString(R.string.reset_sent),getString(R.string.reset_sent_info)
+                                ,true,getString(R.string.dismiss),null);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            utl.snack(act, getString(R.string.error_msg));
+
+                    });
+
+        });
+
+
+
         return root;
     }
+
+
 }

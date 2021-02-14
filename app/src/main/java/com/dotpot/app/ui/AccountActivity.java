@@ -243,6 +243,7 @@ public class AccountActivity extends BaseActivity {
             gotologin2.setText(R.string.login);
             contFooter.setOnClickListener(view -> {
                 fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                utl.logout();
                 beginLogin(false);
             });
         } else {
@@ -251,7 +252,8 @@ public class AccountActivity extends BaseActivity {
             gotologin2.setText(R.string.signup);
             contFooter.setOnClickListener(view -> {
                 fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                beginSignup(false);
+//                beginSignup(false);
+                loginService.googleLogin(LoginService.RC_SIGN_UP);
             });
         }
         if(action.equals(ACTION_CHANGE_PASSWORD) ||

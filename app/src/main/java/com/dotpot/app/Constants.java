@@ -15,8 +15,8 @@ public class Constants {
 
     public static String HOST="http://192.168.0.179:8080";
     public static String API_USERS = HOST+"/api/users";
-    public static String API_UPDATE_PASWD_PHONE = HOST+"/api/users";
     public static String API_CHECK_PHONE = HOST+"/api/users/checkphone";
+    public static String API_RESET_PASSWORD = HOST+"/api/users/resetpassword";
 
     public static final String API_UPLOAD_IMAGE = "/api/image";
 

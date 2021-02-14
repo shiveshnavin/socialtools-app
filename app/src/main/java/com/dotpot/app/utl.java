@@ -1212,10 +1212,11 @@ public class utl {
         mBottomSheetDialog = new BottomSheetDialog(ctx);
         LayoutInflater inf = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View sheetView = inf.inflate(R.layout.utl_diag_bottom, null);
-
+        sheetView.setBackgroundColor(ResourceUtils.getColor(R.color.colorBackgroundLighter));
         final TextView textT = (TextView) sheetView.findViewById(R.id.text);
         final TextView titleT = (TextView) sheetView.findViewById(R.id.title);
-
+        textT.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
+        titleT.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
 
         Button done = (Button) sheetView.findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -1223,6 +1224,7 @@ public class utl {
             public void onClick(View view) {
 
                 mBottomSheetDialog.dismiss();
+                if(callback!=null)
                 callback.onStart();
             }
         });

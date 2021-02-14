@@ -68,7 +68,12 @@ public class SplashActivity extends BaseActivity {
         animLogo.setVisibility(View.VISIBLE);
         utl.animate_avd(animLogo);
         if (navToHomeAuto)
-            animLogo.postDelayed(() -> inAppNavService.startHome(), 1000);
+        {
+            animLogo.postDelayed(() -> {
+                inAppNavService.startHome();
+                finish();
+            }, 1000);
+        }
         else
         {
             utl.logout();

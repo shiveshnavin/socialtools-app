@@ -113,6 +113,9 @@ public class LoginService {
             if (emailPhone.contains("@")) {
                 jop.put("email", emailPhone);
             } else if (utl.isValidMobile(emailPhone)) {
+                String ccode = ResourceUtils.getString(R.string.ccode);
+                if (!emailPhone.contains(ccode))
+                    emailPhone = ccode + emailPhone;
                 jop.put("phone", emailPhone);
             } else {
                 cb.onError(ctx.getString(R.string.invalidemailorpaswd));
@@ -343,6 +346,40 @@ public class LoginService {
                     @Override
                     public void onFail(ANError job) {
                         genricDataCallback.onStart(null, -1);
+                    }
+                });
+
+
+    }
+
+    public void sendPasswordResetMail(String emailPhone,GenricDataCallback cb) {
+
+        String suffix = "";
+        if (emailPhone.contains("@")) {
+            suffix = "email="+URLEncoder.encode(emailPhone);
+        } else if (utl.isValidMobile(emailPhone)) {
+            String ccode = ResourceUtils.getString(R.string.ccode);
+            if (!emailPhone.contains(ccode))
+                emailPhone = ccode + emailPhone;
+            suffix = "phone="+URLEncoder.encode(emailPhone);
+        }
+        networkService.callGet(Constants.API_RESET_PASSWORD + "?"+suffix
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+
+                        if (response.optBoolean("success")) {
+                            cb.onStart(response.optString("message"), 1);
+                        } else {
+                            cb.onStart(response.optString("message"), -1);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onStart(null, -1);
                     }
                 });
 
