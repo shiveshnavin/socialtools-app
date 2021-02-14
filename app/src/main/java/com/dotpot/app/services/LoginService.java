@@ -42,7 +42,8 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginService {
 
-    public static int RC_SIGN_IN = 1001;
+    public static int RC_SIGN_UP = 1001;
+    public static int RC_SIGN_IN = 1002;
     private BaseActivity ctx;
     private InAppNavService inAppNavService;
     private GoogleSignInClient mGoogleSignInClient;
@@ -75,7 +76,7 @@ public class LoginService {
     }
 
     public GenricUser getTempGenricUser() {
-        if(tempGenricUser==null){
+        if (tempGenricUser == null) {
             tempGenricUser = utl.readUserData();
         }
         return tempGenricUser;
@@ -85,7 +86,7 @@ public class LoginService {
         this.tempGenricUser = tempGenricUser;
     }
 
-    public void googleLogin() {
+    public void googleLogin(int code) {
 
         GoogleSignInAccount account = getSignedInAccount();
 
@@ -93,13 +94,48 @@ public class LoginService {
             utl.logout();
         }
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        ctx.startActivityForResult(signInIntent, RC_SIGN_IN);
+        ctx.startActivityForResult(signInIntent, code);
     }
 
-    public void emailPhoneLogin(String emailPhone, String paswd, GenricObjectCallback<GenricUser> cb) {
+    public void emailPhoneLogin(String emailPhone,
+                                String paswd,
+                                GenricObjectCallback<GenricUser> cb) {
 
-        // todo perform api call
-        cb.onEntity(null);
+
+        JSONObject jop = new JSONObject();
+        try {
+            if (emailPhone.isEmpty() || paswd.isEmpty()) {
+                cb.onError(ctx.getString(R.string.invalidemailorpaswd));
+                return;
+            }
+            jop.put("password", paswd);
+
+            if (emailPhone.contains("@")) {
+                jop.put("email", emailPhone);
+            } else if (utl.isValidMobile(emailPhone)) {
+                jop.put("phone", emailPhone);
+            } else {
+                cb.onError(ctx.getString(R.string.invalidemailorpaswd));
+                return;
+            }
+
+        } catch (Exception e) {
+        }
+
+        networkService.callPost(Constants.API_USERS
+                , jop, false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
+                        cb.onEntity(genricUser);
+                        GenericUserViewModel.getInstance().updateLocalAndNotify(ctx.getApplicationContext(), genricUser);
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(job.getMessage());
+                    }
+                });
 
     }
 
@@ -167,7 +203,11 @@ public class LoginService {
                     });
 
                 } else {
-                    cb.onError("No token found");
+                    GenricUser nonFirebaseLoginUser = utl.readUserData();
+                    if (nonFirebaseLoginUser != null) {
+                        cb.onEntity(nonFirebaseLoginUser);
+                    } else
+                        cb.onError("No token found");
                 }
             });
 
@@ -250,39 +290,37 @@ public class LoginService {
                                        String phone,
                                        GenricObjectCallback<GenricUser> cb) {
 
-        JSONObject jop=new JSONObject();
-        try{
+        JSONObject jop = new JSONObject();
+        try {
 
 
-            if(oldPaswd!=null && newPaswd !=null){
-                jop.put("password",oldPaswd);
-                jop.put("newpassword",newPaswd);
-            }
-            else if(phone!=null){
-                jop.put("newphone",phone);
-            }
-            else {
+            if (oldPaswd != null && newPaswd != null) {
+                jop.put("password", oldPaswd);
+                jop.put("newpassword", newPaswd);
+            } else if (phone != null) {
+                jop.put("newphone", phone);
+            } else {
                 cb.onError(ctx.getString(R.string.invalidinput));
             }
 
-        }catch(Exception e)
-        {}
+        } catch (Exception e) {
+        }
 
-        networkService.callPost(Constants.API_USERS+"/"+
-                getTempGenricUser().getId()
+        networkService.callPost(Constants.API_USERS + "/" +
+                        getTempGenricUser().getId()
                 , jop, false, new NetworkRequestCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
-                cb.onEntity(genricUser);
-                GenericUserViewModel.getInstance().updateLocalAndNotify(ctx.getApplicationContext(), genricUser);
-            }
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
+                        cb.onEntity(genricUser);
+                        GenericUserViewModel.getInstance().updateLocalAndNotify(ctx.getApplicationContext(), genricUser);
+                    }
 
-            @Override
-            public void onFail(ANError job) {
-                cb.onError(job.getMessage());
-            }
-        });
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(job.getMessage());
+                    }
+                });
     }
 
     public void checkPhoneExists(String phoneNumber, GenricDataCallback genricDataCallback) {

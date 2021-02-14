@@ -14,20 +14,20 @@ import com.dotpot.app.utl;
 
 public class GenericUserViewModel extends ViewModel {
 
-    private MutableLiveData<GenricUser> genricUserLive;
     private static GenericUserViewModel instance;
+    private MutableLiveData<GenricUser> genricUserLive;
 
-    public static GenericUserViewModel getInstance(){
-        if(instance==null){
+    public static GenericUserViewModel getInstance() {
+        if (instance == null) {
             instance = new GenericUserViewModel();
             instance.genricUserLive = new MutableLiveData<>();
         }
         return instance;
     }
 
-    public void refresh(BaseActivity ctx){
+    public void refresh(BaseActivity ctx) {
         GenricUser user = utl.readUserData();
-        if(user!=null){
+        if (user != null) {
             ctx.restApi.getGenricUser(user.getId(), new GenricObjectCallback<GenricUser>() {
                 @Override
                 public void onEntity(GenricUser data) {
@@ -36,12 +36,11 @@ public class GenericUserViewModel extends ViewModel {
 
                 @Override
                 public void onError(String message) {
-                    utl.e(GenericUserViewModel.class,"Unable to refresh "+message);
+                    utl.e(GenericUserViewModel.class, "Unable to refresh " + message);
                 }
             });
-        }
-        else {
-            utl.e(GenericUserViewModel.class,"Unable to refresh as not user found");
+        } else {
+            utl.e(GenericUserViewModel.class, "Unable to refresh as not user found");
         }
     }
 
@@ -49,13 +48,14 @@ public class GenericUserViewModel extends ViewModel {
         return genricUserLive;
     }
 
-    public void updateLocalAndNotify(Context act, GenricUser user){
-        if(act!=null){
-            utl.writeUserData(user,act);
-        }else {
+    public void updateLocalAndNotify(Context act, GenricUser user) {
+        if (act != null) {
+            utl.writeUserData(user, act);
+        } else {
             utl.writeUserData(user, App.getAppContext());
         }
-        genricUserLive.postValue(user);
+        if (user != null)
+            genricUserLive.postValue(user);
 
     }
 

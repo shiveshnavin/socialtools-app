@@ -37,6 +37,7 @@ import static com.dotpot.app.Constants.ACTION_CHANGE_PASSWORD;
 import static com.dotpot.app.Constants.ACTION_LOGIN;
 import static com.dotpot.app.Constants.ACTION_SIGNUP;
 import static com.dotpot.app.Constants.ACTION_VERIFY_PHONE;
+import static com.dotpot.app.services.LoginService.RC_SIGN_IN;
 
 public class AccountActivity extends BaseActivity {
 
@@ -73,8 +74,7 @@ public class AccountActivity extends BaseActivity {
             blank = fragmentManager.getFragments().get(0);
         }
 
-        if(utl.readUserData()!=null)
-        {
+        if (utl.readUserData() != null) {
             loginService.setTempGenricUser(utl.readUserData());
         }
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -87,7 +87,7 @@ public class AccountActivity extends BaseActivity {
             beginLogin(false);
         } else if (action.equals(ACTION_SIGNUP)) {
 
-            loginService.googleLogin();
+            loginService.googleLogin(LoginService.RC_SIGN_UP);
 
         } else if (action.equals(ACTION_ACCOUNT)) {
             fgmtName = getString(R.string.signup);
@@ -118,23 +118,26 @@ public class AccountActivity extends BaseActivity {
     }
 
 
-    public void handleSignInResult(GoogleSignInAccount account) {
+    public void handleSignInResult(GoogleSignInAccount account, int requestCode) {
 
         ProgressDialog progressDialog = new ProgressDialog(ctx);
         progressDialog.setMessage(getString(R.string.processing));
         progressDialog.show();
         firebaseAuthWithGoogle(account.getIdToken(), new GenricObjectCallback<FirebaseUser>() {
             @Override
-            public void onEntity(FirebaseUser user) {
+            public void onEntity(FirebaseUser firebaseUser) {
 
                 loginService.refreshProviderToken((token, data2) ->
                         loginService.firebaseId(token, new GenricObjectCallback<GenricUser>() {
                             @Override
-                            public void onEntity(GenricUser data) {
+                            public void onEntity(GenricUser genricUser) {
                                 progressDialog.dismiss();
-                                loginService.setTempGenricUser(data);
-                                GenericUserViewModel.getInstance().updateLocalAndNotify(act, data);
-                                beginSignup(false);
+                                loginService.setTempGenricUser(genricUser);
+                                GenericUserViewModel.getInstance().updateLocalAndNotify(act, genricUser);
+                                if (requestCode == RC_SIGN_IN && genricUser.validate()) {
+                                    inAppNavService.startHome();
+                                } else
+                                    beginSignup(false);
 
                             }
 
@@ -143,7 +146,7 @@ public class AccountActivity extends BaseActivity {
 
                                 loginService.setTempGenricUser(new GenricUser());
                                 loginService.getTempGenricUser().setType(Constants.userCategories[0]);
-                                loginService.getTempGenricUser().setId(user.getUid());
+                                loginService.getTempGenricUser().setId(firebaseUser.getUid());
                                 loginService.getTempGenricUser().setName(account.getDisplayName());
                                 loginService.getTempGenricUser().setEmail(account.getEmail());
                                 loginService.getTempGenricUser().setImage("" + account.getPhotoUrl());
@@ -251,16 +254,22 @@ public class AccountActivity extends BaseActivity {
                 beginSignup(false);
             });
         }
+        if(action.equals(ACTION_CHANGE_PASSWORD) ||
+                action.equals(ACTION_ACCOUNT) ||
+                        action.equals(ACTION_VERIFY_PHONE)){
+            contFooter.setVisibility(View.GONE);
+            head.setText(R.string.edit_profile);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LoginService.RC_SIGN_IN) {
+        if (requestCode == LoginService.RC_SIGN_UP || requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                handleSignInResult(account);
+                handleSignInResult(account, requestCode);
             } catch (ApiException e) {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                 utl.snack(act, getString(R.string.error_msg) + e.getMessage());

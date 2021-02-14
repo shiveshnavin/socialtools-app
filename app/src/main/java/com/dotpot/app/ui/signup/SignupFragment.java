@@ -1,5 +1,6 @@
 package com.dotpot.app.ui.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
+import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
@@ -107,13 +109,20 @@ public class SignupFragment extends BaseFragment {
                 contentmail.setError(null);
 
             if (ok) {
-                GenericUserViewModel.getInstance().updateLocalAndNotify(act, user);
+                user.setName(name.getText().toString());
                 login.setVisibility(View.GONE);
                 act.loginService.commitTemporaryUserToServer(new GenricObjectCallback<GenricUser>() {
                     @Override
                     public void onEntity(GenricUser data) {
                         login.setVisibility(View.VISIBLE);
-                        if (LoginService.isValidPhone(user.getPhone())) {
+                        GenericUserViewModel.getInstance().updateLocalAndNotify(act, data);
+                        Intent it = getActivity().getIntent();
+                        if(it!=null && it.getStringExtra("action")!=null
+                        && it.getStringExtra("action").equals(Constants.ACTION_ACCOUNT))
+                        {
+                            act.finish();
+                        }
+                        else if (LoginService.isValidPhone(user.getPhone())) {
                             act.beginChangePassword(true);
                         } else
                             act.beginPhone(true);

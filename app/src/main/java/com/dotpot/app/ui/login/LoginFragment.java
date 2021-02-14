@@ -18,9 +18,11 @@ import com.dotpot.app.ui.BaseFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import static com.dotpot.app.services.LoginService.RC_SIGN_IN;
+
 public class LoginFragment extends BaseFragment {
 
-    private AccountActivity act ;
+    private AccountActivity act;
 
     private LinearLayout contLogin;
     private TextInputLayout contentmail;
@@ -33,15 +35,15 @@ public class LoginFragment extends BaseFragment {
     private TextView subtext;
 
     private void findViews(View root) {
-        contLogin = (LinearLayout)root.findViewById( R.id.cont_login );
-        contentmail = (TextInputLayout)root.findViewById( R.id.contentmail );
-        email = (TextInputEditText)root.findViewById( R.id.email );
-        contentpaswd = (TextInputLayout)root.findViewById( R.id.contentpaswd );
-        paswd = (TextInputEditText)root.findViewById( R.id.paswd );
-        linearLayout = (LinearLayout)root.findViewById( R.id.linearLayout );
-        signup = (Button)root.findViewById( R.id.signup );
-        login = (Button)root.findViewById( R.id.login );
-        subtext = (TextView)root.findViewById( R.id.subtext );
+        contLogin = (LinearLayout) root.findViewById(R.id.cont_login);
+        contentmail = (TextInputLayout) root.findViewById(R.id.contentmail);
+        email = (TextInputEditText) root.findViewById(R.id.email);
+        contentpaswd = (TextInputLayout) root.findViewById(R.id.contentpaswd);
+        paswd = (TextInputEditText) root.findViewById(R.id.paswd);
+        linearLayout = (LinearLayout) root.findViewById(R.id.linearLayout);
+        signup = (Button) root.findViewById(R.id.signup);
+        login = (Button) root.findViewById(R.id.login);
+        subtext = (TextView) root.findViewById(R.id.subtext);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,19 +52,24 @@ public class LoginFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         findViews(root);
 
-        signup.setOnClickListener(v->act.loginService.googleLogin());
-        login.setOnClickListener(v->act.loginService.emailPhoneLogin(email.getText().toString(), paswd.getText().toString(), new GenricObjectCallback<GenricUser>() {
-            @Override
-            public void onEntity(GenricUser data) {
-                act.finish();
-                act.inAppNavService.startHome();
-            }
+        signup.setOnClickListener(v -> act.loginService.googleLogin(RC_SIGN_IN));
+        login.setOnClickListener(v ->
+                act.loginService.emailPhoneLogin(
+                        email.getText().toString(),
+                        paswd.getText().toString(),
+                        new GenricObjectCallback<GenricUser>() {
+                            @Override
+                            public void onEntity(GenricUser data) {
+                                act.finish();
+                                act.inAppNavService.startHome();
+                            }
 
-            @Override
-            public void onError(String message) {
-                contentmail.setError(getString(R.string.invalidemailorpaswd));
-            }
-        }));
+                            @Override
+                            public void onError(String message) {
+                                contentpaswd.setError(getString(R.string.invalidemailorpaswd));
+                                contentmail.setError(getString(R.string.invalidemailorpaswd));
+                            }
+                        }));
 
         return root;
     }

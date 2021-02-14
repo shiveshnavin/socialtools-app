@@ -68,7 +68,7 @@
     <string name="invalidotp">Invalid OTP</string>
     <string name="retry">Retry</string>
     <string name="verify_otp">Verify OTP</string>
-    <string name="processing">Please wait...</string>
+    <string name="processing">Please wait…</string>
 
 
 </resources>
