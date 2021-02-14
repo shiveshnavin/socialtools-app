@@ -35,6 +35,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -74,6 +75,9 @@ public class LoginService {
     }
 
     public GenricUser getTempGenricUser() {
+        if(tempGenricUser==null){
+            tempGenricUser = utl.readUserData();
+        }
         return tempGenricUser;
     }
 
@@ -92,13 +96,6 @@ public class LoginService {
         ctx.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-
-    public void updatePassword(String newPassword, String oldPassword, GenricObjectCallback<GenricUser> cb) {
-
-        // todo perform api call
-        cb.onEntity(null);
-    }
-
     public void emailPhoneLogin(String emailPhone, String paswd, GenricObjectCallback<GenricUser> cb) {
 
         // todo perform api call
@@ -115,7 +112,7 @@ public class LoginService {
             public void onSuccess(JSONObject response) {
                 GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
                 cb.onEntity(genricUser);
-                GenericUserViewModel.getInstance().update(ctx, genricUser);
+                GenericUserViewModel.getInstance().updateLocalAndNotify(ctx, genricUser);
             }
 
             @Override
@@ -130,8 +127,8 @@ public class LoginService {
     public void refreshProviderToken(GenricDataCallback cb) {
 
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mUser==null){
-            cb.onStart(null,-1);
+        if (mUser == null) {
+            cb.onStart(null, -1);
             return;
         }
         mUser.getIdToken(true)
@@ -232,14 +229,14 @@ public class LoginService {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    public void createUser(GenricObjectCallback<GenricUser> cb) {
+    public void commitTemporaryUserToServer(GenricObjectCallback<GenricUser> cb) {
 
         networkService.callPost(Constants.API_USERS, getTempGenricUser(), false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
                 cb.onEntity(genricUser);
-                GenericUserViewModel.getInstance().update(ctx, genricUser);
+                GenericUserViewModel.getInstance().updateLocalAndNotify(ctx, genricUser);
             }
 
             @Override
@@ -247,5 +244,70 @@ public class LoginService {
                 cb.onError(job.getMessage());
             }
         });
+    }
+
+    public void commitPasswordAndPhone(String oldPaswd, String newPaswd,
+                                       String phone,
+                                       GenricObjectCallback<GenricUser> cb) {
+
+        JSONObject jop=new JSONObject();
+        try{
+
+
+            if(oldPaswd!=null && newPaswd !=null){
+                jop.put("password",oldPaswd);
+                jop.put("newpassword",newPaswd);
+            }
+            else if(phone!=null){
+                jop.put("newphone",phone);
+            }
+            else {
+                cb.onError(ctx.getString(R.string.invalidinput));
+            }
+
+        }catch(Exception e)
+        {}
+
+        networkService.callPost(Constants.API_USERS+"/"+
+                getTempGenricUser().getId()
+                , jop, false, new NetworkRequestCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
+                cb.onEntity(genricUser);
+                GenericUserViewModel.getInstance().updateLocalAndNotify(ctx.getApplicationContext(), genricUser);
+            }
+
+            @Override
+            public void onFail(ANError job) {
+                cb.onError(job.getMessage());
+            }
+        });
+    }
+
+    public void checkPhoneExists(String phoneNumber, GenricDataCallback genricDataCallback) {
+
+
+        networkService.callGet(Constants.API_CHECK_PHONE + "?phone=" + URLEncoder.encode(phoneNumber)
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+
+                        if (response.optBoolean("success")) {
+                            genricDataCallback.onStart(response.optString("message"), 1);
+                        } else {
+                            genricDataCallback.onStart(response.optString("message"), -1);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        genricDataCallback.onStart(null, -1);
+                    }
+                });
+
+
     }
 }

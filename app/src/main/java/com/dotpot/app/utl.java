@@ -639,7 +639,7 @@ public class utl {
 
         try {
             removeUserData();
-            GenericUserViewModel.getInstance().update(null,null);
+            GenericUserViewModel.getInstance().updateLocalAndNotify(null,null);
             DBService helper = DBService.getInstance(App.getAppContext());
             helper.deleteAllData();
 

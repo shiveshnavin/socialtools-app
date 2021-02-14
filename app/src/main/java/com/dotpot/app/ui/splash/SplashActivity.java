@@ -70,7 +70,10 @@ public class SplashActivity extends BaseActivity {
         if (navToHomeAuto)
             animLogo.postDelayed(() -> inAppNavService.startHome(), 1000);
         else
+        {
+            utl.logout();
             animLogo.postDelayed(this::showButtoms, 1000);
+        }
     }
 
     private void splashVideo() {

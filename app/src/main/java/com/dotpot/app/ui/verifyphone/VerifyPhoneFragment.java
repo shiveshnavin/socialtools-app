@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
@@ -37,34 +39,6 @@ public class VerifyPhoneFragment extends BaseFragment {
     long timeout;
     String lastVerificationid = "";
     PhoneAuthProvider.ForceResendingToken lastforceResendingToken = null;
-    boolean verified = false;
-    GenricObjectCallback<Task<AuthResult>> onVerificatoinComplete = new GenricObjectCallback<Task<AuthResult>>() {
-        @Override
-        public void onEntity(Task<AuthResult> task) {
-            GenericUserViewModel.getInstance().update(act,act.loginService.getTempGenricUser());
-            act.beginChangePassword(true);
-            setUpPhoneVerif();
-        }
-
-        @Override
-        public void onError(String message) {
-            contentpaswd.setError(message);
-            setUpPhoneVerif();
-        }
-    };
-
-
-    private void setUpPhoneVerif() {
-
-        contentpaswd.setError(null);
-        login.setOnClickListener(onClickLoginSendOtp);
-        contentpaswd.setVisibility(View.GONE);
-        password.setText("");
-        login.setText(R.string.send_otp);
-        countDownTimer.cancel();
-    }
-
-
     private AccountActivity act;
     private LinearLayout contLogin;
     private TextInputLayout contentphone;
@@ -73,6 +47,78 @@ public class VerifyPhoneFragment extends BaseFragment {
     private TextInputEditText password;
     private LinearLayout linearLayout;
     private Button login;
+    View.OnClickListener onClickLoginSendOtp = v -> {
+        phoneNumber = phone.getText().toString();
+
+        String ccode = ResourceUtils.getString(R.string.ccode);
+        if (!phoneNumber.contains(ccode))
+            phoneNumber = ccode + phoneNumber;
+
+
+        if (act.loginService.getTempGenricUser().getPhone() != null &&
+                act.loginService.getTempGenricUser().getPhone().equals(phoneNumber)) {
+            act.beginChangePassword(true);
+            return;
+        }
+
+        if (!LoginService.isValidPhone(phoneNumber)) {
+            contentphone.setError(getString(R.string.invalidinput));
+        } else {
+            act.loginService.checkPhoneExists(phoneNumber, new GenricDataCallback() {
+
+                @Override
+                public void onStart(String data1, int data2) {
+                    if (data2 == 1) {
+                        contentphone.setError(null);
+
+                        timeout = act.mFirebaseRemoteConfig.getLong("otp_timeout_sec");
+                        login.setOnClickListener(null);
+                        act.loginService.sendOTP(phoneNumber, timeout, callbacks);
+                        login.setText(R.string.processing);
+
+                        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View view, boolean b) {
+                                if (b) {
+                                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+                                    if (clipboard != null && clipboard.hasPrimaryClip()) {
+                                        try {
+                                            String possibleOTP = clipboard.getPrimaryClip().getItemAt(0).getText().toString();
+                                            if (utl.isNumeric(possibleOTP) && possibleOTP.length() < 8) {
+                                                password.setText(possibleOTP);
+                                            }
+                                        } catch (Exception e) {
+                                            utl.e("Unable to get OTP from clipboard ! : 200");
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                    } else {
+                        contentphone.setError(data1);
+                    }
+                }
+            });
+
+        }
+
+    };
+    GenricObjectCallback<Task<AuthResult>> onVerificatoinComplete = new GenricObjectCallback<Task<AuthResult>>() {
+        @Override
+        public void onEntity(Task<AuthResult> task) {
+            act.loginService.getTempGenricUser().setPhone(phoneNumber);
+            GenericUserViewModel.getInstance().updateLocalAndNotify(act, act.loginService.getTempGenricUser());
+            setUpPhoneVerif();
+            next();
+        }
+
+        @Override
+        public void onError(String message) {
+            contentpaswd.setError(message);
+            setUpPhoneVerif();
+        }
+    };
     private TextView subtext;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -83,6 +129,7 @@ public class VerifyPhoneFragment extends BaseFragment {
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
             contentphone.setError(getString(R.string.error_msg) + e.getMessage());
+            setUpPhoneVerif();
 //                    utl.snack(act,getString(R.string.error_msg)+e.getMessage());
         }
 
@@ -103,7 +150,7 @@ public class VerifyPhoneFragment extends BaseFragment {
                     contentpaswd.setError(getString(R.string.invalidotp));
             });
             subtext.setVisibility(View.VISIBLE);
-            if(countDownTimer!=null )
+            if (countDownTimer != null)
                 countDownTimer.cancel();
 
             countDownTimer = new CountDownTimer(timeout * 1000, 1000) {
@@ -135,6 +182,17 @@ public class VerifyPhoneFragment extends BaseFragment {
         }
     };
 
+    private void setUpPhoneVerif() {
+
+        contentpaswd.setError(null);
+        login.setOnClickListener(onClickLoginSendOtp);
+        contentpaswd.setVisibility(View.GONE);
+        password.setText("");
+        login.setText(R.string.send_otp);
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+    }
+
     private void findViews(View root) {
         contLogin = (LinearLayout) root.findViewById(R.id.cont_login);
         contentphone = (TextInputLayout) root.findViewById(R.id.contentphone);
@@ -160,57 +218,27 @@ public class VerifyPhoneFragment extends BaseFragment {
         return root;
 
     }
-    View.OnClickListener onClickLoginSendOtp = v -> {
-        phoneNumber = phone.getText().toString();
-
-        String ccode = ResourceUtils.getString(R.string.ccode);
-        if (!phoneNumber.contains(ccode))
-            phoneNumber = ccode + phoneNumber;
-
-
-        if (!LoginService.isValidPhone(phoneNumber)) {
-            contentphone.setError(getString(R.string.invalidinput));
-            return;
-        } else
-            contentphone.setError(null);
-
-        timeout = act.mFirebaseRemoteConfig.getLong("otp_timeout_sec");
-        if (act.loginService.getTempGenricUser().getPhone() != null &&
-                act.loginService.getTempGenricUser().getPhone().equals(phoneNumber)) {
-            next();
-            return;
-        }
-        act.loginService.getTempGenricUser().setPhone(phoneNumber);
-        login.setOnClickListener(null);
-        act.loginService.sendOTP(phoneNumber, timeout, callbacks);
-        login.setText(R.string.processing);
-
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
-                    if( clipboard!=null && clipboard.hasPrimaryClip()){
-                        try {
-                            String possibleOTP = clipboard.getPrimaryClip().getItemAt(0).getText().toString();
-                            if(utl.isNumeric(possibleOTP) && possibleOTP.length() < 8){
-                                password.setText(possibleOTP);
-                            }
-                        } catch (Exception e) {
-                            utl.e("Unable to get oTP from clipboard ! : 200");
-                        }
-                    }
-                }
-            }
-        });
-
-    };
 
     private synchronized void next() {
-        if (!verified) {
-            act.beginChangePassword(true);
-            verified = true;
-        }
+
+
+            act.loginService.commitPasswordAndPhone(null, null, phoneNumber, new GenricObjectCallback<GenricUser>() {
+                @Override
+                public void onEntity(GenricUser data) {
+                    login.setVisibility(View.VISIBLE);
+                    if (LoginService.isValidPhone(phoneNumber)) {
+                        act.beginChangePassword(true);
+                    } else
+                    act.beginPhone(true);
+                }
+
+                @Override
+                public void onError(String message) {
+                    login.setText(R.string.next);
+                    login.setVisibility(View.VISIBLE);
+                    utl.snack(act, getString(R.string.error_msg) + " " + message);
+                }
+            });
     }
 
 

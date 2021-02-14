@@ -122,7 +122,7 @@ public class DashboardFragment extends BaseFragment {
         final TextView textView = root.findViewById(R.id.text_dashboard);
 
         editProfileCont.setOnClickListener(v -> {
-            navService.startRegister();
+            navService.startEdit();
         });
 
         textDashboard.setOnClickListener(view -> editProfileCont.callOnClick());

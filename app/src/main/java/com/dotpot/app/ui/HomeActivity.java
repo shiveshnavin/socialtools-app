@@ -8,6 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.utl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends BaseActivity {
@@ -29,7 +31,8 @@ public class HomeActivity extends BaseActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-
+        GenericUserViewModel.getInstance()
+                .updateLocalAndNotify(getApplicationContext(), utl.readUserData());
     }
 
     @Override

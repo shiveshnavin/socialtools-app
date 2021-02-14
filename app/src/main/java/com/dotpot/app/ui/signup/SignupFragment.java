@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.AccountActivity;
@@ -106,11 +107,26 @@ public class SignupFragment extends BaseFragment {
                 contentmail.setError(null);
 
             if (ok) {
-                GenericUserViewModel.getInstance().update(act, user);
-                if (LoginService.isValidPhone(user.getPhone())) {
-                    act.beginChangePassword(true);
-                } else
-                    act.beginPhone(true);
+                GenericUserViewModel.getInstance().updateLocalAndNotify(act, user);
+                login.setVisibility(View.GONE);
+                act.loginService.commitTemporaryUserToServer(new GenricObjectCallback<GenricUser>() {
+                    @Override
+                    public void onEntity(GenricUser data) {
+                        login.setVisibility(View.VISIBLE);
+                        if (LoginService.isValidPhone(user.getPhone())) {
+                            act.beginChangePassword(true);
+                        } else
+                            act.beginPhone(true);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        login.setText(R.string.next);
+                        login.setVisibility(View.VISIBLE);
+                        utl.snack(act,getString(R.string.error_msg)+" "+message);
+                    }
+                });
+
             }
 
         });

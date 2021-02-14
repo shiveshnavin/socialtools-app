@@ -55,6 +55,14 @@ public class InAppNavService {
         startActivity(it);
     }
 
+    public void startEdit() {
+
+        Intent it = new Intent(ctx, AccountActivity.class);
+        it.putExtra("action", Constants.ACTION_ACCOUNT);
+        startActivity(it);
+
+    }
+
     public void startRegister() {
 
         Intent it = new Intent(ctx, AccountActivity.class);

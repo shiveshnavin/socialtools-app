@@ -16,6 +16,7 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utl;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -50,10 +51,13 @@ public class ChangePasswordFragment extends BaseFragment {
         String textBtm = subtext.getText().toString();
         subtext.setText(Html.fromHtml(textBtm));
 
+        if(utl.isEmpty(act.loginService.getTempGenricUser().getPassword())){
+            contentpaswd.setVisibility(View.GONE);
+        }
         login.setOnClickListener(v->{
             String oldPasswd = password.getText().toString();
             String newPasswd = password2.getText().toString();
-            if(oldPasswd.isEmpty()){
+            if(oldPasswd.isEmpty() && contentpaswd.getVisibility()==View.VISIBLE){
                 contentpaswd.setError(getString(R.string.invalidinput));
                 return;
             }
@@ -68,19 +72,23 @@ public class ChangePasswordFragment extends BaseFragment {
             else {
                 contentpaswd2.setError(null);
             }
-            act.loginService.updatePassword(
-                    newPasswd
-                    ,oldPasswd
+            login.setText(R.string.processing);
+            act.loginService.commitPasswordAndPhone(
+                    oldPasswd
+                    ,newPasswd
+                    ,null
                     , new GenricObjectCallback<GenricUser>() {
                         @Override
                         public void onEntity(GenricUser data) {
                             act.inAppNavService.startHome();
-                            act.finishAffinity();
+//                            act.finishAffinity();
                         }
 
                         @Override
                         public void onError(String message) {
-                            password2.setError(message);
+                            login.setText(R.string.finish);
+                            contentpaswd.setError(getString(R.string.invalidinput)+" "+message);
+                            contentpaswd2.setError(getString(R.string.invalidinput)+" "+message);
                         }
                     });
         });

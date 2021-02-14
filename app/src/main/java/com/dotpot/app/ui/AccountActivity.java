@@ -73,6 +73,10 @@ public class AccountActivity extends BaseActivity {
             blank = fragmentManager.getFragments().get(0);
         }
 
+        if(utl.readUserData()!=null)
+        {
+            loginService.setTempGenricUser(utl.readUserData());
+        }
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (fragment != null)
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -129,7 +133,7 @@ public class AccountActivity extends BaseActivity {
                             public void onEntity(GenricUser data) {
                                 progressDialog.dismiss();
                                 loginService.setTempGenricUser(data);
-                                GenericUserViewModel.getInstance().update(act, data);
+                                GenericUserViewModel.getInstance().updateLocalAndNotify(act, data);
                                 beginSignup(false);
 
                             }
@@ -143,11 +147,11 @@ public class AccountActivity extends BaseActivity {
                                 loginService.getTempGenricUser().setName(account.getDisplayName());
                                 loginService.getTempGenricUser().setEmail(account.getEmail());
                                 loginService.getTempGenricUser().setImage("" + account.getPhotoUrl());
-                                loginService.createUser(new GenricObjectCallback<GenricUser>() {
+                                loginService.commitTemporaryUserToServer(new GenricObjectCallback<GenricUser>() {
                                     @Override
                                     public void onEntity(GenricUser data) {
                                         progressDialog.dismiss();
-                                        GenericUserViewModel.getInstance().update(act, loginService.getTempGenricUser());
+                                        GenericUserViewModel.getInstance().updateLocalAndNotify(act, loginService.getTempGenricUser());
                                         beginSignup(false);
                                     }
 

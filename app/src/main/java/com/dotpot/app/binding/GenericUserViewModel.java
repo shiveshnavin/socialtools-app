@@ -1,5 +1,7 @@
 package com.dotpot.app.binding;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,7 +21,6 @@ public class GenericUserViewModel extends ViewModel {
         if(instance==null){
             instance = new GenericUserViewModel();
             instance.genricUserLive = new MutableLiveData<>();
-            instance.genricUserLive.setValue(new GenricUser());
         }
         return instance;
     }
@@ -48,13 +49,13 @@ public class GenericUserViewModel extends ViewModel {
         return genricUserLive;
     }
 
-    public void update(BaseActivity act,GenricUser user){
+    public void updateLocalAndNotify(Context act, GenricUser user){
         if(act!=null){
             utl.writeUserData(user,act);
         }else {
             utl.writeUserData(user, App.getAppContext());
         }
-        genricUserLive.setValue(user);
+        genricUserLive.postValue(user);
 
     }
 
