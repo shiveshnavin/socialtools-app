@@ -31,4 +31,5 @@ public interface NetworkService {
         throw new RuntimeException("Unimplemented !!!");
     };
 
+    void updateTokens(String googleToken,String firebaseToken);
 }

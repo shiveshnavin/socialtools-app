@@ -631,6 +631,11 @@ public class utl {
             if (utl.DEBUG_ENABLED) e.printStackTrace();
         }
 
+        try{
+            utl.setKey(Constants.KEY_PROVIDERTOKEN,null,App.getAppContext());
+        }catch (Exception e){
+
+        }
 
         try {
             removeUserData();

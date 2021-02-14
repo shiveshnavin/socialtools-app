@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.dotpot.app.R;
+import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
@@ -45,29 +47,30 @@ public class SplashActivity extends BaseActivity {
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.notif_tone);
         mp.start();
         loginService = new LoginService(this);
-        if (loginService.getLoggedInUser() != null) {
-            animateAndHome();
-        } else {
-            head.setVisibility(View.VISIBLE);
-            subhead.setVisibility(View.VISIBLE);
-            bottomContSplash.setVisibility(View.VISIBLE);
-            signup.setOnClickListener(v -> {
-                inAppNavService.startRegister();
-                finish();
-            });
-            login.setOnClickListener(v -> {
-                inAppNavService.startLogin();
-                finish();
-            });
-        }
+        loginService.getLoggedInUser(new GenricObjectCallback<GenricUser>() {
+            @Override
+            public void onEntity(GenricUser data) {
+                if (data != null && data.validate())
+                    animateAndHome(true);
+                else
+                    animateAndHome(false);
+            }
+
+            @Override
+            public void onError(String message) {
+                animateAndHome(false);
+            }
+        });
     }
 
-    private void animateAndHome() {
+    private void animateAndHome(boolean navToHomeAuto) {
         ImageView animLogo = findViewById(R.id.animLogo);
+        animLogo.setVisibility(View.VISIBLE);
         utl.animate_avd(animLogo);
-        animLogo.postDelayed(this::showButtoms, 1000);
-    //        splashVideo();
-    //        inAppNavService.startHome();
+        if (navToHomeAuto)
+            animLogo.postDelayed(() -> inAppNavService.startHome(), 1000);
+        else
+            animLogo.postDelayed(this::showButtoms, 1000);
     }
 
     private void splashVideo() {

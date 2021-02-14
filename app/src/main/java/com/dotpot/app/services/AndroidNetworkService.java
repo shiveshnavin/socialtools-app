@@ -1,5 +1,6 @@
 package com.dotpot.app.services;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.androidnetworking.AndroidNetworking;
@@ -18,8 +19,6 @@ import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,9 +36,9 @@ public class AndroidNetworkService implements NetworkService {
     String accessToken;
     GenricUser user;
     String firebaseAuthToken = "";
-    String googleAuthToken = "";
-    String appVersionCode =""+ BuildConfig.VERSION_CODE;
-    CacheUtil cacheUtil ;
+    String providerToken = "";
+    String appVersionCode = "" + BuildConfig.VERSION_CODE;
+    CacheUtil cacheUtil;
 
 
     public AndroidNetworkService(BaseActivity act, GenricUser user) {
@@ -48,15 +47,13 @@ public class AndroidNetworkService implements NetworkService {
         this.user = user;
         cacheUtil = CacheService.getInstance();
         try {
-            appVersionCode= ""+BuildConfig.VERSION_CODE;
-            firebaseAuthToken= act.getFirebaseToken(true);
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(act);
-            if(account!=null)
-                googleAuthToken=account.getIdToken();
-            if(utl.DEBUG_ENABLED){
-                utl.e("Network"," FB token "+firebaseAuthToken);
-                utl.e("Network"," GO token "+googleAuthToken);
+            appVersionCode = "" + BuildConfig.VERSION_CODE;
+            firebaseAuthToken = act.getFirebaseToken(true);
+            if (utl.DEBUG_ENABLED) {
+                utl.e("Network", " Firebase token " + firebaseAuthToken);
+                utl.e("Network", " ProviderToken token " + providerToken);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,6 +67,14 @@ public class AndroidNetworkService implements NetworkService {
         }
         mapAsString.delete(mapAsString.length() - 2, mapAsString.length()).append("}");
         return mapAsString.toString();
+    }
+
+    @Override
+    public void updateTokens(String googleToken, String firebaseToken) {
+        if (googleToken != null)
+            providerToken = googleToken;
+        if (firebaseToken != null)
+            firebaseAuthToken = firebaseToken;
     }
 
     private void recordUse(String url, String body) {
@@ -98,8 +103,8 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.get(url)
                 .addHeaders("accesstoken", accessToken)
-                .addHeaders("firebasetoken",firebaseAuthToken)
-                .addHeaders("googletoken",googleAuthToken)
+                .addHeaders("firebasetoken", firebaseAuthToken)
+                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
                 .addHeaders("userid", (user == null ? "" : user.getId()))
                 .build().getAsString(new StringRequestListener() {
@@ -139,8 +144,8 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.get(url)
                 .addHeaders("accesstoken", accessToken)
-                .addHeaders("firebasetoken",firebaseAuthToken)
-                .addHeaders("googletoken",googleAuthToken)
+                .addHeaders("firebasetoken", firebaseAuthToken)
+                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
                 .addHeaders("userid", (user == null ? "" : user.getId()))
                 .build().getAsString(new StringRequestListener() {
@@ -154,8 +159,8 @@ public class AndroidNetworkService implements NetworkService {
                     call.onSuccess(new JSONObject(response));
 
                 } catch (JSONException e) {
-                    utl.e("CallGet","Error parsing Jsonobj , found JSOn array");
-                   // e.printStackTrace();
+                    utl.e("CallGet", "Error parsing Jsonobj , found JSOn array");
+                    // e.printStackTrace();
                 }
                 call.onSuccessString(response);
                 if (showLoading)
@@ -212,8 +217,8 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.post(url)
                 .addHeaders("accesstoken", accessToken)
-                .addHeaders("firebasetoken",firebaseAuthToken)
-                .addHeaders("googletoken",googleAuthToken)
+                .addHeaders("firebasetoken", firebaseAuthToken)
+                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
                 .addHeaders("userid", (user == null ? "" : user.getId()))
                 .addJSONObjectBody(body).build().getAsString(new StringRequestListener() {
@@ -240,7 +245,7 @@ public class AndroidNetworkService implements NetworkService {
     }
 
     @Override
-    public void callPost(String url, JSONObject body, final boolean showLoading, final NetworkRequestCallback call) {
+    public void callPost(String url, @NonNull JSONObject body, final boolean showLoading, final NetworkRequestCallback call) {
 
         if (showLoading)
             act.loadStart();
@@ -259,8 +264,8 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, body.toString());
         AndroidNetworking.post(url)
                 .addHeaders("accesstoken", accessToken)
-                .addHeaders("firebasetoken",firebaseAuthToken)
-                .addHeaders("googletoken",googleAuthToken)
+                .addHeaders("firebasetoken", firebaseAuthToken)
+                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
                 .addHeaders("userid", (user == null ? "" : user.getId()))
                 .addJSONObjectBody(body).build()
@@ -275,7 +280,7 @@ public class AndroidNetworkService implements NetworkService {
                             call.onSuccess(new JSONObject(response));
 
                         } catch (JSONException e) {
-                           // e.printStackTrace();
+                            // e.printStackTrace();
                         }
                         call.onSuccessString(response);
 
@@ -301,8 +306,8 @@ public class AndroidNetworkService implements NetworkService {
         utl.e("CallPost Upload", file.length());
         AndroidNetworking.upload(Constants.HOST + Constants.API_UPLOAD_IMAGE)
                 .addHeaders("accesstoken", accessToken)
-                .addHeaders("firebasetoken",firebaseAuthToken)
-                .addHeaders("googletoken",googleAuthToken)
+                .addHeaders("firebasetoken", firebaseAuthToken)
+                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
                 .addHeaders("userid", (user == null ? "" : user.getId()))
                 .addMultipartFile("verifdoc", file)
@@ -343,7 +348,8 @@ public class AndroidNetworkService implements NetworkService {
     @Nullable
     @Override
     public void setAccessToken(String token) {
-        accessToken=token;
+        accessToken = token;
 
     }
+
 }

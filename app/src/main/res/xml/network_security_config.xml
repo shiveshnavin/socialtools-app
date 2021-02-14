@@ -2,6 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">www.host.com</domain>
+        <domain includeSubdomains="true">192.168.0.179</domain>
         <domain includeSubdomains="true">host.com</domain>
         <domain includeSubdomains="true">www.hoptech.in</domain>
         <domain includeSubdomains="true">hoptech.in</domain>

@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/bg_rounded_btn_filled"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.DotPot">
         <activity
             android:name=".ui.splash.SplashActivity"

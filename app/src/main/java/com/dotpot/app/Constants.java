@@ -7,18 +7,20 @@ package com.dotpot.app;
 public class Constants {
 
 
+    public static final String KEY_PROVIDERTOKEN = "providertoken";
 
     public static String u(String endpoint){
         return HOST+endpoint;
     }
 
-    public static String HOST="https://host.com";
+    public static String HOST="http://192.168.0.179:8080";
+    public static String API_USERS = HOST+"/api/users";
 
     public static final String API_UPLOAD_IMAGE = "/api/image";
 
 
 
-    public static String[] userCategories = {"User", "Moderator", "Admin"};
+    public static String[] userCategories = {"user", "moderator", "admin"};
     public static String[] attachmentTypes = {"Message", "Image","Delete","Exited"};
     public static String[] userStatuses = {"ACTIVATED_USER","VERIFIED_STUDENT","VERIFIED_DOCTOR","ACTIVATED_ADMIN"};
     public static String O2O="o2o_chat___";

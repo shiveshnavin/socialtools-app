@@ -2,11 +2,11 @@
 <defaultsMap>
     <entry>
         <key>cache_config</key>
-        <value>{"/api/feed":62440,"/api/groupInfo":62440,"/api/assignGroup":62440,"/api/users":60,"/api/getUser":60,"/api/posts":60,"/api/users_lite":620,"/api/searchx?getTrending=1":3600,"/api/searchx?query=&amp;getTrending=1":3600}</value>
+        <value>{"/api/groupInfo":62440,"/api/assignGroup":62440,"/api/users":60,"/api/getUser":60,"/api/posts":60,"/api/users_lite":620,"/api/searchx?getTrending=1":3600,"/api/searchx?query=&amp;getTrending=1":3600}</value>
     </entry>
     <entry>
         <key>caching_enabled</key>
-        <value>true</value>
+        <value>false</value>
     </entry>
     <entry>
         <key>otp_timeout_sec</key>
@@ -34,7 +34,7 @@
     </entry>
     <entry>
         <key>access_token</key>
-        <value></value>
+        <value>["1NsgMv08NxoXT3CziXur"]</value>
     </entry>
     <entry>
         <key>location_api</key>

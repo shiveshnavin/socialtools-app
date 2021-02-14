@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
+import com.dotpot.app.utl;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -253,6 +254,15 @@ public class GenricUser {
 
     public void setWebIdToken(String webIdToken) {
         this.webIdToken = webIdToken;
+    }
+
+
+    public boolean validate(){
+        return !utl.isEmpty(phone) &&
+                !utl.isEmpty(dateofbirthLong) &&
+                !utl.isEmpty(email) &&
+                !utl.isEmpty(name) &&
+                !utl.isEmpty(password) ;
     }
 
 }

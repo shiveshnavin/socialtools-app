@@ -50,13 +50,14 @@ public class SignupFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         act = (AccountActivity) getActivity();
+        ctx = getActivity();
         View root = inflater.inflate(R.layout.fragment_signup, container, false);
         findViews(root);
 
         if (act.loginService.getTempGenricUser() != null) {
             setUpUI(act.loginService.getTempGenricUser());
         } else {
-            utl.toast(ctx, getString(R.string.error_msg));
+            utl.toast(getContext(), getString(R.string.error_msg));
             act.beginLogin(false);
         }
         //todo update generic user and move to phone
@@ -107,7 +108,7 @@ public class SignupFragment extends BaseFragment {
             if (ok) {
                 GenericUserViewModel.getInstance().update(act, user);
                 if (LoginService.isValidPhone(user.getPhone())) {
-                    act.beginSignup(true);
+                    act.beginChangePassword(true);
                 } else
                     act.beginPhone(true);
             }

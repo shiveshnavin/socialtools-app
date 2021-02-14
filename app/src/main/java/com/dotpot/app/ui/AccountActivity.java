@@ -1,5 +1,6 @@
 package com.dotpot.app.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
@@ -26,10 +27,8 @@ import com.dotpot.app.utl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -82,11 +81,11 @@ public class AccountActivity extends BaseActivity {
         if (action == null || action.equals(ACTION_LOGIN)) {
             fgmtName = getString(R.string.login);
             beginLogin(false);
-        }else if (action.equals(ACTION_SIGNUP)) {
+        } else if (action.equals(ACTION_SIGNUP)) {
 
             loginService.googleLogin();
 
-        }  else if (action.equals(ACTION_ACCOUNT)) {
+        } else if (action.equals(ACTION_ACCOUNT)) {
             fgmtName = getString(R.string.signup);
             beginSignup(false);
         } else if (action.equals(ACTION_VERIFY_PHONE)) {
@@ -100,49 +99,72 @@ public class AccountActivity extends BaseActivity {
             fragmentManager.beginTransaction().remove(blank).commitNow();
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken, GenricObjectCallback<FirebaseUser> fbUserCb) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            loginService.getTempGenricUser().setId(user.getUid());
-                            GenericUserViewModel.getInstance().update(act,loginService.getTempGenricUser());
-                            beginSignup(false);
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            utl.snack(act,getString(R.string.error_msg)+task.getException().getMessage());
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        fbUserCb.onEntity(user);
+                    } else {
+                        fbUserCb.onError(task.getException().getMessage());
+                        utl.snack(act, getString(R.string.error_msg) + task.getException().getMessage());
                     }
                 });
     }
 
 
     public void handleSignInResult(GoogleSignInAccount account) {
-        loginService.googleId(account.getIdToken(), new GenricObjectCallback<GenricUser>() {
+
+        ProgressDialog progressDialog = new ProgressDialog(ctx);
+        progressDialog.setMessage(getString(R.string.processing));
+        progressDialog.show();
+        firebaseAuthWithGoogle(account.getIdToken(), new GenricObjectCallback<FirebaseUser>() {
             @Override
-            public void onEntity(GenricUser data) {
+            public void onEntity(FirebaseUser user) {
 
-                firebaseAuthWithGoogle(account.getIdToken());
-                loginService.setTempGenricUser(data);
-                loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
-            }
+                loginService.refreshProviderToken((token, data2) ->
+                        loginService.firebaseId(token, new GenricObjectCallback<GenricUser>() {
+                            @Override
+                            public void onEntity(GenricUser data) {
+                                progressDialog.dismiss();
+                                loginService.setTempGenricUser(data);
+                                GenericUserViewModel.getInstance().update(act, data);
+                                beginSignup(false);
 
-            @Override
-            public void onError(String message) {
+                            }
 
-                firebaseAuthWithGoogle(account.getIdToken());
-                loginService.setTempGenricUser(new GenricUser());
-                loginService.getTempGenricUser().setName(account.getDisplayName());
-                loginService.getTempGenricUser().setEmail(account.getEmail());
-                loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
-                loginService.getTempGenricUser().setImage(""+account.getPhotoUrl());
+                            @Override
+                            public void onError(String message) {
+
+                                loginService.setTempGenricUser(new GenricUser());
+                                loginService.getTempGenricUser().setType(Constants.userCategories[0]);
+                                loginService.getTempGenricUser().setId(user.getUid());
+                                loginService.getTempGenricUser().setName(account.getDisplayName());
+                                loginService.getTempGenricUser().setEmail(account.getEmail());
+                                loginService.getTempGenricUser().setImage("" + account.getPhotoUrl());
+                                loginService.createUser(new GenricObjectCallback<GenricUser>() {
+                                    @Override
+                                    public void onEntity(GenricUser data) {
+                                        progressDialog.dismiss();
+                                        GenericUserViewModel.getInstance().update(act, loginService.getTempGenricUser());
+                                        beginSignup(false);
+                                    }
+
+                                    @Override
+                                    public void onError(String message) {
+                                        progressDialog.dismiss();
+                                        utl.snack(act, message);
+                                    }
+                                });
+
+
+                            }
+                        }));
 
             }
         });
+
     }
 
     public void beginLogin(boolean addToBackStack) {
@@ -207,8 +229,8 @@ public class AccountActivity extends BaseActivity {
         }, 500);
     }
 
-    private void setupfooter(boolean isSignUp){
-        if(isSignUp){
+    private void setupfooter(boolean isSignUp) {
+        if (isSignUp) {
             contFooter.setVisibility(View.VISIBLE);
             gotologin.setText(R.string.already_have_a_account);
             gotologin2.setText(R.string.login);
@@ -216,8 +238,7 @@ public class AccountActivity extends BaseActivity {
                 fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 beginLogin(false);
             });
-        }
-        else {
+        } else {
             contFooter.setVisibility(View.VISIBLE);
             gotologin.setText(R.string.don_t_have_a_account);
             gotologin2.setText(R.string.signup);
@@ -238,7 +259,7 @@ public class AccountActivity extends BaseActivity {
                 handleSignInResult(account);
             } catch (ApiException e) {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-                utl.snack(act,getString(R.string.error_msg)+e.getMessage());
+                utl.snack(act, getString(R.string.error_msg) + e.getMessage());
                 finish();
             }
 
