@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.login.LoginFragment;
@@ -24,7 +26,12 @@ import com.dotpot.app.utl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import static com.dotpot.app.Constants.ACTION_ACCOUNT;
 import static com.dotpot.app.Constants.ACTION_CHANGE_PASSWORD;
@@ -93,18 +100,49 @@ public class AccountActivity extends BaseActivity {
             fragmentManager.beginTransaction().remove(blank).commitNow();
     }
 
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            loginService.getTempGenricUser().setId(user.getUid());
+                            GenericUserViewModel.getInstance().update(act,loginService.getTempGenricUser());
+                            beginSignup(false);
+                        } else {
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            utl.snack(act,getString(R.string.error_msg)+task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+
     public void handleSignInResult(GoogleSignInAccount account) {
+        loginService.googleId(account.getIdToken(), new GenricObjectCallback<GenricUser>() {
+            @Override
+            public void onEntity(GenricUser data) {
 
-        //todo call API to getCompleteUser if it exists then
-        loginService.setTempGenricUser(new GenricUser());
-        loginService.getTempGenricUser().setName(account.getDisplayName());
-        loginService.getTempGenricUser().setEmail(account.getEmail());
-        loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
-        loginService.getTempGenricUser().setImage(""+account.getPhotoUrl());
-        GenericUserViewModel.getInstance().update(act,loginService.getTempGenricUser());
-        beginSignup(false);
+                firebaseAuthWithGoogle(account.getIdToken());
+                loginService.setTempGenricUser(data);
+                loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
+            }
 
+            @Override
+            public void onError(String message) {
 
+                firebaseAuthWithGoogle(account.getIdToken());
+                loginService.setTempGenricUser(new GenricUser());
+                loginService.getTempGenricUser().setName(account.getDisplayName());
+                loginService.getTempGenricUser().setEmail(account.getEmail());
+                loginService.getTempGenricUser().setWebIdToken(""+account.getIdToken());
+                loginService.getTempGenricUser().setImage(""+account.getPhotoUrl());
+
+            }
+        });
     }
 
     public void beginLogin(boolean addToBackStack) {

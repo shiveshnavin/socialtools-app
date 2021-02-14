@@ -99,6 +99,12 @@ public class LoginService {
 
     }
 
+    public void googleId(String googletoken, GenricObjectCallback<GenricUser> cb) {
+
+        // todo perform api call
+        cb.onEntity(null);
+
+    }
     public GenricUser getLoggedInUser() {
         return new GenricUser();
     }
