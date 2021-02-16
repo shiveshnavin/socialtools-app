@@ -63,6 +63,7 @@
     <string name="mygames">My Games</string>
     <string name="add">Add</string>
     <string name="error_msg">An unexpected error occurred ! </string>
+    <string name="error_msg_try_again">There was an error processing your request ! Please try again later .</string>
     <string name="must_be18">You must be at least 18 years old to continue !</string>
     <string name="invalidinput">Invalid input</string>
     <string name="invalidotp">Invalid OTP</string>
@@ -71,6 +72,17 @@
     <string name="processing">Please wait…</string>
     <string name="reset_sent">Password Reset Request Processed ! </string>
     <string name="reset_sent_info">If an account exists with the given details , you will receive an email with a link . Kindly use the link to reset your password .</string>
+    <string name="reload">Reload</string>
+    <string name="err_pls_login">Please login to continue !</string>
+    <string name="error">Error</string>
+    <string name="pay">Pay</string>
+    <string name="are_you_sure_back">Are you sure you want to cancel the transaction ?</string>
+    <string name="confirm">Confirm</string>
+    <string name="txn_failed">The transaction failed !</string>
+    <string name="payment_success">Payment Success</string>
+    <string name="wallet_updated">You transaction has completed successfully and your wallet balance has been updated .</string>
+    <string name="award_bal">"Award Balance : "</string>
+    <string name="ref_bal">"Referral Earnings : "</string>
 
 
 </resources>

@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
@@ -109,8 +108,7 @@ public class DashboardFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        userViewModel =
-                new ViewModelProvider(this).get(GenericUserViewModel.class);
+        userViewModel = GenericUserViewModel.getInstance();
 
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);

@@ -38,14 +38,19 @@ public class SplashActivity extends BaseActivity {
         login = (Button) findViewById(R.id.login);
 
     }
-
+    ImageView animLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         findViews();
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.notif_tone);
-        mp.start();
+        //mp.start();
+
+        animLogo = findViewById(R.id.animLogo);
+        animLogo.setVisibility(View.VISIBLE);
+        utl.animate_avd(animLogo);
+
         loginService = new LoginService(this);
         loginService.getLoggedInUser(new GenricObjectCallback<GenricUser>() {
             @Override
@@ -64,9 +69,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void animateAndHome(boolean navToHomeAuto) {
-        ImageView animLogo = findViewById(R.id.animLogo);
-        animLogo.setVisibility(View.VISIBLE);
-        utl.animate_avd(animLogo);
+
         if (navToHomeAuto)
         {
             animLogo.postDelayed(() -> {

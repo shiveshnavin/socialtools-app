@@ -132,6 +132,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_ham);
         logo = findViewById(R.id.logo);
+        logo.setOnClickListener(v->{
+            finish();
+        });
 
     }
 

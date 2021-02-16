@@ -9,14 +9,29 @@ public class Constants {
 
     public static final String KEY_PROVIDERTOKEN = "providertoken";
 
+
+    public static String HOST="https://dotpot.herokuapp.com";
     public static String u(String endpoint){
         return HOST+endpoint;
     }
 
-    public static String HOST="https://dotpot.herokuapp.com";
-    public static String API_USERS = HOST+"/api/users";
-    public static String API_CHECK_PHONE = HOST+"/api/users/checkphone";
-    public static String API_RESET_PASSWORD = HOST+"/api/users/resetpassword";
+
+
+    public static String API_USERS = "/api/users";
+    public static String API_CHECK_PHONE = "/api/users/checkphone";
+    public static String API_RESET_PASSWORD = "/api/users/resetpassword";
+
+
+
+    public static final String API_CREATE_TXN = "/pay/api/createTxn";
+    public static final String API_CHECK_TXN = "/pay/api/status";
+    public static String API_WALLET(String userId) {
+        return u("/api/users/"+userId+"/wallet");
+    }
+    public static String API_TRANSACTIONS(String userId,String txnType) {
+        return u("/api/transactions/user/"+userId+"?txnType="+txnType);
+    }
+
 
     public static final String API_UPLOAD_IMAGE = "/api/image";
 
@@ -47,6 +62,9 @@ public class Constants {
     public static int TRANSITION_VERTICAL = 1;
     public static int TRANSITION_HORIZONTAL = -1;
     public static int TRANSITION_NONE = 0;
+
+    public static final String TXN_SUCCESS = "TXN_SUCCESS";
+    public static final String TXN_FAILURE = "TXN_FAILURE";
 
 
 }

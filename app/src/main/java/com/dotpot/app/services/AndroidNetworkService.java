@@ -1,5 +1,7 @@
 package com.dotpot.app.services;
 
+import android.util.Base64;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -12,6 +14,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.dotpot.app.BuildConfig;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.CacheUtil;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
@@ -39,7 +42,7 @@ public class AndroidNetworkService implements NetworkService {
     String providerToken = "";
     String appVersionCode = "" + BuildConfig.VERSION_CODE;
     CacheUtil cacheUtil;
-
+    String authHeader = null;
 
     public AndroidNetworkService(BaseActivity act, GenricUser user) {
         this.act = act;
@@ -58,6 +61,18 @@ public class AndroidNetworkService implements NetworkService {
             e.printStackTrace();
         }
 
+
+
+    }
+
+    public String getBasicAuthHeader(){
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if(user!=null){
+            authHeader = ""+user.getId()+":"+user.getPassword();
+            authHeader = Base64.encodeToString(authHeader.getBytes(),Base64.DEFAULT).trim();
+            authHeader = "Basic "+authHeader;
+        }
+        return authHeader;
     }
 
     public static String convertWithIteration(Map<String, Integer> map) {
@@ -103,6 +118,7 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.get(url)
                 .addHeaders("accesstoken", accessToken)
+                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
                 .addHeaders("firebasetoken", firebaseAuthToken)
                 .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
@@ -144,6 +160,7 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.get(url)
                 .addHeaders("accesstoken", accessToken)
+                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
                 .addHeaders("firebasetoken", firebaseAuthToken)
                 .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
@@ -217,6 +234,7 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, null);
         AndroidNetworking.post(url)
                 .addHeaders("accesstoken", accessToken)
+                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
                 .addHeaders("firebasetoken", firebaseAuthToken)
                 .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
@@ -264,6 +282,7 @@ public class AndroidNetworkService implements NetworkService {
         recordUse(url, body.toString());
         AndroidNetworking.post(url)
                 .addHeaders("accesstoken", accessToken)
+                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
                 .addHeaders("firebasetoken", firebaseAuthToken)
                 .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)
@@ -306,6 +325,7 @@ public class AndroidNetworkService implements NetworkService {
         utl.e("CallPost Upload", file.length());
         AndroidNetworking.upload(Constants.HOST + Constants.API_UPLOAD_IMAGE)
                 .addHeaders("accesstoken", accessToken)
+                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
                 .addHeaders("firebasetoken", firebaseAuthToken)
                 .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
                 .addHeaders("version", appVersionCode)

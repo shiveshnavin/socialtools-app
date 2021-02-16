@@ -17,6 +17,13 @@
     </style>
 
 
+    <style name="MyWebView" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
     <style name="FullScreen"    parent="Theme.AppCompat.NoActionBar">
 
 

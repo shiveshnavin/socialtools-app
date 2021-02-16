@@ -1196,7 +1196,20 @@ public class utl {
 
     public static void diagBottom(Context ctx, String text) {
 
-        diagBottom(ctx, "", text, true, "DISMISS", new GenricCallback() {
+        diagBottom(ctx,"",text);
+    }
+
+
+    public static void diagBottom(Context ctx,String title, String text) {
+
+        diagBottom(ctx,title,text,null);
+
+    }
+
+
+    public static void diagBottom(Context ctx,String title, String text,@DrawableRes Integer icon) {
+
+        diagBottom(ctx, title, text, true, ctx.getString(R.string.dismiss),icon, new GenricCallback() {
             @Override
             public void onStart() {
 
@@ -1204,7 +1217,11 @@ public class utl {
         });
     }
 
-    public static void diagBottom(Context ctx, String title, String text, boolean cancellableOnTouchOutside, String actionText, final GenricCallback callback) {
+
+    public static void diagBottom(Context ctx, String title, String text, boolean cancellableOnTouchOutside, String actionText,final GenricCallback callback){
+        diagBottom(ctx,title,text,cancellableOnTouchOutside,actionText,null,callback);
+    }
+    public static void diagBottom(Context ctx, String title, String text, boolean cancellableOnTouchOutside, String actionText,@DrawableRes Integer icon, final GenricCallback callback) {
         final BottomSheetDialog mBottomSheetDialog;
         ;
 
@@ -1215,8 +1232,11 @@ public class utl {
         sheetView.setBackgroundColor(ResourceUtils.getColor(R.color.colorBackgroundLighter));
         final TextView textT = (TextView) sheetView.findViewById(R.id.text);
         final TextView titleT = (TextView) sheetView.findViewById(R.id.title);
+        final ImageView iconView = sheetView.findViewById(R.id.icon);
         textT.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
         titleT.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
+        if(icon!=null)
+         iconView.setImageResource(icon);
 
         Button done = (Button) sheetView.findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {

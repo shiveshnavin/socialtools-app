@@ -60,4 +60,8 @@
         <key>email</key>
         <value>admin@juntos.com</value>
     </entry>
+    <entry>
+        <key>PRODUCT_NAME</key>
+        <value>Credits</value>
+    </entry>
 </defaultsMap>

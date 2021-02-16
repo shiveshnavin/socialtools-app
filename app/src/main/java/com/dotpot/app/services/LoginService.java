@@ -40,6 +40,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static com.dotpot.app.Constants.*;
+
 public class LoginService {
 
     public static int RC_SIGN_UP = 1001;
@@ -125,7 +127,7 @@ public class LoginService {
         } catch (Exception e) {
         }
 
-        networkService.callPost(Constants.API_USERS
+        networkService.callPost(Constants.u(Constants.u(API_USERS))
                 , jop, false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
@@ -146,7 +148,7 @@ public class LoginService {
 
         utl.setKey(Constants.KEY_PROVIDERTOKEN, providertoken, ctx);
         networkService.updateTokens(providertoken, providertoken);
-        networkService.callPost(Constants.API_USERS, new JSONObject(), false, new NetworkRequestCallback() {
+        networkService.callPost(Constants.u(API_USERS), new JSONObject(), false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
@@ -274,7 +276,7 @@ public class LoginService {
 
     public void commitTemporaryUserToServer(GenricObjectCallback<GenricUser> cb) {
 
-        networkService.callPost(Constants.API_USERS, getTempGenricUser(), false, new NetworkRequestCallback() {
+        networkService.callPost(Constants.u(API_USERS), getTempGenricUser(), false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
@@ -309,7 +311,7 @@ public class LoginService {
         } catch (Exception e) {
         }
 
-        networkService.callPost(Constants.API_USERS + "/" +
+        networkService.callPost(Constants.u(API_USERS) + "/" +
                         getTempGenricUser().getId()
                 , jop, false, new NetworkRequestCallback() {
                     @Override
@@ -329,7 +331,7 @@ public class LoginService {
     public void checkPhoneExists(String phoneNumber, GenricDataCallback genricDataCallback) {
 
 
-        networkService.callGet(Constants.API_CHECK_PHONE + "?phone=" + URLEncoder.encode(phoneNumber)
+        networkService.callGet(Constants.u(Constants.API_CHECK_PHONE) + "?phone=" + URLEncoder.encode(phoneNumber)
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
@@ -363,7 +365,7 @@ public class LoginService {
                 emailPhone = ccode + emailPhone;
             suffix = "phone="+URLEncoder.encode(emailPhone);
         }
-        networkService.callGet(Constants.API_RESET_PASSWORD + "?"+suffix
+        networkService.callGet(Constants.u(Constants.API_RESET_PASSWORD) + "?"+suffix
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {

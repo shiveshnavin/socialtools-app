@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/img"
         android:text="@string/request_complete"
-        android:textColor="@color/grey_800"
+        android:textColor="@color/colorTextPrimary"
         android:fontFamily="@font/font_subtext"
         android:id="@+id/text"
         android:paddingTop="3dp"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:textColor="@color/accent"
+        android:textColor="@color/colorIcon"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"

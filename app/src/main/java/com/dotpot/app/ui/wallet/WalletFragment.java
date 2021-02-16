@@ -11,13 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
+import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.Transaction;
+import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
@@ -101,16 +102,25 @@ public class WalletFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        walletViewModel =
-                new ViewModelProvider(this).get(WalletViewModel.class);
+        walletViewModel = WalletViewModel.getInstance();
         View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         findViews(root);
         if (act.fragmentManager.getBackStackEntryCount() > 0)
             act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-        walletViewModel.getText().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
+        walletViewModel.refresh(act);
+        walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
+        walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
         return root;
+    }
+
+    private void setUpWallet(Wallet wallet) {
+
+        walletBalance.setText(""+wallet.getCreditBalance());
+        awardBal.setText(getString(R.string.award_bal)+getString(R.string.currency)+" "+wallet.getWinningBalance());
+        awardBal.setText(getString(R.string.ref_bal)+getString(R.string.currency)+" "+wallet.getAggReferralBalance());
+
     }
 
     private void setUpTransactionsList(List<Transaction> transactionsList){
@@ -123,6 +133,9 @@ public class WalletFragment extends BaseFragment {
                 final CustomViewHolder vh = (CustomViewHolder)viewHolder;
                 final Transaction transaction = transactionsList.get(pos);
                 vh.textView(R.id.txnId).setText("ID #"+transaction.getId());
+                vh.textView(R.id.txnAmtTxt).setText(getString(R.string.currency)+" "+transaction.getAmount());
+                vh.textView(R.id.txnStatusTxt).setText(transaction.getStatus());
+
             }
         };
 

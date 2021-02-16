@@ -1,7 +1,11 @@
 package com.dotpot.app.ui;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -9,18 +13,20 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.utl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends BaseActivity {
 
     NavController navController;
+    BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         setUpToolbar();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -48,6 +54,25 @@ public class HomeActivity extends BaseActivity {
             }
         } else {
             getSupportFragmentManager().popBackStack();
+        }
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode == WebViewActivity.REQUEST_PAYMENT && resultCode == Activity.RESULT_OK){
+            utl.diagInfo(navView, getString(R.string.payment_success), getString(R.string.wallet_updated), R.drawable.ic_done_tick, new utl.ClickCallBack() {
+                @Override
+                public void done(DialogInterface dialogInterface) {
+
+                }
+            });
+            WalletViewModel.getInstance().refresh(act);
+            navController.navigate(R.id.navigation_wallet);
         }
 
     }

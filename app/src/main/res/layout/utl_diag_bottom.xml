@@ -22,6 +22,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         >
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/ic_info_about_48dp"

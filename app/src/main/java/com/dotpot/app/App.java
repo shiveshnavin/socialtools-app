@@ -63,7 +63,7 @@ public class App extends Application {
 
         Constants.HOST=mFirebaseRemoteConfig.getString("host");
         if(Constants.HOST.length() < 10){
-            Constants.HOST="http://host.appspot.com";
+            Constants.HOST="https://dotpot.herokuapp.com";
         }
 
         switchApp(BuildConfig.DEBUG);
@@ -79,9 +79,9 @@ public class App extends Application {
 
         if (isDebugApk) {
 
-            Constants.HOST="https://host.herokuapp.com";
+            Constants.HOST="https://dotpot.herokuapp.com";
         }else {
-            Constants.HOST="https://host.uc.r.appspot.com";
+            Constants.HOST="https://dotpot.herokuapp.com";
         }
     }
 
