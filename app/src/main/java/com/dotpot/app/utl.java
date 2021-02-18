@@ -1438,11 +1438,12 @@ public class utl {
 
     }
 
-    public static Dialog diagInfo(View anchor, String text, String actionText, int drawableIcon, final ClickCallBack click) {
+    public static Dialog diagInfo(View anchor, String text, String secondaryActionText, int drawableIcon, final ClickCallBack click) {
 
         final View dialogView = View.inflate(anchor.getContext(), R.layout.utl_diag_success, null);
         CircularRevealPopup popup = new CircularRevealPopup(anchor.getContext(), anchor, dialogView);
-        Dialog d = popup.popup();
+        Dialog d = popup.popup(isEmpty(secondaryActionText));
+
         TextView stText = dialogView.findViewById(R.id.text);
         Button done = dialogView.findViewById(R.id.done);
         ImageView img = dialogView.findViewById(R.id.img);
@@ -1453,8 +1454,8 @@ public class utl {
       /*  RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(dialogView.getWidth(),dialogView.getWidth());
         img.setLayoutParams(params);
 */
-        if (actionText != null)
-            done.setText(actionText);
+        if (secondaryActionText != null)
+            done.setText(secondaryActionText);
 
         if (text != null)
             stText.setText(text);
@@ -1465,7 +1466,6 @@ public class utl {
                 click.done(d);
             });
         }
-
 
         return d;
 

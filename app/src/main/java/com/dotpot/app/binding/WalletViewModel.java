@@ -31,7 +31,7 @@ public class WalletViewModel extends ViewModel {
         return instance;
     }
 
-    public void refresh() {
+    public void refresh(String debitOrCredit) {
         restApi.getWallet(new GenricObjectCallback<Wallet>() {
                 @Override
                 public void onEntity(Wallet wallet) {
@@ -45,7 +45,7 @@ public class WalletViewModel extends ViewModel {
                 }
             });
 
-        restApi.getTransactions("",new GenricObjectCallback<Transaction>() {
+        restApi.getTransactions(debitOrCredit==null?"":debitOrCredit,new GenricObjectCallback<Transaction>() {
             @Override
             public void onEntitySet(ArrayList<Transaction> transactions) {
                 if (transactions != null)

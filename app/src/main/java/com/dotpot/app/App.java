@@ -78,9 +78,9 @@ public class App extends Application {
     public static void switchApp(boolean isDebugApk){
 
         if (isDebugApk) {
-            Constants.HOST="http://192.168.0.179:8080";
+//            Constants.HOST="http://192.168.0.179:8080";
 
-//            Constants.HOST="https://dotpot.herokuapp.com";
+            Constants.HOST="https://dotpot.herokuapp.com";
         }else {
             Constants.HOST="https://dotpot.herokuapp.com";
         }

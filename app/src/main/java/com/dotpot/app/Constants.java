@@ -29,7 +29,7 @@ public class Constants {
         return u("/api/users/"+userId+"/wallet");
     }
     public static String API_TRANSACTIONS(String userId,String txnType) {
-        return u("/api/transactions/user/"+userId+"?txnType="+txnType);
+        return u("/api/transactions/user/"+userId+"?debitOrCredit="+txnType);
     }
 
 

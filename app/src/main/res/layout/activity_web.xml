@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorBackgroundDark">
 
 
     <WebView
@@ -24,8 +24,8 @@
         android:layout_below="@+id/tool_cont"
         android:alpha="0"
         app:animationDuration="400"
-        app:gradientEndColor="@color/material_yellow_700"
-        app:gradientStartColor="@color/colorPrimary">
+        app:gradientEndColor="@color/colorPrimary"
+        app:gradientStartColor="@color/colorBackgroundDark">
 
     </com.dotpot.app.utils.GradientLoader>
 

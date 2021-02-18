@@ -20,6 +20,7 @@ import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utl;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -105,12 +106,30 @@ public class WalletFragment extends BaseFragment {
         walletViewModel = WalletViewModel.getInstance();
         View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         findViews(root);
-        if (act.fragmentManager.getBackStackEntryCount() > 0)
-            act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        try {
+            if (act.fragmentManager.getBackStackEntryCount() > 0)
+            {
+                act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        } catch (Exception e) {
+            utl.e("Minor err at WalletFragment:115");
+           // e.printStackTrace();
+        }
 
         walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
         walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
+
+        tabAll.setOnClickListener(v->{
+            walletViewModel.refresh(null);
+        });
+        tabCredit.setOnClickListener(v->{
+            walletViewModel.refresh("wallet_credit");
+        });
+        tabDebit.setOnClickListener(v->{
+            walletViewModel.refresh("wallet_debit");
+        });
+
         return root;
     }
 

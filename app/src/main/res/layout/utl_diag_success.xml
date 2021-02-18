@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:background="@color/colorBackground"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,14 +19,14 @@
 
 
     <TextView
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/img"
         android:text="@string/request_complete"
         android:textColor="@color/colorTextPrimary"
-        android:fontFamily="@font/font_subtext"
+        android:fontFamily="@font/font_style"
         android:id="@+id/text"
         android:paddingTop="3dp"
         android:layout_width="wrap_content"

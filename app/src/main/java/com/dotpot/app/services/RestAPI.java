@@ -165,7 +165,7 @@ public class RestAPI implements API {
     }
 
     @Override
-    public void getTransactions(String type, GenricObjectCallback<Transaction> cb) {
+    public void getTransactions(String debitOrCredit, GenricObjectCallback<Transaction> cb) {
         JSONObject jop=new JSONObject();
         GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
         if(user==null){
@@ -173,7 +173,7 @@ public class RestAPI implements API {
             return;
         }
 
-        networkService.callGet(Constants.API_TRANSACTIONS(user.getId(),type),  false, new NetworkRequestCallback() {
+        networkService.callGet(Constants.API_TRANSACTIONS(user.getId(),debitOrCredit),  false, new NetworkRequestCallback() {
             @Override
             public void onSuccessString(String response) {
 

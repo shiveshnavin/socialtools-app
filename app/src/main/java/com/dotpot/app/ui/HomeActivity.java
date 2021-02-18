@@ -1,7 +1,6 @@
 package com.dotpot.app.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -39,7 +38,7 @@ public class HomeActivity extends BaseActivity {
 
         GenericUserViewModel.getInstance()
                 .updateLocalAndNotify(getApplicationContext(), utl.readUserData());
-        WalletViewModel.getInstance().refresh();
+        WalletViewModel.getInstance().refresh(null);
     }
 
     @Override
@@ -66,13 +65,9 @@ public class HomeActivity extends BaseActivity {
 
 
         if(requestCode == WebViewActivity.REQUEST_PAYMENT && resultCode == Activity.RESULT_OK){
-            utl.diagInfo(navView, getString(R.string.payment_success), getString(R.string.wallet_updated), R.drawable.ic_done_tick, new utl.ClickCallBack() {
-                @Override
-                public void done(DialogInterface dialogInterface) {
+            utl.diagInfo(navView,  getString(R.string.wallet_updated),null, R.drawable.ic_done_tick, dialogInterface -> {
 
-                }
             });
-            WalletViewModel.getInstance().refresh();
             navController.navigate(R.id.navigation_wallet);
         }
 

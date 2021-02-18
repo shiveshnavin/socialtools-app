@@ -47,7 +47,7 @@ public class CircularRevealPopup   {
     {
         return container;
     }
-    public Dialog popup ( ){
+    public Dialog popup ( boolean showDismissBtn){
 
 
         final View dialogView = View.inflate(ctx, R.layout.utl_diag_circular_reveal,null);
@@ -65,6 +65,17 @@ public class CircularRevealPopup   {
                 revealShow(dialogView, false, dialog);
             }
         });
+
+//        if(!showDismissBtn){
+//            dialog.findViewById(R.id.dismiss).setVisibility(View.GONE);
+//        }else {
+//            dialog.findViewById(R.id.dismiss).setVisibility(View.VISIBLE);
+//        }
+
+        dialog.findViewById(R.id.dismiss).setOnClickListener(v->{
+            dismiss();
+        });
+
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override

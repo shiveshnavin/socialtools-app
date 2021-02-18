@@ -70,7 +70,7 @@ public class AddCreditFragment extends BaseFragment {
                             it.putExtra("title",getString(R.string.pay));
                             it.putExtra("orderId",response.optString("orderId"));
                             it.putExtra("url",response.optString("payurl"));
-                            startActivityForResult(it,WebViewActivity.REQUEST_PAYMENT);
+                            getActivity().startActivityForResult(it,WebViewActivity.REQUEST_PAYMENT);
 
                         }
 
