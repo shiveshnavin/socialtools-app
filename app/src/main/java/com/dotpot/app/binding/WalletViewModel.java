@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.dotpot.app.App;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
-import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.utl;
 
 import java.util.ArrayList;
@@ -18,18 +19,20 @@ public class WalletViewModel extends ViewModel {
     private static WalletViewModel instance;
     private MutableLiveData<Wallet> userWalletLive;
     private MutableLiveData<List<Transaction>> userTransactionsLive;
+    private static RestAPI restApi;
 
     public static WalletViewModel getInstance() {
         if (instance == null) {
             instance = new WalletViewModel();
             instance.userWalletLive = new MutableLiveData<>();
             instance.userTransactionsLive = new MutableLiveData<>();
+            restApi = RestAPI.getInstance(App.getAppContext());
         }
         return instance;
     }
 
-    public void refresh(BaseActivity ctx) {
-            ctx.restApi.getWallet(new GenricObjectCallback<Wallet>() {
+    public void refresh() {
+        restApi.getWallet(new GenricObjectCallback<Wallet>() {
                 @Override
                 public void onEntity(Wallet wallet) {
                     if (wallet != null)
@@ -42,11 +45,11 @@ public class WalletViewModel extends ViewModel {
                 }
             });
 
-        ctx.restApi.getTransactions("",new GenricObjectCallback<Transaction>() {
+        restApi.getTransactions("",new GenricObjectCallback<Transaction>() {
             @Override
-            public void onEntitySet(ArrayList<Transaction> wallet) {
-                if (wallet != null)
-                    userTransactionsLive.postValue(wallet);
+            public void onEntitySet(ArrayList<Transaction> transactions) {
+                if (transactions != null)
+                    userTransactionsLive.postValue(transactions);
             }
 
             @Override

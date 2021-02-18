@@ -1,9 +1,11 @@
 package com.dotpot.app.services;
 
+import android.content.Context;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -35,7 +37,7 @@ public class AndroidNetworkService implements NetworkService {
 
 
     public static HashMap<String, Integer> apiUsage;
-    BaseActivity act;
+    Context act;
     String accessToken;
     GenricUser user;
     String firebaseAuthToken = "";
@@ -44,14 +46,27 @@ public class AndroidNetworkService implements NetworkService {
     CacheUtil cacheUtil;
     String authHeader = null;
 
-    public AndroidNetworkService(BaseActivity act, GenricUser user) {
+    private static AndroidNetworkService instance;
+    public static NetworkService getInstance(Context applicationContext) {
+        if(instance == null){
+            instance = new AndroidNetworkService(applicationContext);
+        }
+        return instance;
+    }
+    
+    private AndroidNetworkService(Context act) {
         this.act = act;
-        this.accessToken = utl.requireNotNull(act.accessToken);
-        this.user = user;
+        this.accessToken = utl.requireNotNull(BaseActivity.accessToken);
+        GenericUserViewModel.getInstance().getUser().observeForever(new Observer<GenricUser>() {
+            @Override
+            public void onChanged(GenricUser u) {
+                user = u;
+            }
+        });
         cacheUtil = CacheService.getInstance();
         try {
             appVersionCode = "" + BuildConfig.VERSION_CODE;
-            firebaseAuthToken = act.getFirebaseToken(true);
+            firebaseAuthToken = BaseActivity.getFirebaseToken(true);
             if (utl.DEBUG_ENABLED) {
                 utl.e("Network", " Firebase token " + firebaseAuthToken);
                 utl.e("Network", " ProviderToken token " + providerToken);
@@ -64,6 +79,7 @@ public class AndroidNetworkService implements NetworkService {
 
 
     }
+
 
     public String getBasicAuthHeader(){
         GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
@@ -109,8 +125,7 @@ public class AndroidNetworkService implements NetworkService {
 
     @Override
     public void callGetString(String url, final boolean showLoading, final NetworkRequestCallback call) {
-        if (showLoading)
-            act.loadStart();
+        
         utl.e("CallGET", url);
         if (cacheUtil.getFromCache(url, call)) {
             return;
@@ -132,14 +147,12 @@ public class AndroidNetworkService implements NetworkService {
                 cacheUtil.putIntoCache(url, response);
                 call.onSuccessString(response);
 
-                if (showLoading)
-                    act.loadStop();
+                
             }
 
             @Override
             public void onError(ANError anError) {
-                if (showLoading)
-                    act.loadStop();
+                
                 utl.e("CallGET", anError.getErrorDetail());
                 utl.e("CallGET", anError.getErrorBody());
                 call.onFail(anError);
@@ -149,8 +162,7 @@ public class AndroidNetworkService implements NetworkService {
 
     @Override
     public void callGet(String url, final boolean showLoading, final NetworkRequestCallback call) {
-        if (showLoading)
-            act.loadStart();
+        
         utl.e("CallGET", url);
 
         if (cacheUtil.getFromCache(url, call)) {
@@ -180,14 +192,12 @@ public class AndroidNetworkService implements NetworkService {
                     // e.printStackTrace();
                 }
                 call.onSuccessString(response);
-                if (showLoading)
-                    act.loadStop();
+                
             }
 
             @Override
             public void onError(ANError anError) {
-                if (showLoading)
-                    act.loadStop();
+                
                 utl.e("CallGET", anError.getErrorDetail());
                 utl.e("CallGET", anError.getErrorBody());
                 call.onFail(anError);
@@ -217,8 +227,7 @@ public class AndroidNetworkService implements NetworkService {
     @Override
     public void callPostString(String url, JSONObject body, final boolean showLoading, final NetworkRequestCallback call) {
 
-        if (showLoading)
-            act.loadStart();
+        
 
 
         if (utl.DEBUG_ENABLED) {
@@ -247,14 +256,12 @@ public class AndroidNetworkService implements NetworkService {
                 cacheUtil.putIntoCache(url, body, response);
                 call.onSuccessString(response);
 
-                if (showLoading)
-                    act.loadStop();
+                
             }
 
             @Override
             public void onError(ANError anError) {
-                if (showLoading)
-                    act.loadStop();
+                
                 utl.e("CallGET", anError.getErrorDetail());
                 utl.e("CallGET", anError.getErrorBody());
                 call.onFail(anError);
@@ -265,8 +272,7 @@ public class AndroidNetworkService implements NetworkService {
     @Override
     public void callPost(String url, @NonNull JSONObject body, final boolean showLoading, final NetworkRequestCallback call) {
 
-        if (showLoading)
-            act.loadStart();
+        
 
 
         if (utl.DEBUG_ENABLED) {
@@ -303,14 +309,12 @@ public class AndroidNetworkService implements NetworkService {
                         }
                         call.onSuccessString(response);
 
-                        if (showLoading)
-                            act.loadStop();
+                        
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        if (showLoading)
-                            act.loadStop();
+                        
                         utl.e("CallPost", anError.getErrorDetail());
                         utl.e("CallPost", anError.getErrorBody());
                         call.onFail(anError);

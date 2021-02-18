@@ -1,5 +1,7 @@
 package com.dotpot.app.services;
 
+import android.content.Context;
+
 import com.androidnetworking.error.ANError;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
@@ -20,14 +22,27 @@ import org.json.JSONObject;
 
 public class RestAPI implements API {
 
-    BaseActivity act;
-    NetworkService service;
+    Context ctx;
+    NetworkService networkService;
     LocalAPIService localAPI;
 
-    public RestAPI(BaseActivity b)
+    private static RestAPI instance;
+
+    /***
+     *
+     * @param c Application Context {Context}
+     * @return
+     */
+    public static RestAPI getInstance(Context c){
+        if(instance==null)
+            instance=new RestAPI(c);
+        return instance;
+    }
+
+    private RestAPI(Context b)
     {
-        this.act = b;
-        service=b.netService;
+        this.ctx = b;
+        networkService=AndroidNetworkService.getInstance(b);
         localAPI=new LocalAPIService(b);
     }
 
@@ -42,28 +57,28 @@ public class RestAPI implements API {
         JSONObject jop=new JSONObject();
         GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
         if(user==null){
-            cb.onError(act.getString(R.string.err_pls_login));
+            cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
         try{
             jop.put("NAME",user.getName());
             jop.put("EMAIL",user.getEmail());
             jop.put("MOBILE_NO", user.getPhone());
-            jop.put("PRODUCT_NAME",act.mFirebaseRemoteConfig.getValue("PRODUCT_NAME"));
+            jop.put("PRODUCT_NAME", BaseActivity.mFirebaseRemoteConfig.getValue("PRODUCT_NAME"));
             jop.put("TXN_AMOUNT",amount);
 
         }catch(Exception e) {
             e.printStackTrace();
         }
 
-        service.callPost(Constants.u(Constants.API_CREATE_TXN), jop, false, new NetworkRequestCallback() {
+        networkService.callPost(Constants.u(Constants.API_CREATE_TXN), jop, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 if(response.has("payurl")){
                     cb.onEntity(response);
                 }
                 else {
-                    cb.onError(act.getString(R.string.error_msg));
+                    cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
@@ -92,14 +107,14 @@ public class RestAPI implements API {
             e.printStackTrace();
         }
 
-        service.callPost(Constants.u(Constants.API_CHECK_TXN), jop, false, new NetworkRequestCallback() {
+        networkService.callPost(Constants.u(Constants.API_CHECK_TXN), jop, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 if(response.has("status")){
                     cb.onEntity(response);
                 }
                 else {
-                    cb.onError(act.getString(R.string.error_msg));
+                    cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
@@ -121,19 +136,19 @@ public class RestAPI implements API {
         JSONObject jop=new JSONObject();
         GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
         if(user==null){
-            cb.onError(act.getString(R.string.err_pls_login));
+            cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
 
 
-        service.callGet(Constants.API_WALLET(user.getId()), false, new NetworkRequestCallback() {
+        networkService.callGet(Constants.API_WALLET(user.getId()), false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 if(response.has("creditBalance")){
                     cb.onEntity(new Gson().fromJson(response.toString(),Wallet.class));
                 }
                 else {
-                    cb.onError(act.getString(R.string.error_msg));
+                    cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
@@ -154,11 +169,11 @@ public class RestAPI implements API {
         JSONObject jop=new JSONObject();
         GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
         if(user==null){
-            cb.onError(act.getString(R.string.err_pls_login));
+            cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
 
-        service.callGet(Constants.API_TRANSACTIONS(user.getId(),type),  false, new NetworkRequestCallback() {
+        networkService.callGet(Constants.API_TRANSACTIONS(user.getId(),type),  false, new NetworkRequestCallback() {
             @Override
             public void onSuccessString(String response) {
 

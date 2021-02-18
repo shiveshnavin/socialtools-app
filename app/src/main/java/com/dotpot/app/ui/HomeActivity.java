@@ -39,6 +39,7 @@ public class HomeActivity extends BaseActivity {
 
         GenericUserViewModel.getInstance()
                 .updateLocalAndNotify(getApplicationContext(), utl.readUserData());
+        WalletViewModel.getInstance().refresh();
     }
 
     @Override
@@ -71,7 +72,7 @@ public class HomeActivity extends BaseActivity {
 
                 }
             });
-            WalletViewModel.getInstance().refresh(act);
+            WalletViewModel.getInstance().refresh();
             navController.navigate(R.id.navigation_wallet);
         }
 

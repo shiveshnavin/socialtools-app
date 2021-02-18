@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
+import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
@@ -97,6 +98,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final int REQ_UPLOAD_FILE = 1994;
     public static final int REQ_UPLOAD_LOCATION = 1995;
     public static String TAG = "BaseApp";
+    public static String accessToken;
+    public static DBService databaseHelper;
+    public static FirebaseAnalytics mfbanalytics;
+    public static FirebaseRemoteConfig mFirebaseRemoteConfig;
+    public static RestAPI restApi;
+    public static NetworkService netService;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -105,16 +112,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     public FirebaseAuth mAuth;
     public Context ctx;
     public BaseActivity act;
-    public String accessToken;
-    public DBService databaseHelper;
-    public FirebaseAnalytics mfbanalytics;
-    public FirebaseRemoteConfig mFirebaseRemoteConfig;
-    public RestAPI restApi;
     public ImageView logo;
     public GenricUser user;
     public View list;
     public Dialog lastDialog = null;
-    public NetworkService netService;
+    public InAppNavService inAppNavService;
+    public FragmentManager fragmentManager;
     boolean isActivityAlive = false;
     androidx.appcompat.widget.Toolbar toolbar;
     TextView titl;
@@ -124,15 +127,49 @@ public abstract class BaseActivity extends AppCompatActivity {
     ProgressDialog pd;
     TextAndContentPicker picker;
     ProgressDialog hideShow;
-    public InAppNavService inAppNavService;
-    public FragmentManager fragmentManager;
+
+    @NonNull
+    public static String getFirebaseToken(boolean ignoreExpiry) {
+
+        String toknjstr = utl.getKey("fb_token", App.getAppContext());
+        try {
+            JSONObject jo = new JSONObject(toknjstr);
+            long expiry = jo.getLong("expiry");
+            if (!ignoreExpiry && expiry < System.currentTimeMillis())
+                return "";
+            return jo.getString("token");
+        } catch (Exception e) {
+            utl.e("fb_token not present in cache");
+            return "";
+        }
+
+    }
+
+    public static String refreshAccessToken() {
+        try {
+
+            String jstr = mFirebaseRemoteConfig.getString("access_token");
+
+            if (jstr == null || jstr.length() < 2) {
+                jstr = utl.getKey("access_token", App.getAppContext());
+            }
+            JSONArray jsonArray = new JSONArray(jstr);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                accessToken = jsonArray.getString(i);
+            }
+            utl.setKey("access_token", jstr, App.getAppContext());
+        } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
+        }
+        return utl.requireNotNull(accessToken);
+    }
 
     public void setUpToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_ham);
         logo = findViewById(R.id.logo);
-        logo.setOnClickListener(v->{
+        logo.setOnClickListener(v -> {
             finish();
         });
 
@@ -173,12 +210,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         ctx = this;
         act = this;
         picker = new TextAndContentPicker(this, null);
-        databaseHelper = DBService.getInstance(getApplicationContext());
-        mfbanalytics = FirebaseAnalytics.getInstance(getApplicationContext());
-        netService = new AndroidNetworkService(this, user);
-        netService.setAccessToken(refreshAccessToken());
+
+        if (databaseHelper == null)
+            databaseHelper = DBService.getInstance(getApplicationContext());
+        if (mfbanalytics == null)
+            mfbanalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        if (netService == null)
+            netService = AndroidNetworkService.getInstance(getApplicationContext());
+        if (netService == null)
+            netService.setAccessToken(refreshAccessToken());
+        if (restApi == null)
+            restApi = RestAPI.getInstance(getApplicationContext());
+
+
         isActivityAlive = true;
-        restApi = new RestAPI(BaseActivity.this);
 
 
         //utl.e("access",accessToken);
@@ -198,7 +243,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void startLogout(){
+    public void startLogout() {
         utl.logout();
         Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
         finishAffinity();
@@ -241,23 +286,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return item;
     }
 
-    @NonNull
-    public String getFirebaseToken(boolean ignoreExpiry) {
-
-        String toknjstr = utl.getKey("fb_token", act);
-        try {
-            JSONObject jo = new JSONObject(toknjstr);
-            long expiry = jo.getLong("expiry");
-            if (!ignoreExpiry && expiry < System.currentTimeMillis())
-                return "";
-            return jo.getString("token");
-        } catch (Exception e) {
-            utl.e("fb_token not present in cache");
-            return "";
-        }
-
-    }
-
     private void updateUser(JSONObject jop) {
 
     }
@@ -277,25 +305,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
-
-    public String refreshAccessToken() {
-        try {
-
-            String jstr = mFirebaseRemoteConfig.getString("access_token");
-
-            if (jstr == null || jstr.length() < 2) {
-                jstr = utl.getKey("access_token", ctx);
-            }
-            JSONArray jsonArray = new JSONArray(jstr);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                accessToken = jsonArray.getString(i);
-            }
-            utl.setKey("access_token", jstr, ctx);
-        } catch (Exception e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
-        }
-        return utl.requireNotNull(accessToken);
     }
 
     public void updateFcm() {
@@ -583,7 +592,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         break;
                     case R.id.menu_logout:
 
-                      startLogout();
+                        startLogout();
                         break;
 
                 }

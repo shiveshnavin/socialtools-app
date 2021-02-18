@@ -108,7 +108,6 @@ public class WalletFragment extends BaseFragment {
         if (act.fragmentManager.getBackStackEntryCount() > 0)
             act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-        walletViewModel.refresh(act);
         walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
         walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));

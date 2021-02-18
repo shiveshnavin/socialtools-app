@@ -1,13 +1,14 @@
 package com.dotpot.app.services;
 
+import android.content.Context;
+
 import com.dotpot.app.interfaces.API;
-import com.dotpot.app.ui.BaseActivity;
 
 public class LocalAPIService implements API {
 
-    public BaseActivity ctx;
+    public Context ctx;
 
-    public LocalAPIService(BaseActivity ctx) {
+    public LocalAPIService(Context ctx) {
         this.ctx = ctx;
     }
 

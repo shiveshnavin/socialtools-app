@@ -25,10 +25,10 @@ public class GenericUserViewModel extends ViewModel {
         return instance;
     }
 
-    public void refresh(BaseActivity ctx) {
+    public void refresh() {
         GenricUser user = utl.readUserData();
         if (user != null) {
-            ctx.restApi.getGenricUser(user.getId(), new GenricObjectCallback<GenricUser>() {
+            BaseActivity.restApi.getGenricUser(user.getId(), new GenricObjectCallback<GenricUser>() {
                 @Override
                 public void onEntity(GenricUser data) {
                     genricUserLive.setValue(data);
