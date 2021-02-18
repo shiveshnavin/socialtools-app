@@ -356,18 +356,21 @@
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_all"
                 android:text="@string/all"
+                android:tag=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_credit"
                 android:text="@string/credit"
+                android:tag="wallet_credit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_debit"
                 android:text="@string/debit"
+                android:tag="wallet_debit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
