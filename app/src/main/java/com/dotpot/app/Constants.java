@@ -66,5 +66,9 @@ public class Constants {
     public static final String TXN_SUCCESS = "TXN_SUCCESS";
     public static final String TXN_FAILURE = "TXN_FAILURE";
 
+    public static final String TXN_TYPE_CREDIT = "wallet_credit";
+    public static final String TXN_TYPE_DEBIT = "wallet_debit";
+
+
 
 }

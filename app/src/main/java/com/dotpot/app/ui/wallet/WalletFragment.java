@@ -1,6 +1,7 @@
 package com.dotpot.app.ui.wallet;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,15 @@ import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class WalletFragment extends BaseFragment {
@@ -159,22 +163,42 @@ public class WalletFragment extends BaseFragment {
     private void setUpTransactionsList(List<Transaction> transactionsList) {
         showHideLoader.loaded();
 
-        adapter = new GenriXAdapter<Transaction>(getContext(), R.layout.row_transaction, transactionsList) {
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        Collections.sort(transactionsList, (t1,transaction) -> transaction.getTimeStamp().compareTo(t1.getTimeStamp()));
 
-                final int pos = viewHolder.getAdapterPosition();
-                final CustomViewHolder vh = (CustomViewHolder) viewHolder;
-                final Transaction transaction = transactionsList.get(pos);
-                vh.textView(R.id.txnId).setText("ID #" + transaction.getId());
-                vh.textView(R.id.txnAmtTxt).setText(getString(R.string.currency) + " " + transaction.getAmount());
-                vh.textView(R.id.txnStatusTxt).setText(transaction.getStatus());
+        if(adapter==null) {
+            adapter = new GenriXAdapter<Transaction>(getContext(), R.layout.row_transaction, transactionsList) {
+                @Override
+                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-            }
-        };
+                    final int pos = viewHolder.getAdapterPosition();
+                    final CustomViewHolder vh = (CustomViewHolder) viewHolder;
+                    final Transaction transaction = transactionsList.get(pos);
+                    vh.textView(R.id.txnId).setText(Html.fromHtml(getString(R.string.orderNo) + transaction.getId()));
+                    vh.textView(R.id.txnAmtTxt).setText(getString(R.string.currency) + " " + transaction.getAmount());
+                    vh.textView(R.id.txnStatusTxt).setText(transaction.getDisplayStatus());
 
-        listTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
-        listTransactions.setAdapter(adapter);
+                    vh.textView(R.id.txnAmtTxt).setTextColor(ResourceUtils.getColor(transaction.getStatusColor()));
+//                vh.textView(R.id.txnStatusTxt).setTextColor(ResourceUtils.getColor(transaction.getStatusColor()));
+                    vh.textView(R.id.txnDateTxt).setText(utl.getDateTime(new Date(transaction.getTimeStamp()), "hh:mm a dd MMM yyyy"));
+
+                    vh.imageView(R.id.txnIcon).setImageResource(transaction.getTxtTypeIcon());
+                    vh.textView(R.id.txnDetails).setText(transaction.getDescription());
+
+                    vh.base.setOnClickListener(view -> {
+                        utl.copyToClipBoard(String.format(getString(R.string.your_order_id), getString(R.string.app_name)),transaction.getId(),ctx);
+                    });
+
+                }
+            };
+
+            listTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+            listTransactions.setAdapter(adapter);
+        }
+        else {
+            adapter.itemList.clear();
+            adapter.itemList.addAll(transactionsList);
+            adapter.notifyDataSetChanged();
+        }
 
 
     }

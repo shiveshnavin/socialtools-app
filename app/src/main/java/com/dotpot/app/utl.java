@@ -164,15 +164,11 @@ public class utl {
 
     public static String getHtml(Context ctx, String text, @ColorRes int color) {
 
-        ;
-
         return "<font color=\"" + utl.getHexFromRes(
                 ctx.getResources(), color) + "\">" + text + "</font>";
     }
 
-    public static String getHtml(Context ctx, Object text) {
-
-        ;
+    public static String getHtml(Context ctx, String text) {
 
         return "<font color=\"" + utl.getHexFromRes(
                 ctx.getResources(), R.color.colorAccent) + "\">" + text + "</font>";
@@ -368,6 +364,17 @@ public class utl {
         ct.start();
     }
 
+    public static String toTitleCase(String givenString) {
+        String[] arr = givenString.split(" ");
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(Character.toUpperCase(arr[i].charAt(0)))
+                    .append(arr[i].substring(1)).append(" ");
+        }
+        return sb.toString().trim();
+    }
+
     public static String refineString(String red, String rep) {
         red = red.replaceAll("[^a-zA-Z0-9]", rep);
         return red;
@@ -393,11 +400,11 @@ public class utl {
         return android.util.Patterns.PHONE.matcher(phone).matches();
     }
 
-    public static void copyToClipBoard(String s, Context ctx) {
+    public static void copyToClipBoard(String title,String text, Context ctx) {
         ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("message", s);
+        ClipData clip = ClipData.newPlainText(title, text);
         clipboard.setPrimaryClip(clip);
-        utl.toast(ctx, "Copied to clipboard !");
+        utl.toast(ctx, ctx.getString(R.string.copied_to_clipboard));
     }
 
 

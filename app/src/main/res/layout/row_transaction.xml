@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_marginTop="5dp"
+    android:background="@drawable/bg_selector_dark">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/contTxnTypance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="20dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -22,45 +26,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="3dp"
-            android:fontFamily="@font/font_text"
-            android:text="ID #J78HS87"
+            android:fontFamily="@font/font_style"
+            android:text="Order No J78HS87"
             android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_subhead"
+            android:textSize="@dimen/text_head"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
-        <com.dotpot.app.views.RoundRectCornerImageView
-            android:id="@+id/expandIcon"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="5dp"
-            android:tint="@color/colorTextPrimary"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow"
-            app:layout_constraintTop_toTopOf="@+id/txnId"
-            app:layout_constraintBottom_toBottomOf="@+id/txnId"
-            app:layout_constraintLeft_toRightOf="@+id/txnId"
-            app:roundedCornerRadius="1" />
-
-
-
         <TextView
+            android:layout_marginTop="5dp"
             android:id="@+id/txnDateTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
             android:fontFamily="@font/font_text"
-            android:text="Credit   •   20 Dec 2020"
+            android:text="11:45 AM 20 Dec 2020"
             android:textColor="@color/colorTextSecondary"
             app:layout_constraintLeft_toRightOf="@+id/expandIcon"
             app:layout_constraintStart_toStartOf="@+id/txnId"
             app:layout_constraintTop_toBottomOf="@+id/txnId" />
 
 
+        <com.dotpot.app.views.RoundRectCornerImageView
+            android:layout_marginTop="15dp"
+            android:tint="@color/colorTextPrimary"
+            app:roundedCornerRadius="200"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/txnDateTxt"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/cash"
+            android:id="@+id/txnIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
 
 
         <TextView
@@ -69,28 +68,58 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
             android:fontFamily="@font/font_text"
-            android:text="₹ 50.99"
-            android:textSize="@dimen/text_head"
-            android:textColor="@color/colorTextSuccess"
             android:gravity="center_vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="₹ 50.99"
+            android:textColor="@color/colorTextSuccess"
+            android:textSize="@dimen/text_subhead"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_chainStyle="spread_inside"
-            />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+
         <TextView
+            android:layout_marginTop="15dp"
             android:id="@+id/txnStatusTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font_text"
-            android:text="Txn Success"
-            android:textColor="@color/colorTextSuccess"
+            android:fontFamily="@font/font_style"
             android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txnAmtTxt"
-            app:layout_constraintRight_toRightOf="@+id/txnAmtTxt"
-            app:layout_constraintVertical_chainStyle="spread_inside"
+            android:text="Txn Success"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/txnIcon"
+            app:layout_constraintTop_toTopOf="@+id/txnDateTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/txnIcon"
+            android:textSize="@dimen/text_subhead"
+            android:textColor="@color/colorTextPrimary"/>
+
+
+        <TextView
+            android:id="@+id/txnDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/font_text"
+            android:text="Your transaction for wallet add was successfull."
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/txnStatusTxt"
+            app:layout_constraintLeft_toLeftOf="@+id/txnStatusTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/txnIcon"
             />
 
+        <com.dotpot.app.views.RoundRectCornerImageView
+            android:id="@+id/expandIcon"
+            android:visibility="gone"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/right_arrow"
+            android:tint="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/txnId"
+            app:layout_constraintLeft_toRightOf="@+id/txnId"
+            app:layout_constraintTop_toTopOf="@+id/txnId"
+            app:roundedCornerRadius="1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

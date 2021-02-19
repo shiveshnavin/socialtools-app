@@ -97,5 +97,6 @@
     <string name="chat_start">! You can start chatting with</string>
     <string name="req_sent">Request sent to</string>
     <string name="quoted">quoted</string>
+    <string name="copied_to_clipboard">Copied to clipboard !</string>
 
 </resources>

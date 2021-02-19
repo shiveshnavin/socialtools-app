@@ -325,7 +325,7 @@ public class WebViewActivity extends BaseActivity {
         completed = true;
         clearTimer();
         setResult(Activity.RESULT_CANCELED, new Intent());
-        utl.diagBottom(ctx, getString(R.string.error), getString(R.string.error_msg_try_again) + " " + message, true, getString(R.string.confirm), this::finish);
+        utl.diagBottom(ctx, getString(R.string.error), getString(R.string.error_msg_try_again) + " " + message, true, getString(R.string.retry), this::finish);
     }
 
 

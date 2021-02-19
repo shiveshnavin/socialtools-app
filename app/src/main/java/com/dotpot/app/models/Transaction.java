@@ -1,5 +1,11 @@
 package com.dotpot.app.models;
 
+import androidx.annotation.DrawableRes;
+
+import com.dotpot.app.Constants;
+import com.dotpot.app.R;
+import com.dotpot.app.utils.ResourceUtils;
+import com.dotpot.app.utl;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -42,6 +48,10 @@ public class Transaction {
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("debitOrCredit")
+    @Expose
+    private String debitOrCredit;
+
 
     public String getPayeeId() {
         return payeeId;
@@ -139,4 +149,60 @@ public class Transaction {
         this.id = id;
     }
 
+    public String getDebitOrCredit() {
+        return debitOrCredit;
+    }
+
+    public void setDebitOrCredit(String debitOrCredit) {
+        this.debitOrCredit = debitOrCredit;
+    }
+
+    public int getStatusColor(){
+        switch (getStatus()){
+            case Constants
+                    .TXN_SUCCESS:
+                return R.color.colorTextSuccess;
+            case Constants
+                    .TXN_FAILURE:
+                return R.color.colorTextWarning;
+            default:
+                return R.color.colortext;
+        }
+    }
+
+    public @DrawableRes
+    int getTxtTypeIcon() {
+
+        if(getTxnType().contains("topup")){
+            return R.drawable.cash;
+        }
+        else if(getTxnType().contains("shop")){
+            return R.drawable.ic_logo;
+        }
+        else if(getTxnType().contains("withdraw")){
+            return R.drawable.withdraw;
+        }
+        else {
+            return R.drawable.gamepad_variant_outline;
+        }
+    }
+
+    public String getDescription(){
+        return utl.toTitleCase(getTxnType().replaceAll("_"," "));
+    }
+
+
+
+    public String getDisplayStatus() {
+
+        if(getStatus().contains(Constants.TXN_SUCCESS)){
+            return ResourceUtils.getString(R.string.txn_success);
+        }
+        else if(getStatus().contains(Constants.TXN_FAILURE)){
+            return ResourceUtils.getString(R.string.txn_failed);
+        }
+        else {
+            return ResourceUtils.getString(R.string.txn_initated);
+        }
+    }
 }

@@ -78,11 +78,15 @@
     <string name="pay">Pay</string>
     <string name="are_you_sure_back">Are you sure you want to cancel the transaction ?</string>
     <string name="confirm">Confirm</string>
-    <string name="txn_failed">The transaction failed !</string>
+    <string name="txn_failed">Transaction failed  </string>
     <string name="payment_success">Payment Success</string>
     <string name="wallet_updated">You transaction has completed successfully and your wallet balance has been updated .</string>
     <string name="award_bal">"Award Balance : "</string>
     <string name="ref_bal">"Total Referral Earnings : "</string>
+    <string name="orderNo">"Order No "</string>
+    <string name="txn_success">Transaction Successful</string>
+    <string name="txn_initated">Processing</string>
+    <string name="your_order_id">Your %s order id</string>
 
 
 </resources>
