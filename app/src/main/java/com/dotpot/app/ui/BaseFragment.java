@@ -40,14 +40,17 @@ public class BaseFragment extends Fragment {
             title.setText(titl);
     }
 
+    public void init(){
+        act = (BaseActivity) getActivity();
+        ctx = getContext();
+        navService = new InAppNavService(act);
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        act = (BaseActivity) getActivity();
-        ctx = getContext();
+        init();
         fragmentId = container.getId();
-        navService = new InAppNavService(act);
+
         View root = inflater.inflate(R.layout.fragment_blank, container, false);
         return root;
     }

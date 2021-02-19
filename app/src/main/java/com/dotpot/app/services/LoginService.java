@@ -27,7 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -40,7 +39,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static com.dotpot.app.Constants.*;
+import static com.dotpot.app.Constants.API_USERS;
 
 public class LoginService {
 
@@ -313,9 +312,6 @@ public class LoginService {
 
     public void sendOTP(String phoneNumber, long timeout, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
 
-        FirebaseAuthSettings firebaseAuthSettings = firebaseAuth.getFirebaseAuthSettings();
-//      todo  networkService.callGet("VERIFY phone not already exists");
-
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)
                         .setPhoneNumber(phoneNumber)
@@ -327,6 +323,11 @@ public class LoginService {
     }
 
     public void commitTemporaryUserToServer(GenricObjectCallback<GenricUser> cb) {
+
+        String fcmToken = utl.getKey("fcm_token",ctx);
+        if(fcmToken!=null){
+            getTempGenricUser().setFcmToken(fcmToken);
+        }
 
         networkService.callPost(Constants.u(API_USERS), getTempGenricUser(), false, new NetworkRequestCallback() {
             @Override
@@ -359,7 +360,10 @@ public class LoginService {
             } else {
                 cb.onError(ctx.getString(R.string.invalidinput));
             }
-
+            String fcmToken = utl.getKey("fcm_token",ctx);
+            if(fcmToken!=null){
+                jop.put("fcmToken",fcmToken);
+            }
         } catch (Exception e) {
         }
 

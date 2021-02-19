@@ -64,6 +64,7 @@ public class VerifyPhoneFragment extends BaseFragment {
         if (!LoginService.isValidPhone(phoneNumber)) {
             contentphone.setError(getString(R.string.invalidinput));
         } else {
+            login.setText(R.string.processing);
             act.loginService.checkPhoneExists(phoneNumber, new GenricDataCallback() {
 
                 @Override
@@ -74,7 +75,6 @@ public class VerifyPhoneFragment extends BaseFragment {
                         timeout = act.mFirebaseRemoteConfig.getLong("otp_timeout_sec");
                         login.setOnClickListener(null);
                         act.loginService.sendOTP(phoneNumber, timeout, callbacks);
-                        login.setText(R.string.processing);
 
                         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
@@ -96,6 +96,7 @@ public class VerifyPhoneFragment extends BaseFragment {
                         });
 
                     } else {
+                        login.setText(R.string.send_otp);
                         contentphone.setError(data1);
                     }
                 }
@@ -207,6 +208,8 @@ public class VerifyPhoneFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         act = (AccountActivity) getActivity();
+        init();
+
         View root = inflater.inflate(R.layout.fragment_phone, container, false);
         findViews(root);
 

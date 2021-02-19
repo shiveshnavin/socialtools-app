@@ -20,6 +20,7 @@ import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.tabs.TabItem;
@@ -61,14 +62,11 @@ public class WalletFragment extends BaseFragment {
     private TabItem tabCredit;
     private TabItem tabDebit;
     private RecyclerView listTransactions;
+    private View loader;
+    private ShowHideLoader showHideLoader;
 
-    /**
-     * Find the Views in the layout<br />
-     * <br />
-     * Auto-created on 2021-01-21 02:22:51 by Android Layout Finder
-     * (http://www.buzzingandroid.com/tools/android-layout-finder)
-     */
     private void findViews(View root) {
+        loader = root.findViewById(R.id.loader);
         contWalletBalancecont = (ConstraintLayout) root.findViewById(R.id.contWalletBalancecont);
         contWalletBalance = (LinearLayout) root.findViewById(R.id.contWalletBalance);
         currency = (TextView) root.findViewById(R.id.currency);
@@ -106,6 +104,8 @@ public class WalletFragment extends BaseFragment {
         walletViewModel = WalletViewModel.getInstance();
         View root = inflater.inflate(R.layout.fragment_wallet, container, false);
         findViews(root);
+        showHideLoader = ShowHideLoader.create().content(listTransactions).loader(loader);
+
         try {
             if (act.fragmentManager.getBackStackEntryCount() > 0) {
                 act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -118,10 +118,12 @@ public class WalletFragment extends BaseFragment {
         walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
         walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
+        showHideLoader.loading();
 
         tabTxns.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                showHideLoader.loading();
                 if (tab.getText().toString().contains(getString(R.string.credit))) {
                     walletViewModel.refresh("wallet_credit");
                 } else if (tab.getText().toString().contains(getString(R.string.debit))) {
@@ -150,11 +152,12 @@ public class WalletFragment extends BaseFragment {
 
         walletBalance.setText("" + wallet.getCreditBalance());
         awardBal.setText(getString(R.string.award_bal) + getString(R.string.currency) + " " + wallet.getWinningBalance());
-        awardBal.setText(getString(R.string.ref_bal) + getString(R.string.currency) + " " + wallet.getAggReferralBalance());
+        refBal.setText(getString(R.string.ref_bal) + getString(R.string.currency) + " " + wallet.getAggReferralBalance());
 
     }
 
     private void setUpTransactionsList(List<Transaction> transactionsList) {
+        showHideLoader.loaded();
 
         adapter = new GenriXAdapter<Transaction>(getContext(), R.layout.row_transaction, transactionsList) {
             @Override

@@ -52,6 +52,7 @@ public class SignupFragment extends BaseFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        init();
         act = (AccountActivity) getActivity();
         ctx = getActivity();
         View root = inflater.inflate(R.layout.fragment_signup, container, false);
