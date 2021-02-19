@@ -11,12 +11,17 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 
 public class SplashActivity extends BaseActivity {
 
@@ -50,7 +55,22 @@ public class SplashActivity extends BaseActivity {
         animLogo = findViewById(R.id.animLogo);
         animLogo.setVisibility(View.VISIBLE);
         utl.animate_avd(animLogo);
+        updateFcm();
+        String accessToken = utl.getKey("access_token",ctx);
+        if(accessToken!=null){
+            mFirebaseRemoteConfig.ensureInitialized().addOnCompleteListener(new OnCompleteListener<FirebaseRemoteConfigInfo>() {
+                @Override
+                public void onComplete(@NonNull Task<FirebaseRemoteConfigInfo> task) {
+                    refreshAccessToken();
+                    go();
+                }
+            });
+        }
+        else
+            go();
+    }
 
+    private void go(){
         loginService = new LoginService(this);
         loginService.getLoggedInUser(new GenricObjectCallback<GenricUser>() {
             @Override
@@ -67,7 +87,6 @@ public class SplashActivity extends BaseActivity {
             }
         });
     }
-
     private void animateAndHome(boolean navToHomeAuto) {
 
         if (navToHomeAuto)

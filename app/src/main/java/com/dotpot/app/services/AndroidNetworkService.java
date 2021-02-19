@@ -188,7 +188,7 @@ public class AndroidNetworkService implements NetworkService {
                     call.onSuccess(new JSONObject(response));
 
                 } catch (JSONException e) {
-                    utl.e("CallGet", "Error parsing Jsonobj , found JSOn array");
+                    //utl.e("CallGet", "Error parsing Jsonobj , found JSOn array");
                     // e.printStackTrace();
                 }
                 call.onSuccessString(response);

@@ -82,7 +82,7 @@
     <string name="payment_success">Payment Success</string>
     <string name="wallet_updated">You transaction has completed successfully and your wallet balance has been updated .</string>
     <string name="award_bal">"Award Balance : "</string>
-    <string name="ref_bal">"Referral Earnings : "</string>
+    <string name="ref_bal">"Total Referral Earnings : "</string>
 
 
 </resources>

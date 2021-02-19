@@ -73,6 +73,10 @@ public class ChangePasswordFragment extends BaseFragment {
                 contentpaswd2.setError(null);
             }
             login.setText(R.string.processing);
+            String fcmToken = utl.getKey("fcm_token",ctx);
+            if(fcmToken!=null){
+                act.loginService.getTempGenricUser().setFcmToken(fcmToken);
+            }
             act.loginService.commitPasswordAndPhone(
                     oldPasswd
                     ,newPasswd

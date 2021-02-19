@@ -59,4 +59,10 @@ public class GenericUserViewModel extends ViewModel {
 
     }
 
+    public void onlyIfPresent(GenricObjectCallback<GenricUser> cb){
+        if(getUser().getValue()!=null){
+            cb.onEntity(getUser().getValue());
+        }
+    }
+
 }

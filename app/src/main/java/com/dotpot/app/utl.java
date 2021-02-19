@@ -1641,13 +1641,6 @@ public class utl {
 
     }
 
-    public static String getFCMTOken() {
-
-        //  String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        //  return refreshedToken;
-        return "";
-    }
-
     public static void setKey(String k, String v, Context ctx) {
 
         utl.l("KEY SET Key:  -" + k + "- VAL: " + v);

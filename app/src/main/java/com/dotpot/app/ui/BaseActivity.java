@@ -13,7 +13,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +46,9 @@ import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricDataCallback;
+import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
 import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.ActionItem;
@@ -69,8 +70,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.imageviewer.StfalconImageViewer;
@@ -150,12 +150,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             String jstr = mFirebaseRemoteConfig.getString("access_token");
 
+            if(jstr==null || jstr.length()<5){
+                mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        if(mFirebaseRemoteConfig.getString("access_token")!=null)
+                         refreshAccessToken();
+                    }
+                });
+                return null;
+            }
             if (jstr == null || jstr.length() < 2) {
                 jstr = utl.getKey("access_token", App.getAppContext());
             }
             JSONArray jsonArray = new JSONArray(jstr);
             for (int i = 0; i < jsonArray.length(); i++) {
                 accessToken = jsonArray.getString(i);
+                break;
             }
             utl.setKey("access_token", jstr, App.getAppContext());
         } catch (Exception e) {
@@ -217,8 +228,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             mfbanalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         if (netService == null)
             netService = AndroidNetworkService.getInstance(getApplicationContext());
-        if (netService == null)
-            netService.setAccessToken(refreshAccessToken());
+        if (netService != null)
+        {
+            accessToken = refreshAccessToken();
+            netService.setAccessToken(accessToken);
+        }
         if (restApi == null)
             restApi = RestAPI.getInstance(getApplicationContext());
 
@@ -252,11 +266,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startHome() {
 
-        // TODO: 15/1/21 refactor
         startActivity(new Intent(ctx, HomeActivity.class));
+        finish();
+        GenericUserViewModel.getInstance().onlyIfPresent(new GenricObjectCallback<GenricUser>() {
+            @Override
+            public void onEntity(GenricUser data) {
+                FirebaseCrashlytics.getInstance().setUserId(data.getId());
+            }
+        });
+
 //
 //        user = utl.readUserData();
-//        FirebaseCrashlytics.getInstance().setUserId(user.getId());
 //        user = utl.readUserData();
 //
 //
@@ -309,31 +329,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void updateFcm() {
 
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        String token = task.getResult().getToken();
-                        user.setFcmToken(token);
-                        utl.writeUserData(user, ctx);
-                        JSONObject jop = new JSONObject();
-                        try {
-
-                            jop.put("fcmToken", user.getFcmToken());
-
-                        } catch (Exception e) {
-                        }
-                        updateUser(jop);
-
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    utl.setKey("fcm_token",token,ctx);
+                    GenricUser curUser =
+                    GenericUserViewModel.getInstance()
+                            .getUser().getValue();
+                    if(curUser!=null){
+                        curUser.setFcmToken(token);
                     }
                 });
-
     }
 
     public int getcolor(@ColorRes int r) {

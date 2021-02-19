@@ -57,7 +57,7 @@ public class LoginService {
     public LoginService(BaseActivity ctx) {
         this.ctx = ctx;
         inAppNavService = ctx.inAppNavService;
-        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = ctx.mAuth;
         networkService = ctx.netService;
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -124,6 +124,11 @@ public class LoginService {
                 return;
             }
 
+            String fcmToken = utl.getKey("fcm_token",ctx);
+            if(fcmToken!=null){
+                jop.put("fcmToken",fcmToken);
+            }
+
         } catch (Exception e) {
         }
 
@@ -148,7 +153,19 @@ public class LoginService {
 
         utl.setKey(Constants.KEY_PROVIDERTOKEN, providertoken, ctx);
         networkService.updateTokens(providertoken, providertoken);
-        networkService.callPost(Constants.u(API_USERS), new JSONObject(), false, new NetworkRequestCallback() {
+
+        JSONObject jop=new JSONObject();
+        try{
+
+            String fcmToken = utl.getKey("fcm_token",ctx);
+            if(fcmToken!=null){
+                jop.put("fcmToken",fcmToken);
+            }
+
+        }catch(Exception e)
+        {}
+
+        networkService.callPost(Constants.u(API_USERS), jop , false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 GenricUser genricUser = utl.js.fromJson(response.toString(), GenricUser.class);
@@ -210,7 +227,24 @@ public class LoginService {
                 } else {
                     GenricUser nonFirebaseLoginUser = utl.readUserData();
                     if (nonFirebaseLoginUser != null) {
-                        cb.onEntity(nonFirebaseLoginUser);
+                        emailPhoneLogin(nonFirebaseLoginUser.getEmail(), nonFirebaseLoginUser.getPassword(), new GenricObjectCallback<GenricUser>() {
+                            @Override
+                            public void onEntity(GenricUser data) {
+                                if(data!=null)
+                                {
+                                    cb.onEntity(data);
+                                    utl.writeUserData(data,ctx);
+                                }
+                                else {
+                                    cb.onError("Invalid Credentials ! Please login again .");
+                                }
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                cb.onError("An unexpected error occurred . "+message);
+                            }
+                        });
                     } else
                         cb.onError("No token found");
                 }
@@ -242,6 +276,24 @@ public class LoginService {
     }
 
     public void signInWithPhoneAuthCredential(AccountActivity act, PhoneAuthCredential credential, GenricObjectCallback<Task<AuthResult>> onVerificatoinComplete) {
+        FirebaseUser gloginUser = firebaseAuth.getCurrentUser();
+        if(gloginUser!=null){
+            gloginUser.linkWithCredential(credential).addOnCompleteListener(ctx, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        onVerificatoinComplete.onEntity(task);
+                    } else {
+                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            onVerificatoinComplete.onError(ResourceUtils.getString(R.string.invalidotp));
+                        } else {
+                            onVerificatoinComplete.onError(task.getException().getMessage());
+                        }
+                    }
+                }
+            });
+        }
+        else
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(act, new OnCompleteListener<AuthResult>() {
                     @Override
