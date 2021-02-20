@@ -39,6 +39,11 @@ public class HomeActivity extends BaseActivity {
         GenericUserViewModel.getInstance()
                 .updateLocalAndNotify(getApplicationContext(), utl.readUserData());
         WalletViewModel.getInstance().refresh(null);
+        if(!isNetworkAvailable()){
+            utl.diagInfo(navView, getString(R.string.no_network), getString(R.string.ok), R.drawable.error, dialogInterface -> {
+
+            });
+        }
     }
 
     @Override
@@ -72,4 +77,12 @@ public class HomeActivity extends BaseActivity {
         }
 
     }
+
+    public void processNavigation(Intent intent){
+
+
+
+    }
+
+
 }

@@ -89,14 +89,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/marginHomeDouble"
-                android:layout_marginTop="@dimen/marginHome"
+                android:layout_marginTop="@dimen/marginHomeDouble"
                 android:layout_marginRight="@dimen/marginHomeDouble"
                 android:layout_marginBottom="@dimen/marginHomeDouble"
                 android:background="@drawable/bg_selector_dark"
                 android:elevation="@dimen/default_elevation"
                 android:padding="@dimen/marginHomeDouble"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listItems">
+                app:layout_constraintTop_toBottomOf="@+id/contRef">
 
 
                 <TextView
@@ -108,7 +108,6 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/marginHome"
                     android:paddingRight="@dimen/marginHome"
-                    android:text="2"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_subhead"
                     app:layout_constraintRight_toRightOf="parent"
@@ -119,7 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_text"
-                    android:text="You have 2 new notifications !"
+                    android:layout_marginLeft="@dimen/marginHome"
+                    android:text="You have no new notifications !"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_subhead"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -133,13 +133,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/marginHomeDouble"
-                android:layout_marginTop="@dimen/marginHomeDouble"
+                android:layout_marginTop="@dimen/marginHome"
                 android:layout_marginRight="@dimen/marginHomeDouble"
                 android:layout_marginBottom="@dimen/marginHomeDouble"
                 android:background="@drawable/bg_selector_dark"
                 android:elevation="@dimen/default_elevation"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contNotif">
+                app:layout_constraintTop_toBottomOf="@+id/listItems">
 
 
                 <include layout="@layout/diag_refer" />
@@ -151,7 +151,10 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginHomeDouble"
+                android:layout_marginTop="@dimen/marginHomeDouble"
+                android:layout_marginBottom="@dimen/marginHomeDouble"
+                android:layout_marginRight="@dimen/marginHomeDouble"
+                android:layout_marginLeft="@dimen/marginHomeDouble"
                 android:background="@drawable/bg_selector_dark"
                 android:elevation="@dimen/default_elevation"
                 android:paddingLeft="@dimen/marginHomeDouble"
@@ -159,13 +162,14 @@
                 android:paddingRight="@dimen/marginHomeDouble"
                 android:paddingBottom="@dimen/marginHome"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contRef">
+                app:layout_constraintTop_toBottomOf="@+id/contNotif">
 
                 <TextView
                     android:id="@+id/weeklyLeaderboardtxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/marginHome"
+                    android:layout_marginLeft="@dimen/marginHome"
+                    android:layout_marginTop="@dimen/marginHomeDouble"
                     android:fontFamily="@font/font_text"
                     android:text="@string/weekly_leaderboard"
                     android:textColor="@color/colorTextPrimary"

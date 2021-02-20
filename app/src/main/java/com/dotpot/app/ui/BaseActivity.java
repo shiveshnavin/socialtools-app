@@ -62,7 +62,6 @@ import com.dotpot.app.services.DownloadOpenService;
 import com.dotpot.app.services.EventBusService;
 import com.dotpot.app.services.InAppNavService;
 import com.dotpot.app.services.RestAPI;
-import com.dotpot.app.ui.splash.SplashActivity;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.TextAndContentPicker;
 import com.dotpot.app.utl;

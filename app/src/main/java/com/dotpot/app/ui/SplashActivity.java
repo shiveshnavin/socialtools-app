@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.splash;
+package com.dotpot.app.ui;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,10 +14,10 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
-import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +25,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 
 public class SplashActivity extends BaseActivity {
 
+    ImageView animLogo;
     private TextView head;
     private TextView subhead;
     private LinearLayout bottomContSplash;
@@ -43,7 +44,7 @@ public class SplashActivity extends BaseActivity {
         login = (Button) findViewById(R.id.login);
 
     }
-    ImageView animLogo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,8 @@ public class SplashActivity extends BaseActivity {
         animLogo.setVisibility(View.VISIBLE);
         utl.animate_avd(animLogo);
         updateFcm();
-        String accessToken = utl.getKey("access_token",ctx);
-        if(accessToken!=null){
+        String accessToken = utl.getKey("access_token", ctx);
+        if (accessToken != null) {
             mFirebaseRemoteConfig.ensureInitialized().addOnCompleteListener(new OnCompleteListener<FirebaseRemoteConfigInfo>() {
                 @Override
                 public void onComplete(@NonNull Task<FirebaseRemoteConfigInfo> task) {
@@ -65,39 +66,38 @@ public class SplashActivity extends BaseActivity {
                     go();
                 }
             });
-        }
-        else
+        } else
             go();
     }
 
-    private void go(){
+    private void go() {
         loginService = new LoginService(this);
         loginService.getLoggedInUser(new GenricObjectCallback<GenricUser>() {
             @Override
             public void onEntity(GenricUser data) {
-                if (data != null && data.validate())
-                    animateAndHome(true);
-                else
-                    animateAndHome(false);
+                animateAndHome(data != null && data.validate());
             }
 
             @Override
             public void onError(String message) {
-                animateAndHome(false);
+
+                if (!isNetworkAvailable() && utl.readUserData() != null) {
+                    GenericUserViewModel.getInstance().getUser().postValue(utl.readUserData());
+                    animateAndHome(true);
+                } else
+                  animateAndHome(false);
             }
         });
     }
+
     private void animateAndHome(boolean navToHomeAuto) {
 
-        if (navToHomeAuto)
-        {
+        if (navToHomeAuto) {
             animLogo.postDelayed(() -> {
                 inAppNavService.startHome();
                 finish();
             }, 1000);
-        }
-        else
-        {
+        } else {
             utl.logout();
             animLogo.postDelayed(this::showButtoms, 1000);
         }

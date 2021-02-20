@@ -2,7 +2,6 @@ package com.dotpot.app.binding;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -44,7 +43,7 @@ public class GenericUserViewModel extends ViewModel {
         }
     }
 
-    public LiveData<GenricUser> getUser() {
+    public MutableLiveData<GenricUser> getUser() {
         return genricUserLive;
     }
 

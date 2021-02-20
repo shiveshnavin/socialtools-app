@@ -48,6 +48,9 @@ public class WalletViewModel extends ViewModel {
                 }
             });
 
+        if(debitOrCredit!=null && debitOrCredit.equals("skip"))
+            return;
+
         restApi.getTransactions(debitOrCredit==null?"":debitOrCredit,new GenricObjectCallback<Transaction>() {
             @Override
             public void onEntitySet(ArrayList<Transaction> transactions) {

@@ -32,6 +32,6 @@
     <dimen name="login_margin">40dp</dimen>
     <dimen name="filter_btn_margin">5dp</dimen>
 
-    <item name="zoom_from" format="float" type="dimen">0.98</item>
+    <item name="zoom_from" format="float" type="dimen">0.97</item>
     <item name="zoom_to" format="float" type="dimen">1.0</item>
 </resources>

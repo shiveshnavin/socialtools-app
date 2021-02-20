@@ -8,28 +8,28 @@ public class Wallet {
 
     @SerializedName("aggCreditLoaded")
     @Expose
-    private Long aggCreditLoaded;
+    private Float aggCreditLoaded;
     @SerializedName("userseq")
     @Expose
-    private Long userseq;
+    private Float userseq;
     @SerializedName("referrals")
     @Expose
     private String referrals;
     @SerializedName("creditBalance")
     @Expose
-    private Long creditBalance;
+    private Float creditBalance;
     @SerializedName("aggReferralBalance")
     @Expose
-    private Long aggReferralBalance;
+    private Float aggReferralBalance;
     @SerializedName("id")
     @Expose
     private String id;
     @SerializedName("winningBalance")
     @Expose
-    private Long winningBalance;
+    private Float winningBalance;
     @SerializedName("aggWinningBalance")
     @Expose
-    private Long aggWinningBalance;
+    private Float aggWinningBalance;
     @SerializedName("referralCode")
     @Expose
     private String referralCode;
@@ -40,19 +40,19 @@ public class Wallet {
     @Expose
     private String currency;
 
-    public Long getAggCreditLoaded() {
+    public Float getAggCreditLoaded() {
         return aggCreditLoaded;
     }
 
-    public void setAggCreditLoaded(Long aggCreditLoaded) {
+    public void setAggCreditLoaded(Float aggCreditLoaded) {
         this.aggCreditLoaded = aggCreditLoaded;
     }
 
-    public Long getUserseq() {
+    public Float getUserseq() {
         return userseq;
     }
 
-    public void setUserseq(Long userseq) {
+    public void setUserseq(Float userseq) {
         this.userseq = userseq;
     }
 
@@ -64,19 +64,19 @@ public class Wallet {
         this.referrals = referrals;
     }
 
-    public Long getCreditBalance() {
+    public Float getCreditBalance() {
         return creditBalance;
     }
 
-    public void setCreditBalance(Long creditBalance) {
+    public void setCreditBalance(Float creditBalance) {
         this.creditBalance = creditBalance;
     }
 
-    public Long getAggReferralBalance() {
+    public Float getAggReferralBalance() {
         return aggReferralBalance;
     }
 
-    public void setAggReferralBalance(Long aggReferralBalance) {
+    public void setAggReferralBalance(Float aggReferralBalance) {
         this.aggReferralBalance = aggReferralBalance;
     }
 
@@ -88,19 +88,19 @@ public class Wallet {
         this.id = id;
     }
 
-    public Long getWinningBalance() {
+    public Float getWinningBalance() {
         return winningBalance;
     }
 
-    public void setWinningBalance(Long winningBalance) {
+    public void setWinningBalance(Float winningBalance) {
         this.winningBalance = winningBalance;
     }
 
-    public Long getAggWinningBalance() {
+    public Float getAggWinningBalance() {
         return aggWinningBalance;
     }
 
-    public void setAggWinningBalance(Long aggWinningBalance) {
+    public void setAggWinningBalance(Float aggWinningBalance) {
         this.aggWinningBalance = aggWinningBalance;
     }
 

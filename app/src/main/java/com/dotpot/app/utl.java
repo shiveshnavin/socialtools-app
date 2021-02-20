@@ -62,6 +62,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
@@ -416,7 +417,7 @@ public class utl {
         ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ResourceUtils.getColor(rightTint)));
     }
 
-    public static String colorToHexNoAlpha(int color) {
+    public static String colorToHexNoAlpha(@ColorInt int color) {
         try {
             return
                     "#" + Integer.toHexString(color).toUpperCase().substring(2);
@@ -839,6 +840,16 @@ public class utl {
         DrawableCompat.setTint(imageView.getDrawable(), ContextCompat.getColor(ctx, res));
 
 
+    }
+
+    public static Drawable getDrawable(String name) {
+        try {
+            Context context = App.getAppContext();
+            int resourceId = context.getResources().getIdentifier(name, "drawable",context.getPackageName());
+            return context.getResources().getDrawable(resourceId);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Float dpFromPx(final Context context, final float px) {
@@ -1290,12 +1301,15 @@ public class utl {
         ;
 
 
-        mBottomSheetDialog = new BottomSheetDialog(ctx);
+        mBottomSheetDialog = new BottomSheetDialog(ctx,R.style.BottomSheetDialog);
         LayoutInflater inf = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View sheetView = inf.inflate(R.layout.utl_diag_bottom_list, null);
 
         final RecyclerView list = (RecyclerView) sheetView.findViewById(R.id.list);
         final TextView titleT = (TextView) sheetView.findViewById(R.id.title);
+
+        if(isEmpty(title))
+            titleT.setVisibility(View.GONE);
 
 
         Button done = (Button) sheetView.findViewById(R.id.done);
@@ -1307,6 +1321,9 @@ public class utl {
                 callback.onStart();
             }
         });
+        if(callback==null){
+            done.setVisibility(View.GONE);
+        }
 
         mBottomSheetDialog.setCanceledOnTouchOutside(cancellableOnTouchOutside);
 

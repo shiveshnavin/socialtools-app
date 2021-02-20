@@ -43,14 +43,17 @@ public class Constants {
     public static String C2C_EXIT=O2O+"_EXITED_";
     public static String V2V_VERIFIED=O2O+"_VERIFIED_";
 
-    public static String ACTION_HOME = "home";
-    public static String ACTION_LOGIN = "ACTION_LOGIN";
-    public static String ACTION_SIGNUP = "ACTION_SIGNUP";
-    public static String ACTION_ACCOUNT = "ACTION_ACCOUNT";
-    public static String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
-    public static String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
-    public static String ACTION_ADD_CREDITS = "ACTION_ADD_CREDITS";
-    public static String ACTION_REDEEM_OPTIONS = "ACTION_REDEEM_OPTIONS";
+    public static final String ACTION_HOME = "home";
+    public static final String ACTION_LOGIN = "ACTION_LOGIN";
+    public static final String ACTION_SIGNUP = "ACTION_SIGNUP";
+    public static final String ACTION_ACCOUNT = "ACTION_ACCOUNT";
+    public static final String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
+    public static final String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
+    public static final String ACTION_ADD_CREDITS = "ACTION_ADD_CREDITS";
+    public static final String ACTION_REDEEM_OPTIONS = "ACTION_REDEEM_OPTIONS";
+    public static final String ACTION_EARN_MONEY = "ACTION_EARN_MONEY";
+    public static final String ACTION_WITHDRAW = "ACTION_WITHDRAW";
+    public static final String ACTION_SHOP = "ACTION_SHOP";
 
     public final static String ATTACHMENT_TYPE_IMAGE = "Image";
     public final static String ATTACHMENT_TYPE_DOC = "Doc";
@@ -70,8 +73,5 @@ public class Constants {
 
 
     public static final String KEY_PROVIDERTOKEN = "providertoken";
-
-    public static final String BEHAVIOUR_SHOW_BALANCE = "BEHAVIOUR_SHOW_BALANCE";
-    public static final String BEHAVIOUR_SHOW_AWARDS = "BEHAVIOUR_SHOW_AWARDS";
 
 }

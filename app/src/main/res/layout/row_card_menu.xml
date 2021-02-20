@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:elevation="@dimen/default_elevation"
+    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:padding="@dimen/marginHomeDouble"
@@ -10,7 +11,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:gravity="center"
-    android:maxWidth="170dp"
+    android:maxWidth="200dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -56,26 +57,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_text"
-        android:maxLines="3"
+        android:maxLines="4"
         android:maxWidth="120dp"
-        android:minLines="3"
+        android:minLines="4"
         android:ellipsize="marquee"
         android:text="@string/help_award_bal"
         android:textColor="@color/colorTextSecondary"
         app:layout_constraintTop_toBottomOf="@+id/contWalletBalance" />
 
     <Button
-        android:layout_marginTop="@dimen/marginHome"
         android:paddingLeft="@dimen/marginHome"
         android:paddingRight="@dimen/marginHome"
         android:paddingTop="6dp"
-        android:paddingBottom="6dp"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourWalletBalanceTxt"
         android:theme="@style/Theme.DotPot.DarkGreen"
-        android:textColor="@color/colorTextSuccess"
+        android:textColor="@color/colorIcon"
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

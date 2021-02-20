@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="6dp"
+    android:id="@+id/contRefBalance"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:padding="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:background="@drawable/bg_selector_dark"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+
+
+    <LinearLayout
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_toRightOf="@+id/img"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/img"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="Referral Earnings : "
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_head"
+            />
+
+        <TextView
+            android:id="@+id/subTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="@string/help_withdraw"
+            android:textColor="@color/offwhite"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/img"
+            app:layout_constraintStart_toStartOf="@+id/txt"
+            app:layout_constraintTop_toBottomOf="@+id/txt" />
+
+    </LinearLayout>
+
+    <com.dotpot.app.views.RoundRectCornerImageView
+        android:id="@+id/img"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_info_about_48dp"
-        android:padding="2dp"
-        android:id="@+id/img"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:tint="@color/black" />
-
-
-
-    <TextView
-        android:layout_centerVertical="true"
-        android:text="@string/menu"
-        android:layout_toRightOf="@id/img"
-        android:id="@+id/txt"
-        android:layout_marginLeft="5dp"
-        android:padding="2dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/font_text"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
+        android:padding="@dimen/rounded_icon_radius"
+        android:src="@drawable/referral_bal"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundedCornerRadius="1" />
 
 
 </RelativeLayout>

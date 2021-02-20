@@ -54,7 +54,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_text"
-                    android:text="36.77"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_xxhead" />
 
@@ -214,7 +213,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="3dp"
                     android:fontFamily="@font/font_text"
-                    android:text="Award Balance : ₹ 1600"
+                    android:text="Award Balance : "
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_subhead"
                     app:layout_constraintLeft_toRightOf="@+id/awardBalIcon"
@@ -283,7 +282,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="3dp"
                     android:fontFamily="@font/font_text"
-                    android:text="Referral Earnings : ₹ 70"
+                    android:text="Referral Earnings : "
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_subhead"
                     app:layout_constraintLeft_toRightOf="@+id/refBalIcon"

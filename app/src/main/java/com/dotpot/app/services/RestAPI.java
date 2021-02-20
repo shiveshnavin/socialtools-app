@@ -214,21 +214,37 @@ public class RestAPI implements API {
         ArrayList<ActionItem> actionItems = new ArrayList<>();
 
         ActionItem actionShowWalletBalance = new ActionItem();
-        actionShowWalletBalance.actionType= ResourceUtils.getString(R.string.add_credits);
+        actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
+        actionShowWalletBalance.subTitle = ResourceUtils.getString(R.string.help_wallet_bal);
         actionShowWalletBalance.dateTime=System.currentTimeMillis();
         actionShowWalletBalance.id="balance";
-        actionShowWalletBalance.dataId=Constants.BEHAVIOUR_SHOW_BALANCE;
-        actionShowWalletBalance.actionType=Constants.ACTION_ADD_CREDITS;
+        actionShowWalletBalance.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+        actionShowWalletBalance.actionType =Constants.ACTION_ADD_CREDITS;
 
         actionItems.add(actionShowWalletBalance);
 
         ActionItem actionShowRewards = new ActionItem();
-        actionShowRewards.actionType=ResourceUtils.getString(R.string.redeem);
+        actionShowRewards.textAction =ResourceUtils.getString(R.string.redeem);
         actionShowRewards.dateTime=System.currentTimeMillis();
         actionShowRewards.id="redeem";
-        actionShowRewards.dataId=Constants.BEHAVIOUR_SHOW_AWARDS;
-        actionShowRewards.actionType=Constants.ACTION_REDEEM_OPTIONS;
+        actionShowRewards.subTitle = ResourceUtils.getString(R.string.help_award_bal);
+        actionShowRewards.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+        actionShowRewards.actionType =Constants.ACTION_REDEEM_OPTIONS;
 
+        actionItems.add(actionShowRewards);
+
+
+        ActionItem earnByAds = new ActionItem();
+        earnByAds.textAction =ResourceUtils.getString(R.string.get_started);
+        earnByAds.dateTime=System.currentTimeMillis();
+        earnByAds.id="earn";
+        earnByAds.title=ResourceUtils.getString(R.string.earn);
+        earnByAds.rightTop="skip";
+        earnByAds.subTitle = ResourceUtils.getString(R.string.help_earn_bal);
+        earnByAds.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+        earnByAds.actionType =Constants.ACTION_EARN_MONEY;
+
+        actionItems.add(earnByAds);
 
         actionItems.stream().forEach(actionItem -> actionItem.act=activity);
         cb.onEntitySet(actionItems);

@@ -44,11 +44,15 @@
     <string name="sampleusername">Bill Gates</string>
     <string name="your_wallet_balance">Your wallet balance</string>
     <string name="withdraw">Withdraw</string>
-    <string name="help_award_bal">Balance you can withdraw into you bank account .</string>
+    <string name="help_wallet_bal">Credits balance you can use to play games and win big rewards .</string>
+    <string name="help_award_bal">Reward Credits you can shop with or withdraw back to your bank account .</string>
     <string name="help_referral_bal">Earnings by referring app to your friends</string>
+    <string name="help_earn_bal">Earn credits by watching ads or doing simple actions .</string>
+    <string name="help_withdraw">Withdraw the rewarded balance to your bank account .</string>
+    <string name="help_shop">Use the rewards to redeem exciting coupons , merchandise and much more .</string>
     <string name="recent_transactions">Recent Transactions</string>
     <string name="add_credits">Add Credits</string>
-    <string name="help_add_money">Compete with other players using credits to win big awards . You can then withdraw the awarded credits to you bank account .</string>
+    <string name="help_add_money">Compete with other players using credits to win big awards . You can then use the awarded credits to shop exciting stuff or withdraw to you bank account .</string>
     <string name="all">All</string>
     <string name="credit">Credit</string>
     <string name="debit">Debit</string>
@@ -93,6 +97,10 @@
     <string name="enter_ref_code">Enter your friend\'s referral code</string>
     <string name="referral_message">Hey ! Checkout %s . It provides exciting and simple new ways to earn rewards . Use my referral code %s so that we both can get referral bonus ! Download %s</string>
     <string name="enter_details">Enter more details</string>
+    <string name="earn">Earn</string>
+    <string name="get_started">Get Started</string>
+    <string name="no_network">Network not available ! Could not establish a connection to the server . Please check your network connectivity and restart the app .</string>
+    <string name="shop">Shop</string>
 
 
 </resources>
