@@ -11,12 +11,11 @@
     <TextView
         android:textSize="@dimen/text_head"
         android:textStyle="bold"
-        android:paddingRight="15dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:textColor="@color/colorTextPrimary"
         android:id="@+id/rank"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +57,7 @@
     <TextView
         android:textStyle="bold"
         android:textColor="@color/colorTextPrimary"
-        android:id="@+id/editProfileTxt"
+        android:id="@+id/earnings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

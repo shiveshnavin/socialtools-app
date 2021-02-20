@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_text"
-            android:text="RX5CY"
+            android:text="RaaaaX5CY"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_subhead"
             android:drawablePadding="7dp"
@@ -92,11 +92,22 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_below="@+id/refTxt"
+            android:id="@+id/haveAcode"
+            android:fontFamily="@font/font_text"
+            android:textSize="@dimen/text_subhead"
+            android:text="@string/have_a_ref_code"
+            android:textColor="@color/colorAccentLight"
+           android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
 
         <Button
             android:gravity="center"
             android:drawableLeft="@drawable/ic_share_black_12dp"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/refActionCode"
             android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
@@ -105,8 +116,8 @@
             android:paddingBottom="6dp"
             android:textSize="@dimen/text_subhead"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_alignLeft="@+id/refActionCode"
+            app:layout_constraintLeft_toLeftOf="@+id/refActionCode"
             app:layout_constraintTop_toBottomOf="@+id/yourWalletBalanceTxt"
             android:theme="@style/Theme.DotPot.DarkGreen"
             android:id="@+id/addBtn"

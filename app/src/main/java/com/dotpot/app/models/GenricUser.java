@@ -33,6 +33,8 @@ public class GenricUser {
     private String dateofbirthLong;
     private String about;
 
+    private String rank;
+
     private String webIdToken;
     private boolean isAnonymous=true;
 
@@ -254,6 +256,15 @@ public class GenricUser {
 
     public void setWebIdToken(String webIdToken) {
         this.webIdToken = webIdToken;
+    }
+
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 
 

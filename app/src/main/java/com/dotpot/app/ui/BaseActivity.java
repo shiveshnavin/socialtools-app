@@ -47,6 +47,7 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.interfaces.API;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
@@ -102,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static DBService databaseHelper;
     public static FirebaseAnalytics mfbanalytics;
     public static FirebaseRemoteConfig mFirebaseRemoteConfig;
-    public static RestAPI restApi;
+    public static API restApi;
     public static NetworkService netService;
 
     static {

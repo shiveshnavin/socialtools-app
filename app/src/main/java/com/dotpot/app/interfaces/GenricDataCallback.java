@@ -7,7 +7,12 @@ package com.dotpot.app.interfaces;
 public interface GenricDataCallback {
 
 
-    public void onStart(String data1,int data2);
+    /**
+     * Generic data callback with success and failure code
+     * @param message The result message
+     * @param statusCode either 1 , -1 or 0
+     */
+    void onStart(String message,int statusCode);
 
 
 }

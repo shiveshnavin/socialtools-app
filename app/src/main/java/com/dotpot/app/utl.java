@@ -66,6 +66,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
@@ -914,8 +915,11 @@ public class utl {
 
 
     }
+    public static void snack(Activity act, @StringRes int t) {
+        snack(act,act.getString(t));
+    }
 
-    @SuppressWarnings("ResourceAsColor")
+        @SuppressWarnings("ResourceAsColor")
     public static void snack(Activity act, String t) {
 
         View rootView = act.getWindow().getDecorView().getRootView();
@@ -1107,7 +1111,7 @@ public class utl {
 
         final BottomSheetDialog mBottomSheetDialog;
 
-        mBottomSheetDialog = new BottomSheetDialog(ctx);
+        mBottomSheetDialog = new BottomSheetDialog(ctx,R.style.BottomSheetDialog);
         LayoutInflater inf = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rootView = inf.inflate(R.layout.utl_diag_image_text, null);
 
@@ -1116,13 +1120,16 @@ public class utl {
         ImageView subImage;
         TextInputLayout contText;
         TextInputEditText subText;
-        ImageView done;
+        View done;
+        TextView headerText;
 
-        contImage = (LinearLayout) rootView.findViewById(R.id.cont_image);
-        subImage = (ImageView) rootView.findViewById(R.id.sub_image);
-        contText = (TextInputLayout) rootView.findViewById(R.id.cont_text);
-        subText = (TextInputEditText) rootView.findViewById(R.id.sub_text);
-        done = (ImageView) rootView.findViewById(R.id.done);
+        contImage = rootView.findViewById(R.id.cont_image);
+        subImage =   rootView.findViewById(R.id.sub_image);
+        contText =  rootView.findViewById(R.id.cont_text);
+        subText =  rootView.findViewById(R.id.sub_text);
+        done =   rootView.findViewById(R.id.done);
+        headerText =   rootView.findViewById(R.id.headerText);
+
 
         addPressReleaseAnimation(done);
 
@@ -1130,22 +1137,26 @@ public class utl {
             @Override
             public void onClick(View view) {
                 String value = subText.getText().toString();
-                textCb.onDone(value);
-                mBottomSheetDialog.dismiss();
+                if(isEmpty(value)){
+                    contText.setError(ResourceUtils.getString(R.string.invalidinput));
+                }
+                else {
+                    textCb.onDone(value);
+                    mBottomSheetDialog.dismiss();
+                }
             }
         });
 
         if (text != null)
             subText.setText(text);
         contText.setHint(hint);
+        headerText.setText(hint);
         subText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     {
-                        String value = subText.getText().toString();
-                        textCb.onDone(value);
-                        mBottomSheetDialog.dismiss();
+                        done.callOnClick();
 
                     }
                     return true;
@@ -1233,7 +1244,7 @@ public class utl {
         ;
 
 
-        mBottomSheetDialog = new BottomSheetDialog(ctx);
+        mBottomSheetDialog = new BottomSheetDialog(ctx,R.style.BottomSheetDialog);
         LayoutInflater inf = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View sheetView = inf.inflate(R.layout.utl_diag_bottom, null);
         sheetView.setBackgroundColor(ResourceUtils.getColor(R.color.colorBackgroundLighter));

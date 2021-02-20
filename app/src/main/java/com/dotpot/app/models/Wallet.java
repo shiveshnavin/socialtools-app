@@ -33,6 +33,9 @@ public class Wallet {
     @SerializedName("referralCode")
     @Expose
     private String referralCode;
+    @SerializedName("referredBy")
+    @Expose
+    private String referredBy;
     @SerializedName("currency")
     @Expose
     private String currency;
@@ -116,5 +119,14 @@ public class Wallet {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public String getReferredBy() {
+        return referredBy;
+    }
+
+    public void setReferredBy(String referredBy) {
+        this.referredBy = referredBy;
+    }
+
 
 }

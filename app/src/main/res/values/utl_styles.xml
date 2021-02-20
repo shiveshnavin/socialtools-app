@@ -111,6 +111,14 @@
         <item name="android:windowBackground">@color/colorBackground</item>
     </style>
 
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <declare-styleable name="GradientLoader">
         <attr name="animationDuration" format="integer"/>
         <attr name="gradientStartColor" format="color"/>

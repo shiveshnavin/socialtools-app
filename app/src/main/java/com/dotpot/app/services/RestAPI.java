@@ -7,17 +7,22 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.API;
+import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
 import com.dotpot.app.interfaces.NetworkService;
+import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class RestAPI implements API {
@@ -33,7 +38,7 @@ public class RestAPI implements API {
      * @param c Application Context {Context}
      * @return
      */
-    public static RestAPI getInstance(Context c){
+    public static API getInstance(Context c){
         if(instance==null)
             instance=new RestAPI(c);
         return instance;
@@ -44,6 +49,15 @@ public class RestAPI implements API {
         this.ctx = b;
         networkService=AndroidNetworkService.getInstance(b);
         localAPI=new LocalAPIService(b);
+    }
+
+    public static String getMessageFromANError(ANError job){
+        if(job.getErrorBody()!=null){
+            return (job.getErrorBody());
+        }
+        else {
+            return (job.getErrorDetail());
+        }
     }
 
     @Override
@@ -193,4 +207,80 @@ public class RestAPI implements API {
             }
         });
     }
+
+    @Override
+    public void getActionItems(BaseActivity activity, GenricObjectCallback<ActionItem> cb) {
+
+        ArrayList<ActionItem> actionItems = new ArrayList<>();
+
+        ActionItem actionShowWalletBalance = new ActionItem();
+        actionShowWalletBalance.actionType= ResourceUtils.getString(R.string.add_credits);
+        actionShowWalletBalance.dateTime=System.currentTimeMillis();
+        actionShowWalletBalance.id="balance";
+        actionShowWalletBalance.dataId=Constants.BEHAVIOUR_SHOW_BALANCE;
+        actionShowWalletBalance.actionType=Constants.ACTION_ADD_CREDITS;
+
+        actionItems.add(actionShowWalletBalance);
+
+        ActionItem actionShowRewards = new ActionItem();
+        actionShowRewards.actionType=ResourceUtils.getString(R.string.redeem);
+        actionShowRewards.dateTime=System.currentTimeMillis();
+        actionShowRewards.id="redeem";
+        actionShowRewards.dataId=Constants.BEHAVIOUR_SHOW_AWARDS;
+        actionShowRewards.actionType=Constants.ACTION_REDEEM_OPTIONS;
+
+
+        actionItems.stream().forEach(actionItem -> actionItem.act=activity);
+        cb.onEntitySet(actionItems);
+
+    }
+
+    @Override
+    public void getLeaderBoard(GenricObjectCallback<GenricUser> cb) {
+
+        ArrayList<GenricUser> leaderList = new ArrayList<>();
+        int N = 10;
+        while (N-- > 0) {
+            GenricUser leader = new GenricUser();
+            leader.setRank(""+(10-N));
+            leader.setId(utl.uid(10));
+            leader.setName(utl.uid(6)+" "+utl.uid(4));
+            leader.setAbout(""+utl.randomInt(3));
+            leader.setImage("https://i.pravatar.cc/"+leader.getAbout());
+            leaderList.add(leader);
+        }
+
+        cb.onEntitySet(leaderList);
+
+    }
+
+
+    @Override
+    public void redeemReferral(String referralCode, GenricDataCallback cb) {
+
+        JSONObject jop=new JSONObject();
+        try{
+
+            jop.put("referralCode",referralCode);
+
+        }catch(Exception e)
+        {}
+
+        networkService.callPost(Constants.u(Constants.API_REDEEM_REFERRAL), jop, false, new NetworkRequestCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                cb.onStart(response.optString("message"),1);
+            }
+
+            @Override
+            public void onFail(ANError job) {
+                cb.onStart(getMessageFromANError(job),-1);
+            }
+        });
+
+
+    }
+
+
+
 }

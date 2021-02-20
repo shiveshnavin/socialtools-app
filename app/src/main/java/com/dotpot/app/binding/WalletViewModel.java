@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dotpot.app.App;
+import com.dotpot.app.interfaces.API;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
@@ -14,12 +15,14 @@ import com.dotpot.app.utl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class WalletViewModel extends ViewModel {
 
     private static WalletViewModel instance;
     private MutableLiveData<Wallet> userWalletLive;
     private MutableLiveData<List<Transaction>> userTransactionsLive;
-    private static RestAPI restApi;
+    private static API restApi;
 
     public static WalletViewModel getInstance() {
         if (instance == null) {
@@ -31,7 +34,7 @@ public class WalletViewModel extends ViewModel {
         return instance;
     }
 
-    public void refresh(String debitOrCredit) {
+    public void refresh( @Nullable String debitOrCredit) {
         restApi.getWallet(new GenricObjectCallback<Wallet>() {
                 @Override
                 public void onEntity(Wallet wallet) {

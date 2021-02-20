@@ -7,9 +7,6 @@ package com.dotpot.app;
 public class Constants {
 
 
-    public static final String KEY_PROVIDERTOKEN = "providertoken";
-
-
     public static String HOST="https://dotpot.herokuapp.com";
     public static String u(String endpoint){
         return HOST+endpoint;
@@ -20,6 +17,7 @@ public class Constants {
     public static String API_USERS = "/api/users";
     public static String API_CHECK_PHONE = "/api/users/checkphone";
     public static String API_RESET_PASSWORD = "/api/users/resetpassword";
+    public static String API_REDEEM_REFERRAL = "/api/users/refer";
 
 
 
@@ -39,7 +37,7 @@ public class Constants {
 
     public static String[] userCategories = {"user", "moderator", "admin"};
     public static String[] attachmentTypes = {"Message", "Image","Delete","Exited"};
-    public static String[] userStatuses = {"ACTIVATED_USER","VERIFIED_STUDENT","VERIFIED_DOCTOR","ACTIVATED_ADMIN"};
+    public static String[] userStatuses = {"ACTIVATED_USER","VERIFIED_USER","VERIFIED_MODERATOR","ACTIVATED_ADMIN"};
     public static String O2O="o2o_chat___";
     public static String C2C_DELETE=O2O+"_DELETE_";
     public static String C2C_EXIT=O2O+"_EXITED_";
@@ -51,6 +49,8 @@ public class Constants {
     public static String ACTION_ACCOUNT = "ACTION_ACCOUNT";
     public static String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
     public static String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
+    public static String ACTION_ADD_CREDITS = "ACTION_ADD_CREDITS";
+    public static String ACTION_REDEEM_OPTIONS = "ACTION_REDEEM_OPTIONS";
 
     public final static String ATTACHMENT_TYPE_IMAGE = "Image";
     public final static String ATTACHMENT_TYPE_DOC = "Doc";
@@ -65,10 +65,13 @@ public class Constants {
 
     public static final String TXN_SUCCESS = "TXN_SUCCESS";
     public static final String TXN_FAILURE = "TXN_FAILURE";
-
     public static final String TXN_TYPE_CREDIT = "wallet_credit";
     public static final String TXN_TYPE_DEBIT = "wallet_debit";
 
 
+    public static final String KEY_PROVIDERTOKEN = "providertoken";
+
+    public static final String BEHAVIOUR_SHOW_BALANCE = "BEHAVIOUR_SHOW_BALANCE";
+    public static final String BEHAVIOUR_SHOW_AWARDS = "BEHAVIOUR_SHOW_AWARDS";
 
 }

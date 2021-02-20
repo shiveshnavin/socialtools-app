@@ -20,8 +20,8 @@
         android:bottom="10dp"/>
 
     <corners
-        android:topLeftRadius="20dp"
-        android:topRightRadius="20dp"   >
+        android:topLeftRadius="8dp"
+        android:topRightRadius="8dp"   >
     </corners>
 
 </shape>

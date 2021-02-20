@@ -64,4 +64,8 @@
         <key>PRODUCT_NAME</key>
         <value>Credits</value>
     </entry>
+    <entry>
+        <key>download_link</key>
+        <value>http://dotpot.herokuapp.com/</value>
+    </entry>
 </defaultsMap>

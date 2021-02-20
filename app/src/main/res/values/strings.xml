@@ -6,6 +6,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="digitsabcABC123">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890</string>
     <string name="digitsABC123.">abcdefghijklmnopqrstuvwxyz1234567890.</string>
     <string name="digits123">0123456789</string>
     <string name="digitsEmail">abcdefghijklmnopqrstuvwxyz1234567890@._</string>
@@ -63,9 +64,9 @@
     <string name="mygames">My Games</string>
     <string name="add">Add</string>
     <string name="error_msg">An unexpected error occurred ! </string>
+    <string name="error_msg_restart">An unexpected error occurred ! Please restart the App .</string>
     <string name="error_msg_try_again">There was an error processing your request ! Please try again later .</string>
     <string name="must_be18">You must be at least 18 years old to continue !</string>
-    <string name="invalidinput">Invalid input</string>
     <string name="invalidotp">Invalid OTP</string>
     <string name="retry">Retry</string>
     <string name="verify_otp">Verify OTP</string>
@@ -87,6 +88,11 @@
     <string name="txn_success">Transaction Successful</string>
     <string name="txn_initated">Processing</string>
     <string name="your_order_id">Your %s order id</string>
+    <string name="redeem">Redeem</string>
+    <string name="have_a_ref_code">Have a referral code ?</string>
+    <string name="enter_ref_code">Enter your friend\'s referral code</string>
+    <string name="referral_message">Hey ! Checkout %s . It provides exciting and simple new ways to earn rewards . Use my referral code %s so that we both can get referral bonus ! Download %s</string>
+    <string name="enter_details">Enter more details</string>
 
 
 </resources>
