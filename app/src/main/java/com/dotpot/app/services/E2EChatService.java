@@ -152,7 +152,7 @@ public class E2EChatService extends Service {
         utils.sendNotification(ctx, utl.NotificationMessage.TYPE_MESSAGE, 100,
                 chatMessage.getMsgTitle()
                 , "" + chatMessage.getRefinedMessage(), chatMessage.getDefaultImageUrl(), "messages",
-                intent, PendingIntent.FLAG_ONE_SHOT);
+                intent, PendingIntent.FLAG_ONE_SHOT, chatMessage);
 
 
     }

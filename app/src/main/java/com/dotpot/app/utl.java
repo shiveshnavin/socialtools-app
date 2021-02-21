@@ -67,6 +67,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -81,6 +82,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.GenericUserViewModel;
+import com.dotpot.app.binding.NotificationsViewModel;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.models.GenricUser;
@@ -2012,7 +2014,7 @@ public class utl {
                 className = intent.getComponent().getClassName();
             }
             else {
-                className = SplashActivity.class.toString();
+                className = SplashActivity.class.toString().replace("class ","");
             }
             // utl.e("NotifM","class "+className);
 
@@ -2041,6 +2043,7 @@ public class utl {
 
             utl.setKey("notifs", utl.js.toJson(notificationMessages), ctx);
 
+            NotificationsViewModel.getInstance().refresh();
 
         }
 
@@ -2143,11 +2146,14 @@ public class utl {
             return format.format(startDate);
         }
 
+        @Nullable
         public Intent getIntent(Context ctx) {
 
             Intent it = new Intent();
 
             String activityToStart = className;
+            if(utl.isEmpty(className) || className.length()<5)
+                return null;
             //  utl.e("NotifM","Class name searchc "+className);
             try {
                 Class<?> c = Class.forName(activityToStart);

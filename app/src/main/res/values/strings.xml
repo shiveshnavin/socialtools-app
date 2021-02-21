@@ -101,6 +101,9 @@
     <string name="get_started">Get Started</string>
     <string name="no_network">Network not available ! Could not establish a connection to the server . Please check your network connectivity and restart the app .</string>
     <string name="shop">Shop</string>
+    <string name="clear">Clear</string>
+    <string name="you_have_notifications">You have %s new notifications !</string>
+    <string name="no">no</string>
 
 
 </resources>

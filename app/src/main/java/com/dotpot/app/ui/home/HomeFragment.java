@@ -1,7 +1,11 @@
 package com.dotpot.app.ui.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,17 +18,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
+import com.dotpot.app.binding.NotificationsViewModel;
 import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.GenricUser;
@@ -37,7 +46,9 @@ import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
@@ -48,14 +59,16 @@ public class HomeFragment extends BaseFragment {
     private GenriXAdapter<ActionItem> actionAdapter;
     private GenriXAdapter<GenricUser> leaderBoardAdapter;
 
-
     private ImageView poster;
     private ImageView playIcon;
-    private TextView textHome;
+    private TextView text_home;
     private TextView bottomText;
     private ConstraintLayout contNotif;
     private TextView notifAction;
     private TextView notifTxt;
+    private LinearLayout contNotifList;
+    private RecyclerView notifList;
+    private TextView clearNotifs;
     private ConstraintLayout contRef;
     private TextView weeklyLeaderboardtxt;
     private RecyclerView listLeaderboard;
@@ -64,22 +77,26 @@ public class HomeFragment extends BaseFragment {
     /**
      * Find the Views in the layout<br />
      * <br />
-     * Auto-created on 2021-02-20 13:57:35 by Android Layout Finder
+     * Auto-created on 2021-02-21 15:51:52 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View root) {
         poster = (ImageView) root.findViewById(R.id.poster);
         playIcon = (ImageView) root.findViewById(R.id.playIcon);
-        textHome = (TextView) root.findViewById(R.id.text_home);
+        text_home = (TextView) root.findViewById(R.id.text_home);
         bottomText = (TextView) root.findViewById(R.id.bottomText);
         contNotif = (ConstraintLayout) root.findViewById(R.id.contNotif);
         notifAction = (TextView) root.findViewById(R.id.notifAction);
         notifTxt = (TextView) root.findViewById(R.id.notifTxt);
+        contNotifList = (LinearLayout) root.findViewById(R.id.contNotifList);
+        notifList = (RecyclerView) root.findViewById(R.id.notifList);
+        clearNotifs = (TextView) root.findViewById(R.id.clearNotifs);
         contRef = (ConstraintLayout) root.findViewById(R.id.contRef);
         weeklyLeaderboardtxt = (TextView) root.findViewById(R.id.weeklyLeaderboardtxt);
         listLeaderboard = (RecyclerView) root.findViewById(R.id.listLeaderboard);
         listItems = (RecyclerView) root.findViewById(R.id.listItems);
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -94,16 +111,22 @@ public class HomeFragment extends BaseFragment {
 
         final TextView textView = root.findViewById(R.id.text_home);
         WalletViewModel.getInstance().getWallet().observe(getViewLifecycleOwner(), wallet -> {
-            if(homeViewModel==null){
+            if (homeViewModel == null) {
                 homeViewModel =
                         new ViewModelProvider(HomeFragment.this).get(HomeViewModel.class);
                 homeViewModel.refresh(act);
-                homeViewModel.getActions().observe(getViewLifecycleOwner(), (result)->setUpActionList(result));
-                homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(),  (result)->setUpLeaderboardList(result));
+                homeViewModel.getActions().observe(getViewLifecycleOwner(), (result) -> setUpActionList(result));
+                homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), (result) -> setUpLeaderboardList(result));
             }
             setUpActionList(homeViewModel.getActions().getValue());
         });
 
+
+
+        NotificationsViewModel.getInstance().getNotifications()
+                .observe(getViewLifecycleOwner(),
+                this::setUpNotifications);
+        NotificationsViewModel.getInstance().refresh();
 
         final Animation press = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
         final Animation release = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
@@ -143,6 +166,76 @@ public class HomeFragment extends BaseFragment {
         return root;
     }
 
+    private void setUpNotifications(ArrayList<utl.NotificationMessage> notificationMessages) {
+
+
+        if(notificationMessages.size()>0){
+            notifTxt.setText(String.format(ResourceUtils.getString(R.string.you_have_notifications),notificationMessages.size()));
+//            notifAction.setText(""+notificationMessages.size());
+            notifAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(notifAction.getTag()==null)
+                    {
+                        setDrawable(notifAction,R.drawable.ic_arrow_down);
+//                        notifAction.setCompoundDrawables(ResourceUtils.getDrawable(R.drawable.ic_cancel_white),
+//                                null,null,null);
+                        notifAction.setTag("shown");
+                        showNotifications(NotificationsViewModel.getInstance().getNotifications().getValue());
+                    }
+                    else {
+                        setDrawable(notifAction,R.drawable.ic_notifications_black_24dp);
+//                        notifAction.setCompoundDrawables(ResourceUtils.getDrawable(R.drawable.ic_notifications_black_24dp),null,null,null);
+                        notifAction.setTag(null);
+                        hideNotifications();
+                    }
+
+
+                }
+
+            });
+            if(notificationMessageGenriXAdapter!=null)
+            {
+                notificationMessageGenriXAdapter.itemList.clear();
+                notificationMessageGenriXAdapter.itemList.addAll(notificationMessages);
+                notificationMessageGenriXAdapter.notifyDataSetChanged();
+            }
+            contNotif.setOnClickListener(view -> notifAction.callOnClick());
+            clearNotifs.setOnClickListener(view -> {
+                utl.NotificationMessage.deleteAll(getContext());
+                notifAction.callOnClick();
+                NotificationsViewModel.getInstance().refresh();
+                try {
+                    notificationMessageGenriXAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+        }
+        else {
+            notifAction.setOnClickListener(view1 -> {});
+            notifTxt.setText(String.format(ResourceUtils.getString(R.string.you_have_notifications),
+                    ResourceUtils.getString(R.string.no)));
+        }
+    }
+
+    private void setDrawable(TextView titleTextView,@DrawableRes int icon){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            Drawable leftDrawable = AppCompatResources
+                    .getDrawable(getContext(), icon);
+            titleTextView.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
+        }
+        else
+        {
+            //Safely create our VectorDrawable on pre-L android versions.
+            Drawable leftDrawable = VectorDrawableCompat
+                    .create(getContext().getResources(), icon, null);
+            titleTextView.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
+        }
+    }
     private void setUpActionList(List<ActionItem> actionList) {
 
         actionAdapter = new GenriXAdapter<ActionItem>(getContext(), R.layout.row_card_menu, actionList) {
@@ -174,14 +267,12 @@ public class HomeFragment extends BaseFragment {
                 if (!utl.isEmpty(item.rightTop)) {
                     vh.textView(R.id.currency)
                             .setText(item.rightTop);
-                    if(item.rightTop.equals("skip")){
+                    if (item.rightTop.equals("skip")) {
                         vh.textView(R.id.currency).setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         vh.textView(R.id.currency).setVisibility(View.VISIBLE);
                     }
                 }
-
 
 
                 Wallet wallet = WalletViewModel.getInstance().getWallet().getValue();
@@ -202,7 +293,7 @@ public class HomeFragment extends BaseFragment {
                 vh.itemView.setOnClickListener(view -> {
                     EventBusService.getInstance().doActionItem(item);
                 });
-                vh.view(R.id.addBtn).setOnClickListener(v->{
+                vh.view(R.id.addBtn).setOnClickListener(v -> {
                     EventBusService.getInstance().doActionItem(item);
                 });
             }
@@ -250,6 +341,101 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    GenriXAdapter<utl.NotificationMessage> notificationMessageGenriXAdapter;
+    public void hideNotifications(){
+
+        contNotifList.animate()
+                .translationY(-100)
+                .alpha(0.0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        contNotifList.setVisibility(View.GONE);
+                    }
+                });
+    }
+    public void showNotifications(ArrayList<utl.NotificationMessage> notificationMessages) {
+
+        contNotifList.setVisibility(View.VISIBLE);
+        contNotifList.animate()
+                .translationY(0)
+                .alpha(1.0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                });
+
+        Collections.sort(notificationMessages, new Comparator<utl.NotificationMessage>() {
+            @Override
+            public int compare(utl.NotificationMessage t1, utl.NotificationMessage t0) {
+
+
+                return t1.time.compareTo(t0.time);
+
+            }
+        });
+
+
+        if(notificationMessageGenriXAdapter==null)
+        {
+
+            ArrayList<utl.NotificationMessage> listData = new ArrayList<>();
+            listData.addAll(notificationMessages);
+            notificationMessageGenriXAdapter = new GenriXAdapter<utl.NotificationMessage>(ctx, R.layout.utl_row_notification, listData) {
+                @Override
+                public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+
+                    final utl.NotificationMessage nof = notificationMessages.get(viewHolder.getAdapterPosition());
+                    final CustomViewHolder vh = (CustomViewHolder) viewHolder;
+
+                    vh.textView(R.id.title).setText(nof.title);
+                    if (nof.type.equals(utl.NotificationMessage.TYPE_REQUEST)) {
+                        vh.textView(R.id.title).setTextColor(ResourceUtils.getColor(R.color.material_green_500));
+                        vh.imageView(R.id.image).setImageResource(nof.icon);
+                        vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.material_green_500),
+                                android.graphics.PorterDuff.Mode.SRC_IN);
+
+                    } else if (nof.type.equals(utl.NotificationMessage.TYPE_REPLY)) {
+                        vh.textView(R.id.title).setTextColor(ResourceUtils.getColor(R.color.material_orange_500));
+                        vh.imageView(R.id.image).setImageResource(R.drawable.ic_question_faq);
+                        vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.material_orange_500),
+                                android.graphics.PorterDuff.Mode.SRC_IN);
+                    } else {
+                        vh.textView(R.id.title).setTextColor(ResourceUtils.getColor(R.color.colorPrimary));
+                        vh.imageView(R.id.image).setImageResource(nof.icon);
+                        vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimary),
+                                android.graphics.PorterDuff.Mode.SRC_IN);
+                    }
+
+                    vh.textView(R.id.message).setText(nof.message);
+                    vh.textView(R.id.time).setText(nof.getTimeFormatted());
+                    vh.imageView(R.id.image).setImageResource(nof.icon);
+                    vh.base.setOnClickListener((v) -> {
+//                        startActivity(it);
+                    });
+//                Intent it = nof.getIntent(ctx);
+//                if (it != null)
+//                    vh.base.setOnClickListener((v) -> {
+//                        startActivity(it);
+//                    });
+
+                }
+            };
+
+            notifList.setLayoutManager(new LinearLayoutManager(ctx));
+            notifList.setAdapter(notificationMessageGenriXAdapter);
+
+        }
+        else {
+            notificationMessageGenriXAdapter.itemList.clear();
+            notificationMessageGenriXAdapter.itemList.addAll(notificationMessages);
+            notificationMessageGenriXAdapter.notifyDataSetChanged();
+        }
+    }
+
     public static class DiaglogReferral {
         private View contRef;
         private LinearLayout contRefCard;
@@ -286,7 +472,7 @@ public class HomeFragment extends BaseFragment {
                                     .redeemReferral(text, (data1, data2) -> {
                                         WalletViewModel.getInstance().refresh(null);
                                         utl.diagBottom(root.getContext(), data1);
-                                        if(data1.toLowerCase().contains("success")){
+                                        if (data1.toLowerCase().contains("success")) {
                                             WalletViewModel.getInstance().refresh(null);
                                         }
                                     });
@@ -319,4 +505,6 @@ public class HomeFragment extends BaseFragment {
 
 
     }
+
+
 }
