@@ -68,4 +68,8 @@
         <key>download_link</key>
         <value>http://dotpot.herokuapp.com/</value>
     </entry>
+    <entry>
+        <key>notif_img_url</key>
+        <value>https://imgk.timesnownews.com/story/cash_0.jpg?tr=w-560,h-292,fo-top/</value>
+    </entry>
 </defaultsMap>

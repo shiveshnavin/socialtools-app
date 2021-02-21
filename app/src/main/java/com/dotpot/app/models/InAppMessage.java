@@ -1,6 +1,12 @@
 package com.dotpot.app.models;
 
+import android.content.Intent;
+
+import com.dotpot.app.App;
 import com.dotpot.app.Constants;
+import com.dotpot.app.ui.SplashActivity;
+import com.dotpot.app.utl;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,8 +21,8 @@ public class InAppMessage {
 
     String id;
     Long dateTime;
-    String groupName;// question in qna context
-    String groupId;
+    String msgTitle;// question in qna context
+    String targetId;
     String senderName;// useralias in qna context
     String senderId; // asker id in qna context
     String message;
@@ -33,15 +39,15 @@ public class InAppMessage {
 
     public String senderStatus;
 
-    public InAppMessage(String groupName, String groupId,
+    public InAppMessage(String msgTitle, String targetId,
                         String senderName, String senderId,
                         String message, String icon, String attachmentUrl,
                         String atachmentType) {
         dateTime= System.currentTimeMillis();
         id =""+ dateTime;
         this.quotedTextId = null;
-        this.groupName = groupName;
-        this.groupId = groupId;
+        this.msgTitle = msgTitle;
+        this.targetId = targetId;
         this.senderName = senderName;
         this.senderId = senderId;
         this.message = message;
@@ -51,14 +57,14 @@ public class InAppMessage {
     }
 
 
-    public InAppMessage(String groupName, String groupId, String senderName,
+    public InAppMessage(String msgTitle, String targetId, String senderName,
                         String senderId, String message, String icon,
                         String attachmentUrl, String atachmentType,
                         String quotedTextId) {
         dateTime= System.currentTimeMillis();
         id =""+ dateTime;
-        this.groupName = groupName;
-        this.groupId = groupId;
+        this.msgTitle = msgTitle;
+        this.targetId = targetId;
         this.senderName = senderName;
         this.senderId = senderId;
         this.message = message;
@@ -69,11 +75,11 @@ public class InAppMessage {
 
     }
 
-    public InAppMessage(String id, Long dateTime, String groupName, String groupId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, Boolean read, String quotedTextId) {
+    public InAppMessage(String id, Long dateTime, String msgTitle, String targetId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, Boolean read, String quotedTextId) {
         this.id = id;
         this.dateTime = dateTime;
-        this.groupName = groupName;
-        this.groupId = groupId;
+        this.msgTitle = msgTitle;
+        this.targetId = targetId;
         this.senderName = senderName;
         this.senderId = senderId;
         this.message = message;
@@ -106,21 +112,21 @@ public class InAppMessage {
         this.quotedTextId = quotedTextId;
     }
 
-    public String getGroupName() {
-        return groupName!=null ? groupName : "";
+    public String getMsgTitle() {
+        return msgTitle !=null ? msgTitle : "";
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle;
     }
 
 
-    public String getGroupId() {
-        return groupId;
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
 
     public String getId() {
@@ -349,5 +355,19 @@ public class InAppMessage {
         this.senderStatus = senderStatus;
     }
 
+    public Intent getIntent(){
+        Intent it = new Intent(App.getAppContext(),SplashActivity.class);
+        it.putExtra("message", utl.js.toJson(this));
+        it.putExtra("action","home");
+        return it;
+    }
 
+
+    public String getDefaultImageUrl() {
+        if(atachmentType!=null && atachmentType.equals(Constants.ATTACHMENT_TYPE_IMAGE)
+        && !utl.isEmpty(getAttachmentUrl())){
+            return getAttachmentUrl();
+        }
+        return FirebaseRemoteConfig.getInstance().getString("notif_img_url");
+    }
 }

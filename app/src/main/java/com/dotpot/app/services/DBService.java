@@ -36,7 +36,7 @@ public class DBService extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String[] fieldsString = {"groupName", "groupId", "senderName", "senderId", "message", "icon", "attachmentUrl", "attachmentType", "quotedTextId","count"};//
+        String[] fieldsString = {"msgTitle", "targetId", "senderName", "senderId", "message", "icon", "attachmentUrl", "attachmentType", "quotedTextId","count"};//
 
         String query = "create table IF NOT EXISTS " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT , dateTime INTEGER";
 
@@ -108,8 +108,8 @@ public class DBService extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("id", cm.getId());
         contentValues.put("dateTime", cm.getDateTime());
-        contentValues.put("groupName", cm.getGroupName());
-        contentValues.put("groupId", cm.getGroupId());
+        contentValues.put("msgTitle", cm.getMsgTitle());
+        contentValues.put("targetId", cm.getTargetId());
         contentValues.put("senderName", cm.getSenderName());
         contentValues.put("senderId", cm.getSenderId());
         contentValues.put("message", cm.getMessage());
@@ -134,7 +134,7 @@ public class DBService extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         contentValues.put("count", cm.getQuotedTextId());
-        db.delete(TABLE_NAME_META, "groupId = ?", new String[]{cm.getGroupId()});
+        db.delete(TABLE_NAME_META, "targetId = ?", new String[]{cm.getTargetId()});
         db.insert(TABLE_NAME_META, null, contentValues);
 
         return true;
@@ -150,8 +150,8 @@ public class DBService extends SQLiteOpenHelper {
 
                     res.getString(res.getColumnIndex("id")),
                     res.getLong(res.getColumnIndex("dateTime")),
-                    res.getString(res.getColumnIndex("groupName")),
-                    res.getString(res.getColumnIndex("groupId")),
+                    res.getString(res.getColumnIndex("msgTitle")),
+                    res.getString(res.getColumnIndex("targetId")),
                     res.getString(res.getColumnIndex("senderName")),
                     res.getString(res.getColumnIndex("senderId")),
                     res.getString(res.getColumnIndex("message")),
@@ -172,10 +172,10 @@ public class DBService extends SQLiteOpenHelper {
 
     }
 
-    public int getUnreadCountForGroup(String groupId) {
+    public int getUnreadCountForGroup(String targetId) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String q = "select * from " + TABLE_NAME + " WHERE groupId='" + groupId + "' AND read=0 ";
+        String q = "select * from " + TABLE_NAME + " WHERE targetId='" + targetId + "' AND read=0 ";
 
         Cursor res = db.rawQuery(q, null);
 
@@ -199,8 +199,8 @@ public class DBService extends SQLiteOpenHelper {
             cm = new InAppMessage(
                     res.getString(res.getColumnIndex("id")),
                     res.getLong(res.getColumnIndex("dateTime")),
-                    res.getString(res.getColumnIndex("groupName")),
-                    res.getString(res.getColumnIndex("groupId")),
+                    res.getString(res.getColumnIndex("msgTitle")),
+                    res.getString(res.getColumnIndex("targetId")),
                     res.getString(res.getColumnIndex("senderName")),
                     res.getString(res.getColumnIndex("senderId")),
                     res.getString(res.getColumnIndex("message")),
@@ -218,9 +218,9 @@ public class DBService extends SQLiteOpenHelper {
 
 
 
-    public InAppMessage getLatestMessage(String groupId) {
+    public InAppMessage getLatestMessage(String targetId) {
         SQLiteDatabase db = this.getWritableDatabase();
-       String q = "select * from " + TABLE_NAME_META + " WHERE groupId='" + groupId + "' ORDER BY dateTime DESC LIMIT 1";
+       String q = "select * from " + TABLE_NAME_META + " WHERE targetId='" + targetId + "' ORDER BY dateTime DESC LIMIT 1";
 
         Cursor res = db.rawQuery(q, null);
         InAppMessage cm = null;
@@ -229,8 +229,8 @@ public class DBService extends SQLiteOpenHelper {
             cm = new InAppMessage(
                     res.getString(res.getColumnIndex("id")),
                     res.getLong(res.getColumnIndex("dateTime")),
-                    res.getString(res.getColumnIndex("groupName")),
-                    res.getString(res.getColumnIndex("groupId")),
+                    res.getString(res.getColumnIndex("msgTitle")),
+                    res.getString(res.getColumnIndex("targetId")),
                     res.getString(res.getColumnIndex("senderName")),
                     res.getString(res.getColumnIndex("senderId")),
                     res.getString(res.getColumnIndex("message")),
@@ -255,25 +255,25 @@ public class DBService extends SQLiteOpenHelper {
 
 
 
-    public ArrayList<InAppMessage> getAllMessagesForGroup(String groupId) {
+    public ArrayList<InAppMessage> getAllMessagesForGroup(String targetId) {
         SQLiteDatabase db = this.getWritableDatabase();
         String q = "select * from " + TABLE_NAME + "  ORDER BY dateTime ASC";
 
-        if (groupId.length() > 1)
-            q = "select * from " + TABLE_NAME + " WHERE groupId='" + groupId + "' AND message NOT LIKE '%"+ C2C_DELETE+"%' ORDER BY dateTime ASC";
+        if (targetId.length() > 1)
+            q = "select * from " + TABLE_NAME + " WHERE targetId='" + targetId + "' AND message NOT LIKE '%"+ C2C_DELETE+"%' ORDER BY dateTime ASC";
 
         Cursor res = db.rawQuery(q, null);
 
         return convertCursorToArray(res);
     }
 
-    public ArrayList<InAppMessage> getAllMessagesForGroupAfter(String groupId, Long dateTime) {
+    public ArrayList<InAppMessage> getAllMessagesForGroupAfter(String targetId, Long dateTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         String q = "select * from " + TABLE_NAME + " ORDER BY dateTime ASC";
 
-        if (groupId.length() > 1)
-            q = "select * from " + TABLE_NAME + " WHERE groupId='"
-                    + groupId + "'AND dateTime > " + dateTime + " AND message NOT LIKE '%"+ C2C_DELETE+"%' ORDER BY dateTime ASC";
+        if (targetId.length() > 1)
+            q = "select * from " + TABLE_NAME + " WHERE targetId='"
+                    + targetId + "'AND dateTime > " + dateTime + " AND message NOT LIKE '%"+ C2C_DELETE+"%' ORDER BY dateTime ASC";
 
         Cursor res = db.rawQuery(q, null);
 
@@ -299,7 +299,7 @@ public class DBService extends SQLiteOpenHelper {
 
     public ArrayList<InAppMessage> getLatestMessagesOfAllGroups() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String q = "select * from " + TABLE_NAME_META + " GROUP BY groupId ORDER BY dateTime DESC";
+        String q = "select * from " + TABLE_NAME_META + " GROUP BY targetId ORDER BY dateTime DESC";
 
         Cursor res = db.rawQuery(q, null);
 
@@ -309,7 +309,7 @@ public class DBService extends SQLiteOpenHelper {
     public ArrayList<InAppMessage> getLatestMessagesOfAllGroups(int limit, int offset) {
         SQLiteDatabase db = this.getWritableDatabase();
         String q = "select * from " + TABLE_NAME_META +
-                " GROUP BY groupId ORDER BY dateTime DESC LIMIT "+limit+" OFFSET "+offset;
+                " GROUP BY targetId ORDER BY dateTime DESC LIMIT "+limit+" OFFSET "+offset;
 
         Cursor res = db.rawQuery(q, null);
 
@@ -321,13 +321,13 @@ public class DBService extends SQLiteOpenHelper {
 
 
 
-    public boolean makeSeen(String groupId) {
+    public boolean makeSeen(String targetId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("read", 1);
 
-        db.update(TABLE_NAME, contentValues, "groupId = ?", new String[]{groupId});
+        db.update(TABLE_NAME, contentValues, "targetId = ?", new String[]{targetId});
         return true;
     }
 
@@ -347,10 +347,10 @@ public class DBService extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME, "id = ?", new String[]{id});
     }
 
-    public Integer deleteGroup(String groupId) {
+    public Integer deleteGroup(String targetId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME_META, "groupId = ?", new String[]{groupId});
-        return db.delete(TABLE_NAME, "groupId = ?", new String[]{groupId});
+        db.delete(TABLE_NAME_META, "targetId = ?", new String[]{targetId});
+        return db.delete(TABLE_NAME, "targetId = ?", new String[]{targetId});
     }
 
     public Integer deleteAllData() {

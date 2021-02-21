@@ -11,6 +11,7 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.InAppMessage;
@@ -46,6 +47,7 @@ public class E2EChatService extends Service {
 
         if (user == null)
             user = utl.readUserData();
+        databaseHelper=DBService.getInstance(App.getAppContext());
 
 
         if (chatMessage.getMessage().contains(Constants.C2C_EXIT)) {
@@ -53,7 +55,7 @@ public class E2EChatService extends Service {
             if (chatMessage.getSenderId().equals(user.getId())) {
 
                 String id = chatMessage.getSenderId();
-                String groupId = chatMessage.getGroupId();
+                String groupId = chatMessage.getTargetId();
                 utl.e("Chats", "Exit : " + id + " deleting " + groupId);
                 databaseHelper.deleteGroup(groupId);
             }
@@ -111,11 +113,11 @@ public class E2EChatService extends Service {
                 return;
         }
 
-        FCMNotificationUtils utils = new FCMNotificationUtils();
+        FCMNotificationUtils utils = new FCMNotificationUtils(App.getAppContext());
         utl.l("Create Notif ");
         // todo process inappnav
         Intent intent = new Intent(ctx, SplashActivity.class);
-        intent.putExtra("groupId", chatMessage.getGroupId());
+        intent.putExtra("groupId", chatMessage.getTargetId());
 
 
         if(user==null)
@@ -148,8 +150,8 @@ public class E2EChatService extends Service {
 //        }
 
         utils.sendNotification(ctx, utl.NotificationMessage.TYPE_MESSAGE, 100,
-                chatMessage.getGroupName()
-                , "" + chatMessage.getRefinedMessage(), null, "messages",
+                chatMessage.getMsgTitle()
+                , "" + chatMessage.getRefinedMessage(), chatMessage.getDefaultImageUrl(), "messages",
                 intent, PendingIntent.FLAG_ONE_SHOT);
 
 

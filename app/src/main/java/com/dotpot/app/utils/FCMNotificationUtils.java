@@ -16,12 +16,14 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
@@ -141,19 +143,8 @@ public  class FCMNotificationUtils {
 
         if(message.contains(Constants.C2C_DELETE))
             return;
-        int icon=R.drawable.logo;
-        if(type.equals(utl.NotificationMessage.TYPE_REQUEST))
-        {
-            icon=R.drawable.ic_add_friend;
-        }
-        if(type.equals(utl.NotificationMessage.TYPE_REPLY))
-        {
-            icon=R.drawable.ic_question_faq;
-        }
-        if(type.equals(utl.NotificationMessage.TYPE_MESSAGE))
-        {
-            icon=R.drawable.ic_message_black_24dp;
-        }
+        int icon=R.drawable.ic_notifications_black_24dp;
+
         utl.NotificationMessage notificationMessage=new utl.NotificationMessage(
                 type,title,
                 message,System.currentTimeMillis(),icon,
@@ -164,7 +155,6 @@ public  class FCMNotificationUtils {
 
         if(checkRingerIsOn(context))
         {
-
             try {
                 final SoundPool  soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
                 int soundId = soundPool.load(context, R.raw.notif_tone, 1);
@@ -174,14 +164,11 @@ public  class FCMNotificationUtils {
                     public void onLoadComplete(SoundPool soundPool, int i, int i1) {
 
                         soundPool.play(soundId, 1, 1, 0, 0, 1);
-
-
-
                     }
                 });
 
 
-                new Handler().postDelayed(new Runnable() {
+                new Handler(Looper.myLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
@@ -196,13 +183,10 @@ public  class FCMNotificationUtils {
                 },1000);
             } catch (Exception e) {
                 utl.e("fcm","Tolerable err at err194");
-                //if(utl.DEBUG_ENABLED) e.printStackTrace();
             }
 
 
         }
-
-
 
 
         NotificationManager notificationManager = getNotificationManager(context);
@@ -212,15 +196,15 @@ public  class FCMNotificationUtils {
             getNotificationChannel(notificationManager, appName);
         }
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            /* Create or update. */
-            NotificationChannel channel = new NotificationChannel("messages",
-                    "Receive Message Notifications",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//
+//            /* Create or update. */
+//            NotificationChannel channel = new NotificationChannel("notifications",
+//                    "Receive New Notifications",
+//                    NotificationManager.IMPORTANCE_DEFAULT);
+//            notificationManager.createNotificationChannel(channel);
+//        }
 
         NotificationCompat.Builder builder;
         builder = getNotificationBuilder(context,
@@ -229,10 +213,16 @@ public  class FCMNotificationUtils {
                 imageURL,
                 channelId,
                 PendingIntent.getActivity(context, NOTIFICATION_ID, intent, pendingIntentFlag));
-        if (builder != null) {
 
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
-        }
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        builder.setContentIntent(resultPendingIntent);
+
+        notificationManager.notify(utl.randomInt(3), builder.build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -240,12 +230,12 @@ public  class FCMNotificationUtils {
         String id = ResourceUtils.getString(R.string.app_name);
 
         // The user-visible name of the channel.
-        String channelName = ResourceUtils.getString(R.string.app_name);
+        String channelName = ResourceUtils.getString(R.string.title_notifications);
 
         // The user-visible description of the channel.
-        String channelDescription = ResourceUtils.getString(R.string.app_name) + appName;
+        String channelDescription = appName + " "+channelName;
 
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = new NotificationChannel(id, channelName, importance);
 
         // Configure the notification channel.

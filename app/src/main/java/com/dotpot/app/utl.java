@@ -86,6 +86,7 @@ import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.DBService;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.ui.SplashActivity;
 import com.dotpot.app.utils.CircularRevealPopup;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.ResourceUtils;
@@ -2007,7 +2008,12 @@ public class utl {
             this.time = time;
             this.icon = icon;
 
-            className = intent.getComponent().getClassName();
+            if(intent.getComponent()!=null){
+                className = intent.getComponent().getClassName();
+            }
+            else {
+                className = SplashActivity.class.toString();
+            }
             // utl.e("NotifM","class "+className);
 
             extras = new HashMap<>();
