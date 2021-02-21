@@ -17,6 +17,7 @@ import androidx.core.app.TaskStackBuilder;
 import com.dotpot.app.R;
 import com.dotpot.app.models.InAppMessage;
 import com.dotpot.app.utils.FCMNotificationUtils;
+import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -90,8 +91,8 @@ public class FirebaseMsgService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationId = 1;
-        String channelId = "channel-01";
-        String channelName = "Channel Name";
+        String channelId = "notifications";
+        String channelName = "Notifications from "+ ResourceUtils.getString(R.string.app_name);
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -101,7 +102,7 @@ public class FirebaseMsgService extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(title)
                 .setContentText(body);
 

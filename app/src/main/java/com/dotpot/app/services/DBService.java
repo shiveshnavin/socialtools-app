@@ -38,7 +38,7 @@ public class DBService extends SQLiteOpenHelper {
 
         String[] fieldsString = {"msgTitle", "targetId", "senderName", "senderId", "message", "icon", "attachmentUrl", "attachmentType", "quotedTextId","count"};//
 
-        String query = "create table IF NOT EXISTS " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT , dateTime INTEGER";
+        String query = "create table IF NOT EXISTS " + TABLE_NAME + " (id TEXT PRIMARY KEY , dateTime INTEGER";
 
         for (String field : fieldsString) {
             query += "," + field + " TEXT";
@@ -158,7 +158,7 @@ public class DBService extends SQLiteOpenHelper {
                     res.getString(res.getColumnIndex("icon")),
                     res.getString(res.getColumnIndex("attachmentUrl")),
                     res.getString(res.getColumnIndex("attachmentType")),
-                    res.getInt(res.getColumnIndex("read")) == 1,
+                    res.getInt(res.getColumnIndex("read")),
                     res.getString(res.getColumnIndex("quotedTextId"))
 
 
@@ -184,7 +184,7 @@ public class DBService extends SQLiteOpenHelper {
 
     public Cursor getMessageById(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String q = "select * from " + TABLE_NAME + " WHERE id=" + id;
+        String q = "select * from " + TABLE_NAME + " WHERE id='" + id+"'";
 
         Cursor res = db.rawQuery(q, null);
 
@@ -207,7 +207,7 @@ public class DBService extends SQLiteOpenHelper {
                     res.getString(res.getColumnIndex("icon")),
                     res.getString(res.getColumnIndex("attachmentUrl")),
                     res.getString(res.getColumnIndex("attachmentType")),
-                    res.getInt(res.getColumnIndex("read")) == 1,
+                    res.getInt(res.getColumnIndex("read")),
                     res.getString(res.getColumnIndex("quotedTextId"))
 
             );
@@ -237,7 +237,7 @@ public class DBService extends SQLiteOpenHelper {
                     res.getString(res.getColumnIndex("icon")),
                     res.getString(res.getColumnIndex("attachmentUrl")),
                     res.getString(res.getColumnIndex("attachmentType")),
-                    res.getInt(res.getColumnIndex("read")) == 1,
+                    res.getInt(res.getColumnIndex("read")) ,
                     res.getString(res.getColumnIndex("quotedTextId"))
 
             );

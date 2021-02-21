@@ -41,6 +41,10 @@ public  class FCMNotificationUtils {
     private static Bitmap icLauncher;
     private static int notificationColor;
     private String channelId;
+    private Context ctx;
+    public FCMNotificationUtils(Context context){
+        ctx=context;
+    }
 
     private static NotificationCompat.Builder setNotificationStyle(NotificationCompat.Builder builder,
                                                                    String imageURL,
@@ -84,11 +88,11 @@ public  class FCMNotificationUtils {
 
     public int getSmallIcon() {
         boolean useWhiteIcon = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
-        return useWhiteIcon ? R.drawable.logo :  R.drawable.logo;
+        return useWhiteIcon ? R.drawable.ic_logo :  R.drawable.ic_logo;
     }
 
     public int getBigIcon() {
-        return  R.drawable.logo;
+        return  R.drawable.ic_logo;
     }
     public NotificationCompat.Builder getNotificationBuilder(Context context,
                                                              String title,
@@ -226,7 +230,7 @@ public  class FCMNotificationUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getNotificationChannel(NotificationManager notificationManager, String appName) {
+    public NotificationChannel getNotificationChannel(NotificationManager notificationManager, String appName) {
         String id = ResourceUtils.getString(R.string.app_name);
 
         // The user-visible name of the channel.
@@ -248,5 +252,6 @@ public  class FCMNotificationUtils {
         mChannel.enableVibration(true);
         mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         notificationManager.createNotificationChannel(mChannel);
+        return mChannel;
     }
 }

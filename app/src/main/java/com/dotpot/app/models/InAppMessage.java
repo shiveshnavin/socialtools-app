@@ -30,7 +30,7 @@ public class InAppMessage {
     String attachmentUrl;
     String quotedTextId;// tags in qna context
     String atachmentType= Constants.attachmentTypes[0];
-    Boolean read=false;
+    int read=0;
 
 
     String tags;
@@ -75,7 +75,7 @@ public class InAppMessage {
 
     }
 
-    public InAppMessage(String id, Long dateTime, String msgTitle, String targetId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, Boolean read, String quotedTextId) {
+    public InAppMessage(String id, Long dateTime, String msgTitle, String targetId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, int read, String quotedTextId) {
         this.id = id;
         this.dateTime = dateTime;
         this.msgTitle = msgTitle;
@@ -206,11 +206,11 @@ public class InAppMessage {
         this.atachmentType = atachmentType;
     }
 
-    public Boolean getRead() {
+    public int getRead() {
         return read;
     }
 
-    public void setRead(Boolean read) {
+    public void setRead(int read) {
         this.read = read;
     }
 
