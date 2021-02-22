@@ -104,6 +104,14 @@
     <string name="clear">Clear</string>
     <string name="you_have_notifications">You have %s new notifications !</string>
     <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="select_game_credits">Select Game Room</string>
+    <string name="insufficient_credits_header">Insufficient Credits</string>
+    <string name="insufficient_credits">You don\'t have sufficient credits to enter this game room . Please add more credits to continue .</string>
+    <string name="practice">Free</string>
+    <string name="possible_rewards">Possible rewards upto %s %s</string>
+    <string name="brush_up_practice_txt">Brush up your skills with practice matches</string>
+    <string name="start_game">Start Game</string>
 
 
 </resources>

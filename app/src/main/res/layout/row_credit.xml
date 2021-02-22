@@ -12,75 +12,78 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:gravity="center_horizontal"
-        android:id="@+id/contWalletBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/marginHomeDouble"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <TextView
-            android:id="@+id/currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:fontFamily="@font/font_text"
-            android:text="@string/currency"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_head" />
-
-        <TextView
-            android:id="@+id/walletBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/font_text"
-            android:text="5000"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_xxhead" />
-
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_marginTop="@dimen/marginHome"
-        android:gravity="center"
-        android:id="@+id/yourWalletBalanceTxt"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/font_text"
-        android:maxLines="3"
-        android:maxWidth="120dp"
-        android:minLines="3"
-        android:ellipsize="marquee"
-        android:text="@string/help_award_bal"
-        android:textColor="@color/colorTextSecondary"
-        app:layout_constraintTop_toBottomOf="@+id/contWalletBalance" />
+        android:layout_height="match_parent"
+        android:id="@+id/cont_item">
 
-    <TextView
-        android:textAllCaps="true"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="@dimen/marginHome"
-        android:paddingRight="@dimen/marginHome"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourWalletBalanceTxt"
-        android:theme="@style/Theme.DotPot.DarkGreen"
-        android:textColor="@color/colorTextSuccess"
-        android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_credits" />
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:id="@+id/contWalletBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/marginHomeDouble"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/currency"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head" />
+
+            <TextView
+                android:id="@+id/walletBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_text"
+                android:text="5000"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_xxhead" />
 
 
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="@dimen/marginHome"
+            android:gravity="center"
+            android:id="@+id/yourWalletBalanceTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:maxLines="3"
+            android:maxWidth="120dp"
+            android:minLines="3"
+            android:ellipsize="marquee"
+            android:text="@string/help_award_bal"
+            android:textColor="@color/colorTextSecondary"
+            app:layout_constraintTop_toBottomOf="@+id/contWalletBalance" />
+
+        <TextView
+            android:textAllCaps="true"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="@dimen/marginHome"
+            android:paddingRight="@dimen/marginHome"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yourWalletBalanceTxt"
+            android:theme="@style/Theme.DotPot.DarkGreen"
+            android:textColor="@color/colorTextSuccess"
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_credits" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

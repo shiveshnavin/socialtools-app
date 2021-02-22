@@ -18,10 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,17 +33,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ShareCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
-import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.API;
 import com.dotpot.app.interfaces.GenricDataCallback;
@@ -62,6 +56,8 @@ import com.dotpot.app.services.DownloadOpenService;
 import com.dotpot.app.services.EventBusService;
 import com.dotpot.app.services.InAppNavService;
 import com.dotpot.app.services.RestAPI;
+import com.dotpot.app.ui.activities.HomeActivity;
+import com.dotpot.app.ui.activities.SplashActivity;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.TextAndContentPicker;
 import com.dotpot.app.utl;
@@ -81,8 +77,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -501,34 +495,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void setUpNotfIcon(boolean forceClear) {
-
-        if (this instanceof HomeActivity) {
-
-        } else {
-            return;
-        }
-        HomeActivity home = (HomeActivity) this;
-
-        if (home.mMenu == null)
-            return;
-
-        try {
-            MenuItem menuItem = home.mMenu.findItem(R.id.notif);
-            if (menuItem == null)
-                return;
-            if (utl.NotificationMessage.getAll(ctx).size() > 0 && !forceClear) {
-                menuItem.setIcon(R.drawable.ic_notifications_black_24dp_dotted);
-            } else {
-
-                menuItem.setIcon(R.drawable.ic_notifications_black_24dp);
-            }
-        } catch (Exception e) {
-
-        }
-
-
-    }
 
     public void showDrawer() {
 
@@ -578,7 +544,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     case R.id.notifications:
 
 
-                        showNotifications();
+//                        showNotifications();
                         // mIntent = new Intent(ctx,CartActivity.class);
 
                         break;
@@ -643,139 +609,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             }
         });
-
-
-    }
-
-    public void showNotifications() {
-        ArrayList<utl.NotificationMessage> notificationMessages = utl.NotificationMessage.getAll(ctx);
-
-        Collections.sort(notificationMessages, new Comparator<utl.NotificationMessage>() {
-            @Override
-            public int compare(utl.NotificationMessage notificationMessage, utl.NotificationMessage t1) {
-
-
-                return t1.time.compareTo(notificationMessage.time);
-
-            }
-        });
-
-        GenriXAdapter<utl.NotificationMessage> adapter = new GenriXAdapter<utl.NotificationMessage>(ctx, R.layout.utl_row_notification, notificationMessages) {
-            @Override
-            public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
-
-                final utl.NotificationMessage nof = notificationMessages.get(viewHolder.getAdapterPosition());
-                final CustomViewHolder vh = (CustomViewHolder) viewHolder;
-
-                vh.textView(R.id.title).setText(nof.title);
-                if (nof.type.equals(utl.NotificationMessage.TYPE_REQUEST)) {
-                    vh.textView(R.id.title).setTextColor(getcolor(R.color.material_green_500));
-                    vh.imageView(R.id.image).setImageResource(nof.icon);
-                    vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.material_green_500),
-                            android.graphics.PorterDuff.Mode.SRC_IN);
-
-                } else if (nof.type.equals(utl.NotificationMessage.TYPE_REPLY)) {
-                    vh.textView(R.id.title).setTextColor(getcolor(R.color.material_orange_500));
-                    vh.imageView(R.id.image).setImageResource(R.drawable.ic_question_faq);
-                    vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.material_orange_500),
-                            android.graphics.PorterDuff.Mode.SRC_IN);
-                } else {
-                    vh.textView(R.id.title).setTextColor(getcolor(R.color.colorPrimary));
-                    vh.imageView(R.id.image).setImageResource(nof.icon);
-                    vh.imageView(R.id.image).setColorFilter(ContextCompat.getColor(ctx, R.color.colorPrimary),
-                            android.graphics.PorterDuff.Mode.SRC_IN);
-                }
-
-                vh.textView(R.id.message).setText(nof.message);
-                vh.textView(R.id.time).setText(nof.getTimeFormatted());
-                vh.imageView(R.id.image).setImageResource(nof.icon);
-
-                vh.base.setOnClickListener((v) -> {
-
-                    Intent it = nof.getIntent(ctx);
-                    startActivity(it);
-
-
-                });
-
-            }
-        };
-
-
-        View head_cont = findViewById(R.id.head_cont);
-        RecyclerView rv = new RecyclerView(ctx);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        rv.setLayoutParams(params);
-        params.topMargin = utl.pxFromDp(ctx, 40).intValue();
-        FadePopup cp = new FadePopup(ctx, head_cont, rv);
-
-        Dialog d;
-        if (notificationMessages.size() < 1) {
-            TextView im = new TextView(ctx);
-            im.setText(getString(R.string.no_new_notification));
-            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , utl.pxFromDp(ctx, 100).intValue());
-            params.gravity = Gravity.CENTER;
-
-            utl.setFace(R.font.font_subtext, im);
-            im.setTextColor(getcolor(R.color.black));
-            im.setTextSize(20);
-            im.setGravity(Gravity.CENTER);
-            im.setLayoutParams(params);
-            cp = new FadePopup(ctx, head_cont, im);
-
-
-            d = cp.popup();
-            d.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-
-
-                    // utl.toast(ctx,"Cleared Notifications");
-                    setUpNotfIcon(true);
-
-                }
-            });
-
-            LinearLayout l = cp.getContainer();
-            l.setGravity(Gravity.CENTER);
-
-            im.setCompoundDrawablesWithIntrinsicBounds(null, getdrawable(R.drawable.ic_notifications_none_black_24dp), null, null);
-
-
-        } else {
-            d = cp.popup();
-            d.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-
-                    //  utl.NotificationMessage.deleteAll(ctx);
-                    // utl.toast(ctx,"Cleared Notifications");
-
-
-                }
-            });
-        }
-
-        FadePopup cpp = cp;
-        Button dismissBtn = cp.dismissBtn;
-        dismissBtn.setVisibility(View.VISIBLE);
-        dismissBtn.setText("Clear");
-        dismissBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                utl.NotificationMessage.deleteAll(ctx);
-                //  utl.toast(ctx,"Notifications Cleared !");
-
-                cpp.dismiss();
-
-            }
-        });
-
-
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(ctx));
-        rv.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
 
     }

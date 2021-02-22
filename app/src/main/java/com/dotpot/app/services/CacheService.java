@@ -203,4 +203,12 @@ public class CacheService implements CacheUtil {
         return false;
     }
 
+
+    public static void invalidateCachesAndConfig(){
+        CacheService.getInstance().invalidateAll();
+        utl.setKey("amounts",null,App.getAppContext());
+        utl.setKey("pamounts",null,App.getAppContext());
+
+    }
+
 }

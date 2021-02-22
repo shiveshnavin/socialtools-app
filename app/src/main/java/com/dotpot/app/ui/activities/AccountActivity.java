@@ -1,4 +1,4 @@
-package com.dotpot.app.ui;
+package com.dotpot.app.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,10 +19,11 @@ import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
-import com.dotpot.app.ui.login.LoginFragment;
-import com.dotpot.app.ui.password.ChangePasswordFragment;
-import com.dotpot.app.ui.signup.SignupFragment;
-import com.dotpot.app.ui.verifyphone.VerifyPhoneFragment;
+import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.ui.fragments.LoginFragment;
+import com.dotpot.app.ui.fragments.ChangePasswordFragment;
+import com.dotpot.app.ui.fragments.SignupFragment;
+import com.dotpot.app.ui.fragments.VerifyPhoneFragment;
 import com.dotpot.app.utl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

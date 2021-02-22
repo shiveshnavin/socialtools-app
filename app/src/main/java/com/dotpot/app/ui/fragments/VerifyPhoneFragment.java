@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.verifyphone;
+package com.dotpot.app.ui.fragments;
 
 import android.content.ClipboardManager;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;

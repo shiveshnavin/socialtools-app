@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.signup;
+package com.dotpot.app.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.DateTimePicker;
 import com.dotpot.app.utl;

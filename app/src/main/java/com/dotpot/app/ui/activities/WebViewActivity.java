@@ -1,4 +1,4 @@
-package com.dotpot.app.ui;
+package com.dotpot.app.ui.activities;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -25,6 +25,7 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 
 import org.json.JSONObject;

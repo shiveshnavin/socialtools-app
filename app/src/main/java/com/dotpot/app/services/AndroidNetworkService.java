@@ -83,6 +83,8 @@ public class AndroidNetworkService implements NetworkService {
 
     public String getBasicAuthHeader(){
         GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if(user == null)
+            user = utl.readUserData();
         if(user!=null){
             authHeader = ""+user.getId()+":"+user.getPassword();
             authHeader = Base64.encodeToString(authHeader.getBytes(),Base64.DEFAULT).trim();

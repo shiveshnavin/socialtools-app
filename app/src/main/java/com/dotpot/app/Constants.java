@@ -20,7 +20,7 @@ public class Constants {
     public static String API_REDEEM_REFERRAL = "/api/users/refer";
 
 
-
+    public static final String API_GET_PAY_AMOUNTS = "/api/transactions/amounts";
     public static final String API_CREATE_TXN = "/pay/api/createTxn";
     public static final String API_CHECK_TXN = "/pay/api/status";
     public static String API_WALLET(String userId) {
@@ -29,6 +29,14 @@ public class Constants {
     public static String API_TRANSACTIONS(String userId,String txnType) {
         return u("/api/transactions/user/"+userId+"?debitOrCredit="+txnType);
     }
+
+    public static final String API_GET_GAME_AMOUNTS = "/api/games/amounts";
+    public static final String API_CREATE_GAME = "/api/games/create";
+    public static String API_GET_USER_GAMES = "/api/games/user/";
+    public static String API_GET_USER_GAMES(String userId) {
+        return "/api/games/user/"+userId;
+    }
+    public static final String API_FINISH_GAME = "/api/games/finish";
 
 
     public static final String API_UPLOAD_IMAGE = "/api/image";

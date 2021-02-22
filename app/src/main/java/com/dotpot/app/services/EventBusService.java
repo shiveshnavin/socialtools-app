@@ -9,7 +9,7 @@ import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.ui.BaseActivity;
-import com.dotpot.app.ui.HomeActivity;
+import com.dotpot.app.ui.activities.HomeActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

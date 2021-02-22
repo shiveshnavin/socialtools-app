@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.home;
+package com.dotpot.app.binding;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

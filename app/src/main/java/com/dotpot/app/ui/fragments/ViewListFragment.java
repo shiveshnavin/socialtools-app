@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.list;
+package com.dotpot.app.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

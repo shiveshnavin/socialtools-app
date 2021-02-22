@@ -14,10 +14,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Created by shivesh on 29/6/17.
  */
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GenricUser {
 
     private String name;
@@ -42,41 +51,8 @@ public class GenricUser {
     private String status;
     private String verifdoc;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getVerifdoc() {
-        return verifdoc;
-    }
-
-    public void setVerifdoc(String verifdoc) {
-        this.verifdoc = verifdoc;
-    }
-
     public String getName() {
         return ""+name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getAlias() {
-        return alias;
     }
 
     public String getAliasAndVerif() {
@@ -85,64 +61,8 @@ public class GenricUser {
             return alias+ Constants.V2V_VERIFIED;
         return alias;
     }
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUid() {
-        return id;
-    }
-
-    public void setUid(String id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
     public void setGender(String gender) {
         this.gender = gender.toLowerCase();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Nullable
@@ -190,20 +110,6 @@ public class GenricUser {
         this.dateofbirthLong = dateofbirthLong;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-
-    public GenricUser()
-    {
-
-    }
-
 
     public boolean canPost(){
         return getStatus()!=null && (isAdmin() ||getStatus().equals(Constants.userStatuses[2]) );
@@ -211,31 +117,11 @@ public class GenricUser {
     public boolean isAdmin(){
         return getStatus()!=null && getStatus().equals(Constants.userStatuses[3]);
     }
-    public String getFcmToken() {
-        return fcmToken;
-    }
-
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
-    }
 
     public String getStatus() {
         if(status==null) status="";
         return status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public boolean isAnonymous() {
-        return isAnonymous;
-    }
-
-    public void setAnonymous(boolean anonymous) {
-        isAnonymous = anonymous;
-    }
-
     public static void renderImage(String userImUrl,ImageView img){
 
         if(userImUrl!=null && userImUrl.startsWith("http")){
@@ -247,24 +133,6 @@ public class GenricUser {
 
     public String hisHer() {
         return getGender().replace("female","her").replace("male","his");
-    }
-
-
-    public String getWebIdToken() {
-        return webIdToken;
-    }
-
-    public void setWebIdToken(String webIdToken) {
-        this.webIdToken = webIdToken;
-    }
-
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
     }
 
 

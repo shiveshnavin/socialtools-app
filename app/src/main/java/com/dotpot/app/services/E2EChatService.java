@@ -15,7 +15,7 @@ import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.InAppMessage;
-import com.dotpot.app.ui.SplashActivity;
+import com.dotpot.app.ui.activities.SplashActivity;
 import com.dotpot.app.utils.FCMNotificationUtils;
 import com.dotpot.app.utl;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;

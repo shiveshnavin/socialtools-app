@@ -12,12 +12,24 @@
         app:layout_constraintTop_toTopOf="parent"
         layout="@layout/utl_toolbar"/>
 
+
+    <ProgressBar
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"
         android:overScrollMode="never"
         android:id="@+id/list"
         android:layout_marginRight="@dimen/marginHomeDouble"
         android:layout_marginLeft="@dimen/marginHomeDouble"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/row_credit"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool_cont"

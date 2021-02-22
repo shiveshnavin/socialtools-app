@@ -103,7 +103,7 @@ public class FCMNotificationUtils {
     public void showNotification(Context context, String title, String body, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        int notificationId = 1;
+        int notificationId = utl.randomInt(3);
         String channelId = "notifications";
         String channelName = "Notifications from " + ResourceUtils.getString(R.string.app_name);
         int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -127,7 +127,7 @@ public class FCMNotificationUtils {
         stackBuilder.addNextIntent(intent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_ONE_SHOT
         );
         mBuilder.setContentIntent(resultPendingIntent);
 

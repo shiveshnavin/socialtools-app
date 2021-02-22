@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.password;
+package com.dotpot.app.ui.fragments;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utl;
 import com.google.android.material.textfield.TextInputEditText;

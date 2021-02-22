@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorBackground"
-            tools:context=".ui.home.HomeFragment">
+            tools:context=".ui.fragments.HomeFragment">
 
             <TextView
                 android:paddingTop="30dp"
@@ -166,13 +166,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/marginHomeDouble"
-                android:layout_marginTop="@dimen/marginHome"
                 android:layout_marginRight="@dimen/marginHomeDouble"
                 android:layout_marginBottom="@dimen/marginHomeDouble"
                 android:background="@drawable/bg_selector_dark"
                 android:elevation="@dimen/default_elevation"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listItems">
+                app:layout_constraintTop_toBottomOf="@+id/contListItems">
 
 
                 <include layout="@layout/diag_refer" />
@@ -224,21 +223,40 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/marginHome"
-                android:layout_marginTop="@dimen/marginHomeDouble"
-                android:layout_marginBottom="@dimen/marginHomeDouble"
-                android:nestedScrollingEnabled="false"
-                android:orientation="horizontal"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+
+            <RelativeLayout
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bottomText"
-                tools:listitem="@layout/row_card_menu" />
+                android:id="@+id/contListItems"
+                android:minHeight="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ProgressBar
+                    android:layout_centerInParent="true"
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/marginHome"
+                    android:layout_marginTop="@dimen/marginHomeDouble"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/row_card_menu" />
+
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

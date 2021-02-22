@@ -1,4 +1,4 @@
-package com.dotpot.app.ui;
+package com.dotpot.app.ui.activities;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -18,6 +18,7 @@ import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
+import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

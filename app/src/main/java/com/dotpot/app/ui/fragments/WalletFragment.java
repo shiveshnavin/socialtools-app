@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.wallet;
+package com.dotpot.app.ui.fragments;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -178,7 +178,7 @@ public class WalletFragment extends BaseFragment {
                     vh.textView(R.id.txnStatusTxt).setText(transaction.getDisplayStatus());
 
                     vh.textView(R.id.txnAmtTxt).setTextColor(ResourceUtils.getColor(transaction.getStatusColor()));
-//                vh.textView(R.id.txnStatusTxt).setTextColor(ResourceUtils.getColor(transaction.getStatusColor()));
+//                  vh.textView(R.id.txnStatusTxt).setTextColor(ResourceUtils.getColor(transaction.getStatusColor()));
                     vh.textView(R.id.txnDateTxt).setText(utl.getDateTime(new Date(transaction.getTimeStamp()), "hh:mm a dd MMM yyyy"));
 
                     vh.imageView(R.id.txnIcon).setImageResource(transaction.getTxtTypeIcon());

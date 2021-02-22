@@ -4,15 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.models.Game;
 import com.dotpot.app.ui.BaseActivity;
-import com.dotpot.app.ui.credit.AddCreditFragment;
-import com.dotpot.app.ui.list.ViewListFragment;
+import com.dotpot.app.ui.activities.AccountActivity;
+import com.dotpot.app.ui.activities.GameActivity;
+import com.dotpot.app.ui.fragments.AddCreditFragment;
+import com.dotpot.app.ui.fragments.ViewListFragment;
+import com.dotpot.app.utils.ObjectTransporter;
 
 public class InAppNavService {
 
@@ -79,6 +83,14 @@ public class InAppNavService {
     }
 
 
+    public void startSelectGameAmount(@IdRes int fragmentViewId, @Nullable Float amount) {
+        Bundle bundle = new Bundle();
+        if (amount != null)
+            bundle.putFloat("amount", amount);
+        bundle.putString("action", "select_game_amount");
+        fragmentTransaction(fragmentViewId, AddCreditFragment.class, "credits", bundle, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
     public void startAddCredits(@IdRes int fragmentViewId) {
         fragmentTransaction(fragmentViewId, AddCreditFragment.class, "credits", null, true, Constants.TRANSITION_HORIZONTAL);
     }
@@ -111,7 +123,6 @@ public class InAppNavService {
         else if (transition == Constants.TRANSITION_VERTICAL)
             fragmentTransaction = fragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top, R.anim.slide_in_top, R.anim.slide_out_bottom);
 
-
         fragmentTransaction.replace(fragmentViewId, target, data)
                 .setReorderingAllowed(true);
 
@@ -125,4 +136,11 @@ public class InAppNavService {
 
     }
 
+    public void startGame(Game data) {
+
+        ObjectTransporter.getInstance().put(data.getId(),data);
+        Intent it = new Intent(ctx, GameActivity.class);
+        it.putExtra("gameId",data.getId());
+        startActivity(it);
+    }
 }

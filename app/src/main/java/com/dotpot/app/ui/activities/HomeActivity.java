@@ -1,4 +1,4 @@
-package com.dotpot.app.ui;
+package com.dotpot.app.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.dotpot.app.R;
+import com.dotpot.app.binding.GameViewModel;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.binding.WalletViewModel;
+import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,7 +41,9 @@ public class HomeActivity extends BaseActivity {
         GenericUserViewModel.getInstance()
                 .updateLocalAndNotify(getApplicationContext(), utl.readUserData());
         WalletViewModel.getInstance().refresh(null);
-        if(!isNetworkAvailable()){
+        GameViewModel.getInstance().refreshAmounts(this);
+
+        if (!isNetworkAvailable()) {
             utl.diagInfo(navView, getString(R.string.no_network), getString(R.string.ok), R.drawable.error, dialogInterface -> {
 
             });
@@ -69,8 +73,8 @@ public class HomeActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode == WebViewActivity.REQUEST_PAYMENT && resultCode == Activity.RESULT_OK){
-            utl.diagInfo(navView,  getString(R.string.wallet_updated),null, R.drawable.ic_done_tick, dialogInterface -> {
+        if (requestCode == WebViewActivity.REQUEST_PAYMENT && resultCode == Activity.RESULT_OK) {
+            utl.diagInfo(navView, getString(R.string.wallet_updated), null, R.drawable.ic_done_tick, dialogInterface -> {
 
             });
             navController.navigate(R.id.navigation_wallet);
@@ -78,8 +82,7 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    public void processNavigation(Intent intent){
-
+    public void processNavigation(Intent intent) {
 
 
     }

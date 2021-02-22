@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
-    tools:context=".ui.wallet.WalletFragment">
+    tools:context=".ui.fragments.WalletFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.dotpot.app.interfaces;
 
 
 import com.dotpot.app.models.ActionItem;
+import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
@@ -12,9 +13,7 @@ import org.json.JSONObject;
 
 public interface API {
 
-    default void getGenricUser(String userId, GenricObjectCallback<GenricUser> cb){
-        utl.e("Not Implemented API::getGenricUser");
-    };
+    void getGenricUser(String userId, GenricObjectCallback<GenricUser> cb);
 
     default void createTransaction(float amount,GenricObjectCallback<JSONObject> cb){
         utl.e("Not Implemented API::createTransaction");
@@ -32,9 +31,7 @@ public interface API {
         utl.e("Not Implemented API::getTransactions");
     };
 
-    default void getActionItems(BaseActivity activity, GenricObjectCallback<ActionItem> cb){
-        utl.e("Not Implemented API::getActionItems");
-    };
+    void getActionItems(BaseActivity activity, GenricObjectCallback<ActionItem> cb);
 
     default void getLeaderBoard(GenricObjectCallback<GenricUser> cb){
         utl.e("Not Implemented API::getLeaderBoard");
@@ -44,5 +41,24 @@ public interface API {
         utl.e("Not Implemented API::redeemReferral");
     };
 
+    default void getGameAmounts(GenricObjectCallback<Float> cb){
+        utl.e("Not Implemented API::getGameAmounts");
+    };
+
+    default void getUserGames(GenricObjectCallback<Game> cb){
+        utl.e("Not Implemented API::getUserGames");
+    };
+
+    default void getPayAmounts(GenricObjectCallback<Float> cb){
+        utl.e("Not Implemented API::getPayAmounts");
+    };
+
+    default void createGame(Float amount, GenricObjectCallback<Game> gameGenricObjectCallback){
+        utl.e("Not Implemented API::createGame");
+    };;
+
+    default void finishGame(Game game, GenricObjectCallback<Game> gameGenricObjectCallback){
+        utl.e("Not Implemented API::finishGame");
+    };
 
 }

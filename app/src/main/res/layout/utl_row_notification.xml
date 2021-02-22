@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    android:padding="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:paddingTop="5dp">
 
 
     <RelativeLayout
@@ -14,67 +14,63 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:padding="4dp"
-            android:layout_centerVertical="true"
-            app:tint="@color/colorPrimary"
-            android:layout_alignParentLeft="true"
             android:id="@+id/image"
-            android:src="@drawable/ic_notifications_black_24dp"
             android:layout_width="30dp"
-            android:layout_height="30dp" />
-
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_notifications_black_24dp"
+            app:tint="@color/colorPrimary" />
 
 
         <TextView
 
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/image"
             android:fontFamily="@font/font_subtext"
-            android:textColor="@color/colorPrimary"
             android:text="@string/abc"
-            android:textSize="16sp"
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
 
     </RelativeLayout>
 
     <TextView
 
-        android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/icon"
-        android:fontFamily="@font/font_subtext"
-        android:textColor="@color/colorTextPrimary"
-        android:text="@string/abc"
-        android:textSize="14sp"
         android:id="@+id/message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/icon"
+        android:fontFamily="@font/font_subtext"
+        android:text="@string/abc"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="14sp" />
 
 
     <TextView
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/colorTextSecondary"
-        android:text="@string/abc"
-        android:textSize="12sp"
         android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
+        android:text="@string/abc"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
 
 
     <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/cont_text"
         android:layout_marginTop="10dp"
-    android:layout_below="@+id/cont_text"
-    android:background="@color/grey_600"
-    android:layout_width="match_parent"
-    android:layout_height="0.1dp"/>
+        android:background="@color/colorBackgroundDark" />
 
 
 </LinearLayout>

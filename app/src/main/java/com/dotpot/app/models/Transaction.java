@@ -9,6 +9,16 @@ import com.dotpot.app.utl;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Transaction {
 
 
@@ -53,115 +63,14 @@ public class Transaction {
     private String debitOrCredit;
 
 
-    public String getPayeeId() {
-        return payeeId;
-    }
-
-    public void setPayeeId(String payeeId) {
-        this.payeeId = payeeId;
-    }
-
-    public String getTxnType() {
-        return txnType;
-    }
-
-    public void setTxnType(String txnType) {
-        this.txnType = txnType;
-    }
-
-    public Float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Float amount) {
-        this.amount = amount;
-    }
-
-    public String getRefTxnId() {
-        return refTxnId;
-    }
-
-    public void setRefTxnId(String refTxnId) {
-        this.refTxnId = refTxnId;
-    }
-
-    public Long getUserseq() {
-        return userseq;
-    }
-
-    public void setUserseq(Long userseq) {
-        this.userseq = userseq;
-    }
-
-    public Long getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Long timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getStatusWallet() {
-        return statusWallet;
-    }
-
-    public void setStatusWallet(String statusWallet) {
-        this.statusWallet = statusWallet;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDebitOrCredit() {
-        return debitOrCredit;
-    }
-
-    public void setDebitOrCredit(String debitOrCredit) {
-        this.debitOrCredit = debitOrCredit;
-    }
-
     public int getStatusColor(){
         switch (getStatus()){
             case Constants
                     .TXN_SUCCESS:
-                return R.color.colorTextSuccess;
+                if(getDebitOrCredit().equals(Constants.TXN_TYPE_DEBIT))
+                    return R.color.colorAccent;
+                else
+                    return R.color.colorTextSuccess;
             case Constants
                     .TXN_FAILURE:
                 return R.color.colorTextWarning;
@@ -190,8 +99,6 @@ public class Transaction {
     public String getDescription(){
         return utl.toTitleCase(getTxnType().replaceAll("_"," "));
     }
-
-
 
     public String getDisplayStatus() {
 

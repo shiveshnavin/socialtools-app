@@ -88,7 +88,7 @@ import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.DBService;
 import com.dotpot.app.ui.BaseActivity;
-import com.dotpot.app.ui.SplashActivity;
+import com.dotpot.app.ui.activities.SplashActivity;
 import com.dotpot.app.utils.CircularRevealPopup;
 import com.dotpot.app.utils.FadePopup;
 import com.dotpot.app.utils.ResourceUtils;
@@ -2139,7 +2139,10 @@ public class utl {
 
                 format = new SimpleDateFormat("MMMM dd hh:mm a");
 
-            } else {
+            } else if(elapsedHours>12){
+                format = new SimpleDateFormat("dd MMMM hh:mm a");
+            }
+            else {
                 format = new SimpleDateFormat("hh:mm a");
             }
 

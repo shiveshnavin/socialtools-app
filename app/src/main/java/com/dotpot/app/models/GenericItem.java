@@ -12,7 +12,7 @@ public class GenericItem {
     public String title;
     public String text="";
     public String type;
-    public Long dateTime;
+    public Long timeStamp;
 
     public GenericItem() {
         id = utl.uid(10);
@@ -34,7 +34,7 @@ public class GenericItem {
 
         SimpleDateFormat format=new SimpleDateFormat("dd MMM yyyy");
         try {
-            return format.format(new Date(dateTime));
+            return format.format(new Date(timeStamp));
         } catch (Exception e) {
             return format.format(new Date(System.currentTimeMillis()));
         }
@@ -42,7 +42,7 @@ public class GenericItem {
     }
 
     public String elapsed(){
-        return printDifference(new Date(dateTime),new Date(System.currentTimeMillis()));
+        return printDifference(new Date(timeStamp),new Date(System.currentTimeMillis()));
     }
 
     public String  printDifference(Date startDate, Date endDate) {
@@ -100,12 +100,12 @@ public class GenericItem {
 
 
 
-    public Long getDateTime() {
-        return dateTime;
+    public Long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setDateTime(Long dateTime) {
-        this.dateTime = dateTime;
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public String getId() {

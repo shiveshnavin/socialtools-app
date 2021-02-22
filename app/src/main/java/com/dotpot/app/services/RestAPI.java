@@ -3,6 +3,7 @@ package com.dotpot.app.services;
 import android.content.Context;
 
 import com.androidnetworking.error.ANError;
+import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
@@ -12,6 +13,7 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
 import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.ActionItem;
+import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
@@ -20,6 +22,7 @@ import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,35 +30,47 @@ import java.util.ArrayList;
 
 public class RestAPI implements API {
 
+    private static RestAPI instance;
     Context ctx;
     NetworkService networkService;
-    LocalAPIService localAPI;
 
-    private static RestAPI instance;
+    private RestAPI(Context b) {
+        this.ctx = b;
+        networkService = AndroidNetworkService.getInstance(b);
+    }
 
     /***
      *
      * @param c Application Context {Context}
-     * @return
+     * @return {API}
      */
-    public static API getInstance(Context c){
-        if(instance==null)
-            instance=new RestAPI(c);
+    public static API getInstance(Context c) {
+        if (instance == null)
+            instance = new RestAPI(c);
         return instance;
     }
 
-    private RestAPI(Context b)
-    {
-        this.ctx = b;
-        networkService=AndroidNetworkService.getInstance(b);
-        localAPI=new LocalAPIService(b);
+    /***
+     *
+     * @return {API}
+     */
+    public static RestAPI getInstance() {
+        if (instance == null)
+            instance = new RestAPI(App.getAppContext());
+        return instance;
     }
 
-    public static String getMessageFromANError(ANError job){
-        if(job.getErrorBody()!=null){
+    public static String getMessageFromANError(ANError job) {
+        if (job.getErrorBody() != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(job.getErrorBody());
+                if (jsonObject.getString("message") != null) {
+                    return jsonObject.getString("message");
+                }
+            } catch (Exception ignored) {
+            }
             return (job.getErrorBody());
-        }
-        else {
+        } else {
             return (job.getErrorDetail());
         }
     }
@@ -68,40 +83,38 @@ public class RestAPI implements API {
     @Override
     public void createTransaction(float amount, GenricObjectCallback<JSONObject> cb) {
 
-        JSONObject jop=new JSONObject();
-        GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
-        if(user==null){
+        JSONObject jop = new JSONObject();
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
-        try{
-            jop.put("NAME",user.getName());
-            jop.put("EMAIL",user.getEmail());
+        try {
+            jop.put("NAME", user.getName());
+            jop.put("EMAIL", user.getEmail());
             jop.put("MOBILE_NO", user.getPhone());
             jop.put("PRODUCT_NAME", BaseActivity.mFirebaseRemoteConfig.getValue("PRODUCT_NAME"));
-            jop.put("TXN_AMOUNT",amount);
+            jop.put("TXN_AMOUNT", amount);
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         networkService.callPost(Constants.u(Constants.API_CREATE_TXN), jop, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if(response.has("payurl")){
+                if (response.has("payurl")) {
                     cb.onEntity(response);
-                }
-                else {
+                } else {
                     cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
             @Override
             public void onFail(ANError job) {
-                if(job.getErrorBody()!=null){
+                if (job.getErrorBody() != null) {
                     cb.onError(job.getErrorBody());
-                }
-                else {
+                } else {
                     cb.onError(job.getErrorDetail());
                 }
             }
@@ -112,32 +125,30 @@ public class RestAPI implements API {
 
     @Override
     public void checkTransaction(String orderId, GenricObjectCallback<JSONObject> cb) {
-        JSONObject jop=new JSONObject();
+        JSONObject jop = new JSONObject();
 
-        try{
-            jop.put("ORDER_ID",orderId);
+        try {
+            jop.put("ORDER_ID", orderId);
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         networkService.callPost(Constants.u(Constants.API_CHECK_TXN), jop, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if(response.has("status")){
+                if (response.has("status")) {
                     cb.onEntity(response);
-                }
-                else {
+                } else {
                     cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
             @Override
             public void onFail(ANError job) {
-                if(job.getErrorBody()!=null){
+                if (job.getErrorBody() != null) {
                     cb.onError(job.getErrorBody());
-                }
-                else {
+                } else {
                     cb.onError(job.getErrorDetail());
                 }
             }
@@ -147,9 +158,9 @@ public class RestAPI implements API {
 
     @Override
     public void getWallet(GenricObjectCallback<Wallet> cb) {
-        JSONObject jop=new JSONObject();
-        GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
-        if(user==null){
+        JSONObject jop = new JSONObject();
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
@@ -158,20 +169,18 @@ public class RestAPI implements API {
         networkService.callGet(Constants.API_WALLET(user.getId()), false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if(response.has("creditBalance")){
-                    cb.onEntity(new Gson().fromJson(response.toString(),Wallet.class));
-                }
-                else {
+                if (response.has("creditBalance")) {
+                    cb.onEntity(new Gson().fromJson(response.toString(), Wallet.class));
+                } else {
                     cb.onError(ctx.getString(R.string.error_msg));
                 }
             }
 
             @Override
             public void onFail(ANError job) {
-                if(job.getErrorBody()!=null){
+                if (job.getErrorBody() != null) {
                     cb.onError(job.getErrorBody());
-                }
-                else {
+                } else {
                     cb.onError(job.getErrorDetail());
                 }
             }
@@ -180,28 +189,27 @@ public class RestAPI implements API {
 
     @Override
     public void getTransactions(String debitOrCredit, GenricObjectCallback<Transaction> cb) {
-        JSONObject jop=new JSONObject();
-        GenricUser user=GenericUserViewModel.getInstance().getUser().getValue();
-        if(user==null){
+        JSONObject jop = new JSONObject();
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
         }
 
-        networkService.callGet(Constants.API_TRANSACTIONS(user.getId(),debitOrCredit),  false, new NetworkRequestCallback() {
+        networkService.callGet(Constants.API_TRANSACTIONS(user.getId(), debitOrCredit), false, new NetworkRequestCallback() {
             @Override
             public void onSuccessString(String response) {
 
                 utl.JSONParser<Transaction> jsonParser = new utl.JSONParser<Transaction>();
-                cb.onEntitySet(jsonParser.parseJSONArray(response,Transaction.class));
+                cb.onEntitySet(jsonParser.parseJSONArray(response, Transaction.class));
 
             }
 
             @Override
             public void onFail(ANError job) {
-                if(job.getErrorBody()!=null){
+                if (job.getErrorBody() != null) {
                     cb.onError(job.getErrorBody());
-                }
-                else {
+                } else {
                     cb.onError(job.getErrorDetail());
                 }
             }
@@ -216,37 +224,37 @@ public class RestAPI implements API {
         ActionItem actionShowWalletBalance = new ActionItem();
         actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
         actionShowWalletBalance.subTitle = ResourceUtils.getString(R.string.help_wallet_bal);
-        actionShowWalletBalance.dateTime=System.currentTimeMillis();
-        actionShowWalletBalance.id="balance";
-        actionShowWalletBalance.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
-        actionShowWalletBalance.actionType =Constants.ACTION_ADD_CREDITS;
+        actionShowWalletBalance.dateTime = System.currentTimeMillis();
+        actionShowWalletBalance.id = "balance";
+        actionShowWalletBalance.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+        actionShowWalletBalance.actionType = Constants.ACTION_ADD_CREDITS;
 
         actionItems.add(actionShowWalletBalance);
 
         ActionItem actionShowRewards = new ActionItem();
-        actionShowRewards.textAction =ResourceUtils.getString(R.string.redeem);
-        actionShowRewards.dateTime=System.currentTimeMillis();
-        actionShowRewards.id="redeem";
+        actionShowRewards.textAction = ResourceUtils.getString(R.string.redeem);
+        actionShowRewards.dateTime = System.currentTimeMillis();
+        actionShowRewards.id = "redeem";
         actionShowRewards.subTitle = ResourceUtils.getString(R.string.help_award_bal);
-        actionShowRewards.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
-        actionShowRewards.actionType =Constants.ACTION_REDEEM_OPTIONS;
+        actionShowRewards.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+        actionShowRewards.actionType = Constants.ACTION_REDEEM_OPTIONS;
 
         actionItems.add(actionShowRewards);
 
 
         ActionItem earnByAds = new ActionItem();
-        earnByAds.textAction =ResourceUtils.getString(R.string.get_started);
-        earnByAds.dateTime=System.currentTimeMillis();
-        earnByAds.id="earn";
-        earnByAds.title=ResourceUtils.getString(R.string.earn);
-        earnByAds.rightTop="skip";
+        earnByAds.textAction = ResourceUtils.getString(R.string.get_started);
+        earnByAds.dateTime = System.currentTimeMillis();
+        earnByAds.id = "earn";
+        earnByAds.title = ResourceUtils.getString(R.string.earn);
+        earnByAds.rightTop = "skip";
         earnByAds.subTitle = ResourceUtils.getString(R.string.help_earn_bal);
-        earnByAds.accentColorId=utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
-        earnByAds.actionType =Constants.ACTION_EARN_MONEY;
+        earnByAds.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+        earnByAds.actionType = Constants.ACTION_EARN_MONEY;
 
         actionItems.add(earnByAds);
 
-        actionItems.stream().forEach(actionItem -> actionItem.act=activity);
+        actionItems.stream().forEach(actionItem -> actionItem.act = activity);
         cb.onEntitySet(actionItems);
 
     }
@@ -258,11 +266,11 @@ public class RestAPI implements API {
         int N = 10;
         while (N-- > 0) {
             GenricUser leader = new GenricUser();
-            leader.setRank(""+(10-N));
+            leader.setRank("" + (10 - N));
             leader.setId(utl.uid(10));
-            leader.setName(utl.uid(6)+" "+utl.uid(4));
-            leader.setAbout(""+utl.randomInt(3));
-            leader.setImage("https://i.pravatar.cc/"+leader.getAbout());
+            leader.setName(utl.uid(6) + " " + utl.uid(4));
+            leader.setAbout("" + utl.randomInt(3));
+            leader.setImage("https://i.pravatar.cc/" + leader.getAbout());
             leaderList.add(leader);
         }
 
@@ -274,29 +282,168 @@ public class RestAPI implements API {
     @Override
     public void redeemReferral(String referralCode, GenricDataCallback cb) {
 
-        JSONObject jop=new JSONObject();
-        try{
+        JSONObject jop = new JSONObject();
+        try {
 
-            jop.put("referralCode",referralCode);
+            jop.put("referralCode", referralCode);
 
-        }catch(Exception e)
-        {}
+        } catch (Exception e) {
+        }
 
         networkService.callPost(Constants.u(Constants.API_REDEEM_REFERRAL), jop, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                cb.onStart(response.optString("message"),1);
+                cb.onStart(response.optString("message"), 1);
             }
 
             @Override
             public void onFail(ANError job) {
-                cb.onStart(getMessageFromANError(job),-1);
+                cb.onStart(getMessageFromANError(job), -1);
             }
         });
 
 
     }
 
+    private ArrayList<Float> parseAmounts(String responseJArray) {
+        ArrayList<Float> amts = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(responseJArray);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Float amt = (float) jsonArray.optDouble(i, 0.0d);
+                amts.add(amt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReporter.reportException(e);
+        }
+        return amts;
+    }
+
+    @Override
+    public void getGameAmounts(GenricObjectCallback<Float> cb) {
+        String amtJar = utl.getKey("amounts", ctx);
+        if (utl.isEmpty(amtJar)) {
+            networkService.callGet(Constants.u(Constants.API_GET_GAME_AMOUNTS), false, new NetworkRequestCallback() {
+                @Override
+                public void onSuccessString(String response) {
+
+                    utl.setKey("amounts", response, ctx);
+                    cb.onEntitySet(parseAmounts(response));
+
+                }
+
+                @Override
+                public void onFail(ANError job) {
+                    cb.onError(getMessageFromANError(job));
+                }
+            });
+        } else {
+            cb.onEntitySet(parseAmounts(amtJar));
+        }
+    }
 
 
+    @Override
+    public void getPayAmounts(GenricObjectCallback<Float> cb) {
+        String amtJar = utl.getKey("pamounts", ctx);
+        if (utl.isEmpty(amtJar)) {
+            networkService.callGet(Constants.u(Constants.API_GET_PAY_AMOUNTS), false, new NetworkRequestCallback() {
+                @Override
+                public void onSuccessString(String response) {
+
+                    utl.setKey("pamounts", response, ctx);
+                    cb.onEntitySet(parseAmounts(response));
+
+                }
+
+                @Override
+                public void onFail(ANError job) {
+                    cb.onError(getMessageFromANError(job));
+                }
+            });
+        } else {
+            cb.onEntitySet(parseAmounts(amtJar));
+        }
+    }
+
+    @Override
+    public void getUserGames(GenricObjectCallback<Game> cb) {
+
+        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(utl.readUserData().getId()))
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccessString(String response) {
+
+                        utl.JSONParser<Game> jsonParser = new utl.JSONParser<Game>();
+                        cb.onEntitySet(jsonParser.parseJSONArray(response, Game.class));
+
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+    }
+
+    @Override
+    public void createGame(Float amount, GenricObjectCallback<Game> cb) {
+
+
+        JSONObject jop = new JSONObject();
+        try {
+
+            jop.put("gameType", amount > 0 ? "paid" : "free");
+            jop.put("amount", amount);
+
+        } catch (Exception e) {
+        }
+
+        networkService.callPost(Constants.u(Constants.API_CREATE_GAME), jop,
+                false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        cb.onEntity(utl.js.fromJson(response.toString(), Game.class));
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+
+
+    }
+
+    @Override
+    public void finishGame(Game game, GenricObjectCallback<Game> cb) {
+
+
+        JSONObject jop = new JSONObject();
+        try {
+
+            jop.put("id", game.getId());
+            jop.put("player1Time", game.getPlayer1Time());
+            jop.put("player2Time", game.getPlayer2Time());
+            jop.put("player1wins", game.getPlayer1wins());
+            jop.put("player2wins", game.getPlayer2wins());
+
+        } catch (Exception e) {
+        }
+
+        networkService.callPost(Constants.u(Constants.API_FINISH_GAME), jop,
+                false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        cb.onEntity(utl.js.fromJson(response.toString(), Game.class));
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+    }
 }

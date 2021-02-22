@@ -14,7 +14,7 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.interfaces.NetworkRequestCallback;
 import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.GenricUser;
-import com.dotpot.app.ui.AccountActivity;
+import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
@@ -131,7 +131,7 @@ public class LoginService {
         } catch (Exception e) {
         }
 
-        networkService.callPost(Constants.u(Constants.u(API_USERS))
+        networkService.callPost((Constants.u(API_USERS))
                 , jop, false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {

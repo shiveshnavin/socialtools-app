@@ -1,4 +1,4 @@
-package com.dotpot.app.ui.home;
+package com.dotpot.app.ui.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,6 +33,7 @@ import com.dotpot.app.App;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
+import com.dotpot.app.binding.HomeViewModel;
 import com.dotpot.app.binding.NotificationsViewModel;
 import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.models.ActionItem;
@@ -43,22 +44,22 @@ import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.ResourceUtils;
+import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
 
 public class HomeFragment extends BaseFragment {
 
+    GenriXAdapter<utl.NotificationMessage> notificationMessageGenriXAdapter;
     private HomeViewModel homeViewModel;
     private GenriXAdapter<ActionItem> actionAdapter;
     private GenriXAdapter<GenricUser> leaderBoardAdapter;
-
     private ImageView poster;
     private ImageView playIcon;
     private TextView text_home;
@@ -73,6 +74,7 @@ public class HomeFragment extends BaseFragment {
     private TextView weeklyLeaderboardtxt;
     private RecyclerView listLeaderboard;
     private RecyclerView listItems;
+    private View loader;
 
     /**
      * Find the Views in the layout<br />
@@ -95,8 +97,8 @@ public class HomeFragment extends BaseFragment {
         weeklyLeaderboardtxt = (TextView) root.findViewById(R.id.weeklyLeaderboardtxt);
         listLeaderboard = (RecyclerView) root.findViewById(R.id.listLeaderboard);
         listItems = (RecyclerView) root.findViewById(R.id.listItems);
+        loader = root.findViewById(R.id.loader);
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -110,7 +112,10 @@ public class HomeFragment extends BaseFragment {
             act.fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         final TextView textView = root.findViewById(R.id.text_home);
+        ShowHideLoader.create().content(listItems).loader(loader).loading();
+
         WalletViewModel.getInstance().getWallet().observe(getViewLifecycleOwner(), wallet -> {
+            ShowHideLoader.create().content(listItems).loader(loader).loaded();
             if (homeViewModel == null) {
                 homeViewModel =
                         new ViewModelProvider(HomeFragment.this).get(HomeViewModel.class);
@@ -122,10 +127,9 @@ public class HomeFragment extends BaseFragment {
         });
 
 
-
         NotificationsViewModel.getInstance().getNotifications()
                 .observe(getViewLifecycleOwner(),
-                this::setUpNotifications);
+                        this::setUpNotifications);
         NotificationsViewModel.getInstance().refresh();
 
         final Animation press = AnimationUtils.loadAnimation(ctx, R.anim.motion_play_anim);
@@ -145,6 +149,7 @@ public class HomeFragment extends BaseFragment {
                     playIcon.animate().scaleX(1)
                             .scaleY(1f).setDuration(300)
                             .rotation(0f).start();
+                    navService.startSelectGameAmount(fragmentId, null);
                     break;
                 case MotionEvent.ACTION_CANCEL:
                     playIcon.animate().scaleX(1f)
@@ -159,6 +164,7 @@ public class HomeFragment extends BaseFragment {
             return false;
         });
 
+
         contNotif.setOnClickListener(view -> {
 
         });
@@ -169,34 +175,40 @@ public class HomeFragment extends BaseFragment {
     private void setUpNotifications(ArrayList<utl.NotificationMessage> notificationMessages) {
 
 
-        if(notificationMessages.size()>0){
-            notifTxt.setText(String.format(ResourceUtils.getString(R.string.you_have_notifications),notificationMessages.size()));
+        if (notificationMessages.size() > 0) {
+            notifTxt.setText(String.format(ResourceUtils.getString(R.string.you_have_notifications), notificationMessages.size()));
 //            notifAction.setText(""+notificationMessages.size());
             notifAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if(notifAction.getTag()==null)
-                    {
-                        setDrawable(notifAction,R.drawable.ic_arrow_down);
+                    if (notifAction.getTag() == null) {
+                        setDrawable(notifAction, R.drawable.ic_arrow_down);
 //                        notifAction.setCompoundDrawables(ResourceUtils.getDrawable(R.drawable.ic_cancel_white),
 //                                null,null,null);
                         notifAction.setTag("shown");
-                        showNotifications(NotificationsViewModel.getInstance().getNotifications().getValue());
-                    }
-                    else {
-                        setDrawable(notifAction,R.drawable.ic_notifications_black_24dp);
+                        try {
+                            showNotifications(NotificationsViewModel.getInstance().getNotifications().getValue());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        setDrawable(notifAction, R.drawable.ic_notifications_black_24dp);
 //                        notifAction.setCompoundDrawables(ResourceUtils.getDrawable(R.drawable.ic_notifications_black_24dp),null,null,null);
                         notifAction.setTag(null);
-                        hideNotifications();
+
+                        try {
+                            hideNotifications();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
                 }
 
             });
-            if(notificationMessageGenriXAdapter!=null)
-            {
+            if (notificationMessageGenriXAdapter != null) {
                 notificationMessageGenriXAdapter.itemList.clear();
                 notificationMessageGenriXAdapter.itemList.addAll(notificationMessages);
                 notificationMessageGenriXAdapter.notifyDataSetChanged();
@@ -213,29 +225,27 @@ public class HomeFragment extends BaseFragment {
                 }
 
             });
-        }
-        else {
-            notifAction.setOnClickListener(view1 -> {});
+        } else {
+            notifAction.setOnClickListener(view1 -> {
+            });
             notifTxt.setText(String.format(ResourceUtils.getString(R.string.you_have_notifications),
                     ResourceUtils.getString(R.string.no)));
         }
     }
 
-    private void setDrawable(TextView titleTextView,@DrawableRes int icon){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
+    private void setDrawable(TextView titleTextView, @DrawableRes int icon) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Drawable leftDrawable = AppCompatResources
                     .getDrawable(getContext(), icon);
             titleTextView.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
-        }
-        else
-        {
+        } else {
             //Safely create our VectorDrawable on pre-L android versions.
             Drawable leftDrawable = VectorDrawableCompat
                     .create(getContext().getResources(), icon, null);
             titleTextView.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
         }
     }
+
     private void setUpActionList(List<ActionItem> actionList) {
 
         actionAdapter = new GenriXAdapter<ActionItem>(getContext(), R.layout.row_card_menu, actionList) {
@@ -341,8 +351,7 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    GenriXAdapter<utl.NotificationMessage> notificationMessageGenriXAdapter;
-    public void hideNotifications(){
+    public void hideNotifications() {
 
         contNotifList.animate()
                 .translationY(-100)
@@ -355,6 +364,7 @@ public class HomeFragment extends BaseFragment {
                     }
                 });
     }
+
     public void showNotifications(ArrayList<utl.NotificationMessage> notificationMessages) {
 
         contNotifList.setVisibility(View.VISIBLE);
@@ -368,19 +378,10 @@ public class HomeFragment extends BaseFragment {
                     }
                 });
 
-        Collections.sort(notificationMessages, new Comparator<utl.NotificationMessage>() {
-            @Override
-            public int compare(utl.NotificationMessage t1, utl.NotificationMessage t0) {
+        Collections.sort(notificationMessages, (t0, t1) -> t1.time.compareTo(t0.time));
 
 
-                return t1.time.compareTo(t0.time);
-
-            }
-        });
-
-
-        if(notificationMessageGenriXAdapter==null)
-        {
+        if (notificationMessageGenriXAdapter == null) {
 
             ArrayList<utl.NotificationMessage> listData = new ArrayList<>();
             listData.addAll(notificationMessages);
@@ -428,8 +429,7 @@ public class HomeFragment extends BaseFragment {
             notifList.setLayoutManager(new LinearLayoutManager(ctx));
             notifList.setAdapter(notificationMessageGenriXAdapter);
 
-        }
-        else {
+        } else {
             notificationMessageGenriXAdapter.itemList.clear();
             notificationMessageGenriXAdapter.itemList.addAll(notificationMessages);
             notificationMessageGenriXAdapter.notifyDataSetChanged();

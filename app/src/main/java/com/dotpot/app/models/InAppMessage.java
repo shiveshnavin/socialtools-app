@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.dotpot.app.App;
 import com.dotpot.app.Constants;
-import com.dotpot.app.ui.SplashActivity;
+import com.dotpot.app.ui.activities.SplashActivity;
 import com.dotpot.app.utl;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
@@ -12,10 +12,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Created by shivesh on 18/6/19.
  */
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class InAppMessage {
 
 
@@ -39,41 +48,9 @@ public class InAppMessage {
 
     public String senderStatus;
 
-    public InAppMessage(String msgTitle, String targetId,
-                        String senderName, String senderId,
-                        String message, String icon, String attachmentUrl,
-                        String atachmentType) {
-        dateTime= System.currentTimeMillis();
-        id =""+ dateTime;
-        this.quotedTextId = null;
-        this.msgTitle = msgTitle;
-        this.targetId = targetId;
-        this.senderName = senderName;
-        this.senderId = senderId;
-        this.message = message;
-        this.icon = icon;
-        this.attachmentUrl = attachmentUrl;
-        this.atachmentType = atachmentType;
-    }
 
 
-    public InAppMessage(String msgTitle, String targetId, String senderName,
-                        String senderId, String message, String icon,
-                        String attachmentUrl, String atachmentType,
-                        String quotedTextId) {
-        dateTime= System.currentTimeMillis();
-        id =""+ dateTime;
-        this.msgTitle = msgTitle;
-        this.targetId = targetId;
-        this.senderName = senderName;
-        this.senderId = senderId;
-        this.message = message;
-        this.icon = icon;
-        this.attachmentUrl = attachmentUrl;
-        this.atachmentType = atachmentType;
-        this.quotedTextId = quotedTextId;
 
-    }
 
     public InAppMessage(String id, Long dateTime, String msgTitle, String targetId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, int read, String quotedTextId) {
         this.id = id;
@@ -91,81 +68,18 @@ public class InAppMessage {
 
     }
 
-    public InAppMessage( ) {
-
-    }
-
     public String getTags() {
         if(tags==null)
             tags="";
         return tags;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-    public String getQuotedTextId() {
-        return quotedTextId;
-    }
-
-    public void setQuotedTextId(String quotedTextId) {
-        this.quotedTextId = quotedTextId;
-    }
-
     public String getMsgTitle() {
         return msgTitle !=null ? msgTitle : "";
     }
 
-    public void setMsgTitle(String msgTitle) {
-        this.msgTitle = msgTitle;
-    }
-
-
-    public String getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(String targetId) {
-        this.targetId = targetId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Long getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Long dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
     public String senderNameOnly() {
         return senderName.replace(Constants.V2V_VERIFIED,"");
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public String getRefinedMessage()
@@ -178,43 +92,9 @@ public class InAppMessage {
                 .replace(Constants.C2C_DELETE,"")
                 .replace(Constants.O2O,"");
     }
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public String getAttachmentUrl() {
         return ""+attachmentUrl;
     }
-
-    public void setAttachmentUrl(String attachmentUrl) {
-        this.attachmentUrl = attachmentUrl;
-    }
-
-    public String getAtachmentType() {
-        return atachmentType;
-    }
-
-    public void setAtachmentType(String atachmentType) {
-        this.atachmentType = atachmentType;
-    }
-
-    public int getRead() {
-        return read;
-    }
-
-    public void setRead(int read) {
-        this.read = read;
-    }
-
-
 
     public String elapsedText()
     {
@@ -330,30 +210,6 @@ public class InAppMessage {
         return format.format(startDate);
     }
 
-
-    public String getRecieverId() {
-        return recieverId;
-    }
-
-    public void setRecieverId(String recieverId) {
-        this.recieverId = recieverId;
-    }
-
-    public String getRecieverName() {
-        return recieverName;
-    }
-
-    public void setRecieverName(String recieverName) {
-        this.recieverName = recieverName;
-    }
-
-    public String getSenderStatus() {
-        return senderStatus;
-    }
-
-    public void setSenderStatus(String senderStatus) {
-        this.senderStatus = senderStatus;
-    }
 
     public Intent getIntent(){
         Intent it = new Intent(App.getAppContext(),SplashActivity.class);

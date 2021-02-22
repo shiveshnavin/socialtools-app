@@ -62,7 +62,7 @@ public class DBService extends SQLiteOpenHelper {
 
         } catch (Exception e) {
             try {
-                db.execSQL("ALTER TABLE chats ADD COLUMN " + col + " TEXT DEFAULT 0");
+                db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN " + col + " TEXT DEFAULT 0");
                 utl.e("dbHelper", "Added " + col);
             } catch (Exception e1) {
                 FirebaseCrashlytics.getInstance().recordException(e1);
