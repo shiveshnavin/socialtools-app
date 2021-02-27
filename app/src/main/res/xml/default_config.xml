@@ -2,11 +2,14 @@
 <defaultsMap>
     <entry>
         <key>cache_config</key>
-        <value>{"/api/groupInfo":62440,"/api/assignGroup":62440,"/api/users":60,"/api/getUser":60,"/api/posts":60,"/api/users_lite":620,"/api/searchx?getTrending=1":3600,"/api/searchx?query=&amp;getTrending=1":3600}</value>
+        <value>{
+            "/api/transactions/user/${userId}":1800
+            }
+        </value>
     </entry>
     <entry>
         <key>caching_enabled</key>
-        <value>false</value>
+        <value>true</value>
     </entry>
     <entry>
         <key>otp_timeout_sec</key>

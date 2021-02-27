@@ -214,6 +214,7 @@ public class LoginService {
                     firebaseId(token, new GenricObjectCallback<GenricUser>() {
                         @Override
                         public void onEntity(GenricUser data) {
+                            GenericUserViewModel.getInstance().updateLocalAndNotify(ctx,data);
                             cb.onEntity(data);
                         }
 
@@ -231,6 +232,7 @@ public class LoginService {
                             public void onEntity(GenricUser data) {
                                 if(data!=null)
                                 {
+                                    GenericUserViewModel.getInstance().updateLocalAndNotify(ctx,data);
                                     cb.onEntity(data);
                                     utl.writeUserData(data,ctx);
                                 }

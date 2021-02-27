@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.GameViewModel;
@@ -21,7 +20,6 @@ import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.models.Wallet;
-import com.dotpot.app.services.CacheService;
 import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
@@ -154,7 +152,6 @@ public class AddCreditFragment extends BaseFragment {
                             },1000);
 
                             navService.startGame(data);
-                            CacheService.getInstance().invalidateOne(Constants.API_GET_USER_GAMES);
                             if(data.getAmount()>0)
                                 WalletViewModel.getInstance().refresh("");
 

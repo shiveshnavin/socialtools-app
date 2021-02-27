@@ -23,18 +23,20 @@ public class Constants {
     public static final String API_GET_PAY_AMOUNTS = "/api/transactions/amounts";
     public static final String API_CREATE_TXN = "/pay/api/createTxn";
     public static final String API_CHECK_TXN = "/pay/api/status";
+    public static final String API_WALLET = "/api/users/${userId}/wallet";
     public static String API_WALLET(String userId) {
-        return u("/api/users/"+userId+"/wallet");
+        return u(API_WALLET.replace("${userId}",userId));
     }
+    public static final String API_TRANSACTIONS = "/api/transactions/user/${userId}?debitOrCredit=${txnType}";
     public static String API_TRANSACTIONS(String userId,String txnType) {
-        return u("/api/transactions/user/"+userId+"?debitOrCredit="+txnType);
+        return u(API_TRANSACTIONS.replace("${userId}",userId).replace("${txnType}",txnType == null ?"":txnType));
     }
 
     public static final String API_GET_GAME_AMOUNTS = "/api/games/amounts";
     public static final String API_CREATE_GAME = "/api/games/create";
     public static String API_GET_USER_GAMES = "/api/games/user/";
     public static String API_GET_USER_GAMES(String userId) {
-        return "/api/games/user/"+userId;
+        return API_GET_USER_GAMES+userId;
     }
     public static final String API_FINISH_GAME = "/api/games/finish";
 

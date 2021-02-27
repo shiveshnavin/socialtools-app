@@ -134,12 +134,7 @@ public class AndroidNetworkService implements NetworkService {
         }
         recordUse(url, null);
         AndroidNetworking.get(url)
-                .addHeaders("accesstoken", accessToken)
-                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
-                .addHeaders("firebasetoken", firebaseAuthToken)
-                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
-                .addHeaders("version", appVersionCode)
-                .addHeaders("userid", (user == null ? "" : user.getId()))
+                .addHeaders(getAllHeaders())
                 .build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
@@ -162,6 +157,20 @@ public class AndroidNetworkService implements NetworkService {
         });
     }
 
+    private Map<String, String> getAllHeaders() {
+
+        HashMap<String ,String  > allHeaders = new HashMap<>();
+
+        allHeaders.put("accesstoken", accessToken);
+        allHeaders.put(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader());
+        allHeaders.put("firebasetoken", firebaseAuthToken);
+        allHeaders.put(Constants.KEY_PROVIDERTOKEN, providerToken);
+        allHeaders.put("version", appVersionCode);
+        allHeaders.put("userid", (user == null ? "" : user.getId()));
+
+        return allHeaders;
+    }
+
     @Override
     public void callGet(String url, final boolean showLoading, final NetworkRequestCallback call) {
         
@@ -173,12 +182,7 @@ public class AndroidNetworkService implements NetworkService {
 
         recordUse(url, null);
         AndroidNetworking.get(url)
-                .addHeaders("accesstoken", accessToken)
-                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
-                .addHeaders("firebasetoken", firebaseAuthToken)
-                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
-                .addHeaders("version", appVersionCode)
-                .addHeaders("userid", (user == null ? "" : user.getId()))
+                .addHeaders(getAllHeaders())
                 .build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
@@ -244,12 +248,7 @@ public class AndroidNetworkService implements NetworkService {
 
         recordUse(url, null);
         AndroidNetworking.post(url)
-                .addHeaders("accesstoken", accessToken)
-                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
-                .addHeaders("firebasetoken", firebaseAuthToken)
-                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
-                .addHeaders("version", appVersionCode)
-                .addHeaders("userid", (user == null ? "" : user.getId()))
+                .addHeaders(getAllHeaders())
                 .addJSONObjectBody(body).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
@@ -289,12 +288,7 @@ public class AndroidNetworkService implements NetworkService {
 
         recordUse(url, body.toString());
         AndroidNetworking.post(url)
-                .addHeaders("accesstoken", accessToken)
-                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
-                .addHeaders("firebasetoken", firebaseAuthToken)
-                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
-                .addHeaders("version", appVersionCode)
-                .addHeaders("userid", (user == null ? "" : user.getId()))
+                .addHeaders(getAllHeaders())
                 .addJSONObjectBody(body).build()
                 .getAsString(new StringRequestListener() {
                     @Override
@@ -330,12 +324,7 @@ public class AndroidNetworkService implements NetworkService {
 
         utl.e("CallPost Upload", file.length());
         AndroidNetworking.upload(Constants.HOST + Constants.API_UPLOAD_IMAGE)
-                .addHeaders("accesstoken", accessToken)
-                .addHeaders(authHeader==null?"dummy":"Authorization",""+getBasicAuthHeader())
-                .addHeaders("firebasetoken", firebaseAuthToken)
-                .addHeaders(Constants.KEY_PROVIDERTOKEN, providerToken)
-                .addHeaders("version", appVersionCode)
-                .addHeaders("userid", (user == null ? "" : user.getId()))
+                .addHeaders(getAllHeaders())
                 .addMultipartFile("verifdoc", file)
                 .addMultipartParameter("userid", user.getId())
                 .addMultipartParameter("prefix", "" + filename)

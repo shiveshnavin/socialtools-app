@@ -394,6 +394,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/fragment_bottom_padding"
                 android:visibility="gone"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/row_transaction"

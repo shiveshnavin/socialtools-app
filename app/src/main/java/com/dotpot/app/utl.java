@@ -86,6 +86,7 @@ import com.dotpot.app.binding.NotificationsViewModel;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.models.GenricUser;
+import com.dotpot.app.services.CacheService;
 import com.dotpot.app.services.DBService;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.activities.SplashActivity;
@@ -649,6 +650,11 @@ public class utl {
 
         }
 
+        try{
+            CacheService.getInstance().invalidateAll();
+        }catch (Exception e){
+
+        }
         try {
             removeUserData();
             GenericUserViewModel.getInstance().updateLocalAndNotify(null,null);

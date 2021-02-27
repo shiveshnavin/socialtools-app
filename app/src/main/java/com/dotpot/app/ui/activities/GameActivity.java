@@ -45,6 +45,7 @@ public class GameActivity extends BaseActivity {
             @Override
             public void onEntity(Game data) {
                 utl.snack(act,"Game Finished !!!");
+                RestAPI.getInstance().invalidateCacheWalletAndTxns();
                 WalletViewModel.getInstance().refresh("");
             }
 

@@ -2,6 +2,7 @@ package com.dotpot.app.services;
 
 import android.content.Context;
 
+import com.dotpot.app.models.GenricUser;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.dotpot.app.App;
@@ -23,9 +24,11 @@ public class CacheService implements CacheUtil {
     private static Cache<String , KeyValue> cache;
     private FirebaseRemoteConfig remoteConfig;
     private JSONObject cachePersistentJs;
+    private GenricUser user;
 
     private CacheService() {
         remoteConfig=FirebaseRemoteConfig.getInstance();
+        user = utl.readUserData();
     }
 
     public static CacheUtil getInstance() {
@@ -36,7 +39,7 @@ public class CacheService implements CacheUtil {
             }
             CacheService.ourInstance=new CacheService();
             CacheService.cache= CacheBuilder.newBuilder()
-                    .expireAfterWrite(10, TimeUnit.MINUTES).build();
+                    .expireAfterWrite(60, TimeUnit.MINUTES).build();
             try {
                 CacheService.ourInstance.buildCache();
             } catch (Exception e) {
@@ -135,6 +138,7 @@ public class CacheService implements CacheUtil {
         KeyValue keyValue=new KeyValue(""+System.currentTimeMillis(),value);
         cache.put(key,keyValue);
     }
+
     @Override
     public Long getTimeout(String key){
         try{
@@ -143,7 +147,11 @@ public class CacheService implements CacheUtil {
             Iterator<String > i=cacheConf.keys();
             while (i.hasNext()){
                 String k=i.next();
-                if(key.toLowerCase().contains(k.toLowerCase())){
+                String keyFromConfig = k;
+                if(user != null)
+                    keyFromConfig = keyFromConfig.replace("${userId}",user.getId());
+                keyFromConfig = keyFromConfig.toLowerCase();
+                if(key.toLowerCase().contains(keyFromConfig)){
                         return cacheConf.getLong(k) * 1000;
                 }
             }

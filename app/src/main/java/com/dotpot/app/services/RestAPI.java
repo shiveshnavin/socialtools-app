@@ -75,6 +75,28 @@ public class RestAPI implements API {
         }
     }
 
+    public void invalidateCacheWalletAndTxns(){
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if(user!=null){
+            CacheService.getInstance().
+                    invalidateOne(Constants.API_TRANSACTIONS(user.getId(), ""));
+            CacheService.getInstance().invalidateOne(Constants.API_WALLET(user.getId()));
+        }
+        else {
+            CacheService.getInstance().invalidateAll();
+        }
+    }
+
+    public void invalidateCacheGames(){
+        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        if(user!=null){
+            CacheService.getInstance().invalidateOne(Constants.API_GET_USER_GAMES(user.getId()));
+        }
+        else {
+            CacheService.getInstance().invalidateAll();
+        }
+    }
+
     @Override
     public void getGenricUser(String userId, GenricObjectCallback<GenricUser> cb) {
         cb.onEntity(utl.readUserData());
@@ -82,7 +104,7 @@ public class RestAPI implements API {
 
     @Override
     public void createTransaction(float amount, GenricObjectCallback<JSONObject> cb) {
-
+        invalidateCacheWalletAndTxns();
         JSONObject jop = new JSONObject();
         GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if (user == null) {
@@ -391,7 +413,8 @@ public class RestAPI implements API {
     @Override
     public void createGame(Float amount, GenricObjectCallback<Game> cb) {
 
-
+        invalidateCacheWalletAndTxns();
+        invalidateCacheGames();
         JSONObject jop = new JSONObject();
         try {
 

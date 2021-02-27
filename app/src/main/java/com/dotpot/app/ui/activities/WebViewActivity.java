@@ -25,6 +25,7 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.WalletViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 
@@ -289,6 +290,7 @@ public class WebViewActivity extends BaseActivity {
                                     Intent it = new Intent();
                                     it.putExtra("data", data.toString());
                                     setResult(Activity.RESULT_OK, it);
+                                    RestAPI.getInstance().invalidateCacheWalletAndTxns();
                                     WalletViewModel.getInstance().refresh(null);
                                     new Handler(Looper.getMainLooper())
                                             .postDelayed(()->{
