@@ -250,7 +250,7 @@ public class HomeFragment extends BaseFragment {
 
         actionAdapter = new GenriXAdapter<ActionItem>(getContext(), R.layout.row_card_menu, actionList) {
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder) viewHolder;
@@ -326,7 +326,7 @@ public class HomeFragment extends BaseFragment {
 
         leaderBoardAdapter = new GenriXAdapter<GenricUser>(getContext(), R.layout.row_user, genricUsers) {
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder) viewHolder;
@@ -387,7 +387,7 @@ public class HomeFragment extends BaseFragment {
             listData.addAll(notificationMessages);
             notificationMessageGenriXAdapter = new GenriXAdapter<utl.NotificationMessage>(ctx, R.layout.utl_row_notification, listData) {
                 @Override
-                public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+                public void onBindViewHolder(@NonNull final GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                     final utl.NotificationMessage nof = notificationMessages.get(viewHolder.getAdapterPosition());
                     final CustomViewHolder vh = (CustomViewHolder) viewHolder;

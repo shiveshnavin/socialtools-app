@@ -168,7 +168,7 @@ public class WalletFragment extends BaseFragment {
         if(adapter==null) {
             adapter = new GenriXAdapter<Transaction>(getContext(), R.layout.row_transaction, transactionsList) {
                 @Override
-                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                     final int pos = viewHolder.getAdapterPosition();
                     final CustomViewHolder vh = (CustomViewHolder) viewHolder;

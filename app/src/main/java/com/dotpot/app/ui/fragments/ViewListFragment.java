@@ -43,14 +43,13 @@ public class ViewListFragment<T extends GenericItem> extends BaseFragment {
 
     private void setUpTransactionsList(List<GenericItem> listData){
 
-        adapter = new GenriXAdapter<GenericItem>(getContext(),R.layout.row_transaction,listData){
+        adapter = new GenriXAdapter<GenericItem>(getContext(),R.layout.row_style_shop,listData){
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder)viewHolder;
                 final GenericItem item = listData.get(pos);
-                vh.textView(R.id.txnId).setText("ID #"+item.getId());
             }
         };
 

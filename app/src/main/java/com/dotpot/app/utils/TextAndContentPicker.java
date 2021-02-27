@@ -147,7 +147,7 @@ public class TextAndContentPicker {
                 new GenriXAdapter<GenericItem>(act, R.layout.utl_row_story, contentTypes) {
 
                     @Override
-                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                    public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                         final GenericItem it = contentTypes.get(viewHolder.getAdapterPosition());
                         final CustomViewHolder vh = (CustomViewHolder) viewHolder;

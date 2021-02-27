@@ -88,7 +88,7 @@ public class AddCreditFragment extends BaseFragment {
         }
         adapter = new GenriXAdapter<Float>(getContext(), R.layout.row_credit, listData) {
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                 final int pos = viewHolder.getAdapterPosition();
                 final CustomViewHolder vh = (CustomViewHolder) viewHolder;
