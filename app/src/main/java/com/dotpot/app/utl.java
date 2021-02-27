@@ -531,9 +531,9 @@ public class utl {
             Log.e("" + TAG, "" + js.toJson(t));
     }
 
-    public static void e(Object... t) {
+    public static void e(Class c,String t) {
         if (DEBUG_ENABLED)
-            Log.e("" + TAG, "" + js.toJson(t));
+            Log.e(c.getName(), "" + js.toJson(t));
     }
 
     public static void e(Object t) {
@@ -1375,7 +1375,7 @@ public class utl {
         ArrayList<String> items = new ArrayList<>(Arrays.asList(menus));
         GenriXAdapter<String> adapter = new GenriXAdapter<String>(ctx, R.layout.utl_row_menu, items) {
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
 
                 final int pos = (viewHolder.getAdapterPosition());
@@ -1776,10 +1776,7 @@ public class utl {
 
     public static String uid(int l) {
         final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        System.out.println("uuid Full= " + uuid);
         String ret = uuid.substring(0, Math.min(uuid.length(), l));
-        ;
-        System.out.println("uuid " + l + " = " + ret);
         return ret;
     }
 

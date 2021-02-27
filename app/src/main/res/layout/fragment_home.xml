@@ -260,6 +260,9 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fragment_bottom_padding"/>
     </LinearLayout>
 
 </com.dotpot.app.views.parallax.ParallaxScrollView>

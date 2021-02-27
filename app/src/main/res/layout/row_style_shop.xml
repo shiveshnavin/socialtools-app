@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:background="@drawable/bg_selector_dark"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:id="@+id/contRef"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:id="@+id/contRefCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/itemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="Shop offer title"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_subhead" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/itemAddTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_text"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_xhead" />
+
+
+        </LinearLayout>
+
+        <com.dotpot.app.views.RoundRectCornerImageView
+            app:roundedCornerRadius="20"
+            android:background="@drawable/bg_round_clip_outline"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:fontFamily="@font/font_text"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/bill"
+            />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/itemDescription"
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@+id/image"
+            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="Get a chance to win exciting awards upto 10,000 "
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_head"
+            android:layout_below="@+id/contRefCard"
+            app:layout_constraintRight_toLeftOf="@+id/image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_below="@+id/itemDescription"
+            android:id="@+id/bottomNote"
+            android:fontFamily="@font/font_text"
+            android:text="Expires in a few days"
+            android:textColor="@color/colorTextSecondary"
+           android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+        <Button
+            android:background="@drawable/bg_round_grey_filled"
+            android:gravity="center"
+            android:layout_below="@+id/image"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:textSize="@dimen/text_subhead"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_alignLeft="@+id/image"
+            android:layout_alignRight="@+id/image"
+            android:theme="@style/Theme.DotPot.DarkGreen"
+            android:id="@+id/actionBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/redeem" />
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

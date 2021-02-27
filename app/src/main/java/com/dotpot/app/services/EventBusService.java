@@ -72,7 +72,7 @@ public class EventBusService {
                     GenriXAdapter<ActionItem> actionItemGenriXAdapter =
                             new GenriXAdapter<ActionItem>(act, R.layout.utl_row_menu, listMenu) {
                                 @Override
-                                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
 
                                     final int pos = viewHolder.getAdapterPosition();
                                     final GenriXAdapter.CustomViewHolder vh = (CustomViewHolder) viewHolder;

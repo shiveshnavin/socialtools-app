@@ -50,6 +50,7 @@ public class GenricUser {
     private String fcmToken;
     private String status;
     private String verifdoc;
+    private Float weeklyAward;
 
     public String getName() {
         return ""+name;
