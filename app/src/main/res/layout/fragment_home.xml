@@ -7,6 +7,7 @@
     android:background="@color/colorBackground"
     android:overScrollMode="never"
     android:scrollbars="none"
+    android:id="@+id/rootScroll"
     app:parallax_factor="1.9">
 
     <LinearLayout

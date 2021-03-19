@@ -35,6 +35,12 @@ public class LoginFragment extends BaseFragment {
     private Button login;
     private TextView forgotPassword;
 
+    private static LoginFragment mInstance;
+    public static LoginFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new LoginFragment();
+        return mInstance;
+    }
     private void findViews(View root) {
         contLogin = (LinearLayout) root.findViewById(R.id.cont_login);
         contentmail = (TextInputLayout) root.findViewById(R.id.contentmail);

@@ -22,6 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ChangePasswordFragment extends BaseFragment {
 
+    private static ChangePasswordFragment mInstance;
+    public static ChangePasswordFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new ChangePasswordFragment();
+        return mInstance;
+    }
     private AccountActivity act ;
     private LinearLayout contLogin;
     private TextInputLayout contentpaswd;

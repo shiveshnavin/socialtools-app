@@ -35,6 +35,7 @@ public class BaseFragment extends Fragment {
         }
     }
 
+
     public void setTitle(String titl){
         if(title!=null)
             title.setText(titl);
@@ -53,5 +54,11 @@ public class BaseFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_blank, container, false);
         return root;
+    }
+
+    public void setActivityAndContext(BaseActivity act) {
+        this.act = act;
+        this.ctx = ctx;
+        this.navService = act.inAppNavService;
     }
 }

@@ -34,6 +34,12 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class VerifyPhoneFragment extends BaseFragment {
 
+    private static VerifyPhoneFragment mInstance;
+    public static VerifyPhoneFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new VerifyPhoneFragment();
+        return mInstance;
+    }
     String phoneNumber;
     CountDownTimer countDownTimer;
     long timeout;

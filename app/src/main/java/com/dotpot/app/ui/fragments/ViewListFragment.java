@@ -18,10 +18,17 @@ import com.dotpot.app.ui.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewListFragment<T extends GenericItem> extends BaseFragment {
+public class ViewListFragment extends BaseFragment {
 
     private GenriXAdapter<GenericItem> adapter;
     private RecyclerView listTransactions;
+
+    private static ViewListFragment mInstance;
+    public static ViewListFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new ViewListFragment();
+        return mInstance;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

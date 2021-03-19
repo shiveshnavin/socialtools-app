@@ -38,6 +38,12 @@ public class AddCreditFragment extends BaseFragment {
     private RecyclerView listTransactions;
     private View loader;
 
+    private static AddCreditFragment mInstance;
+    public static AddCreditFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new AddCreditFragment();
+        return mInstance;
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);

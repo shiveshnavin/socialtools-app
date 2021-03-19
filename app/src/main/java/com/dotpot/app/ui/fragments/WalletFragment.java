@@ -61,6 +61,7 @@ public class WalletFragment extends BaseFragment {
     private TextView refBalTxt;
     private RoundRectCornerImageView refBalIcon;
     private TextView recentTxnTxt;
+    private TextView showTransactions;
     private TabLayout tabTxns;
     private TabItem tabAll;
     private TabItem tabCredit;
@@ -95,6 +96,7 @@ public class WalletFragment extends BaseFragment {
         refBalTxt = (TextView) root.findViewById(R.id.refBalTxt);
         refBalIcon = (RoundRectCornerImageView) root.findViewById(R.id.refBalIcon);
         recentTxnTxt = (TextView) root.findViewById(R.id.recentTxnTxt);
+        showTransactions = (TextView) root.findViewById(R.id.show_transactions);
         tabTxns = (TabLayout) root.findViewById(R.id.tabTxns);
         tabAll = tabTxns.findViewById(R.id.tab_all);
         tabCredit = tabTxns.findViewById(R.id.tab_credit);
@@ -118,16 +120,21 @@ public class WalletFragment extends BaseFragment {
             utl.e("Minor err at WalletFragment:115");
             // e.printStackTrace();
         }
+        showTransactions.setOnClickListener(v->{
+            showTransactions.setVisibility(View.GONE);
+            showHideLoader.loading();
+            walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
+        });
 
-        walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
         walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
-        showHideLoader.loading();
 
         tabTxns.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 showHideLoader.loading();
+                if(showTransactions.getVisibility()==View.VISIBLE)
+                    showTransactions.callOnClick();
                 if (tab.getText().toString().contains(getString(R.string.credit))) {
                     walletViewModel.refresh("wallet_credit");
                 } else if (tab.getText().toString().contains(getString(R.string.debit))) {

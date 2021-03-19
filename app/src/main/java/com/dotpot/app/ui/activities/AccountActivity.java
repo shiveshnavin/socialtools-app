@@ -177,7 +177,7 @@ public class AccountActivity extends BaseActivity {
 
     public void beginLogin(boolean addToBackStack) {
         headImg.setImageResource(R.drawable.bg_login);
-        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, LoginFragment.class,
+        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, LoginFragment.getInstance(),
                 getString(R.string.login),
                 null, addToBackStack);
         setuptxt();
@@ -185,7 +185,7 @@ public class AccountActivity extends BaseActivity {
 
     public void beginSignup(boolean addToBackStack) {
         headImg.setImageResource(R.drawable.bg_signup);
-        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, SignupFragment.class,
+        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, SignupFragment.getInstance(),
                 getString(R.string.signup),
                 null, addToBackStack);
         setuptxt();
@@ -194,7 +194,7 @@ public class AccountActivity extends BaseActivity {
     public void beginPhone(boolean addToBackStack) {
 
         headImg.setImageResource(R.drawable.bg_signup);
-        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, VerifyPhoneFragment.class,
+        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, VerifyPhoneFragment.getInstance(),
                 getString(R.string.verifyphone),
                 null, addToBackStack);
         setuptxt();
@@ -202,7 +202,7 @@ public class AccountActivity extends BaseActivity {
 
     public void beginChangePassword(boolean addToBackStack) {
 
-        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, ChangePasswordFragment.class,
+        inAppNavService.fragmentTransaction(R.id.nav_host_fragment, ChangePasswordFragment.getInstance(),
                 getString(R.string.changepassword),
                 null, addToBackStack);
         setuptxt();

@@ -112,6 +112,7 @@
     <string name="possible_rewards">Possible rewards upto %s %s</string>
     <string name="brush_up_practice_txt">Brush up your skills with practice matches</string>
     <string name="start_game">Start Game</string>
+    <string name="show">Show</string>
 
 
 </resources>

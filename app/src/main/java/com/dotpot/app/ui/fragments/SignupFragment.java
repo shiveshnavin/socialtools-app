@@ -37,6 +37,12 @@ public class SignupFragment extends BaseFragment {
     private Button login;
 
 
+    private static SignupFragment mInstance;
+    public static SignupFragment getInstance(){
+        if(mInstance==null)
+            mInstance = new SignupFragment();
+        return mInstance;
+    }
     private void findViews(View root) {
         contLogin = (LinearLayout) root.findViewById(R.id.cont_login);
         contentmail = (TextInputLayout) root.findViewById(R.id.contentmail);
