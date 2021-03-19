@@ -20,7 +20,7 @@ import com.dotpot.app.R;
 import java.util.List;
 
 
-public class GenriXAdapter<T> extends RecyclerView.Adapter<GenriXAdapter.CustomViewHolder> {
+public class GenriXAdapter<T> extends RecyclerView.Adapter<GenriXAdapter<T>.CustomViewHolder> {
     public List<T> itemList;
     private Context mContext;
     private int layout=-1;
@@ -41,7 +41,7 @@ public class GenriXAdapter<T> extends RecyclerView.Adapter<GenriXAdapter.CustomV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GenriXAdapter.CustomViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull GenriXAdapter<T>.CustomViewHolder viewHolder, int i) {
 
         final int pos=viewHolder.getAdapterPosition();
         final T item= itemList.get(pos);

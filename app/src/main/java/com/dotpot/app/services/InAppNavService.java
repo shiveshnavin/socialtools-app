@@ -16,7 +16,7 @@ import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.activities.GameActivity;
 import com.dotpot.app.ui.fragments.AddCreditFragment;
-import com.dotpot.app.ui.fragments.ViewListFragment;
+import com.dotpot.app.ui.fragments.GameListFragment;
 import com.dotpot.app.utils.ObjectTransporter;
 
 public class InAppNavService {
@@ -97,7 +97,7 @@ public class InAppNavService {
     }
 
     public void startGameListPage(@IdRes int fragmentViewId) {
-        fragmentTransaction(fragmentViewId, ViewListFragment.getInstance(), "games", null, true, Constants.TRANSITION_HORIZONTAL);
+        fragmentTransaction(fragmentViewId, GameListFragment.getInstance(), "games", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
     public void starMyAccount() {

@@ -57,20 +57,7 @@ public class GameViewModel extends ViewModel {
 
     public void refreshGames(BaseActivity activity){
         RestAPI.getInstance(App.getAppContext())
-                .getGameAmounts(new GenricObjectCallback<Float>(){
-                    @Override
-                    public void onEntitySet(ArrayList<Float> listItems) {
-                        gameAmounts.postValue(listItems);
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        utl.snack(activity, R.string.error_msg);
-                    }
-                });
-
-        RestAPI.getInstance(App.getAppContext())
-                .getUserGames(new GenricObjectCallback<Game>(){
+                .getUserGames(0,new GenricObjectCallback<Game>(){
                     @Override
                     public void onEntitySet(ArrayList<Game> listItems) {
                         userGames.postValue(listItems);
@@ -81,11 +68,10 @@ public class GameViewModel extends ViewModel {
                         utl.snack(activity, R.string.error_msg);
                     }
                 });
-
-
     }
 
-    public LiveData<ArrayList<Game>> getLeaderboard() {
+
+    public LiveData<ArrayList<Game>> getUserGames() {
         return userGames;
     }
 

@@ -20,6 +20,7 @@ import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -391,9 +392,9 @@ public class RestAPI implements API {
     }
 
     @Override
-    public void getUserGames(GenricObjectCallback<Game> cb) {
+    public void getUserGames(int currentGameListSize, GenricObjectCallback<Game> cb) {
 
-        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(utl.readUserData().getId()))
+        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(utl.readUserData().getId()))+"?limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccessString(String response) {

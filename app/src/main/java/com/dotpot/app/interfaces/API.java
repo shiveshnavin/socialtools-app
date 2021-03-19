@@ -45,7 +45,7 @@ public interface API {
         utl.e("Not Implemented API::getGameAmounts");
     }
 
-    default void getUserGames(GenricObjectCallback<Game> cb) {
+    default void getUserGames(int currentGameListSize, GenricObjectCallback<Game> cb) {
         utl.e("Not Implemented API::getUserGames");
     }
 
