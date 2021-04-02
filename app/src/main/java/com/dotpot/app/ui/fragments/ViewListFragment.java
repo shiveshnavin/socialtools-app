@@ -33,6 +33,7 @@ public abstract class ViewListFragment<T> extends BaseFragment {
     private boolean isLastPage = false;
     private int pageNo = 0;
     private List<T> listData;
+
     private GenricObjectCallback<T> onNewItems = new GenricObjectCallback<T>() {
         @Override
         public void onEntitySet(ArrayList<T> newItems) {
@@ -121,8 +122,6 @@ public abstract class ViewListFragment<T> extends BaseFragment {
                         loadNextPage(pageNo, listData.size(), onNewItems);
                     }
                 }
-
-
             }
         });
 
@@ -157,7 +156,7 @@ public abstract class ViewListFragment<T> extends BaseFragment {
     abstract void onReadyToReceiveItems();
 
     public static class ViewListItemHolder {
-        public final RelativeLayout contRef;
+        public final RelativeLayout root;
         public final LinearLayout contRefCard;
         public final TextView itemTitle;
         public final TextView itemAddTitle;
@@ -166,8 +165,8 @@ public abstract class ViewListFragment<T> extends BaseFragment {
         public final TextView bottomNote;
         public final Button actionBtn;
 
-        private ViewListItemHolder(RelativeLayout contRef, LinearLayout contRefCard, TextView itemTitle, TextView itemAddTitle, RoundRectCornerImageView image, TextView itemDescription, TextView bottomNote, Button actionBtn) {
-            this.contRef = contRef;
+        private ViewListItemHolder(RelativeLayout root, LinearLayout contRefCard, TextView itemTitle, TextView itemAddTitle, RoundRectCornerImageView image, TextView itemDescription, TextView bottomNote, Button actionBtn) {
+            this.root = root;
             this.contRefCard = contRefCard;
             this.itemTitle = itemTitle;
             this.itemAddTitle = itemAddTitle;

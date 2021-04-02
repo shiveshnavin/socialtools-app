@@ -212,7 +212,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="3dp"
                     android:fontFamily="@font/font_text"
-                    android:text="@string/games"
+                    android:text="@string/mygames"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="@dimen/text_head"
                     android:textStyle="bold"
@@ -251,8 +251,62 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contMyShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+
+            <TextView
+                android:id="@+id/myShop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/font_text"
+                android:text="@string/myshop"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_head"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/myShopIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/myShopIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_round_outline"
+                android:src="@drawable/shopping_cart"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:roundedCornerRadius="1" />
+
+
+
+            <com.dotpot.app.views.RoundRectCornerImageView
+                android:id="@+id/myShopExpandIcon"
+                android:layout_marginLeft="5dp"
+                android:tint="@color/colorTextPrimary"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:roundedCornerRadius="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:visibility="gone"
                 android:id="@+id/contnotifBalance"
                 android:layout_width="match_parent"

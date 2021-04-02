@@ -40,6 +40,11 @@ public class Constants {
     }
     public static final String API_FINISH_GAME = "/api/games/finish";
 
+    public static String API_GET_PRODUCTS = "/api/products/all";
+    public static String API_GET_USER_PRODUCTS = "/api/products/user/";
+    public static String API_GET_USER_PRODUCTS(String userId) {
+        return API_GET_USER_PRODUCTS+userId;
+    }
 
     public static final String API_UPLOAD_IMAGE = "/api/image";
 

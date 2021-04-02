@@ -1,5 +1,7 @@
 package com.dotpot.app.models;
 
+import com.dotpot.app.R;
+import com.dotpot.app.utils.ResourceUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -50,4 +52,7 @@ public class Wallet {
     private String currency;
 
 
+    public static String wrap(float amount) {
+        return ResourceUtils.getString(R.string.currency)+" "+amount;
+    }
 }

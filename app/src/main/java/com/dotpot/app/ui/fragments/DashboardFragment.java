@@ -63,6 +63,7 @@ public class DashboardFragment extends BaseFragment {
     private TextView logout;
     private RoundRectCornerImageView logoutIcon;
     private RoundRectCornerImageView logoutexpandIcon;
+    private View contMyShop;
 
     private void findViews(View root) {
         topContCont = (LinearLayout) root.findViewById(R.id.topContCont);
@@ -103,6 +104,7 @@ public class DashboardFragment extends BaseFragment {
         logout = (TextView) root.findViewById(R.id.logout);
         logoutIcon = (RoundRectCornerImageView) root.findViewById(R.id.logoutIcon);
         logoutexpandIcon = (RoundRectCornerImageView) root.findViewById(R.id.logoutexpandIcon);
+        contMyShop = root.findViewById(R.id.contMyShop);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -127,6 +129,7 @@ public class DashboardFragment extends BaseFragment {
         contpasswordance.setOnClickListener(view -> navService.startChangePassword());
 
         contreferralBalance.setOnClickListener(view -> navService.startGameListPage(fragmentId));
+        contMyShop.setOnClickListener(view -> navService.startUserShop(fragmentId));
 
         contlogoutance.setOnClickListener(v->act.startLogout());
         GenericUserViewModel.getInstance().getUser().observe(getViewLifecycleOwner(), new Observer<GenricUser>() {

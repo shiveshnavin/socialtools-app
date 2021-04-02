@@ -4,6 +4,7 @@ package com.dotpot.app.interfaces;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
+import com.dotpot.app.models.Product;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseActivity;
@@ -70,4 +71,11 @@ public interface API {
         utl.e("Not Implemented API::invalidateCacheGames");
     }
 
+
+    default void getUserProducts(int currentGameListSize,String type, GenricObjectCallback<Product> cb) {
+        utl.e("Not Implemented API::getUserGames");
+    }
+    default void getProducts(int currentGameListSize,String type, GenricObjectCallback<Product> cb) {
+        utl.e("Not Implemented API::getUserGames");
+    }
 }

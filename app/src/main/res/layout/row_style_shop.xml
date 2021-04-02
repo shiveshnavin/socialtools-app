@@ -101,7 +101,6 @@
 
 
         <Button
-            android:background="@drawable/bg_round_grey_filled"
             android:gravity="center"
             android:layout_below="@+id/image"
             android:layout_marginTop="10dp"

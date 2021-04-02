@@ -67,6 +67,7 @@
     <string name="game">Game</string>
     <string name="basic_info">Update your information</string>
     <string name="mygames">My Games</string>
+    <string name="myshop">My Shop</string>
     <string name="add">Add</string>
     <string name="error_msg">An unexpected error occurred ! </string>
     <string name="error_msg_restart">An unexpected error occurred ! Please restart the App .</string>

@@ -2,7 +2,6 @@ package com.dotpot.app.services;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
@@ -99,6 +98,12 @@ public class EventBusService {
                             };
 
                     dialogAtomicReference.set(utl.diagBottomList(act, "", actionItemGenriXAdapter, true, act.getString(R.string.dismiss),null));
+                }else if (actionType.equals(Constants.ACTION_SHOP)) {
+                    if (act instanceof HomeActivity)
+                        act.inAppNavService.startShop(R.id.nav_host_fragment);
+                }else if (actionType.equals(Constants.ACTION_EARN_MONEY)) {
+                    if (act instanceof HomeActivity)
+                        act.inAppNavService.startEarnShop(R.id.nav_host_fragment);
                 }
             }
             if (cm.doFinish)

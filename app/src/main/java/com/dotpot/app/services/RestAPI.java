@@ -15,6 +15,7 @@ import com.dotpot.app.interfaces.NetworkService;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
+import com.dotpot.app.models.Product;
 import com.dotpot.app.models.Transaction;
 import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseActivity;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 public class RestAPI implements API {
 
     private static RestAPI instance;
+    GenricUser user;
     Context ctx;
     NetworkService networkService;
 
@@ -48,6 +50,9 @@ public class RestAPI implements API {
     public static API getInstance(Context c) {
         if (instance == null)
             instance = new RestAPI(c);
+        if(instance.user == null){
+            instance.user = GenericUserViewModel.getInstance().getUser().getValue();
+        }
         return instance;
     }
 
@@ -77,7 +82,6 @@ public class RestAPI implements API {
     }
 
     public void invalidateCacheWalletAndTxns(){
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if(user!=null){
             CacheService.getInstance().
                     invalidateOne(Constants.API_TRANSACTIONS(user.getId(), ""));
@@ -89,7 +93,6 @@ public class RestAPI implements API {
     }
 
     public void invalidateCacheGames(){
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if(user!=null){
             CacheService.getInstance().invalidateOne(Constants.API_GET_USER_GAMES(user.getId()));
         }
@@ -107,7 +110,6 @@ public class RestAPI implements API {
     public void createTransaction(float amount, GenricObjectCallback<JSONObject> cb) {
         invalidateCacheWalletAndTxns();
         JSONObject jop = new JSONObject();
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
@@ -182,7 +184,6 @@ public class RestAPI implements API {
     @Override
     public void getWallet(GenricObjectCallback<Wallet> cb) {
         JSONObject jop = new JSONObject();
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
@@ -213,7 +214,6 @@ public class RestAPI implements API {
     @Override
     public void getTransactions(String debitOrCredit, GenricObjectCallback<Transaction> cb) {
         JSONObject jop = new JSONObject();
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
         if (user == null) {
             cb.onError(ctx.getString(R.string.err_pls_login));
             return;
@@ -394,7 +394,7 @@ public class RestAPI implements API {
     @Override
     public void getUserGames(int currentGameListSize, GenricObjectCallback<Game> cb) {
 
-        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(utl.readUserData().getId()))+"?limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(user.getId()))+"?limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccessString(String response) {
@@ -462,6 +462,55 @@ public class RestAPI implements API {
                     @Override
                     public void onSuccess(JSONObject response) {
                         cb.onEntity(utl.js.fromJson(response.toString(), Game.class));
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+    }
+
+
+    @Override
+    public void getProducts(int currentGameListSize,String contextType, GenricObjectCallback<Product> cb) {
+
+        if(contextType.equals("earn"))
+            contextType = "earn";
+        else
+            contextType = "shop";
+        networkService.callGet(Constants.u(Constants.API_GET_PRODUCTS)+"?type="+contextType+"&limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccessString(String response) {
+
+                        utl.JSONParser<Product> jsonParser = new utl.JSONParser<Product>();
+                        cb.onEntitySet(jsonParser.parseJSONArray(response, Product.class));
+
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+    }
+
+    @Override
+    public void getUserProducts(int currentGameListSize,String contextType, GenricObjectCallback<Product> cb) {
+
+        if(contextType.equals("earn"))
+            contextType = "earn";
+        else
+            contextType = "shop";
+        networkService.callGet(Constants.u(Constants.API_GET_USER_PRODUCTS(user.getId()))+"?type="+contextType+"&limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccessString(String response) {
+
+                        utl.JSONParser<Product> jsonParser = new utl.JSONParser<Product>();
+                        cb.onEntitySet(jsonParser.parseJSONArray(response, Product.class));
+
                     }
 
                     @Override

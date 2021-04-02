@@ -5,6 +5,7 @@ import com.dotpot.app.R;
 import com.dotpot.app.binding.GameViewModel;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
+import com.dotpot.app.models.Wallet;
 import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.utl;
 
@@ -30,17 +31,19 @@ public class GameListFragment extends ViewListFragment<Game>{
 
     @Override
     void renderCurrentItem(Game item, ViewListFragment.ViewListItemHolder itemUI, int pos) {
-        itemUI.itemTitle.setText(getString(R.string.games)+" ");
-        itemUI.itemAddTitle.setText(item.getId());
+        itemUI.itemTitle.setText(getString(R.string.game)+" of ");
+        itemUI.itemAddTitle.setText(Wallet.wrap(item.getAmount()));
+
 
         if(item.isPlayer1Won()){
+            itemUI.image.setImageResource(R.drawable.win);
             itemUI.itemDescription.setText(String.format(getString(R.string.you_won),item.getAward()));
         }
         else {
+            itemUI.image.setImageResource(R.drawable.replay);
             itemUI.itemDescription.setText(R.string.you_lost);
         }
         itemUI.actionBtn.setText(getString(R.string.view));
-        itemUI.image.setImageResource(R.drawable.motion_play);
         itemUI.bottomNote.setText(utl.getDateTimeFormatted(new Date(item.getTimeStamp())));
     }
 

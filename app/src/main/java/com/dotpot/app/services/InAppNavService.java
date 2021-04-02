@@ -17,6 +17,7 @@ import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.activities.GameActivity;
 import com.dotpot.app.ui.fragments.AddCreditFragment;
 import com.dotpot.app.ui.fragments.GameListFragment;
+import com.dotpot.app.ui.fragments.ShopFragment;
 import com.dotpot.app.utils.ObjectTransporter;
 
 public class InAppNavService {
@@ -105,6 +106,20 @@ public class InAppNavService {
         Intent it = new Intent(ctx, AccountActivity.class);
         it.putExtra("action", Constants.ACTION_ACCOUNT);
         startActivity(it);
+    }
+
+
+    public void startShop(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, ShopFragment.getInstance("shop"), "shop", null, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
+
+    public void startUserShop(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, ShopFragment.getInstance("myshop"), "my shop", null, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
+    public void startEarnShop(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, ShopFragment.getInstance("earn"), "earn", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
     public <T extends BaseFragment> void fragmentTransaction(@IdRes int fragmentViewId, T target
