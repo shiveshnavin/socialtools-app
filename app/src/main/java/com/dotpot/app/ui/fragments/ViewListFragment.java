@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,16 +26,17 @@ import java.util.List;
 
 public abstract class ViewListFragment<T> extends BaseFragment {
 
+    protected View loading;
+    protected boolean isLoading = false;
     private GenriXAdapter<T> adapter;
     private RecyclerView listTransactions;
-    private View loading;
-    private NestedScrollView scrollView;
     private boolean isLastPage = false;
     private int pageNo = 0;
     private List<T> listData;
     private GenricObjectCallback<T> onNewItems = new GenricObjectCallback<T>() {
         @Override
         public void onEntitySet(ArrayList<T> newItems) {
+            isLoading = false;
             loading.setVisibility(View.GONE);
             if (newItems.size() == 0) {
                 isLastPage = true;
@@ -47,6 +47,7 @@ public abstract class ViewListFragment<T> extends BaseFragment {
 
         @Override
         public void onError(String message) {
+            isLoading = false;
             loading.setVisibility(View.GONE);
         }
     };
@@ -57,7 +58,6 @@ public abstract class ViewListFragment<T> extends BaseFragment {
         act = (BaseActivity) getActivity();
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         listTransactions = root.findViewById(R.id.list);
-        scrollView = root.findViewById(R.id.scrollView);
         loading = root.findViewById(R.id.loader);
         setUpToolbar(root);
         setTitle("");
@@ -72,11 +72,11 @@ public abstract class ViewListFragment<T> extends BaseFragment {
     }
 
     public void reset(ArrayList<T> defaultItems) {
+        loading.setVisibility(View.GONE);
         isLastPage = false;
         pageNo = 0;
         listData.clear();
         insertData(defaultItems);
-        loading.setVisibility(View.GONE);
     }
 
     public void setUpTransactionsList() {
@@ -111,13 +111,13 @@ public abstract class ViewListFragment<T> extends BaseFragment {
                 int totalItemCount = layoutManager.getItemCount();
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-                boolean isLoading = loading.getVisibility() == View.VISIBLE;
                 if (!isLoading && !isLastPage) {
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                             && firstVisibleItemPosition >= 0
                             && totalItemCount >= FirebaseRemoteConfig.getInstance().getLong("page_size")) {
-                        loading.setVisibility(View.VISIBLE);
                         pageNo++;
+                        isLoading = true;
+                        loading.setVisibility(View.VISIBLE);
                         loadNextPage(pageNo, listData.size(), onNewItems);
                     }
                 }

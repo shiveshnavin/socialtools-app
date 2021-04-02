@@ -25,9 +25,7 @@ public class GameListFragment extends ViewListFragment<Game>{
     @Override
     void onReadyToReceiveItems() {
         setTitle(getString(R.string.mygames));
-        GameViewModel.getInstance().refreshGames(act);
-        GameViewModel.getInstance().getUserGames().observe(getViewLifecycleOwner(), games -> reset(games));
-
+        GameViewModel.getInstance().refreshGames(act, () -> GameViewModel.getInstance().getUserGames().observe(getViewLifecycleOwner(), this::reset));
     }
 
     @Override
@@ -48,6 +46,7 @@ public class GameListFragment extends ViewListFragment<Game>{
 
     @Override
     void loadNextPage(int pageNo, int sizeOfExistingList, GenricObjectCallback<Game> onNewItems) {
+
         RestAPI.getInstance(App.getAppContext())
                 .getUserGames(sizeOfExistingList,new GenricObjectCallback<Game>(){
                     @Override

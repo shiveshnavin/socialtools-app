@@ -9,19 +9,16 @@
 
     <include layout="@layout/utl_toolbar"/>
 
-    <androidx.core.widget.NestedScrollView
-        android:overScrollMode="never"
-        android:id="@+id/scrollView"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_marginTop="?attr/actionBarSize"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+          <androidx.recyclerview.widget.RecyclerView
+              android:layout_above="@id/loader"
+              android:layout_alignParentTop="true"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="@dimen/fragment_bottom_padding"
                 android:paddingRight="10dp"
@@ -35,9 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:layout_margin="@dimen/fragment_bottom_padding"
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/list"
                 android:indeterminate="true"
@@ -45,10 +41,10 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/loader"
                 android:visibility="visible"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.dotpot.app.App;
 import com.dotpot.app.R;
+import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.services.RestAPI;
@@ -55,16 +56,20 @@ public class GameViewModel extends ViewModel {
     }
 
 
-    public void refreshGames(BaseActivity activity){
+    public void refreshGames(BaseActivity activity, final GenricCallback cb){
         RestAPI.getInstance(App.getAppContext())
                 .getUserGames(0,new GenricObjectCallback<Game>(){
                     @Override
                     public void onEntitySet(ArrayList<Game> listItems) {
                         userGames.postValue(listItems);
+                        if(cb!=null)
+                            cb.onStart();
                     }
 
                     @Override
                     public void onError(String message) {
+                        if(cb!=null)
+                            cb.onStart();
                         utl.snack(activity, R.string.error_msg);
                     }
                 });
