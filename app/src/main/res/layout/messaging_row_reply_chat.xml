@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/messaging_rounded_green2_chat_filled"
+        android:id="@+id/reply_cont_all"
+        android:padding="5dp"
+    android:visibility="gone"
+        android:layout_margin="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <View
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/accent"
+        android:layout_width="3dp"
+
+        android:layout_marginLeft="3dp"
+        android:layout_height="40dp"/>
+
+
+
+        <LinearLayout
+
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:id="@+id/reply_cont_text"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:fontFamily="@font/font_text"
+                android:textColor="@color/material_green_500"
+                android:text="Test Message"
+                android:textSize="15sp"
+                android:id="@+id/reply_sender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_margin="5dp"
+                android:src="@drawable/loading_bg"
+                android:scaleType="centerCrop"
+                android:id="@+id/reply_image_msg"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+
+            <TextView
+                android:layout_marginTop="2dp"
+                android:autoLink="web"
+                android:textColor="@color/black"
+                android:text="Hi ALl ! How are you guys"
+                android:textSize="14sp"
+                android:id="@+id/reply_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+
+            <TextView
+                android:visibility="gone"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="right"
+                android:layout_below="@id/cont_text"
+                android:textSize="11sp"
+                android:textColor="@color/grey_400"
+                android:maxLines="1"
+                android:layout_alignRight="@id/cont_text"
+                android:id="@+id/reply_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/reply_cancel"
+        android:visibility="gone"
+        android:tint="@color/material_grey_700"
+        android:src="@drawable/cancel"
+        android:layout_margin="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="15dp"
+        android:layout_height="15dp" />
+
+    </RelativeLayout>

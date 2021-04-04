@@ -6,8 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.dotpot.app.App;
 import com.dotpot.app.BuildConfig;
-import com.dotpot.app.models.InAppMessage;
+import com.dotpot.app.ui.messaging.InAppMessage;
 import com.dotpot.app.utl;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
@@ -27,6 +28,8 @@ public class DBService extends SQLiteOpenHelper {
     }
 
     public static synchronized DBService getInstance(Context context) {
+        if(context == null)
+            context = App.getAppContext();
         if (databaseHelperInst == null)
             databaseHelperInst = new DBService(context);
         return databaseHelperInst;
@@ -95,11 +98,11 @@ public class DBService extends SQLiteOpenHelper {
         if (cm.getMessage().contains(C2C_DELETE)) {
             String id = cm.getMessage().replace(C2C_DELETE, "");
             utl.e("Chats", "Delete : " + id);
-            deleteData(id);
+            deleteMessageById(id);
           //  return true;
         }
 
-        if (getMessageById(cm.getId()).getCount() > 0) {
+        if (getData(cm.getId()).getCount() > 0) {
             utl.e("dbHelper", "Message Already Inserted");
             return false;
         }
@@ -109,7 +112,7 @@ public class DBService extends SQLiteOpenHelper {
         contentValues.put("id", cm.getId());
         contentValues.put("dateTime", cm.getDateTime());
         contentValues.put("msgTitle", cm.getMsgTitle());
-        contentValues.put("targetId", cm.getTargetId());
+        contentValues.put("targetId", cm.getGroupId());
         contentValues.put("senderName", cm.getSenderName());
         contentValues.put("senderId", cm.getSenderId());
         contentValues.put("message", cm.getMessage());
@@ -134,7 +137,7 @@ public class DBService extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         contentValues.put("count", cm.getQuotedTextId());
-        db.delete(TABLE_NAME_META, "targetId = ?", new String[]{cm.getTargetId()});
+        db.delete(TABLE_NAME_META, "targetId = ?", new String[]{cm.getGroupId()});
         db.insert(TABLE_NAME_META, null, contentValues);
 
         return true;
@@ -182,7 +185,7 @@ public class DBService extends SQLiteOpenHelper {
         return res.getCount();
     }
 
-    public Cursor getMessageById(String id) {
+    public Cursor getData(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String q = "select * from " + TABLE_NAME + " WHERE id='" + id+"'";
 
@@ -193,7 +196,7 @@ public class DBService extends SQLiteOpenHelper {
 
     public InAppMessage findMessageById(String id) {
 
-        Cursor res = getMessageById(id);
+        Cursor res = getData(id);
         InAppMessage cm = null;
         while (res.moveToNext()) {
             cm = new InAppMessage(
@@ -246,11 +249,6 @@ public class DBService extends SQLiteOpenHelper {
         res.close();
         return cm;
     }
-
-
-
-
-
 
 
 
@@ -341,7 +339,7 @@ public class DBService extends SQLiteOpenHelper {
         return true;
     }
 
-    public Integer deleteData(String id) {
+    public Integer deleteMessageById(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME_META, "id = ?", new String[]{id});
         return db.delete(TABLE_NAME, "id = ?", new String[]{id});

@@ -43,6 +43,8 @@ public class WebViewActivity extends BaseActivity {
     public ValueCallback<Uri[]> uploadMessage;
     View loader;
     String title = "";
+
+    String orderId;
     Timer timer = new Timer();
     boolean completed = false;
     boolean isProcessing = false;
@@ -76,6 +78,8 @@ public class WebViewActivity extends BaseActivity {
 
         setUpToolbar();
         title = getIntent().getStringExtra("title");
+        orderId = getIntent().getStringExtra("orderId");
+
         setTitle(title);
         loader = findViewById(R.id.loader);
         mWebView = findViewById(R.id.web);
@@ -106,11 +110,15 @@ public class WebViewActivity extends BaseActivity {
                 if(!isNetworkAvailable()){
                     mWebView.loadUrl("file:///android_asset/error.html");
                 }
+                else if(errorResponse.getStatusCode()>=400){
+                    view.clearHistory();
+                    finishOnBack = true;
+                    mWebView.loadUrl("file:///android_asset/error.html");
+                }
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//                if (!BuildConfig.DEBUG)
                     mWebView.loadUrl("file:///android_asset/error.html");
             }
 
@@ -228,6 +236,11 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
+        if(finishOnBack)
+        {
+            super.onBackPressed();
+        }
+        else
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
@@ -235,7 +248,7 @@ public class WebViewActivity extends BaseActivity {
         }
 
     }
-
+    boolean finishOnBack = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -243,7 +256,7 @@ public class WebViewActivity extends BaseActivity {
         if (id == android.R.id.home) {
             if (mWebView.canGoBack()) {
                 mWebView.goBack();
-            } else {
+            } else if(orderId!=null){
                 utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
                     completed = true;
                     clearTimer();
@@ -251,10 +264,12 @@ public class WebViewActivity extends BaseActivity {
                     finish();
                 });
             }
+            else {
+                super.onBackPressed();
+            }
 
         } else if (id == R.id.reload) {
             mWebView.reload();
-            ;
         }
 
         return super.onOptionsItemSelected(item);
@@ -270,7 +285,6 @@ public class WebViewActivity extends BaseActivity {
 
     public void startCheck() {
 
-        String orderId = getIntent().getStringExtra("orderId");
         if (orderId != null) {
 
             TimerTask timerTask = new TimerTask() {

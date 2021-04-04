@@ -1,4 +1,4 @@
-package com.dotpot.app.models;
+package com.dotpot.app.ui.messaging;
 
 import android.content.Intent;
 
@@ -7,6 +7,10 @@ import com.dotpot.app.Constants;
 import com.dotpot.app.ui.activities.SplashActivity;
 import com.dotpot.app.utl;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,14 +35,14 @@ public class InAppMessage {
     String id;
     Long dateTime;
     String msgTitle;// question in qna context
-    String targetId;
+    String groupId;
     String senderName;// useralias in qna context
     String senderId; // asker id in qna context
     String message;
     String icon;
     String attachmentUrl;
     String quotedTextId;// tags in qna context
-    String atachmentType= Constants.attachmentTypes[0];
+    String atachmentType = attachmentTypes[0];
     int read=0;
 
 
@@ -48,15 +52,16 @@ public class InAppMessage {
 
     public String senderStatus;
 
+    volatile public static String[] attachmentTypes = {"Message", "Image","Delete","Exited"};
 
 
 
 
-    public InAppMessage(String id, Long dateTime, String msgTitle, String targetId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, int read, String quotedTextId) {
+    public InAppMessage(String id, Long dateTime, String msgTitle, String groupId, String senderName, String senderId, String message, String icon, String attachmentUrl, String atachmentType, int read, String quotedTextId) {
         this.id = id;
         this.dateTime = dateTime;
         this.msgTitle = msgTitle;
-        this.targetId = targetId;
+        this.groupId = groupId;
         this.senderName = senderName;
         this.senderId = senderId;
         this.message = message;
@@ -67,6 +72,7 @@ public class InAppMessage {
         this.quotedTextId = quotedTextId;
 
     }
+
 
     public String getTags() {
         if(tags==null)
@@ -79,7 +85,7 @@ public class InAppMessage {
     }
 
     public String senderNameOnly() {
-        return senderName.replace(Constants.V2V_VERIFIED,"");
+        return (""+senderName).replace(Constants.V2V_VERIFIED,"");
     }
 
     public String getRefinedMessage()
@@ -225,5 +231,19 @@ public class InAppMessage {
             return getAttachmentUrl();
         }
         return FirebaseRemoteConfig.getInstance().getString("notif_img_url");
+    }
+
+    @Override
+    public boolean equals(Object o){
+        InAppMessage e = (InAppMessage) o;
+        return this.id.equals(e.id);
+    }
+
+    public JSONObject toJson() {
+        try {
+            return new JSONObject(new Gson().toJson(this));
+        } catch (JSONException e) {
+            return null;
+        }
     }
 }

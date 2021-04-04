@@ -285,20 +285,21 @@ public class RestAPI implements API {
     @Override
     public void getLeaderBoard(GenricObjectCallback<GenricUser> cb) {
 
-        ArrayList<GenricUser> leaderList = new ArrayList<>();
-        int N = 10;
-        while (N-- > 0) {
-            GenricUser leader = new GenricUser();
-            leader.setRank("" + (10 - N));
-            leader.setId(utl.uid(10));
-            leader.setName(utl.uid(6) + " " + utl.uid(4));
-            leader.setAbout("" + utl.randomInt(3));
-            leader.setImage("https://i.pravatar.cc/" + leader.getAbout());
-            leaderList.add(leader);
-        }
+        networkService.callGet(Constants.HOST + Constants.API_GET_LEADERBOARD
+                , false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccessString(String response) {
 
-        cb.onEntitySet(leaderList);
+                        utl.JSONParser<GenricUser> jsonParser = new utl.JSONParser<GenricUser>();
+                        cb.onEntitySet(jsonParser.parseJSONArray(response, GenricUser.class));
 
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
     }
 
 

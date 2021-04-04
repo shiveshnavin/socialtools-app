@@ -14,6 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 
+import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.models.GenricUser;
@@ -127,11 +128,13 @@ public class DashboardFragment extends BaseFragment {
 
         textDashboard.setOnClickListener(view -> editProfileCont.callOnClick());
         contpasswordance.setOnClickListener(view -> navService.startChangePassword());
-
         contreferralBalance.setOnClickListener(view -> navService.startGameListPage(fragmentId));
         contMyShop.setOnClickListener(view -> navService.startUserShop(fragmentId));
-
+        contsupportance.setOnClickListener(view -> navService.startSupport(fragmentId));
         contlogoutance.setOnClickListener(v->act.startLogout());
+        contguideance.setOnClickListener(view -> navService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help"));
+
+
         GenericUserViewModel.getInstance().getUser().observe(getViewLifecycleOwner(), new Observer<GenricUser>() {
             @Override
             public void onChanged(GenricUser user) {

@@ -46,12 +46,14 @@ public class Constants {
         return API_GET_USER_PRODUCTS+userId;
     }
 
+    public static String API_GET_LEADERBOARD= "/api/analytics/weeklyLeaderboard";
+
+
     public static final String API_UPLOAD_IMAGE = "/api/image";
 
 
 
     public static String[] userCategories = {"user", "moderator", "admin"};
-    public static String[] attachmentTypes = {"Message", "Image","Delete","Exited"};
     public static String[] userStatuses = {"ACTIVATED_USER","VERIFIED_USER","VERIFIED_MODERATOR","ACTIVATED_ADMIN"};
     public static String O2O="o2o_chat___";
     public static String C2C_DELETE=O2O+"_DELETE_";

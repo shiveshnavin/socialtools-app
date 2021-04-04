@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
+
+    <entry>
+        <key>support_user_id</key>
+        <value>abcde</value>
+    </entry>
     <entry>
         <key>cache_config</key>
         <value>{
@@ -49,7 +54,7 @@
     </entry>
     <entry>
         <key>host</key>
-        <value>https://rugged-silo-243413.uc.r.appspot.com</value>
+        <value>https://dotpot.herokuapp.com</value>
     </entry>
     <entry>
         <key>upcoming</key>
@@ -65,7 +70,7 @@
     </entry>
     <entry>
         <key>email</key>
-        <value>admin@juntos.com</value>
+        <value>admin@dotpot.com</value>
     </entry>
     <entry>
         <key>PRODUCT_NAME</key>

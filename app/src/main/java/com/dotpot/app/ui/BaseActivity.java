@@ -86,11 +86,6 @@ import java.util.Locale;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public static final int REQ_UPLOAD_IMG_CAM = 1991;
-    public static final int REQ_UPLOAD_IMG_GAL = 1990;
-    public static final int REQ_UPLOAD_DOC = 1993;
-    public static final int REQ_UPLOAD_FILE = 1994;
-    public static final int REQ_UPLOAD_LOCATION = 1995;
     public static String TAG = "BaseApp";
     public static String accessToken;
     public static DBService databaseHelper;
@@ -845,4 +840,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         return bodyTextTo;
     }
 
+
+
+    public boolean isShowing=false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isShowing = true;
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isShowing = false;
+
+    }
 }

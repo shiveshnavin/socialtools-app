@@ -17,7 +17,7 @@ import androidx.core.app.TaskStackBuilder;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
-import com.dotpot.app.models.InAppMessage;
+import com.dotpot.app.ui.messaging.InAppMessage;
 import com.dotpot.app.utl;
 
 

@@ -15,9 +15,11 @@ import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.activities.GameActivity;
+import com.dotpot.app.ui.activities.WebViewActivity;
 import com.dotpot.app.ui.fragments.AddCreditFragment;
 import com.dotpot.app.ui.fragments.GameListFragment;
 import com.dotpot.app.ui.fragments.ShopFragment;
+import com.dotpot.app.ui.messaging.MessagingFragment;
 import com.dotpot.app.utils.ObjectTransporter;
 
 public class InAppNavService {
@@ -99,6 +101,19 @@ public class InAppNavService {
 
     public void startGameListPage(@IdRes int fragmentViewId) {
         fragmentTransaction(fragmentViewId, GameListFragment.getInstance(), "games", null, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
+
+    public void startSupport(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, MessagingFragment.getInstance(), "suport", null, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
+    public void startWebsite(String title,String url){
+        Intent it = new Intent(ctx, WebViewActivity.class);
+        it.putExtra("title", title);
+        it.putExtra("url", url);
+        ctx.startActivity(it);
+
     }
 
     public void starMyAccount() {

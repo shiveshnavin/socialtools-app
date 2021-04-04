@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+
+        android:background="@drawable/messaging_rounded_grey_chat_filled"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingTop="6dp"
+        android:id="@+id/cont_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:layout_marginLeft="3dp"
+        android:background="@drawable/messaging_rounded_red_filled"
+        android:layout_centerVertical="true"
+        android:id="@+id/seen"
+        android:layout_width="6dp"
+        android:layout_height="6dp" />
+
+
+    <LinearLayout
+
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:id="@+id/cont_text"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:background="?selectableItemBackground"
+            android:fontFamily="@font/font_text"
+            android:textColor="@color/colorPrimaryDark2"
+            android:text="Test Name"
+            android:textSize="15sp"
+            android:id="@+id/sender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/messaging_row_reply_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_margin="5dp"
+            android:src="@drawable/loading_bg"
+            android:scaleType="centerCrop"
+            android:id="@+id/image_msg"
+            android:layout_width="200dp"
+            android:layout_height="100dp" />
+
+
+        <TextView
+            android:layout_marginTop="4dp"
+            android:autoLink="web"
+            android:textColor="@color/black"
+            android:text="Hello There !!!"
+            android:textSize="14sp"
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="right"
+            android:layout_below="@id/cont_text"
+            android:textSize="11sp"
+            android:textColor="@color/grey_500"
+            android:maxLines="1"
+            android:layout_alignRight="@id/cont_text"
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

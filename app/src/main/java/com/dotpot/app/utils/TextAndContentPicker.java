@@ -31,11 +31,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
-import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_DOC;
-import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_FILE;
-import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_IMG_CAM;
-import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_IMG_GAL;
-import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_LOCATION;
 
 // For Picking Place
 //import com.google.android.libraries.places.api.Places;
@@ -45,6 +40,12 @@ import static com.dotpot.app.ui.BaseActivity.REQ_UPLOAD_LOCATION;
 //import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 //
 public class TextAndContentPicker {
+
+    public static final int REQ_UPLOAD_IMG_CAM = 1991;
+    public static final int REQ_UPLOAD_IMG_GAL = 1990;
+    public static final int REQ_UPLOAD_DOC = 1993;
+    public static final int REQ_UPLOAD_FILE = 1994;
+    public static final int REQ_UPLOAD_LOCATION = 1995;
 
     public static final int PICK_TEXT_ONLY = 0;
     public static final int PICK_IMAGE_ONLY = 1;
