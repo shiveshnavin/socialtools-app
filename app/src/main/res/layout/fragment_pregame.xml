@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:id="@+id/contPlayers"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.dotpot.app.views.RoundRectCornerImageView
+            android:layout_margin="30dp"
+            app:roundedCornerRadius="20"
+            android:layout_centerVertical="true"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/bill"
+            android:background="@drawable/bg_round_clip_outline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/vsText"
+            android:id="@+id/player1Image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/player1Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="@string/you"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_subhead"
+            app:layout_constraintTop_toBottomOf="@id/player1Image"
+            app:layout_constraintLeft_toLeftOf="@id/player1Image"
+            app:layout_constraintRight_toRightOf="@id/player1Image"
+
+            />
+
+
+
+        <TextView
+            android:id="@+id/vsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_style"
+            android:text="vs"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_head"
+            android:textStyle="bold"
+            android:padding="25dp"
+            app:layout_constraintTop_toTopOf="@id/player2Image"
+            app:layout_constraintRight_toLeftOf="@id/player2Image"
+            app:layout_constraintLeft_toRightOf="@id/player1Image"
+            />
+
+
+        <com.dotpot.app.views.RoundRectCornerImageView
+            android:layout_margin="30dp"
+            app:roundedCornerRadius="20"
+            android:layout_centerVertical="true"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/account"
+            android:background="@drawable/bg_round_clip_outline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/vsText"
+            android:id="@+id/player2Image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/player2Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="@string/searching"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_subhead"
+            app:layout_constraintTop_toBottomOf="@id/player2Image"
+            app:layout_constraintLeft_toLeftOf="@id/player2Image"
+            app:layout_constraintRight_toRightOf="@id/player2Image"
+
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <TextView
+        android:gravity="center"
+        android:layout_margin="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_head"
+        android:fontFamily="@font/font_style"
+        android:id="@+id/timerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="30" />
+
+
+    <Button
+        android:visibility="gone"
+        android:layout_margin="15dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:theme="@style/Theme.DotPot.DarkGreen"
+        android:textColor="@color/colorTextPrimary"
+        android:background="@drawable/bg_selector_rounded_btn_filled"
+        android:id="@+id/startGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_game" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

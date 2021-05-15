@@ -28,6 +28,8 @@ public class Game {
     private int player2Time;
     private long timeStamp;
 
+    private transient GenricUser player2;
+
     public boolean isPlayer1Won(){
         return getPlayer1Id().equals(getWinnerId());
     }

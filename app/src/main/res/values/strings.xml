@@ -118,6 +118,9 @@
     <string name="you_lost">Better luck next time.</string>
     <string name="you_won">You won %d !!</string>
     <string name="view">View</string>
+    <string name="you">You</string>
+    <string name="searching">Searching</string>
+    <string name="no_opponent">Couldn\'t find a opponent ! Please try again .</string>
 
 
 </resources>

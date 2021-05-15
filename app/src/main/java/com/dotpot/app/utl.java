@@ -1812,6 +1812,9 @@ public class utl {
         return ret;
     }
 
+    public static int randomInt(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
     public static int getIntLen(int n) {
 
         int len = 0;
