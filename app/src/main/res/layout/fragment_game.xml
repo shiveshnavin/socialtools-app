@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_text"
             android:padding="10dp"
-            android:text="@string/searching"
+            android:text="@string/searching_for_player"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_subhead"
             app:layout_constraintLeft_toLeftOf="@id/player2Image"

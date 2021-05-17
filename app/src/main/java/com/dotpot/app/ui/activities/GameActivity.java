@@ -1,13 +1,13 @@
 package com.dotpot.app.ui.activities;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -71,15 +71,21 @@ public class GameActivity extends BaseActivity {
         TextView player2Name = rootView.findViewById(R.id.player2Name);
         TextView timer = rootView.findViewById(R.id.timerText);
         Button startGame = rootView.findViewById(R.id.startGame);
+        ImageView animLogo = rootView.findViewById(R.id.animLogo);
+        LinearLayout searchingCont = rootView.findViewById(R.id.searchingCont);
 
         Picasso.get().load(user.getImage()).error(R.drawable.account)
                 .placeholder(R.drawable.account)
                 .into(player1Image);
 
+        final int MAX_COUNT = 30;
+        final int count = utl.randomInt(2, MAX_COUNT/3) * 1000;
+
+        utl.animate_avd(animLogo);
 
         TickerAnimator tickerAnimator = new TickerAnimator((message, time) -> {
 
-            timer.setText(String.format("%d", time / 1000));
+            timer.setText(String.format("%d", MAX_COUNT - (count-time) / 1000));
 
             timer.setScaleX(1.5f);
             timer.setScaleY(1.5f);
@@ -105,13 +111,17 @@ public class GameActivity extends BaseActivity {
                     .into(player2Image);
             player2Name.setText(game.getPlayer2().getName());
 
-            timer.setVisibility(View.GONE);
+            searchingCont.setVisibility(View.GONE);
+            contPlayers.setVisibility(View.VISIBLE);
+
+            utl.addPressReleaseAnimation(player1Image);
+            utl.addPressReleaseAnimation(player2Image);
 
             startGame.setScaleX(1.5f);
             startGame.setScaleY(1.5f);
 
-            startGame.animate().setDuration(500).scaleX(1);
-            startGame.animate().setDuration(500).scaleY(1);
+            startGame.animate().setDuration(400).scaleX(1);
+            startGame.animate().setDuration(400).scaleY(1);
 
             startGame.setVisibility(View.VISIBLE);
             startGame.setOnClickListener(v->{
@@ -119,8 +129,6 @@ public class GameActivity extends BaseActivity {
             });
         },timer);
 
-        CountDownTimer ctr;
-        final int count = utl.randomInt(2, 5) * 1000;
 
         tickerAnimator.start(count);
 

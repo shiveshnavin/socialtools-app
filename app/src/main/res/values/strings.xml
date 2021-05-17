@@ -119,7 +119,7 @@
     <string name="you_won">You won %d !!</string>
     <string name="view">View</string>
     <string name="you">You</string>
-    <string name="searching">Searching</string>
+    <string name="searching_for_player">Searching for a opponent...</string>
     <string name="no_opponent">Couldn\'t find a opponent ! Please try again .</string>
 
 
