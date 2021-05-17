@@ -201,6 +201,45 @@ public class utl {
 
     }
 
+
+    public static Animation animate_shake(View btn_done) {
+
+        try {
+
+            final Animation animShake = AnimationUtils.loadAnimation(btn_done.getContext(), R.anim.shake);
+            btn_done.startAnimation(animShake);
+
+            return animShake;
+        } catch (Exception e) {
+
+            utl.e("ERROR WHILE ANIMATING IMAGEVIEW");
+        }
+
+        return null;
+
+    }
+
+
+    public static void animate_land(View view) {
+
+        try {
+
+            view.setVisibility(View.VISIBLE);
+            view.setScaleX(1.5f);
+            view.setScaleY(1.5f);
+
+            view.animate().setDuration(1000).scaleX(1);
+            view.animate().setDuration(1000).scaleY(1);
+
+
+        } catch (Exception e) {
+
+            utl.e("ERROR WHILE ANIMATING IMAGEVIEW");
+        }
+
+
+    }
+
     public static void animate(View app, String property, int initv, int finalv, boolean repeat, int dur) {
 
 

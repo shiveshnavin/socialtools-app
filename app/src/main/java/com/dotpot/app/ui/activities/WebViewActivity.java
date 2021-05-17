@@ -110,11 +110,12 @@ public class WebViewActivity extends BaseActivity {
                 if(!isNetworkAvailable()){
                     mWebView.loadUrl("file:///android_asset/error.html");
                 }
-                else if(errorResponse.getStatusCode()>=400){
-                    view.clearHistory();
-                    finishOnBack = true;
-                    mWebView.loadUrl("file:///android_asset/error.html");
-                }
+//                else
+//                if(errorResponse.getStatusCode()>=400){
+//                    view.clearHistory();
+//                    finishOnBack = true;
+//                    mWebView.loadUrl("file:///android_asset/error.html");
+//                }
             }
 
             @Override
