@@ -21,6 +21,14 @@
         <value>5</value>
     </entry>
     <entry>
+        <key>max_game_waiting</key>
+        <value>10</value>
+    </entry>
+    <entry>
+        <key>max_user_waiting</key>
+        <value>10</value>
+    </entry>
+    <entry>
         <key>otp_timeout_sec</key>
         <value>30</value>
     </entry>

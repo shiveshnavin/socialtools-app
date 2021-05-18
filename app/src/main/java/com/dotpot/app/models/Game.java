@@ -1,5 +1,6 @@
 package com.dotpot.app.models;
 
+import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.models.game.Pot;
 
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class Game {
     private int award;
     private int possibleAward;
     private String currency;
-    private int player1wins;
-    private int player2wins;
+    private int player1wins=0;
+    private int player2wins=0;
     private int player1Time;
     private int player2Time;
     private long timeStamp;
@@ -39,6 +40,10 @@ public class Game {
 
     private transient GenricUser player2;
     private transient List<Pot> pots;
+    private transient int state; // 0 = loading , 1 = started , 2 = finished
+    private transient volatile String turnOfPlayerId;
+    private GenricCallback onGameScoreUpdate;
+
 
     public List<Pot> generatePots(){
         if(pots !=null && !pots.isEmpty())
@@ -61,5 +66,9 @@ public class Game {
 
     public boolean isOver() {
         return pots.stream().allMatch(Pot::isOwned);
+    }
+
+    public boolean isPlayer1Turn() {
+        return turnOfPlayerId.equals(getPlayer1Id());
     }
 }

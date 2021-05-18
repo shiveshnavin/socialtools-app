@@ -83,7 +83,7 @@
     <string name="err_pls_login">Please login to continue !</string>
     <string name="error">Error</string>
     <string name="pay">Pay</string>
-    <string name="are_you_sure_back">Are you sure you want to cancel the transaction ?</string>
+    <string name="are_you_sure_back">Are you sure you want to exit ?</string>
     <string name="confirm">Confirm</string>
     <string name="txn_failed">Transaction failed  </string>
     <string name="payment_success">Payment Success</string>
@@ -119,10 +119,13 @@
     <string name="you_won">You won %d !!</string>
     <string name="view">View</string>
     <string name="you">You</string>
-    <string name="searching_for_player">Searching for a opponent...</string>
+    <string name="searching_for_player">Searching for a opponent…</string>
     <string name="no_opponent">Couldn\'t find a opponent ! Please try again .</string>
     <string name="watch">Watch !</string>
-    <string name="break_the_pot_with_highest_values">Break the pot with highest values</string>
+    <string name="break_the_pot_with_highest_values">"Your Turn .\nBreak the pots with highest values !"</string>
+    <string name="starting">Starting Game…</string>
+    <string name="timeup">Time Up !</string>
+    <string name="turn">turn</string>
 
 
 </resources>

@@ -940,11 +940,19 @@ public class utl {
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
+    public static void addPressReleaseAnimation(final View base,final boolean zoomInOnTap) {
 
-    public static void addPressReleaseAnimation(final View base) {
 
-        final Animation press = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_in);
-        final Animation release = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_nomal);
+        Animation press;
+        Animation release;
+
+        if (zoomInOnTap){
+            press = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_in);
+        }
+        else {
+            press = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_out);
+        }
+        release = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_nomal);
 
         base.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -956,9 +964,6 @@ public class utl {
                         base.startAnimation(press);
                         break;
                     case MotionEvent.ACTION_UP:
-
-                        base.startAnimation(release);
-                        break;
                     case MotionEvent.ACTION_CANCEL:
 
                         base.startAnimation(release);
@@ -973,6 +978,9 @@ public class utl {
         });
 
 
+    }
+    public static void addPressReleaseAnimation(final View base) {
+        addPressReleaseAnimation(base,false);
     }
     public static void snack(Activity act, @StringRes int t) {
         snack(act,act.getString(t));

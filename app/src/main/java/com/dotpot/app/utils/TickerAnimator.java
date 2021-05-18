@@ -13,6 +13,7 @@ public class TickerAnimator {
     GenricDataCallback onTick;
     View view;
     CountDownTimer ctr;
+    int count = 10;
 
     public TickerAnimator(GenricDataCallback onTick,GenricCallback onFinish,  View view) {
         this.onFinish = onFinish;
@@ -23,7 +24,8 @@ public class TickerAnimator {
     public void start(int count) {
 
         if (count <= 0)
-            count = utl.randomInt(2, 5) * 1000;
+            count = utl.randomInt(0, count) * 1000;
+        this.count = count;
 
         ctr = new CountDownTimer(count, 1000) {
             @Override
@@ -44,7 +46,7 @@ public class TickerAnimator {
             @Override
             public void onFinish() {
                 if (onFinish != null)
-                    onFinish.onStart();
+                    onCompleted();
             }
         };
         ctr.start();
@@ -53,6 +55,15 @@ public class TickerAnimator {
 
     public void stop() {
         ctr.cancel();
+    }
+
+    public void reset(){
+        stop();
+        start(count);
+    }
+
+    public void onCompleted(){
+        onFinish.onStart();
     }
 
 }

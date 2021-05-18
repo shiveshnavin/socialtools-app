@@ -456,7 +456,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void addPressReleaseAnimation(@NonNull final View base) {
 
-        final Animation press = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_in);
+        final Animation press = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_out);
         final Animation release = AnimationUtils.loadAnimation(base.getContext(), R.anim.rec_zoom_nomal);
 
         base.setOnTouchListener(new View.OnTouchListener() {
