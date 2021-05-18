@@ -6,7 +6,7 @@
         android:color="@color/transparent" >
     </solid>
 
-    <stroke android:width="3dp"
+    <stroke android:width="5dp"
         android:color="@color/material_orange_700"
         />
 
