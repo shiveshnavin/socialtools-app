@@ -3,8 +3,6 @@ package com.dotpot.app.ui.activities;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.transition.ChangeBounds;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.transition.AutoTransition;
+import androidx.transition.ChangeBounds;
+import androidx.transition.TransitionManager;
 
 import com.dotpot.app.R;
 import com.dotpot.app.binding.WalletViewModel;
@@ -58,6 +60,7 @@ public class GameActivity extends BaseActivity {
     ExplosionField explosionField;
     Player2Listener player2Listener;
     private GenricObjectCallback<String> onEmoRecieved;
+    ConstraintLayout container;
 
     /* ============== PRE-GAME : SELECT PLAYER ========= */
     private GenricObjectCallback<String> onReplayRequested;
@@ -68,6 +71,7 @@ public class GameActivity extends BaseActivity {
         setContentView(R.layout.activity_game);
 
         LinearLayout contView = findViewById(R.id.contView);
+        container = findViewById(R.id.container);
         explosionField = ExplosionField.attach2Window(this);
 
         String gameId = getIntent().getStringExtra("gameId");
@@ -111,6 +115,34 @@ public class GameActivity extends BaseActivity {
                 .placeholder(R.drawable.account)
                 .into(player1Image);
 
+        GenricCallback moveAnimatePlayers = () -> {
+
+
+//               app:layout_constraintTop_toTopOf="parent"
+//                          app:layout_constraintLeft_toLeftOf="parent"
+//                          app:layout_constraintRight_toLeftOf="@id/vsText"
+//
+            long delay = 600;
+            AutoTransition autoTransition = new AutoTransition();
+            autoTransition.setDuration(delay);
+            TransitionManager.beginDelayedTransition(contPlayers, autoTransition);
+            player2Image.setVisibility(View.VISIBLE);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(contPlayers);
+
+            constraintSet.clear(R.id.player1Image, ConstraintSet.RIGHT);
+            constraintSet.clear(R.id.player2Image, ConstraintSet.LEFT);
+            constraintSet.applyTo(contPlayers);
+
+            player2Image.postDelayed(() -> {
+                vsText.setVisibility(View.VISIBLE);
+                player1Name.setVisibility(View.VISIBLE);
+                player2Name.setVisibility(View.VISIBLE);
+            }, delay / 2);
+
+        };
+
         final int MAX_COUNT = (int) mFirebaseRemoteConfig.getLong("max_game_waiting");
         final int count = utl.randomInt(MAX_COUNT - MAX_COUNT / 2, MAX_COUNT);
 
@@ -126,7 +158,8 @@ public class GameActivity extends BaseActivity {
             timer.animate().setDuration(1000).scaleX(1);
             timer.animate().setDuration(1000).scaleY(1);
 
-            if (time / 1000 < count && contPlayers.getVisibility() == View.GONE) {
+            if(game.getPlayer2()==null){
+
                 //todo remove hardcoding once API sends player2 info
                 GenricUser genricUser = new GenricUser();
                 genricUser.setId(game.getPlayer2Id());
@@ -134,20 +167,29 @@ public class GameActivity extends BaseActivity {
                 genricUser.setImage("https://i.pinimg.com/736x/f3/2b/4d/f32b4da70a38995d1d147704359414ea.jpg");
                 game.setPlayer2(genricUser);
 
+            }
+            if (!player2Name.getText().toString().equals(game.getPlayer2().getName())) {
+
+                player2Image.setVisibility(View.VISIBLE);
+                Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
+                        .placeholder(R.drawable.account)
+                        .into(player2Image);
+                player2Name.setText(game.getPlayer2().getName());
+
                 player2Listener = Player2Listener.builder()
-                        .player2(genricUser)
+                        .player2(game.getPlayer2())
                         .onTapPot(onTapPotRecieved)
                         .onSendEmo(onEmoRecieved)
                         .onReplayRequest(onReplayRequested).build();
+
+            }
+            if (time / 1000 < count && player2Name.getVisibility() != View.VISIBLE) {
+
                 if (game.getPlayer2() == null) {
                     utl.diagBottom(ctx, "", getString(R.string.no_opponent),
                             false, getString(R.string.finish), () -> finish());
                     return;
                 }
-                Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
-                        .placeholder(R.drawable.account)
-                        .into(player2Image);
-                player2Name.setText(game.getPlayer2().getName());
 
                 searchingText.setText(R.string.starting);
 //            searchingCont.setVisibility(View.GONE);
@@ -156,20 +198,12 @@ public class GameActivity extends BaseActivity {
                 utl.addPressReleaseAnimation(player1Image, true);
                 utl.addPressReleaseAnimation(player2Image, true);
 
-//            startGame.setScaleX(1.5f);
-//            startGame.setScaleY(1.5f);
-//
-//            startGame.animate().setDuration(400).scaleX(1);
-//            startGame.animate().setDuration(400).scaleY(1);
-//
-//            startGame.setVisibility(View.VISIBLE);
-//            startGame.setOnClickListener(v -> {
-//                setupInGame(contView);
-//            });
+                contPlayers.postDelayed(moveAnimatePlayers::onStart, 100);
             }
 
         }, () -> {
-            setupInGame(contView);
+            TransitionManager.beginDelayedTransition(container);
+             setupInGame(contView);
         }, timer);
 
 
@@ -195,7 +229,7 @@ public class GameActivity extends BaseActivity {
 
         new Handler().postDelayed(() -> {
             player2Listener.sendTapOnPot(randomElement);
-        }, utl.randomInt(1500, ((int) mFirebaseRemoteConfig.getLong("max_user_waiting")-1) * 1000));
+        }, utl.randomInt(1500, ((int) mFirebaseRemoteConfig.getLong("max_user_waiting") - 1) * 1000));
 
     }
 

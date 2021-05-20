@@ -108,6 +108,7 @@
             />
 
         <com.dotpot.app.views.RoundRectCornerImageView
+            android:transitionName="player2Image"
             android:id="@+id/player2Image"
             android:background="@drawable/bg_round_clip_outline_orange"
             android:layout_width="60dp"
@@ -142,6 +143,7 @@
             />
 
         <com.dotpot.app.views.RoundRectCornerImageView
+            android:transitionName="player1Image"
             android:id="@+id/player1Image"
             android:background="@drawable/bg_round_clip_outline_accent"
             android:layout_width="60dp"
