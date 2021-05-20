@@ -30,25 +30,45 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread_inside" />
 
-            <ImageView
-                android:id="@+id/playIcon"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:background="@color/transparent"
-                android:elevation="10dp"
-                android:src="@drawable/motion_play"
+            <com.dotpot.app.views.sparkbutton.SparkButton
+                android:id="@+id/sparkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/poster"
                 app:layout_constraintLeft_toLeftOf="@+id/poster"
                 app:layout_constraintRight_toRightOf="@+id/poster"
                 app:layout_constraintTop_toTopOf="@+id/poster"
-                app:tint="@color/white" />
+                app:sparkbutton_activeImage="@drawable/bg_round_clip_outline"
+                app:sparkbutton_inActiveImage="@drawable/bg_round_clip_outline"
+                app:sparkbutton_iconSize="80dp"
+                app:sparkbutton_pressOnTouch="true"
+                app:sparkbutton_primaryColor="@color/colorTextSuccess"
+                app:sparkbutton_secondaryColor="@color/colorGoldenWin" />
+
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/playIcon"
+                app:icon="@drawable/motion_play"
+                android:text="@string/start_game"
+                android:gravity="center"
+                android:textColor="@color/colorBackground"
+                app:iconTint="@color/colorBackground"
+                app:backgroundTint="@color/colorGoldenWin"
+                android:layout_margin="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/poster"
+                app:layout_constraintLeft_toLeftOf="@+id/poster"
+                app:layout_constraintRight_toRightOf="@+id/poster"
+                app:layout_constraintTop_toTopOf="@+id/poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
 
             <TextView
                 android:id="@+id/text_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/font_style"
                 android:text="@string/app_name"
@@ -235,7 +255,7 @@
                 android:layout_height="wrap_content">
 
 
-                <ProgressBar
+                <com.dotpot.app.views.LoadingView
                     android:layout_centerInParent="true"
                     android:id="@+id/loader"
                     android:layout_width="wrap_content"

@@ -31,6 +31,7 @@ public class ActionItem {
     public String dataId = "";
     public String dataIdEx = "";
     public String accentColorId = "";
+    public String bgColor = "";
     public int priority = 1;
     public boolean doFinish = false;
 

@@ -67,6 +67,7 @@ public class Constants {
     public static final String ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
     public static final String ACTION_VERIFY_PHONE = "ACTION_VERIFY_PHONE";
     public static final String ACTION_ADD_CREDITS = "ACTION_ADD_CREDITS";
+    public static final String ACTION_HOW_TO_PLAY = "ACTION_HOW_TO_PLAY";
     public static final String ACTION_REDEEM_OPTIONS = "ACTION_REDEEM_OPTIONS";
     public static final String ACTION_EARN_MONEY = "ACTION_EARN_MONEY";
     public static final String ACTION_WITHDRAW = "ACTION_WITHDRAW";

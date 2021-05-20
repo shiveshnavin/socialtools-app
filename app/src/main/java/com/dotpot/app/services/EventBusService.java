@@ -9,13 +9,14 @@ import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.activities.HomeActivity;
-import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.dotpot.app.utils.ResourceUtils.getString;
 
 public class EventBusService {
 
@@ -49,21 +50,21 @@ public class EventBusService {
                     ArrayList<ActionItem> listMenu = new ArrayList<>();
 
                     listMenu.add(ActionItem.ActionItemBuilder.anActionItem()
-                            .withTitle(ResourceUtils.getString(R.string.withdraw))
+                            .withTitle(getString(R.string.withdraw))
                             .withAct(act)
                             .withImage("withdraw")
                             .withActionType(Constants.ACTION_WITHDRAW)
-                            .withSubTitle(ResourceUtils.getString(R.string.help_withdraw))
+                            .withSubTitle(getString(R.string.help_withdraw))
                             .withAccentColorId(""+R.color.material_green_700)
                             .build());
 
 
                     listMenu.add(ActionItem.ActionItemBuilder.anActionItem()
-                            .withTitle(ResourceUtils.getString(R.string.shop))
+                            .withTitle(getString(R.string.shop))
                             .withAct(act)
                             .withImage("shop")
                             .withActionType(Constants.ACTION_SHOP)
-                            .withSubTitle(ResourceUtils.getString(R.string.help_shop))
+                            .withSubTitle(getString(R.string.help_shop))
                             .withAccentColorId(""+R.color.material_teal_700)
                             .build());
 
@@ -104,6 +105,9 @@ public class EventBusService {
                 }else if (actionType.equals(Constants.ACTION_EARN_MONEY)) {
                     if (act instanceof HomeActivity)
                         act.inAppNavService.startEarnShop(R.id.nav_host_fragment);
+                }
+                else if (actionType.equals(Constants.ACTION_HOW_TO_PLAY)) {
+                    act.inAppNavService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help");
                 }
             }
             if (cm.doFinish)

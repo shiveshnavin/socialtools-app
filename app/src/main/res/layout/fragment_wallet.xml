@@ -383,7 +383,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tabTxns"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
+            <com.dotpot.app.views.LoadingView
                 android:visibility="gone"
                 android:layout_marginTop="100dp"
                 app:layout_constraintTop_toTopOf="parent"

@@ -13,7 +13,7 @@
         layout="@layout/utl_toolbar"/>
 
 
-    <ProgressBar
+    <com.dotpot.app.views.LoadingView
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

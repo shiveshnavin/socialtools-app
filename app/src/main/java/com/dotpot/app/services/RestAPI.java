@@ -50,7 +50,7 @@ public class RestAPI implements API {
     public static API getInstance(Context c) {
         if (instance == null)
             instance = new RestAPI(c);
-        if(instance.user == null){
+        if (instance.user == null) {
             instance.user = GenericUserViewModel.getInstance().getUser().getValue();
         }
         return instance;
@@ -81,22 +81,20 @@ public class RestAPI implements API {
         }
     }
 
-    public void invalidateCacheWalletAndTxns(){
-        if(user!=null){
+    public void invalidateCacheWalletAndTxns() {
+        if (user != null) {
             CacheService.getInstance().
                     invalidateOne(Constants.API_TRANSACTIONS(user.getId(), ""));
             CacheService.getInstance().invalidateOne(Constants.API_WALLET(user.getId()));
-        }
-        else {
+        } else {
             CacheService.getInstance().invalidateAll();
         }
     }
 
-    public void invalidateCacheGames(){
-        if(user!=null){
+    public void invalidateCacheGames() {
+        if (user != null) {
             CacheService.getInstance().invalidateOne(Constants.API_GET_USER_GAMES(user.getId()));
-        }
-        else {
+        } else {
             CacheService.getInstance().invalidateAll();
         }
     }
@@ -244,15 +242,27 @@ public class RestAPI implements API {
 
         ArrayList<ActionItem> actionItems = new ArrayList<>();
 
-        ActionItem actionShowWalletBalance = new ActionItem();
-        actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
-        actionShowWalletBalance.subTitle = ResourceUtils.getString(R.string.help_wallet_bal);
-        actionShowWalletBalance.dateTime = System.currentTimeMillis();
-        actionShowWalletBalance.id = "balance";
-        actionShowWalletBalance.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
-        actionShowWalletBalance.actionType = Constants.ACTION_ADD_CREDITS;
+        ActionItem howToPlay = new ActionItem();
+        howToPlay.title = ResourceUtils.getString(R.string.help);
+        howToPlay.textAction = ResourceUtils.getString(R.string.view);
+        howToPlay.subTitle = ResourceUtils.getString(R.string.how_to_play);
+        howToPlay.dateTime = System.currentTimeMillis();
+        howToPlay.id = "howto";
+        howToPlay.rightTop = "skip";
+        howToPlay.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+        howToPlay.actionType = Constants.ACTION_HOW_TO_PLAY;
 
-        actionItems.add(actionShowWalletBalance);
+        actionItems.add(howToPlay);
+
+//        ActionItem actionShowWalletBalance = new ActionItem();
+//        actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
+//        actionShowWalletBalance.subTitle = ResourceUtils.getString(R.string.help_wallet_bal);
+//        actionShowWalletBalance.dateTime = System.currentTimeMillis();
+//        actionShowWalletBalance.id = "balance";
+//        actionShowWalletBalance.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+//        actionShowWalletBalance.actionType = Constants.ACTION_ADD_CREDITS;
+//
+//        actionItems.add(actionShowWalletBalance);
 
         ActionItem actionShowRewards = new ActionItem();
         actionShowRewards.textAction = ResourceUtils.getString(R.string.redeem);
@@ -395,7 +405,7 @@ public class RestAPI implements API {
     @Override
     public void getUserGames(int currentGameListSize, GenricObjectCallback<Game> cb) {
 
-        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(user.getId()))+"?limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+        networkService.callGet(Constants.u(Constants.API_GET_USER_GAMES(user.getId())) + "?limit=" + FirebaseRemoteConfig.getInstance().getLong("page_size") + "&offset=" + currentGameListSize
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccessString(String response) {
@@ -474,13 +484,13 @@ public class RestAPI implements API {
 
 
     @Override
-    public void getProducts(int currentGameListSize,String contextType, GenricObjectCallback<Product> cb) {
+    public void getProducts(int currentGameListSize, String contextType, GenricObjectCallback<Product> cb) {
 
-        if(contextType.equals("earn"))
+        if (contextType.equals("earn"))
             contextType = "earn";
         else
             contextType = "shop";
-        networkService.callGet(Constants.u(Constants.API_GET_PRODUCTS)+"?type="+contextType+"&limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+        networkService.callGet(Constants.u(Constants.API_GET_PRODUCTS) + "?type=" + contextType + "&limit=" + FirebaseRemoteConfig.getInstance().getLong("page_size") + "&offset=" + currentGameListSize
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccessString(String response) {
@@ -498,13 +508,13 @@ public class RestAPI implements API {
     }
 
     @Override
-    public void getUserProducts(int currentGameListSize,String contextType, GenricObjectCallback<Product> cb) {
+    public void getUserProducts(int currentGameListSize, String contextType, GenricObjectCallback<Product> cb) {
 
-        if(contextType.equals("earn"))
+        if (contextType.equals("earn"))
             contextType = "earn";
         else
             contextType = "shop";
-        networkService.callGet(Constants.u(Constants.API_GET_USER_PRODUCTS(user.getId()))+"?type="+contextType+"&limit="+ FirebaseRemoteConfig.getInstance().getLong("page_size") +"&offset="+currentGameListSize
+        networkService.callGet(Constants.u(Constants.API_GET_USER_PRODUCTS(user.getId())) + "?type=" + contextType + "&limit=" + FirebaseRemoteConfig.getInstance().getLong("page_size") + "&offset=" + currentGameListSize
                 , false, new NetworkRequestCallback() {
                     @Override
                     public void onSuccessString(String response) {

@@ -126,6 +126,9 @@
     <string name="starting">Starting Game…</string>
     <string name="timeup">Time Up !</string>
     <string name="turn">turn</string>
+    <string name="guide">Guide</string>
+    <string name="how_to_play">How to play ? Learn the tips and tricks to win .</string>
+    <string name="help">Help</string>
 
 
 </resources>

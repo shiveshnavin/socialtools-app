@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
+import com.dotpot.app.views.sparkbutton.SparkButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,13 +57,15 @@ import java.util.List;
 import tyrantgit.explosionfield.ExplosionField;
 
 public class HomeFragment extends BaseFragment {
+    Handler handler = new Handler();
 
     GenriXAdapter<utl.NotificationMessage> notificationMessageGenriXAdapter;
+    boolean visible = true;
     private HomeViewModel homeViewModel;
     private GenriXAdapter<ActionItem> actionAdapter;
     private GenriXAdapter<GenricUser> leaderBoardAdapter;
     private ImageView poster;
-    private ImageView playIcon;
+    private View playIcon;
     private TextView text_home;
     private TextView bottomText;
     private ConstraintLayout contNotif;
@@ -75,6 +79,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView listLeaderboard;
     private RecyclerView listItems;
     private View loader;
+    private SparkButton sparkButton;
 
     /**
      * Find the Views in the layout<br />
@@ -84,7 +89,7 @@ public class HomeFragment extends BaseFragment {
      */
     private void findViews(View root) {
         poster = (ImageView) root.findViewById(R.id.poster);
-        playIcon = (ImageView) root.findViewById(R.id.playIcon);
+        playIcon = root.findViewById(R.id.playIcon);
         text_home = (TextView) root.findViewById(R.id.text_home);
         bottomText = (TextView) root.findViewById(R.id.bottomText);
         contNotif = (ConstraintLayout) root.findViewById(R.id.contNotif);
@@ -98,6 +103,29 @@ public class HomeFragment extends BaseFragment {
         listLeaderboard = (RecyclerView) root.findViewById(R.id.listLeaderboard);
         listItems = (RecyclerView) root.findViewById(R.id.listItems);
         loader = root.findViewById(R.id.loader);
+        sparkButton = root.findViewById(R.id.sparkButton);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        visible = false;
+    }
+
+    public void flashPlayBtn() {
+
+        sparkButton.playAnimation();
+
+        utl.animate_shake(playIcon);
+
+        sparkButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (visible)
+                    flashPlayBtn();
+            }
+        }, 2000);
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -137,24 +165,29 @@ public class HomeFragment extends BaseFragment {
         release.setInterpolator(paramFloat -> Math.abs(paramFloat - 1f));
         ExplosionField explosionField = ExplosionField.attach2Window(getActivity());
 
+
         playIcon.setOnTouchListener((view, event) -> {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     playIcon.animate().scaleX(1.5f)
                             .scaleY(1.5f).setDuration(300)
-                            .rotation(360f).start();
+//                            .rotation(360f)
+                            .start();
                     return true;
                 case MotionEvent.ACTION_UP:
                     playIcon.animate().scaleX(1)
                             .scaleY(1f).setDuration(300)
-                            .rotation(0f).start();
+//                            .rotation(0f)
+                            .start();
+                    sparkButton.playAnimation();
                     navService.startSelectGameAmount(fragmentId, null);
                     break;
                 case MotionEvent.ACTION_CANCEL:
                     playIcon.animate().scaleX(1f)
                             .scaleY(1f).setDuration(300)
-                            .rotation(0f).start();
+//                            .rotation(0f)
+                            .start();
                     break;
                 default:
                     break;
@@ -163,8 +196,7 @@ public class HomeFragment extends BaseFragment {
 
             return false;
         });
-
-
+        flashPlayBtn();
         contNotif.setOnClickListener(view -> {
 
         });
@@ -266,10 +298,7 @@ public class HomeFragment extends BaseFragment {
                     vh.button(R.id.addBtn)
                             .setText(item.textAction);
                 }
-                if (!utl.isEmpty(item.title)) {
-                    vh.textView(R.id.walletBalance)
-                            .setText(item.title);
-                }
+
                 if (!utl.isEmpty(item.subTitle)) {
                     vh.textView(R.id.yourWalletBalanceTxt)
                             .setText(item.subTitle);
@@ -298,6 +327,13 @@ public class HomeFragment extends BaseFragment {
                             vh.textView(R.id.walletBalance).setText("" + wallet.getWinningBalance());
 
                             break;
+                        default:
+                            if (!utl.isEmpty(item.title)) {
+                                vh.textView(R.id.walletBalance)
+                                        .setText(item.title);
+                            }
+                            else
+                            vh.textView(R.id.walletBalance).setText("");
                     }
                 }
                 vh.itemView.setOnClickListener(view -> {
