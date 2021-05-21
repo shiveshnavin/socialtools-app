@@ -122,6 +122,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:roundedCornerRadius="20" />
 
+        <TextView
+            android:background="@drawable/bg_round_filled_dark"
+            android:textSize="@dimen/text_xhead"
+            app:layout_constraintBottom_toBottomOf="@id/player2Image"
+            app:layout_constraintLeft_toLeftOf="@id/player2Image"
+            app:layout_constraintRight_toRightOf="@id/player2Image"
+            app:layout_constraintTop_toTopOf="@id/player2Image"
+            android:id="@+id/player2Emo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:gravity="center"
@@ -157,6 +167,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:roundedCornerRadius="15" />
 
+        <TextView
+            android:background="@drawable/bg_round_filled_dark"
+            android:textSize="@dimen/text_xhead"
+            app:layout_constraintBottom_toBottomOf="@id/player1Image"
+            app:layout_constraintLeft_toLeftOf="@id/player1Image"
+            app:layout_constraintRight_toRightOf="@id/player1Image"
+            app:layout_constraintTop_toTopOf="@id/player1Image"
+            android:id="@+id/player1Emo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -183,7 +204,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/chatBtn"
+        app:layout_constraintBottom_toTopOf="@+id/contEmos"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contPlayers">
@@ -192,16 +213,39 @@
     </GridLayout>
 
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/chatBtn"
-        app:icon="@drawable/ic_happy_emo"
-        android:text="Poke"
-        android:gravity="center"
-        android:layout_margin="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contEmos"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/chatBtn"
+            app:icon="@drawable/ic_happy_emo"
+            android:text="Poke"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:alpha="0"
+            android:id="@+id/listEmos"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

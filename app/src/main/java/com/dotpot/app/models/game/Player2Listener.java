@@ -4,25 +4,29 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Builder
+@Getter
+@Setter
 public class Player2Listener {
 
     GenricUser player2;
-    GenricObjectCallback<Pot> onTapPot;
-    GenricObjectCallback<String> onSendEmo;
-    GenricObjectCallback<String> onReplayRequest;
+    GenricObjectCallback<Pot> onTapPotFromPlayer2;
+    GenricObjectCallback<String> onEmoFromPlayer2;
+    GenricObjectCallback<String> onReplayRequestFromPlayer2;
 
     public void sendTapOnPot(Pot pot){
-        onTapPot.onEntity(pot);
+        onTapPotFromPlayer2.onEntity(pot);
     }
 
-    public void sendEmo(String emo){
-        onSendEmo.onEntity(emo);
+    public void sendEmoToPlayer2(String emo){
+        //onEmoFromPlayer2.onEntity(emo);
     }
 
     public void sendReplayRequest(){
-        onReplayRequest.onEntity("Replay ?");
+        onReplayRequestFromPlayer2.onEntity("Replay ?");
     }
 
 }
