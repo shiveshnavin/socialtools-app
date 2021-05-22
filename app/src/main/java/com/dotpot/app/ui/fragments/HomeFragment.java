@@ -364,8 +364,8 @@ public class HomeFragment extends BaseFragment {
         }
         try {
             Collections.sort(genricUsers, (user, t1) -> {
-                Long aw1 = Long.parseLong(user.getAbout());
-                Long aw2 = Long.parseLong(t1.getAbout());
+                Float aw1 = (user.getWeeklyAward());
+                Float aw2 = (t1.getWeeklyAward());
 
                 return aw2.compareTo(aw1);
             });
@@ -382,8 +382,8 @@ public class HomeFragment extends BaseFragment {
                 final GenricUser leader = genricUsers.get(pos);
 
                 vh.textView(R.id.username).setText(leader.getName());
-                vh.textView(R.id.rank).setText(leader.getRank());
-                vh.textView(R.id.earnings).setText(ResourceUtils.getString(R.string.currency) + " " + leader.getAbout());
+                vh.textView(R.id.rank).setText(Strings.isNullOrEmpty(leader.getRank())?""+(pos+1):leader.getRank());
+                vh.textView(R.id.earnings).setText(ResourceUtils.getString(R.string.currency) + " " + leader.getWeeklyAward());
                 try {
                     if (!Strings.isNullOrEmpty(leader.getImage()))
                         Picasso.get().load(leader.getImage())
