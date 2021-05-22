@@ -39,7 +39,7 @@ public class Game {
         return getPlayer1Id().equals(getWinnerId());
     }
 
-    private transient GenricUser player2;
+    private GenricUser player2;
     private transient List<Pot> pots;
     private transient int state; // 0 = loading , 1 = started , 2 = finished
     private transient volatile String turnOfPlayerId;

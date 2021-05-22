@@ -34,6 +34,7 @@ public class Player2Listener {
     GenricObjectCallback<String> onEmoFromPlayer2;
     GenricObjectCallback<String> onReplayRequestFromPlayer2;
     private int MAX_USER_WAIT;
+    private boolean convoIsIced = true;
 
     public void sendTapOnPotToPlayer2(@Nullable Pot pot) {
         waitForPlayer2();
@@ -104,6 +105,11 @@ public class Player2Listener {
         Random rand = new Random();
         if (unTappedPots.isEmpty()) {
             return;
+        }
+
+        if(convoIsIced && unTappedPots.size() < game.getPots().size()/2){
+            convoIsIced = false;
+            onEmoFromPlayer2.onEntity(getEmos().get(utl.randomInt(0,getEmos().size()-1)));
         }
         Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
         onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);

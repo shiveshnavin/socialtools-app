@@ -78,6 +78,36 @@ public class GameActivity extends BaseActivity {
             }
         }
     };
+    GenricCallback onReplayStart = () -> {
+
+        AddCreditFragment.checkWalletAndStartGame(game.getAmount(), new GenricObjectCallback<Game>() {
+            @Override
+            public void onEntity(Game data) {
+                if (data != null) {
+                    inAppNavService.startGame(data);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                utl.snack(act, message);
+            }
+        }, new GenricObjectCallback<Game>() {
+
+            @Override
+            public void onError(String message) {
+                utl.diagBottom(ctx, getString(R.string.insufficient_credits_header),
+                        getString(R.string.insufficient_credits), true, getString(R.string.finish), new GenricCallback() {
+                            @Override
+                            public void onStart() {
+                                finish();
+                            }
+                        });
+            }
+        });
+    };
+    boolean destroyedViews = false;
     /* ============== PRE-GAME : SELECT PLAYER ========= */
     private int MAX_USER_WAIT;
 
@@ -109,6 +139,13 @@ public class GameActivity extends BaseActivity {
 
     }
 
+
+
+    /* -------------- PRE-GAME : SELECT PLAYER --------- */
+
+
+    /* ============== IN-GAME ========= */
+
     @Override
     public void onBackPressed() {
 
@@ -135,10 +172,10 @@ public class GameActivity extends BaseActivity {
         RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
         TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
         Button startGame = (Button) rootView.findViewById(R.id.startGame);
-
-        Picasso.get().load(user.getImage()).error(R.drawable.account)
-                .placeholder(R.drawable.account)
-                .into(player1Image);
+        if (!utl.isEmpty(user.getImage()))
+            Picasso.get().load(user.getImage()).error(R.drawable.account)
+                    .placeholder(R.drawable.account)
+                    .into(player1Image);
 
         GenricCallback moveAnimatePlayers = () -> {
 
@@ -180,9 +217,10 @@ public class GameActivity extends BaseActivity {
             if (!player2Name.getText().toString().equals(game.getPlayer2().getName())) {
 
                 player2Image.setVisibility(View.VISIBLE);
-                Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
-                        .placeholder(R.drawable.account)
-                        .into(player2Image);
+                if (!utl.isEmpty(game.getPlayer2().getImage()))
+                    Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
+                            .placeholder(R.drawable.account)
+                            .into(player2Image);
                 player2Name.setText(game.getPlayer2().getName());
 
 
@@ -220,12 +258,10 @@ public class GameActivity extends BaseActivity {
 
     }
 
+    /* -------------- IN-GAME --------- */
 
 
-    /* -------------- PRE-GAME : SELECT PLAYER --------- */
-
-
-    /* ============== IN-GAME ========= */
+    /* ============== FINISH-GAME ========= */
 
     private void setupInGame(LinearLayout contView) {
         if (contView.getChildCount() > 0)
@@ -357,12 +393,14 @@ public class GameActivity extends BaseActivity {
             }
         };
 
-        Picasso.get().load(user.getImage()).error(R.drawable.account)
-                .placeholder(R.drawable.account)
-                .into(player1Image);
-        Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
-                .placeholder(R.drawable.account)
-                .into(player2Image);
+        if (!utl.isEmpty(user.getImage()))
+            Picasso.get().load(user.getImage()).error(R.drawable.account)
+                    .placeholder(R.drawable.account)
+                    .into(player1Image);
+        if (!utl.isEmpty(game.getPlayer2().getImage()))
+            Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
+                    .placeholder(R.drawable.account)
+                    .into(player2Image);
         player2Name.setText(game.getPlayer2().getName());
         contPlayers.setVisibility(View.VISIBLE);
         utl.addPressReleaseAnimation(player1Image);
@@ -435,11 +473,6 @@ public class GameActivity extends BaseActivity {
 
     }
 
-    /* -------------- IN-GAME --------- */
-
-
-    /* ============== FINISH-GAME ========= */
-
     private void setupConcludeGame(LinearLayout contView) {
 //        if (contView.getChildCount() > 0)
 //            contView.removeAllViews();
@@ -478,7 +511,7 @@ public class GameActivity extends BaseActivity {
                 pokeBtn.setText(R.string.accept_rematch);
                 resultTextSub.setTextColor(getcolor(R.color.colorGoldenWin));
 
-                CountDownTimer ctr =  new CountDownTimer(60000,2000){
+                CountDownTimer ctr = new CountDownTimer(60000, 2000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         try {
@@ -489,20 +522,21 @@ public class GameActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onFinish() {
 
                     }
                 }.start();
 
-                    YoYo.with(Techniques.Tada).repeatMode(YoYo.INFINITE)
-                            .duration(1000)
-                            .playOn(resultTextSub);
+                YoYo.with(Techniques.Tada).repeatMode(YoYo.INFINITE)
+                        .duration(1000)
+                        .playOn(resultTextSub);
 //                resultTextSub.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
 //                pokeBtn.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
 
 
-                pokeBtn.setOnClickListener(v->{
+                pokeBtn.setOnClickListener(v -> {
                     try {
 
                         resultCup.setOnClickListener(null);
@@ -596,13 +630,13 @@ public class GameActivity extends BaseActivity {
 //                            .duration(100)
 //                            .playOn(resultCup);
                     resultCup.setImageResource(R.drawable.win);
-                    if (utl.randomDecision(100)) {
+                    if (utl.randomDecision(70)) {
                         player2Listener.emoStorm(true);
                     }
                     resultText.setText(String.format(getString(R.string.you_won), getString(R.string.currency), data.getAward()));
                     resultTextSub.setText(String.format(getString(R.string.won_info), game.getPlayer2().getName(), Math.abs(game.getPlayer1wins() - game.getPlayer2wins())));
                 } else {
-                    if (utl.randomDecision(100)) {
+                    if (utl.randomDecision(60)) {
                         player2Listener.emoStorm(false);
                     }
                     resultText.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
@@ -623,7 +657,7 @@ public class GameActivity extends BaseActivity {
                         public void run() {
                             onReplayRequested.onEntity("Rematch ?");
                         }
-                    },utl.randomInt(1000,MAX_USER_WAIT));
+                    }, utl.randomInt(1000, MAX_USER_WAIT));
                 }
 
                 resultCup.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
@@ -639,40 +673,9 @@ public class GameActivity extends BaseActivity {
 
     }
 
-    GenricCallback onReplayStart = ()-> {
-
-        AddCreditFragment.checkWalletAndStartGame(game.getAmount(), new GenricObjectCallback<Game>() {
-            @Override
-            public void onEntity(Game data) {
-                if (data != null) {
-                    inAppNavService.startGame(data);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                utl.snack(act, message);
-            }
-        }, new GenricObjectCallback<Game>() {
-
-            @Override
-            public void onError(String message) {
-                utl.diagBottom(ctx, getString(R.string.insufficient_credits_header),
-                        getString(R.string.insufficient_credits), true, getString(R.string.finish), new GenricCallback() {
-                            @Override
-                            public void onStart() {
-                                finish();
-                            }
-                        });
-            }
-        });
-    };
-
-    boolean destroyedViews = false;
     @Override
     protected void onDestroy() {
-        destroyedViews=true;
+        destroyedViews = true;
         super.onDestroy();
     }
 
