@@ -49,7 +49,6 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,25 +57,23 @@ import tyrantgit.explosionfield.ExplosionField;
 public class GameActivity extends BaseActivity {
 
     Game game;
+    ExplosionField explosionField;
+    Player2Listener player2Listener;
+    ConstraintLayout container;
+    long delay = 600;
+    SoundPool soundPool;
+    int soundId;
+    GenricDataCallback playSOund;
     private final GenricObjectCallback<Pot> onTapPotRecieved = new GenricObjectCallback<Pot>() {
         @Override
         public void onEntity(Pot data) {
 
             if (game.getState() == 1) {
-                playSOund.onStart(game.getPlayer2Id(),2);
+                playSOund.onStart(game.getPlayer2Id(), 2);
                 data.own(game.getPlayer2Id());
             }
         }
     };
-    ExplosionField explosionField;
-    Player2Listener player2Listener;
-    ConstraintLayout container;
-    long delay = 600;
-
-    SoundPool soundPool ;
-    int soundId;
-    GenricDataCallback playSOund ;
-
     /* ============== PRE-GAME : SELECT PLAYER ========= */
     private int MAX_USER_WAIT;
 
@@ -92,8 +89,8 @@ public class GameActivity extends BaseActivity {
 
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = soundPool.load(ctx, R.raw.glass_break, 1);
-        playSOund = (player,pid) -> {
-            soundPool.play(soundId, pid==1?1.0f:0.5f, pid==1?0.5f:1f, 0, 0, 1);
+        playSOund = (player, pid) -> {
+            soundPool.play(soundId, pid == 1 ? 1.0f : 0.5f, pid == 1 ? 0.5f : 1f, 0, 0, 1);
         };
 
         String gameId = getIntent().getStringExtra("gameId");
@@ -291,15 +288,13 @@ public class GameActivity extends BaseActivity {
         GenricObjectCallback<String> onEmoRecieved = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
-                if (game.getState() == 1) {
-                    onEmo.onStart(data, 2);
-                }
+                onEmo.onStart(data, 2);
             }
         };
         player2Listener.setOnEmoFromPlayer2(onEmoRecieved);
         GenricCallback addEmoButtons = () -> {
 
-            List<String> emos = Arrays.asList("\uD83D\uDE0D", "\uD83D\uDC4A", "\uD83D\uDE4C", "\uD83E\uDD0F", "\uD83D\uDE02", "\uD83D\uDE21");
+            List<String> emos = player2Listener.getEmos();
             GenriXAdapter<String> genriXAdapter = new GenriXAdapter<String>(ctx, R.layout.row_emo, emos) {
                 @Override
                 public void onBindViewHolder(@NonNull @NotNull CustomViewHolder viewHolder, int i) {
@@ -427,12 +422,10 @@ public class GameActivity extends BaseActivity {
                         tickerAnimator.stop();
                     } else {
                         tickerAnimator.reset();
-                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id()))
-                        {
+                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id())) {
                             onNewTurn.onStart(game.getPlayer1Id(), 1);
-                        }
-                        else {
-                            playSOund.onStart(game.getPlayer1Id(),1);
+                        } else {
+                            playSOund.onStart(game.getPlayer1Id(), 1);
                             player2Listener.sendTapOnPotToPlayer2(pot);
                             onNewTurn.onStart(game.getPlayer2Id(), 2);
                         }
@@ -453,12 +446,37 @@ public class GameActivity extends BaseActivity {
 //            contView.removeAllViews();
 
         game.setState(2);
+
+
+        View rootView = getLayoutInflater().inflate(R.layout.fragment_game, contView);
+
+        Button startGame = (Button) rootView.findViewById(R.id.startGame);
+        ConstraintLayout contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
+        TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
+        TextView vsText = (TextView) rootView.findViewById(R.id.vsText);
+        TextView timerText = (TextView) rootView.findViewById(R.id.timerText);
+        TextView player2Name = (TextView) rootView.findViewById(R.id.player2Name);
+        TextView player2score = (TextView) rootView.findViewById(R.id.player2score);
+        RoundRectCornerImageView player2Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player2Image);
+        TextView player2Emo = (TextView) rootView.findViewById(R.id.player2Emo);
+        TextView player1score = (TextView) rootView.findViewById(R.id.player1score);
+        RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
+        TextView player1Emo = (TextView) rootView.findViewById(R.id.player1Emo);
+        TextView info = (TextView) rootView.findViewById(R.id.info);
+        GridLayout contPots = (GridLayout) rootView.findViewById(R.id.contPots);
+        ConstraintLayout contEmos = (ConstraintLayout) rootView.findViewById(R.id.contEmos);
+        ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton) rootView.findViewById(R.id.pokeBtn);
+        RecyclerView listEmos = (RecyclerView) rootView.findViewById(R.id.listEmos);
+        ProgressBar circularProgressbar = rootView.findViewById(R.id.circularProgressbar);
+
+
         GenricObjectCallback<String> onReplayRequested = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
 
             }
         };
+        player2Listener.setOnReplayRequestFromPlayer2(onReplayRequested);
 
 
 //        View root = getLayoutInflater().inflate(R.layout.fragment_pregame, contView);

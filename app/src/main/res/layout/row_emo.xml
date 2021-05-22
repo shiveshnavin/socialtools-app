@@ -9,8 +9,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:maxWidth="200dp"
-
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <ImageView
