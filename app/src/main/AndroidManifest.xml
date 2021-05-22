@@ -23,7 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.HomeActivity"/>
+        <activity android:name=".ui.activities.HomeActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            />
         <activity android:name=".ui.activities.AccountActivity"/>
         <activity android:name=".ui.activities.WebViewActivity"/>
         <activity android:name=".ui.activities.GameActivity"/>

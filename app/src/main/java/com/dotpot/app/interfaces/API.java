@@ -28,6 +28,10 @@ public interface API {
         utl.e("Not Implemented API::getWallet");
     }
 
+    default void withdraw(String s, String toString, long amount, GenricObjectCallback<String> cb) {
+        utl.e("Not Implemented API::withdraw");
+    }
+
     default void getTransactions(String type, GenricObjectCallback<Transaction> cb) {
         utl.e("Not Implemented API::getTransactions");
     }

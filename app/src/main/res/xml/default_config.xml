@@ -92,8 +92,15 @@
         <key>notif_img_url</key>
         <value>https://imgk.timesnownews.com/story/cash_0.jpg?tr=w-560,h-292,fo-top/</value>
     </entry>
+    <entry>
+        <key>min_withdrawl_amount</key>
+        <value>200</value>
+    </entry>
 
-
+    <entry>
+        <key>allowed_payment_methods</key>
+        <value>paytm,upi</value>
+    </entry>
 
 
 

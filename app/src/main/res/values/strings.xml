@@ -9,6 +9,7 @@
     <string name="digitsabcABC123">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890</string>
     <string name="digitsABC123.">abcdefghijklmnopqrstuvwxyz1234567890.</string>
     <string name="digits123">0123456789</string>
+    <string name="digits123_">0123456789+</string>
     <string name="digitsEmail">abcdefghijklmnopqrstuvwxyz1234567890@._</string>
     <string name="currency">₹</string>
     <string name="ccode">+91</string>
@@ -139,6 +140,19 @@
     <string name="waiting_for_player">Waiting for %s to accept your rematch request .</string>
     <string name="accept_rematch">Accept Rematch</string>
     <string name="terms">Terms and Conditions</string>
+    <string name="send">Send</string>
+    <string name="request">Request</string>
+    <string name="paytm_number">Paytm Number</string>
+    <string name="enter_your_paytm_number">Enter your Paytm number</string>
+    <string name="upi_id">UPI ID</string>
+    <string name="enter_upi_id">Enter your UPI Id</string>
+    <string name="enter_amount_to_withdraw">Enter amount to withdraw</string>
+    <string name="withdraw_it_might_take">It might take 5–7 business days for the credits to be approved and deposited .</string>
+    <string name="select_pay_method">Select payment method</string>
+    <string name="available_award_balance_d">Available award balance : %s %s</string>
+    <string name="min_withdrawl">Minimum withdrawal amount is %s</string>
+    <string name="insufficient_award">insufficient award balance .</string>
+    <string name="select_pay">Please select a payment method .</string>
 
 
 </resources>

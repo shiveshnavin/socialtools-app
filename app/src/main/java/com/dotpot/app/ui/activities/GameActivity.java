@@ -149,10 +149,13 @@ public class GameActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-        utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
-            game.setState(2);
+        if (game.getState() < 2)
+            utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
+                game.setState(2);
+                finish();
+            });
+        else
             finish();
-        });
 
     }
 
@@ -630,7 +633,7 @@ public class GameActivity extends BaseActivity {
 //                            .duration(100)
 //                            .playOn(resultCup);
                     resultCup.setImageResource(R.drawable.win);
-                        if (utl.randomDecision(50)) {
+                    if (utl.randomDecision(50)) {
                         player2Listener.emoStorm(true);
                     }
                     resultText.setText(String.format(getString(R.string.you_won), getString(R.string.currency), data.getAward()));

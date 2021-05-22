@@ -31,7 +31,10 @@ public class Constants {
     public static String API_TRANSACTIONS(String userId,String txnType) {
         return u(API_TRANSACTIONS.replace("${userId}",userId).replace("${txnType}",txnType == null ?"":txnType));
     }
-
+    public static final String API_GET_USER_WITHDRAW = "/api/users/${userId}/withdraw";
+    public static String API_GET_USER_WITHDRAW(String userId) {
+        return u(API_GET_USER_WITHDRAW.replace("${userId}",userId));
+    }
     public static final String API_GET_GAME_AMOUNTS = "/api/games/amounts";
     public static final String API_CREATE_GAME = "/api/games/create";
     public static String API_GET_USER_GAMES = "/api/games/user/";

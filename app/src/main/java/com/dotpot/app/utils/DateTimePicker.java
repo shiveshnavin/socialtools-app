@@ -116,7 +116,7 @@ public class DateTimePicker {
         if(v!=null) {
                 final DatePicker date = (DatePicker) v.findViewById(R.id.datePicker1);
             final TimePicker time = (TimePicker) v.findViewById(R.id.timePicker1);
-            final Button next = (Button) v.findViewById(R.id.login);
+            final Button next = (Button) v.findViewById(R.id.request);
 
             if(maxDate>0)
                 date.setMaxDate(maxDate);

@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/signup"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintEnd_toStartOf="@+id/login"
+            app:layout_constraintEnd_toStartOf="@+id/request"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
 
         <Button
             android:elevation="@dimen/default_elevation"
-            android:id="@+id/login"
+            android:id="@+id/request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"

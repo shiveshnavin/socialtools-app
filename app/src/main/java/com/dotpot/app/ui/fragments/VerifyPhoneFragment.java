@@ -207,7 +207,7 @@ public class VerifyPhoneFragment extends BaseFragment {
         contentpaswd = (TextInputLayout) root.findViewById(R.id.contentpaswd);
         password = (TextInputEditText) root.findViewById(R.id.password);
         linearLayout = (LinearLayout) root.findViewById(R.id.linearLayout);
-        login = (Button) root.findViewById(R.id.login);
+        login = (Button) root.findViewById(R.id.request);
         subtext = (TextView) root.findViewById(R.id.subtext);
     }
 

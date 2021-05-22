@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity {
 
         bottomContSplash = (LinearLayout) findViewById(R.id.bottomContSplash);
         signup = (Button) findViewById(R.id.signup);
-        login = (Button) findViewById(R.id.login);
+        login = (Button) findViewById(R.id.request);
 
     }
 

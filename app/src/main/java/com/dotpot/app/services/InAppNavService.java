@@ -19,6 +19,7 @@ import com.dotpot.app.ui.activities.WebViewActivity;
 import com.dotpot.app.ui.fragments.AddCreditFragment;
 import com.dotpot.app.ui.fragments.GameListFragment;
 import com.dotpot.app.ui.fragments.ShopFragment;
+import com.dotpot.app.ui.fragments.WithdrawFragment;
 import com.dotpot.app.ui.messaging.MessagingFragment;
 import com.dotpot.app.utils.ObjectTransporter;
 
@@ -103,7 +104,6 @@ public class InAppNavService {
         fragmentTransaction(fragmentViewId, GameListFragment.getInstance(), "games", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
-
     public void startSupport(@IdRes int fragmentViewId) {
         fragmentTransaction(fragmentViewId, MessagingFragment.getInstance(), "suport", null, true, Constants.TRANSITION_HORIZONTAL);
     }
@@ -175,5 +175,10 @@ public class InAppNavService {
         Intent it = new Intent(ctx, GameActivity.class);
         it.putExtra("gameId",data.getId());
         startActivity(it);
+    }
+
+
+    public void startWithdraw(@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, WithdrawFragment.getInstance(), "withdraw", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 }

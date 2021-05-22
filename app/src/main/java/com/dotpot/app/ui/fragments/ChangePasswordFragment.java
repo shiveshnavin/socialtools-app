@@ -46,7 +46,7 @@ public class ChangePasswordFragment extends BaseFragment {
         contentpaswd2 = (TextInputLayout)root.findViewById( R.id.contentpaswd2 );
         password2 = (TextInputEditText)root.findViewById( R.id.password2 );
         linearLayout = (LinearLayout)root.findViewById( R.id.linearLayout );
-        login = (Button)root.findViewById( R.id.login );
+        login = (Button)root.findViewById( R.id.request);
         subtext = (TextView)root.findViewById( R.id.subtext );
     }
 

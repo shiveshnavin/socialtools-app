@@ -211,6 +211,44 @@ public class RestAPI implements API {
     }
 
     @Override
+    public void withdraw(String paytmNo, String upiId, long amount, GenricObjectCallback<String> cb) {
+
+
+        JSONObject jop = new JSONObject();
+        if (!Strings.isNullOrEmpty(paytmNo))
+            utl.setKey("paytm", paytmNo, ctx);
+
+        if (!Strings.isNullOrEmpty(upiId))
+            utl.setKey("upi", upiId, ctx);
+
+        try {
+            jop.put("amount", amount);
+            jop.put("paytm", paytmNo);
+            jop.put("upi", upiId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        networkService.callPost((Constants.API_GET_USER_WITHDRAW(user.getId())), jop, false, new NetworkRequestCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                cb.onEntity(response.optString("message"));
+            }
+
+            @Override
+            public void onFail(ANError job) {
+                if (job.getErrorBody() != null) {
+                    cb.onError(job.getErrorBody());
+                } else {
+                    cb.onError(job.getErrorDetail());
+                }
+            }
+        });
+
+    }
+
+    @Override
     public void getTransactions(String debitOrCredit, GenricObjectCallback<Transaction> cb) {
         JSONObject jop = new JSONObject();
         if (user == null) {
@@ -244,8 +282,7 @@ public class RestAPI implements API {
         String jstr = FirebaseRemoteConfig.getInstance().getString("home_menu");
         ArrayList<ActionItem> actionItems = new ArrayList<>();
 
-        if(Strings.isNullOrEmpty(jstr)) {
-
+        if (Strings.isNullOrEmpty(jstr)) {
 
 
             ActionItem howToPlay = new ActionItem();
@@ -292,10 +329,9 @@ public class RestAPI implements API {
             earnByAds.actionType = Constants.ACTION_EARN_MONEY;
 
             actionItems.add(earnByAds);
-        }
-        else {
+        } else {
             utl.JSONParser<ActionItem> jsonParser = new utl.JSONParser<ActionItem>();
-            actionItems = jsonParser.parseJSONArray(jstr,ActionItem.class);
+            actionItems = jsonParser.parseJSONArray(jstr, ActionItem.class);
         }
 
 

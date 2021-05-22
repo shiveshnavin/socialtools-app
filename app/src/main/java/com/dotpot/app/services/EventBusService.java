@@ -102,7 +102,11 @@ public class EventBusService {
                 }else if (actionType.equals(Constants.ACTION_SHOP)) {
                     if (act instanceof HomeActivity)
                         act.inAppNavService.startShop(R.id.nav_host_fragment);
-                }else if (actionType.equals(Constants.ACTION_EARN_MONEY)) {
+                }else if (actionType.equals(Constants.ACTION_WITHDRAW)) {
+                    if (act instanceof HomeActivity)
+                        act.inAppNavService.startWithdraw(R.id.nav_host_fragment);
+                }
+                else if (actionType.equals(Constants.ACTION_EARN_MONEY)) {
                     if (act instanceof HomeActivity)
                         act.inAppNavService.startEarnShop(R.id.nav_host_fragment);
                 }

@@ -52,7 +52,7 @@ public class SignupFragment extends BaseFragment {
         contentpaswd = (TextInputLayout) root.findViewById(R.id.contentpaswd);
         paswd = (TextInputEditText) root.findViewById(R.id.paswd);
         linearLayout = (LinearLayout) root.findViewById(R.id.linearLayout);
-        login = (Button) root.findViewById(R.id.login);
+        login = (Button) root.findViewById(R.id.request);
     }
 
 
