@@ -1,5 +1,6 @@
 package com.dotpot.app.ui.activities;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -22,11 +23,10 @@ import androidx.transition.AutoTransition;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.WalletViewModel;
+import com.dotpot.app.interfaces.AbstractAnimatorListener;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
@@ -67,9 +67,10 @@ public class GameActivity extends BaseActivity {
     ExplosionField explosionField;
     Player2Listener player2Listener;
     ConstraintLayout container;
-    private int MAX_USER_WAIT;
+    long delay = 600;
 
     /* ============== PRE-GAME : SELECT PLAYER ========= */
+    private int MAX_USER_WAIT;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,27 +96,28 @@ public class GameActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-        utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), this::finish);
+        utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
+            game.setState(2);
+        });
 
     }
-    long delay = 600;
 
     private void setupPreGame(LinearLayout contView) {
         if (contView.getChildCount() > 0)
             contView.removeAllViews();
         game.setState(0);
         View rootView = getLayoutInflater().inflate(R.layout.fragment_pregame, contView);
-        LinearLayout searchingCont = (LinearLayout)rootView.findViewById( R.id.searchingCont );
-        ImageView animLogo = (ImageView)rootView.findViewById( R.id.animLogo );
-        TextView timerText = (TextView)rootView.findViewById( R.id.timerText );
-        TextView searchingText = (TextView)rootView.findViewById( R.id.searchingText );
-        ConstraintLayout contPlayers = (ConstraintLayout)rootView.findViewById( R.id.contPlayers );
-        TextView vsText = (TextView)rootView.findViewById( R.id.vsText );
-        RoundRectCornerImageView player2Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player2Image );
-        TextView player2Name = (TextView)rootView.findViewById( R.id.player2Name );
-        RoundRectCornerImageView player1Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player1Image );
-        TextView player1Name = (TextView)rootView.findViewById( R.id.player1Name );
-        Button startGame = (Button)rootView.findViewById( R.id.startGame );
+        LinearLayout searchingCont = (LinearLayout) rootView.findViewById(R.id.searchingCont);
+        ImageView animLogo = (ImageView) rootView.findViewById(R.id.animLogo);
+        TextView timerText = (TextView) rootView.findViewById(R.id.timerText);
+        TextView searchingText = (TextView) rootView.findViewById(R.id.searchingText);
+        ConstraintLayout contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
+        TextView vsText = (TextView) rootView.findViewById(R.id.vsText);
+        RoundRectCornerImageView player2Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player2Image);
+        TextView player2Name = (TextView) rootView.findViewById(R.id.player2Name);
+        RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
+        TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
+        Button startGame = (Button) rootView.findViewById(R.id.startGame);
 
         Picasso.get().load(user.getImage()).error(R.drawable.account)
                 .placeholder(R.drawable.account)
@@ -123,10 +125,6 @@ public class GameActivity extends BaseActivity {
 
         GenricCallback moveAnimatePlayers = () -> {
 
-//               app:layout_constraintTop_toTopOf="parent"
-//                          app:layout_constraintLeft_toLeftOf="parent"
-//                          app:layout_constraintRight_toLeftOf="@id/vsText"
-//
             AutoTransition autoTransition = new AutoTransition();
             autoTransition.setDuration(delay);
             TransitionManager.beginDelayedTransition(contPlayers, autoTransition);
@@ -162,7 +160,7 @@ public class GameActivity extends BaseActivity {
             timerText.animate().setDuration(1000).scaleX(1);
             timerText.animate().setDuration(1000).scaleY(1);
 
-            if(game.getPlayer2()==null){
+            if (game.getPlayer2() == null) {
 
                 //todo remove hardcoding once API sends player2 info
                 GenricUser genricUser = new GenricUser();
@@ -181,12 +179,10 @@ public class GameActivity extends BaseActivity {
                 player2Name.setText(game.getPlayer2().getName());
 
 
-
-
                 player2Listener = Player2Listener.builder()
                         .game(game)
                         .player2(game.getPlayer2())
-                        .onTapPotFromPlayer2(onTapPotRecieved) .build();
+                        .onTapPotFromPlayer2(onTapPotRecieved).build();
 
             }
             if (time / 1000 < count && player2Name.getVisibility() != View.VISIBLE) {
@@ -209,7 +205,7 @@ public class GameActivity extends BaseActivity {
 
         }, () -> {
             TransitionManager.beginDelayedTransition(container);
-             setupInGame(contView);
+            setupInGame(contView);
         }, timerText);
 
 
@@ -231,72 +227,84 @@ public class GameActivity extends BaseActivity {
 
         View rootView = getLayoutInflater().inflate(R.layout.fragment_game, contView);
 
-        Button startGame = (Button)rootView.findViewById( R.id.startGame );
-        ConstraintLayout contPlayers = (ConstraintLayout)rootView.findViewById( R.id.contPlayers );
-        TextView player1Name = (TextView)rootView.findViewById( R.id.player1Name );
-        TextView vsText = (TextView)rootView.findViewById( R.id.vsText );
-        TextView timerText = (TextView)rootView.findViewById( R.id.timerText );
-        TextView player2Name = (TextView)rootView.findViewById( R.id.player2Name );
-        TextView player2score = (TextView)rootView.findViewById( R.id.player2score );
-        RoundRectCornerImageView player2Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player2Image );
-        TextView player2Emo = (TextView)rootView.findViewById( R.id.player2Emo );
-        TextView player1score = (TextView)rootView.findViewById( R.id.player1score );
-        RoundRectCornerImageView player1Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player1Image );
-        TextView player1Emo = (TextView)rootView.findViewById( R.id.player1Emo );
-        TextView info = (TextView)rootView.findViewById( R.id.info );
-        GridLayout contPots = (GridLayout)rootView.findViewById( R.id.contPots );
-        ConstraintLayout contEmos = (ConstraintLayout)rootView.findViewById( R.id.contEmos );
-        ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.pokeBtn);
-        RecyclerView listEmos = (RecyclerView)rootView.findViewById( R.id.listEmos );
+        Button startGame = (Button) rootView.findViewById(R.id.startGame);
+        ConstraintLayout contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
+        TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
+        TextView vsText = (TextView) rootView.findViewById(R.id.vsText);
+        TextView timerText = (TextView) rootView.findViewById(R.id.timerText);
+        TextView player2Name = (TextView) rootView.findViewById(R.id.player2Name);
+        TextView player2score = (TextView) rootView.findViewById(R.id.player2score);
+        RoundRectCornerImageView player2Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player2Image);
+        TextView player2Emo = (TextView) rootView.findViewById(R.id.player2Emo);
+        TextView player1score = (TextView) rootView.findViewById(R.id.player1score);
+        RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
+        TextView player1Emo = (TextView) rootView.findViewById(R.id.player1Emo);
+        TextView info = (TextView) rootView.findViewById(R.id.info);
+        GridLayout contPots = (GridLayout) rootView.findViewById(R.id.contPots);
+        ConstraintLayout contEmos = (ConstraintLayout) rootView.findViewById(R.id.contEmos);
+        ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton) rootView.findViewById(R.id.pokeBtn);
+        RecyclerView listEmos = (RecyclerView) rootView.findViewById(R.id.listEmos);
         ProgressBar circularProgressbar = rootView.findViewById(R.id.circularProgressbar);
 
         ConstraintLayout.LayoutParams params1 = (ConstraintLayout.LayoutParams) player1Emo.getLayoutParams();
         ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) player2Emo.getLayoutParams();
 
-        GenricDataCallback onEmo = (emo,id)->{
+        GenricDataCallback onEmo = (emo, id) -> {
 
             final TextView textViewP2 = new TextView(ctx);
-            textViewP2.setLayoutParams(id == 1 ? params1:params2);
+            textViewP2.setLayoutParams(id == 1 ? params1 : params2);
             textViewP2.setId(View.generateViewId());
             textViewP2.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
-            contPlayers.addView(textViewP2);
             textViewP2.setText(emo);
             textViewP2.setTextSize(48);
-                    YoYo.with(Techniques.SlideOutUp)
-                            .duration(delay * 3)
-                            .onEnd(animator -> contPlayers.removeView(textViewP2))
-                            .playOn(player2Emo);
-//            textViewP2.setTranslationY(0);
-//            textViewP2.setAlpha(1.0f);
-//            textViewP2.animate().alpha(0.5f)
-//                    .translationYBy(-200f)
-//                    .setListener(new AbstractAnimatorListener() {
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//                            contPlayers.removeView(textViewP2);
-//                        }
-//                    })
-//                    .setDuration(delay*3).start();
+            textViewP2.setTranslationY(0);
+            textViewP2.setAlpha(1.0f);
+            textViewP2.animate().alpha(0.5f)
+                    .translationYBy(-200f)
+                    .setListener(new AbstractAnimatorListener() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            contPlayers.removeView(textViewP2);
+                        }
+                    })
+                    .setDuration(delay * 3).start();
+            contPlayers.addView(textViewP2);
 
         };
-
-
         GenricObjectCallback<String> onEmoRecieved = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
-                if(game.getState() == 1){
-                    onEmo.onStart(data,2);
+                if (game.getState() == 1) {
+                    onEmo.onStart(data, 2);
                 }
             }
         };
-
         player2Listener.setOnEmoFromPlayer2(onEmoRecieved);
+        GenricCallback addEmoButtons = () -> {
+
+            List<String> emos = Arrays.asList("\uD83D\uDE0D", "\uD83D\uDC4A", "\uD83D\uDE4C", "\uD83E\uDD0F", "\uD83D\uDE02", "\uD83D\uDE21");
+            GenriXAdapter<String> genriXAdapter = new GenriXAdapter<String>(ctx, R.layout.row_emo, emos) {
+                @Override
+                public void onBindViewHolder(@NonNull @NotNull CustomViewHolder viewHolder, int i) {
+                    String e = emos.get(i);
+                    viewHolder.textView(R.id.potText).setText(e);
+                    viewHolder.view(R.id.root).setOnClickListener(v -> {
+
+                        onEmo.onStart(e, 1);
+                        player2Listener.sendEmoToPlayer2(e);
+
+                    });
+                }
+            };
+            listEmos.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.HORIZONTAL, false));
+            listEmos.setAdapter(genriXAdapter);
+
+        };
+        addEmoButtons.onStart();
 
         game.setOnGameScoreUpdate(() -> {
-
             player1score.setText("" + game.getPlayer1wins());
             player2score.setText("" + game.getPlayer2wins());
-
         });
 
         GenricDataCallback onNewTurn = (playerId, statusCode) -> {
@@ -309,60 +317,11 @@ public class GameActivity extends BaseActivity {
                 utl.animate_land(info);
             }
         };
-
-        GenricCallback addEmoButtons = ()->{
-
-            List<String> emos = Arrays.asList("\uD83D\uDE0D","\uD83D\uDC4A","\uD83D\uDE4C","\uD83E\uDD0F","\uD83D\uDE02","\uD83D\uDE21");
-            GenriXAdapter<String> genriXAdapter = new GenriXAdapter<String>(ctx,R.layout.row_emo,emos){
-                @Override
-                public void onBindViewHolder(@NonNull @NotNull CustomViewHolder viewHolder, int i) {
-                    String e = emos.get(i);
-                    viewHolder.textView(R.id.potText).setText(e);
-                    viewHolder.view(R.id.root).setOnClickListener(v->{
-//
-//                        player1Emo.setVisibility(View.VISIBLE);
-//                        player1Emo.setText(e);
-//                        YoYo.with(Techniques.SlideOutUp)
-//                                .duration(delay * 3)
-//                                .playOn(player1Emo);
-                        onEmo.onStart(e,1);
-                        player2Listener.sendEmoToPlayer2(e);
-//                        listEmos.animate().alpha(0.0f).setDuration(delay/2).start();
-//                        pokeBtn.animate().alpha(1.0f)
-//                                .setListener(new AbstractAnimatorListener() {
-//                                    @Override
-//                                    public void onAnimationStart(Animator animation) {
-//                                        pokeBtn.setVisibility(View.VISIBLE);
-//
-//                                    }
-//                                })
-//                                .setDuration(delay/2).start();
-                    });
-                }
-            };
-            listEmos.setLayoutManager(new LinearLayoutManager(ctx,RecyclerView.HORIZONTAL,false));
-            listEmos.setAdapter(genriXAdapter);
-
-        };
-//        pokeBtn.setOnClickListener(v->{
-//            pokeBtn.animate().alpha(0.0f)
-//                    .setListener(new AbstractAnimatorListener() {
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//                            pokeBtn.setVisibility(View.GONE);
-//                        }
-//                    })
-//                    .setDuration(delay/2).start();
-//            listEmos.animate().alpha(1.0f).setDuration(delay/2).start();
-//        });
-        addEmoButtons.onStart();
-
         TickerAnimator tickerAnimator = new TickerAnimator(new GenricDataCallback() {
             @Override
             public void onStart(String message, int statusCode) {
                 int progress = statusCode * 100 / (MAX_USER_WAIT);
                 circularProgressbar.setProgress(progress);
-
                 timerText.setText("" + statusCode / 1000);
             }
         }, () -> {
@@ -370,7 +329,8 @@ public class GameActivity extends BaseActivity {
         }, timerText) {
             @Override
             public void onCompleted() {
-                onNewTurn.onStart(game.getPlayer2Id(), 1);
+                onNewTurn.onStart(game.getTurnOfPlayerId().equals(game.getPlayer1Id())
+                        ? game.getPlayer2Id() : game.getPlayer1Id(), 1);
                 reset();
             }
         };
@@ -378,14 +338,11 @@ public class GameActivity extends BaseActivity {
         Picasso.get().load(user.getImage()).error(R.drawable.account)
                 .placeholder(R.drawable.account)
                 .into(player1Image);
-
         Picasso.get().load(game.getPlayer2().getImage()).error(R.drawable.account)
                 .placeholder(R.drawable.account)
                 .into(player2Image);
         player2Name.setText(game.getPlayer2().getName());
-
         contPlayers.setVisibility(View.VISIBLE);
-
         utl.addPressReleaseAnimation(player1Image);
         utl.addPressReleaseAnimation(player2Image);
 
@@ -400,7 +357,7 @@ public class GameActivity extends BaseActivity {
             public void onTick(long millisUntilFinished) {
                 timerText.setText(String.format("%d", millisUntilFinished / 1000));
                 utl.animate_land(timerText);
-                int progress = (int) millisUntilFinished * 100 / ( MAX_USER_WAIT);
+                int progress = (int) millisUntilFinished * 100 / (MAX_USER_WAIT);
                 circularProgressbar.setProgress(progress);
 
                 if (millisUntilFinished < 6000) {
@@ -414,8 +371,8 @@ public class GameActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
                 tickerAnimator.start(MAX_USER_WAIT);
+                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
                 onNewTurn.onStart(game.getPlayer1Id(), 1);
             }
         };
@@ -433,7 +390,9 @@ public class GameActivity extends BaseActivity {
                 @Override
                 public void onEntity(Pot pot) {
 
-                    game.getOnGameScoreUpdate().onStart();
+                    if (game.getState() == 1)
+                        game.getOnGameScoreUpdate().onStart();
+
                     if (game.isOver()) {
                         setupConcludeGame(contView);
                         tickerAnimator.stop();
@@ -441,8 +400,7 @@ public class GameActivity extends BaseActivity {
                         tickerAnimator.reset();
                         if (pot.getOwnedByUserId().equals(game.getPlayer2Id()))
                             onNewTurn.onStart(game.getPlayer1Id(), 1);
-                        else
-                        {
+                        else {
                             player2Listener.sendTapOnPotToPlayer2(pot);
                             onNewTurn.onStart(game.getPlayer2Id(), 2);
                         }
@@ -464,7 +422,7 @@ public class GameActivity extends BaseActivity {
 //            contView.removeAllViews();
 
         game.setState(2);
-        GenricObjectCallback<String> onReplayRequested= new GenricObjectCallback<String>() {
+        GenricObjectCallback<String> onReplayRequested = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
 

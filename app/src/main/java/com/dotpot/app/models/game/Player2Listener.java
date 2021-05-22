@@ -50,9 +50,10 @@ public class Player2Listener {
         }
         Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
 
+        int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));
         new Handler().postDelayed(() -> {
             onTapPotFromPlayer2.onEntity(randomElement);
-        }, utl.randomInt(1500, (MAX_USER_WAIT - 1) * 1000));
+        }, delay);
 
     }
 
