@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
-import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.ui.BaseFragment;
+import com.dotpot.app.ui.activities.AccountActivity;
 import com.dotpot.app.utl;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -56,6 +57,9 @@ public class ChangePasswordFragment extends BaseFragment {
         findViews(root);
         String textBtm = subtext.getText().toString();
         subtext.setText(Html.fromHtml(textBtm));
+        subtext.setOnClickListener(v->{
+            act.inAppNavService.startWebsite(act.getString(R.string.terms), Constants.HOST+"/toc.html");
+        });
 
         if(utl.isEmpty(act.loginService.getTempGenricUser().getPassword())){
             contentpaswd.setVisibility(View.GONE);

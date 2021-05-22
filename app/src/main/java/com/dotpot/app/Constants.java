@@ -72,6 +72,7 @@ public class Constants {
     public static final String ACTION_EARN_MONEY = "ACTION_EARN_MONEY";
     public static final String ACTION_WITHDRAW = "ACTION_WITHDRAW";
     public static final String ACTION_SHOP = "ACTION_SHOP";
+    public static final String ACTION_TOC = "ACTION_TOC";
 
     public final static String ATTACHMENT_TYPE_IMAGE = "Image";
     public final static String ATTACHMENT_TYPE_DOC = "Doc";

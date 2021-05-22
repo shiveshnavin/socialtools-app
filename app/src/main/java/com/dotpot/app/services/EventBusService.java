@@ -107,7 +107,10 @@ public class EventBusService {
                         act.inAppNavService.startEarnShop(R.id.nav_host_fragment);
                 }
                 else if (actionType.equals(Constants.ACTION_HOW_TO_PLAY)) {
-                    act.inAppNavService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help");
+                    act.inAppNavService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help.html");
+                }
+                else if (actionType.equals(Constants.ACTION_TOC)) {
+                    act.inAppNavService.startWebsite(act.getString(R.string.terms),Constants.HOST+"/toc.html");
                 }
             }
             if (cm.doFinish)

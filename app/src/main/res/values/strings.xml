@@ -138,6 +138,7 @@
     <string name="accept">Accept</string>
     <string name="waiting_for_player">Waiting for %s to accept your rematch request .</string>
     <string name="accept_rematch">Accept Rematch</string>
+    <string name="terms">Terms</string>
 
 
 </resources>

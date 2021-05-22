@@ -287,6 +287,8 @@ public class RestAPI implements API {
 
         actionItems.add(earnByAds);
 
+        utl.e(">>>>>\n"+utl.js.toJson(actionItems));
+
         actionItems.stream().forEach(actionItem -> actionItem.act = activity);
         cb.onEntitySet(actionItems);
 

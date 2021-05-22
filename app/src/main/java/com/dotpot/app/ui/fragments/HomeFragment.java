@@ -353,12 +353,19 @@ public class HomeFragment extends BaseFragment {
 
     private void setUpLeaderboardList(List<GenricUser> genricUsers) {
 
-        Collections.sort(genricUsers, (user, t1) -> {
-            Long aw1 = Long.parseLong(user.getAbout());
-            Long aw2 = Long.parseLong(t1.getAbout());
+        if(genricUsers==null){
+            return;
+        }
+        try {
+            Collections.sort(genricUsers, (user, t1) -> {
+                Long aw1 = Long.parseLong(user.getAbout());
+                Long aw2 = Long.parseLong(t1.getAbout());
 
-            return aw2.compareTo(aw1);
-        });
+                return aw2.compareTo(aw1);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         leaderBoardAdapter = new GenriXAdapter<GenricUser>(getContext(), R.layout.row_user, genricUsers) {
             @Override
