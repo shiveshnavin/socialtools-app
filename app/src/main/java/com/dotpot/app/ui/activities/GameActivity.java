@@ -46,6 +46,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -98,6 +99,7 @@ public class GameActivity extends BaseActivity {
 
         utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
             game.setState(2);
+            finish();
         });
 
     }
@@ -249,6 +251,7 @@ public class GameActivity extends BaseActivity {
         ConstraintLayout.LayoutParams params1 = (ConstraintLayout.LayoutParams) player1Emo.getLayoutParams();
         ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) player2Emo.getLayoutParams();
 
+        List<View> temp = new ArrayList<>();
         GenricDataCallback onEmo = (emo, id) -> {
 
             final TextView textViewP2 = new TextView(ctx);
@@ -260,16 +263,16 @@ public class GameActivity extends BaseActivity {
             textViewP2.setTranslationY(0);
             textViewP2.setAlpha(1.0f);
             textViewP2.animate().alpha(0.5f)
-                    .translationYBy(-200f)
+                    .translationYBy(-500f)
                     .setListener(new AbstractAnimatorListener() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            contPlayers.removeView(textViewP2);
+//                            contPlayers.removeView(textViewP2);
                         }
                     })
                     .setDuration(delay * 3).start();
             contPlayers.addView(textViewP2);
-
+            temp.add(textViewP2);
         };
         GenricObjectCallback<String> onEmoRecieved = new GenricObjectCallback<String>() {
             @Override
@@ -305,6 +308,11 @@ public class GameActivity extends BaseActivity {
         game.setOnGameScoreUpdate(() -> {
             player1score.setText("" + game.getPlayer1wins());
             player2score.setText("" + game.getPlayer2wins());
+
+            for (View v : temp) {
+                contPlayers.removeView(v);
+            }
+
         });
 
         GenricDataCallback onNewTurn = (playerId, statusCode) -> {
@@ -329,8 +337,16 @@ public class GameActivity extends BaseActivity {
         }, timerText) {
             @Override
             public void onCompleted() {
-                onNewTurn.onStart(game.getTurnOfPlayerId().equals(game.getPlayer1Id())
-                        ? game.getPlayer2Id() : game.getPlayer1Id(), 1);
+                if (game.getState() != 1) {
+                    return;
+                }
+                if(game.getTurnOfPlayerId().equals(game.getPlayer1Id())){
+                    player2Listener.sendTapOnPotToPlayer2(null);
+                    onNewTurn.onStart(game.getPlayer2Id() ,2);
+                }
+                else{
+                    onNewTurn.onStart(game.getPlayer1Id() ,1);
+                }
                 reset();
             }
         };

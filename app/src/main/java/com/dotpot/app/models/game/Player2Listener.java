@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +30,7 @@ public class Player2Listener {
     GenricObjectCallback<String> onReplayRequestFromPlayer2;
     private int MAX_USER_WAIT;
 
-    public void sendTapOnPotToPlayer2(Pot pot){
+    public void sendTapOnPotToPlayer2(@Nullable Pot pot){
         waitForPlayer2();
     }
 
@@ -52,6 +54,7 @@ public class Player2Listener {
 
         int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));
         new Handler().postDelayed(() -> {
+            if(game.getTurnOfPlayerId().equals(game.getPlayer2Id()))
             onTapPotFromPlayer2.onEntity(randomElement);
         }, delay);
 

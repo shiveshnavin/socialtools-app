@@ -20,6 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contPlayers"
+        android:paddingTop="50dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layout_marginTop="-100dp"
@@ -29,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/info">
+        >
 
 
         <TextView
@@ -204,10 +205,10 @@
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/font_game"
+        android:fontFamily="@font/font_thin"
         android:gravity="center"
         android:text="@string/break_the_pot_with_highest_values"
-        android:textColor="@color/colorGradEnd"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="@dimen/text_head"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
