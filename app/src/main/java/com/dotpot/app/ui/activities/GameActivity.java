@@ -23,11 +23,10 @@ import androidx.transition.AutoTransition;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.WalletViewModel;
+import com.dotpot.app.interfaces.AbstractAnimatorListener;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
@@ -262,23 +261,44 @@ public class GameActivity extends BaseActivity {
         TextView info = (TextView)rootView.findViewById( R.id.info );
         GridLayout contPots = (GridLayout)rootView.findViewById( R.id.contPots );
         ConstraintLayout contEmos = (ConstraintLayout)rootView.findViewById( R.id.contEmos );
-        ExtendedFloatingActionButton chatBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.chatBtn );
+        ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.pokeBtn);
         RecyclerView listEmos = (RecyclerView)rootView.findViewById( R.id.listEmos );
+
+        ConstraintLayout.LayoutParams params1 = (ConstraintLayout.LayoutParams) player1Emo.getLayoutParams();
+        ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) player2Emo.getLayoutParams();
+
+        GenricDataCallback onEmo = (emo,id)->{
+
+            final TextView textViewP2 = new TextView(ctx);
+            textViewP2.setLayoutParams(id == 1 ? params1:params2);
+            textViewP2.setId(View.generateViewId());
+            textViewP2.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
+            contPlayers.addView(textViewP2);
+            textViewP2.setText(emo);
+            textViewP2.setTextSize(48);
+//                    YoYo.with(Techniques.SlideOutUp)
+//                            .duration(delay * 3)
+//                            .playOn(player2Emo);
+            textViewP2.setTranslationY(0);
+            textViewP2.setAlpha(1.0f);
+            textViewP2.animate().alpha(0.0f)
+                    .translationYBy(-200f)
+                    .setListener(new AbstractAnimatorListener() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            contPlayers.removeView(textViewP2);
+                        }
+                    })
+                    .setDuration(delay*3).start();
+
+        };
+
 
         GenricObjectCallback<String> onEmoRecieved = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
                 if(game.getState() == 1){
-                    player2Emo.setVisibility(View.VISIBLE);
-                    player2Emo.setText(data);
-                    YoYo.with(Techniques.SlideOutUp)
-                            .duration(delay * 3)
-                            .playOn(player2Emo);
-//                    player2Emo.setTranslationY(0);
-//                    player2Emo.setAlpha(1.0f);
-//                    player2Emo.animate().alpha(0.0f)
-//                            .translationYBy(-200f)
-//                            .setDuration(delay*3).start();
+                    onEmo.onStart(data,2);
                 }
             }
         };
@@ -313,38 +333,24 @@ public class GameActivity extends BaseActivity {
                     String e = emos.get(i);
                     viewHolder.textView(R.id.potText).setText(e);
                     viewHolder.view(R.id.root).setOnClickListener(v->{
-
-                        player1Emo.setVisibility(View.VISIBLE);
-                        player1Emo.setText(e);
-                        YoYo.with(Techniques.SlideOutUp)
-                                .duration(delay * 3)
-                                .playOn(player1Emo);
-
+//
+//                        player1Emo.setVisibility(View.VISIBLE);
+//                        player1Emo.setText(e);
+//                        YoYo.with(Techniques.SlideOutUp)
+//                                .duration(delay * 3)
+//                                .playOn(player1Emo);
+                        onEmo.onStart(e,1);
                         player2Listener.sendEmoToPlayer2(e);
-                        listEmos.animate().alpha(0.0f).setDuration(delay/2).start();
-                        chatBtn.animate().alpha(1.0f)
-                                .setListener(new Animator.AnimatorListener() {
-                                    @Override
-                                    public void onAnimationStart(Animator animation) {
-                                        chatBtn.setVisibility(View.VISIBLE);
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                    }
-
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationRepeat(Animator animation) {
-
-                                    }
-                                })
-                                .setDuration(delay/2).start();
+//                        listEmos.animate().alpha(0.0f).setDuration(delay/2).start();
+//                        pokeBtn.animate().alpha(1.0f)
+//                                .setListener(new AbstractAnimatorListener() {
+//                                    @Override
+//                                    public void onAnimationStart(Animator animation) {
+//                                        pokeBtn.setVisibility(View.VISIBLE);
+//
+//                                    }
+//                                })
+//                                .setDuration(delay/2).start();
                     });
                 }
             };
@@ -352,32 +358,17 @@ public class GameActivity extends BaseActivity {
             listEmos.setAdapter(genriXAdapter);
 
         };
-        chatBtn.setOnClickListener(v->{
-            chatBtn.animate().alpha(0.0f)
-                    .setListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            chatBtn.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    })
-                    .setDuration(delay/2).start();
-            listEmos.animate().alpha(1.0f).setDuration(delay/2).start();
-        });
+//        pokeBtn.setOnClickListener(v->{
+//            pokeBtn.animate().alpha(0.0f)
+//                    .setListener(new AbstractAnimatorListener() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            pokeBtn.setVisibility(View.GONE);
+//                        }
+//                    })
+//                    .setDuration(delay/2).start();
+//            listEmos.animate().alpha(1.0f).setDuration(delay/2).start();
+//        });
         addEmoButtons.onStart();
 
         TickerAnimator tickerAnimator = new TickerAnimator(new GenricDataCallback() {

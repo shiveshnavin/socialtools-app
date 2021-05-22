@@ -20,6 +20,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contPlayers"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginTop="-100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -59,6 +62,7 @@
             app:layout_constraintTop_toTopOf="@id/player2Image" />
 
         <TextView
+            android:visibility="gone"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:id="@+id/timerText"
@@ -123,7 +127,7 @@
             app:roundedCornerRadius="20" />
 
         <TextView
-            android:background="@drawable/bg_round_filled_dark"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_xhead"
             app:layout_constraintBottom_toBottomOf="@id/player2Image"
             app:layout_constraintLeft_toLeftOf="@id/player2Image"
@@ -168,7 +172,7 @@
             app:roundedCornerRadius="15" />
 
         <TextView
-            android:background="@drawable/bg_round_filled_dark"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_xhead"
             app:layout_constraintBottom_toBottomOf="@id/player1Image"
             app:layout_constraintLeft_toLeftOf="@id/player1Image"
@@ -185,8 +189,7 @@
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:fontFamily="@font/font_bold"
+        android:fontFamily="@font/font_game"
         android:gravity="center"
         android:text="@string/break_the_pot_with_highest_values"
         android:textColor="@color/colorGradEnd"
@@ -226,10 +229,11 @@
 
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/chatBtn"
+            android:id="@+id/pokeBtn"
             app:icon="@drawable/ic_happy_emo"
             android:text="Poke"
             android:gravity="center"
@@ -237,8 +241,7 @@
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:alpha="0"
-            android:id="@+id/listEmos"
+             android:id="@+id/listEmos"
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
