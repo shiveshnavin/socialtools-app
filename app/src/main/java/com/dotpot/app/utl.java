@@ -1859,6 +1859,18 @@ public class utl {
         return ret;
     }
 
+    /**
+     *
+     * @param prob betweek 0 to 100
+     * @return
+     */
+    public static boolean randomDecision(int prob) {
+        int r = randomInt(0,100);
+        if(r <= prob){
+            return true;
+        }
+        return false;
+    }
     public static int randomInt(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }

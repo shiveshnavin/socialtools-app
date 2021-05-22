@@ -1,7 +1,9 @@
 package com.dotpot.app.models.game;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 
+import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
@@ -37,10 +39,21 @@ public class Player2Listener {
         waitForPlayer2();
     }
 
+    long lastEmoFromP1 = 0;
+    long onlineTill;
     public void sendEmoToPlayer2(String emo) {
         emoList = getEmos();
+        if(System.currentTimeMillis() > onlineTill){
+            return;
+        }
+        if(System.currentTimeMillis() - lastEmoFromP1 < 2000){
+            if(utl.randomDecision(50)){
+                return;
+            }
+        }
+        lastEmoFromP1 = System.currentTimeMillis();
         int delay = utl.randomInt(3000, (MAX_USER_WAIT - 1000));
-        boolean send = utl.randomInt(0, 10) > 5;
+        boolean send = utl.randomDecision(50);
         if (send)
             new Handler().postDelayed(() -> {
                 if (emoList.indexOf(emo) <= emoList.size() / 2) {
@@ -53,8 +66,35 @@ public class Player2Listener {
             }, delay);
     }
 
-    public void sendReplayRequest() {
-        onReplayRequestFromPlayer2.onEntity("Replay ?");
+    public void emoStorm(boolean isCurses){
+
+        List<String> ems = (isCurses ? badEmos():getEmos());
+        CountDownTimer countDownTimer = new CountDownTimer(utl.randomInt(MAX_USER_WAIT/2,(int)(MAX_USER_WAIT*1.5)),300) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                onEmoFromPlayer2.onEntity((ems.get(utl.randomInt(0,ems.size()))));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        countDownTimer.start();
+    }
+
+
+    public void sendReplayRequest(GenricCallback onReplayStart) {
+
+        setOnReplayRequestFromPlayer2(new GenricObjectCallback<String>() {
+            @Override
+            public void onEntity(String data) {
+
+            }
+        });
+        new Handler().postDelayed(()->{
+            onReplayStart.onStart();
+        },utl.randomInt(4000,MAX_USER_WAIT));
     }
 
     void waitForPlayer2() {
@@ -66,13 +106,20 @@ public class Player2Listener {
             return;
         }
         Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
-
+        onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);
         int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));
         new Handler().postDelayed(() -> {
             if (game.getTurnOfPlayerId().equals(game.getPlayer2Id()))
                 onTapPotFromPlayer2.onEntity(randomElement);
         }, delay);
 
+    }
+
+    public List<String> goodEmos(){
+        return getEmos().subList(0,emoList.size()/2-1);
+    }
+    public List<String> badEmos(){
+        return getEmos().subList(emoList.size()/2,emoList.size()-1);
     }
 
     public List<String> getEmos() {
@@ -87,4 +134,5 @@ public class Player2Listener {
         }
         return emoList;
     }
+
 }

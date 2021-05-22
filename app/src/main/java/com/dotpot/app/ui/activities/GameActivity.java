@@ -5,9 +5,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -25,6 +27,8 @@ import androidx.transition.AutoTransition;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.WalletViewModel;
@@ -38,6 +42,7 @@ import com.dotpot.app.models.game.Player2Listener;
 import com.dotpot.app.models.game.Pot;
 import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
+import com.dotpot.app.ui.fragments.AddCreditFragment;
 import com.dotpot.app.utils.ObjectTransporter;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.TickerAnimator;
@@ -217,7 +222,7 @@ public class GameActivity extends BaseActivity {
             }
 
         }, () -> {
-            TransitionManager.beginDelayedTransition(container);
+//            TransitionManager.beginDelayedTransition(container);
             setupInGame(contView);
         }, timerText);
 
@@ -288,7 +293,11 @@ public class GameActivity extends BaseActivity {
         GenricObjectCallback<String> onEmoRecieved = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
-                onEmo.onStart(data, 2);
+                try {
+                    onEmo.onStart(data, 2);
+                } catch (Error | Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
         player2Listener.setOnEmoFromPlayer2(onEmoRecieved);
@@ -395,9 +404,11 @@ public class GameActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                tickerAnimator.start(MAX_USER_WAIT);
-                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
-                onNewTurn.onStart(game.getPlayer1Id(), 1);
+
+                setupConcludeGame(contView);
+//                tickerAnimator.start(MAX_USER_WAIT);
+//                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+//                onNewTurn.onStart(game.getPlayer1Id(), 1);
             }
         };
         countDownTimer.start();
@@ -454,6 +465,7 @@ public class GameActivity extends BaseActivity {
         ConstraintLayout contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
         TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
         TextView vsText = (TextView) rootView.findViewById(R.id.vsText);
+        ProgressBar circularProgressbar = (ProgressBar) rootView.findViewById(R.id.circularProgressbar);
         TextView timerText = (TextView) rootView.findViewById(R.id.timerText);
         TextView player2Name = (TextView) rootView.findViewById(R.id.player2Name);
         TextView player2score = (TextView) rootView.findViewById(R.id.player2score);
@@ -463,20 +475,97 @@ public class GameActivity extends BaseActivity {
         RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
         TextView player1Emo = (TextView) rootView.findViewById(R.id.player1Emo);
         TextView info = (TextView) rootView.findViewById(R.id.info);
+        ConstraintLayout contMid = (ConstraintLayout) rootView.findViewById(R.id.contMid);
+        TextView resultText = (TextView) rootView.findViewById(R.id.resultText);
+        TextView resultTextSub = (TextView) rootView.findViewById(R.id.resultTextSub);
         GridLayout contPots = (GridLayout) rootView.findViewById(R.id.contPots);
         ConstraintLayout contEmos = (ConstraintLayout) rootView.findViewById(R.id.contEmos);
         ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton) rootView.findViewById(R.id.pokeBtn);
         RecyclerView listEmos = (RecyclerView) rootView.findViewById(R.id.listEmos);
-        ProgressBar circularProgressbar = rootView.findViewById(R.id.circularProgressbar);
-
+        ImageView resultCup = rootView.findViewById(R.id.resultCup);
 
         GenricObjectCallback<String> onReplayRequested = new GenricObjectCallback<String>() {
             @Override
             public void onEntity(String data) {
+                pokeBtn.setText(R.string.accept_rematch);
+                resultTextSub.setTextColor(getcolor(R.color.colorGoldenWin));
+
+                CountDownTimer ctr =  new CountDownTimer(60000,2000){
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        try {
+                            YoYo.with(Techniques.Bounce)
+                                    .duration(500)
+                                    .playOn(pokeBtn);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }.start();
+
+                    YoYo.with(Techniques.Tada).repeatMode(YoYo.INFINITE)
+                            .duration(1000)
+                            .playOn(resultTextSub);
+//                resultTextSub.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
+//                pokeBtn.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
+
+
+                pokeBtn.setOnClickListener(v->{
+                    try {
+
+                        resultCup.setOnClickListener(null);
+                        pokeBtn.setOnClickListener(null);
+
+                        pokeBtn.setText(ResourceUtils.getString(R.string.loading));
+                        onReplayStart.onStart();
+                        ctr.cancel();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                });
+                resultTextSub.setText(String.format(getString(R.string.rematch_requested), game.getPlayer2().getName()));
+//                utl.diagBottom(ctx, getString(R.string.rematch), String.format(getString(R.string.rematch_requested), game.getPlayer2().getName()), true, getString(R.string.accept), R.drawable.replay, () -> {
+//                });
 
             }
         };
+
         player2Listener.setOnReplayRequestFromPlayer2(onReplayRequested);
+
+//        List<View> potsView = new ArrayList<>();
+//        for(int i=0;i<contPots.getChildCount();i++){
+//            View pot = contPots.getChildAt(i);
+//            potsView.add(pot);
+//        }
+//        final Integer[] i = {0};
+//        CountDownTimer countDownTimer = new CountDownTimer(2000,150) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                if(i[0] < potsView.size()){
+//                    explosionField.explode(potsView.get(i[0]));
+//                    i[0]++;
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                potsView.clear();
+//            }
+//        };
+
+//        explosionField.clear();
+//        explosionField.explode(contPots);
+//
+
+        info.setVisibility(View.GONE);
+        circularProgressbar.setVisibility(View.GONE);
+        View loader = rootView.findViewById(R.id.loader);
+        loader.animate().alpha(1f).setDuration(500).start();
 
 
 //        View root = getLayoutInflater().inflate(R.layout.fragment_pregame, contView);
@@ -492,9 +581,68 @@ public class GameActivity extends BaseActivity {
         RestAPI.getInstance().finishGame(game, new GenricObjectCallback<Game>() {
             @Override
             public void onEntity(Game data) {
-                utl.snack(act, "Game Finished !!! " + data.isPlayer1Won());
+                contPots.animate().alpha(0.0f).setListener(new AbstractAnimatorListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                    }
+                }).setDuration(delay).start();
+
+                loader.animate().alpha(0f).setDuration(500).start();
+//                utl.snack(act, "Game Finished !!! " + data.isPlayer1Won());
                 RestAPI.getInstance().invalidateCacheWalletAndTxns();
                 WalletViewModel.getInstance().refresh("");
+
+                resultTextSub.setVisibility(View.VISIBLE);
+                resultText.setVisibility(View.VISIBLE);
+
+                resultCup.setVisibility(View.VISIBLE);
+                pokeBtn.setVisibility(View.VISIBLE);
+                pokeBtn.setOnClickListener(v -> {
+                    loader.animate().alpha(1f).setDuration(500).start();
+                    resultTextSub.setText(String.format(getString(R.string.waiting_for_player), game.getPlayer2().getName()));
+                    player2Listener.sendReplayRequest(onReplayStart);
+                });
+                if (game.isPlayer1Won()) {
+//                    YoYo.with(Techniques.Bounce)
+//                            .duration(100)
+//                            .playOn(resultCup);
+                    resultCup.setImageResource(R.drawable.win);
+                    if (utl.randomDecision(100)) {
+                        player2Listener.emoStorm(true);
+                    }
+                    resultText.setText(String.format(getString(R.string.you_won), getString(R.string.currency), data.getAward()));
+                    resultTextSub.setText(String.format(getString(R.string.won_info), game.getPlayer2().getName(), Math.abs(game.getPlayer1wins() - game.getPlayer2wins())));
+                } else {
+                    if (utl.randomDecision(100)) {
+                        player2Listener.emoStorm(false);
+                    }
+                    resultText.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
+//                    YoYo.with(Techniques.Pulse)
+//                            .duration(1000)
+//                            .playOn(resultCup);
+                    resultCup.setImageResource(R.drawable.replay);
+                    resultCup.setOnClickListener(v -> {
+                        pokeBtn.callOnClick();
+                    });
+                    resultText.setText(getString(R.string.you_lost));
+                    resultTextSub.setText(String.format(getString(R.string.defeated_info), game.getPlayer2().getName(), Math.abs(game.getPlayer2wins() - game.getPlayer1wins())));
+                }
+
+                //todo remove hardcoding
+                game.setRematch(true);
+                if (game.isRematch()) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onReplayRequested.onEntity("Rematch ?");
+                        }
+                    },utl.randomInt(1000,MAX_USER_WAIT));
+                }
+
+                resultCup.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.zoominout));
+
+
             }
 
             @Override
@@ -503,6 +651,43 @@ public class GameActivity extends BaseActivity {
             }
         });
 
+    }
+
+    GenricCallback onReplayStart = ()-> {
+
+        AddCreditFragment.checkWalletAndStartGame(game.getAmount(), new GenricObjectCallback<Game>() {
+            @Override
+            public void onEntity(Game data) {
+                if (data != null) {
+                    inAppNavService.startGame(data);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                utl.snack(act, message);
+            }
+        }, new GenricObjectCallback<Game>() {
+
+            @Override
+            public void onError(String message) {
+                utl.diagBottom(ctx, getString(R.string.insufficient_credits_header),
+                        getString(R.string.insufficient_credits), true, getString(R.string.finish), new GenricCallback() {
+                            @Override
+                            public void onStart() {
+                                finish();
+                            }
+                        });
+            }
+        });
+    };
+
+    boolean destroyedViews = false;
+    @Override
+    protected void onDestroy() {
+        destroyedViews=true;
+        super.onDestroy();
     }
 
 

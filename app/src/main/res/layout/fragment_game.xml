@@ -64,6 +64,7 @@
             app:layout_constraintTop_toTopOf="@id/player2Image" />
 
         <ProgressBar
+            android:alpha="1"
             android:id="@+id/circularProgressbar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="80dp"
@@ -78,6 +79,17 @@
             app:layout_constraintRight_toRightOf="@+id/vsText"
             app:layout_constraintTop_toBottomOf="@+id/vsText" />
 
+
+        <com.dotpot.app.views.LoadingView
+            android:alpha="0"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:id="@+id/loader"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="@+id/vsText"
+            app:layout_constraintRight_toRightOf="@+id/vsText"
+            app:layout_constraintTop_toBottomOf="@+id/vsText" />
 
         <TextView
             android:alpha="0"
@@ -218,7 +230,65 @@
         app:layout_constraintTop_toBottomOf="@+id/contPlayers" />
 
 
-    <GridLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/contMid"
+        app:layout_constraintBottom_toTopOf="@+id/contEmos"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:visibility="gone"
+            android:src="@drawable/win"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/resultText"
+            app:layout_constraintLeft_toLeftOf="@id/resultText"
+            app:layout_constraintRight_toRightOf="@id/resultText"
+            android:id="@+id/resultCup"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_filled_dark"
+            android:fontFamily="@font/font_game"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/you_won"
+            android:textColor="@color/colorGoldenWin"
+            android:textSize="@dimen/text_xxhead"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:padding="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:id="@+id/resultTextSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_text"
+            android:text="@string/defeated_info"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/text_xhead"
+            app:layout_constraintLeft_toLeftOf="@id/resultText"
+            app:layout_constraintRight_toRightOf="@id/resultText"
+            app:layout_constraintTop_toBottomOf="@id/resultText"
+            />
+
+        <GridLayout
         android:layout_marginTop="10dp"
         android:columnCount="3"
         android:id="@+id/contPots"
@@ -226,14 +296,27 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/contEmos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contPlayers">
-
+        app:layout_constraintRight_toRightOf="parent">
 
     </GridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+       android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/contEmos"
+        android:id="@+id/pokeBtn"
+        app:icon="@drawable/replay"
+        android:text="@string/ask_for_rematch"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contEmos"
@@ -244,19 +327,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/listEmos"
-            android:id="@+id/pokeBtn"
-            app:icon="@drawable/ic_happy_emo"
-            android:text="Poke"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
              android:id="@+id/listEmos"

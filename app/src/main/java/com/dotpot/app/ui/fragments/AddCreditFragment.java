@@ -24,6 +24,7 @@ import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.ui.activities.WebViewActivity;
+import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
 
@@ -70,7 +71,7 @@ public class AddCreditFragment extends BaseFragment {
         String finalAction = action;
         if (action.equals("select_game_amount")) {
             if (arguments.getFloat("amount") > 0) {
-                checkWalletAndStartGame(arguments.getFloat("amount"));
+                checkWalletAndStartGame(arguments.getFloat("amount"), onDone,onInsuff);
             }
             setTitle(getString(R.string.select_game_credits));
             setUpAmounts(GameViewModel.getInstance().getGameAmounts().getValue(),finalAction);
@@ -126,7 +127,7 @@ public class AddCreditFragment extends BaseFragment {
 
                     ShowHideLoader.create().content(listTransactions).loader(loader).loading();
                     if (action.equals("select_game_amount")) {
-                        checkWalletAndStartGame(amount);
+                        checkWalletAndStartGame(amount, onDone,onInsuff);
                     } else {
                         startCreditAdd(amount);
                     }
@@ -143,33 +144,30 @@ public class AddCreditFragment extends BaseFragment {
     }
 
 
-    private void checkWalletAndStartGame(Float amount) {
+    GenricObjectCallback<Game> onDone = new GenricObjectCallback<Game>() {
+        @Override
+        public void onEntity(Game data) {
 
-        Wallet data = WalletViewModel.getInstance().getWallet().getValue();
+            new Handler(Looper.myLooper()).postDelayed(()->{
+                ShowHideLoader.create().content(listTransactions).loader(loader).loaded();
+            },1000);
 
-        if (data == null || data.getCreditBalance() >= amount) {
-            RestAPI.getInstance().createGame(amount,
-                    new GenricObjectCallback<Game>() {
-                        @Override
-                        public void onEntity(Game data) {
+            navService.startGame(data);
+            if(data.getAmount()>0)
+                WalletViewModel.getInstance().refresh("");
 
-                            new Handler(Looper.myLooper()).postDelayed(()->{
-                                ShowHideLoader.create().content(listTransactions).loader(loader).loaded();
-                            },1000);
+        }
 
-                            navService.startGame(data);
-                            if(data.getAmount()>0)
-                                WalletViewModel.getInstance().refresh("");
+        @Override
+        public void onError(String message) {
+            ShowHideLoader.create().content(listTransactions).loader(loader).loaded();
+            utl.diagBottom(ctx, getString(R.string.error), message, R.drawable.error);
+        }
+    };
 
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                            ShowHideLoader.create().content(listTransactions).loader(loader).loaded();
-                            utl.diagBottom(ctx, getString(R.string.error), message, R.drawable.error);
-                        }
-                    });
-        } else {
+    GenricObjectCallback<Game> onInsuff = new GenricObjectCallback<Game>() {
+        @Override
+        public void onError(String message) {
             ShowHideLoader.create().content(listTransactions).loader(loader).loaded();
             utl.diagBottom(ctx, getString(R.string.insufficient_credits_header),
                     getString(R.string.insufficient_credits), true, getString(R.string.add_credits), new GenricCallback() {
@@ -178,6 +176,19 @@ public class AddCreditFragment extends BaseFragment {
                             navService.startAddCredits(fragmentId);
                         }
                     });
+        }
+    };
+
+    public static void checkWalletAndStartGame(Float amount,
+                                                GenricObjectCallback<Game> onDone,
+                                                GenricObjectCallback<Game> onNoBalance) {
+
+        Wallet data = WalletViewModel.getInstance().getWallet().getValue();
+
+        if (data == null || data.getCreditBalance() >= amount) {
+            RestAPI.getInstance().createGame(amount,onDone);
+        } else {
+            onNoBalance.onError( ResourceUtils.getString(R.string.insufficient_credits_header));
         }
     }
 

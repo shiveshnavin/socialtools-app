@@ -33,6 +33,7 @@ public class Game {
     private int player1Time;
     private int player2Time;
     private long timeStamp;
+    private boolean rematch = true;
 
     public boolean isPlayer1Won(){
         return getPlayer1Id().equals(getWinnerId());
