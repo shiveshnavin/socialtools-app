@@ -122,7 +122,7 @@
     <string name="searching_for_player">Searching for a opponent…</string>
     <string name="no_opponent">Couldn\'t find a opponent ! Please try again .</string>
     <string name="watch">Watch !</string>
-    <string name="break_the_pot_with_highest_values">"Your Turn .\nBreak the pots with highest values !"</string>
+    <string name="break_the_pot_with_highest_values">Your Turn</string>
     <string name="starting">Starting Game…</string>
     <string name="timeup">Time Up !</string>
     <string name="turn">turn</string>

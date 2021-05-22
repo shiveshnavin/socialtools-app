@@ -17,8 +17,8 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:fontFamily">@font/font_text</item>
-        <item name="fontFamily">@font/font_text
-        </item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+<!--        <item name="fontFamily">@font/font_text</item> -->
+        <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
         <item name="android:textColorHint">@color/colorTextSecondary</item>
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="boxStrokeWidth">0dp</item>

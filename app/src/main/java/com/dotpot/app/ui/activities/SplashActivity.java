@@ -1,13 +1,11 @@
 package com.dotpot.app.ui.activities;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -102,33 +100,6 @@ public class SplashActivity extends BaseActivity {
             utl.logout();
             animLogo.postDelayed(this::showButtoms, 1000);
         }
-    }
-
-    private void splashVideo() {
-        //Creating MediaController
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-
-        //specify the location of media file
-
-//        Uri uri=Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/raw/splashccr.mp4");
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.splashccr);
-
-        //Setting MediaController and URI, then starting the videoView
-        mediaController.hide();
-        mediaController.setVisibility(View.GONE);
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.requestFocus();
-        videoView.start();
-
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                showButtoms();
-            }
-        });
-
     }
 
     private void showButtoms() {

@@ -1,6 +1,8 @@
 package com.dotpot.app.ui.activities;
 
 import android.animation.Animator;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -61,6 +63,7 @@ public class GameActivity extends BaseActivity {
         public void onEntity(Pot data) {
 
             if (game.getState() == 1) {
+                playSOund.onStart(game.getPlayer2Id(),2);
                 data.own(game.getPlayer2Id());
             }
         }
@@ -69,6 +72,10 @@ public class GameActivity extends BaseActivity {
     Player2Listener player2Listener;
     ConstraintLayout container;
     long delay = 600;
+
+    SoundPool soundPool ;
+    int soundId;
+    GenricDataCallback playSOund ;
 
     /* ============== PRE-GAME : SELECT PLAYER ========= */
     private int MAX_USER_WAIT;
@@ -82,6 +89,13 @@ public class GameActivity extends BaseActivity {
         container = findViewById(R.id.container);
         explosionField = ExplosionField.attach2Window(this);
         MAX_USER_WAIT = (int) mFirebaseRemoteConfig.getLong("max_user_waiting") * 1000;
+
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundId = soundPool.load(ctx, R.raw.glass_break, 1);
+        playSOund = (player,pid) -> {
+            soundPool.play(soundId, pid==1?1.0f:0.5f, pid==1?0.5f:1f, 0, 0, 1);
+        };
+
         String gameId = getIntent().getStringExtra("gameId");
         game = (Game) ObjectTransporter.getInstance().remove(gameId);
         if (game == null) {
@@ -154,7 +168,7 @@ public class GameActivity extends BaseActivity {
 
         TickerAnimator tickerAnimator = new TickerAnimator((message, time) -> {
 
-            timerText.setText(String.format("%d", (time) / 1000));
+            timerText.setText(String.format("%d", ((time) / 1000) + 1));
 
             timerText.setScaleX(1.5f);
             timerText.setScaleY(1.5f);
@@ -340,12 +354,11 @@ public class GameActivity extends BaseActivity {
                 if (game.getState() != 1) {
                     return;
                 }
-                if(game.getTurnOfPlayerId().equals(game.getPlayer1Id())){
+                if (game.getTurnOfPlayerId().equals(game.getPlayer1Id())) {
                     player2Listener.sendTapOnPotToPlayer2(null);
-                    onNewTurn.onStart(game.getPlayer2Id() ,2);
-                }
-                else{
-                    onNewTurn.onStart(game.getPlayer1Id() ,1);
+                    onNewTurn.onStart(game.getPlayer2Id(), 2);
+                } else {
+                    onNewTurn.onStart(game.getPlayer1Id(), 1);
                 }
                 reset();
             }
@@ -415,12 +428,14 @@ public class GameActivity extends BaseActivity {
                     } else {
                         tickerAnimator.reset();
                         if (pot.getOwnedByUserId().equals(game.getPlayer2Id()))
+                        {
                             onNewTurn.onStart(game.getPlayer1Id(), 1);
+                        }
                         else {
+                            playSOund.onStart(game.getPlayer1Id(),1);
                             player2Listener.sendTapOnPotToPlayer2(pot);
                             onNewTurn.onStart(game.getPlayer2Id(), 2);
                         }
-
                     }
                 }
             }));
