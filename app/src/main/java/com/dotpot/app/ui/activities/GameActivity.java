@@ -1,9 +1,7 @@
 package com.dotpot.app.ui.activities;
 
-import android.animation.Animator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +22,11 @@ import androidx.transition.AutoTransition;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.binding.WalletViewModel;
-import com.dotpot.app.interfaces.AbstractAnimatorListener;
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
@@ -49,8 +49,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -69,6 +67,7 @@ public class GameActivity extends BaseActivity {
     ExplosionField explosionField;
     Player2Listener player2Listener;
     ConstraintLayout container;
+    private int MAX_USER_WAIT;
 
     /* ============== PRE-GAME : SELECT PLAYER ========= */
 
@@ -80,7 +79,7 @@ public class GameActivity extends BaseActivity {
         LinearLayout contView = findViewById(R.id.contView);
         container = findViewById(R.id.container);
         explosionField = ExplosionField.attach2Window(this);
-
+        MAX_USER_WAIT = (int) mFirebaseRemoteConfig.getLong("max_user_waiting") * 1000;
         String gameId = getIntent().getStringExtra("gameId");
         game = (Game) ObjectTransporter.getInstance().remove(gameId);
         if (game == null) {
@@ -185,6 +184,7 @@ public class GameActivity extends BaseActivity {
 
 
                 player2Listener = Player2Listener.builder()
+                        .game(game)
                         .player2(game.getPlayer2())
                         .onTapPotFromPlayer2(onTapPotRecieved) .build();
 
@@ -224,21 +224,6 @@ public class GameActivity extends BaseActivity {
 
     /* ============== IN-GAME ========= */
 
-    void waitForPlayer2() {
-        List<Pot> unTappedPots = game.getPots().stream().filter(pot -> !pot.isOwned()).collect(Collectors.toList());
-
-        Random rand = new Random();
-        if (unTappedPots.isEmpty()) {
-            return;
-        }
-        Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
-
-        new Handler().postDelayed(() -> {
-            player2Listener.sendTapOnPot(randomElement);
-        }, utl.randomInt(1500, ((int) mFirebaseRemoteConfig.getLong("max_user_waiting") - 1) * 1000));
-
-    }
-
     private void setupInGame(LinearLayout contView) {
         if (contView.getChildCount() > 0)
             contView.removeAllViews();
@@ -263,6 +248,7 @@ public class GameActivity extends BaseActivity {
         ConstraintLayout contEmos = (ConstraintLayout)rootView.findViewById( R.id.contEmos );
         ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.pokeBtn);
         RecyclerView listEmos = (RecyclerView)rootView.findViewById( R.id.listEmos );
+        ProgressBar circularProgressbar = rootView.findViewById(R.id.circularProgressbar);
 
         ConstraintLayout.LayoutParams params1 = (ConstraintLayout.LayoutParams) player1Emo.getLayoutParams();
         ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) player2Emo.getLayoutParams();
@@ -276,20 +262,21 @@ public class GameActivity extends BaseActivity {
             contPlayers.addView(textViewP2);
             textViewP2.setText(emo);
             textViewP2.setTextSize(48);
-//                    YoYo.with(Techniques.SlideOutUp)
-//                            .duration(delay * 3)
-//                            .playOn(player2Emo);
-            textViewP2.setTranslationY(0);
-            textViewP2.setAlpha(1.0f);
-            textViewP2.animate().alpha(0.0f)
-                    .translationYBy(-200f)
-                    .setListener(new AbstractAnimatorListener() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            contPlayers.removeView(textViewP2);
-                        }
-                    })
-                    .setDuration(delay*3).start();
+                    YoYo.with(Techniques.SlideOutUp)
+                            .duration(delay * 3)
+                            .onEnd(animator -> contPlayers.removeView(textViewP2))
+                            .playOn(player2Emo);
+//            textViewP2.setTranslationY(0);
+//            textViewP2.setAlpha(1.0f);
+//            textViewP2.animate().alpha(0.5f)
+//                    .translationYBy(-200f)
+//                    .setListener(new AbstractAnimatorListener() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            contPlayers.removeView(textViewP2);
+//                        }
+//                    })
+//                    .setDuration(delay*3).start();
 
         };
 
@@ -320,7 +307,6 @@ public class GameActivity extends BaseActivity {
             } else {
                 info.setText(game.getPlayer2().getName() + "'s " + ResourceUtils.getString(R.string.turn));
                 utl.animate_land(info);
-                waitForPlayer2();
             }
         };
 
@@ -374,6 +360,9 @@ public class GameActivity extends BaseActivity {
         TickerAnimator tickerAnimator = new TickerAnimator(new GenricDataCallback() {
             @Override
             public void onStart(String message, int statusCode) {
+                int progress = statusCode * 100 / (MAX_USER_WAIT);
+                circularProgressbar.setProgress(progress);
+
                 timerText.setText("" + statusCode / 1000);
             }
         }, () -> {
@@ -411,6 +400,8 @@ public class GameActivity extends BaseActivity {
             public void onTick(long millisUntilFinished) {
                 timerText.setText(String.format("%d", millisUntilFinished / 1000));
                 utl.animate_land(timerText);
+                int progress = (int) millisUntilFinished * 100 / ( MAX_USER_WAIT);
+                circularProgressbar.setProgress(progress);
 
                 if (millisUntilFinished < 6000) {
 
@@ -424,7 +415,7 @@ public class GameActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
-                tickerAnimator.start((int) mFirebaseRemoteConfig.getLong("max_user_waiting") * 1000);
+                tickerAnimator.start(MAX_USER_WAIT);
                 onNewTurn.onStart(game.getPlayer1Id(), 1);
             }
         };
@@ -440,7 +431,7 @@ public class GameActivity extends BaseActivity {
 
             layout.addView(title.inflate(isPreview, startGame, inflater, layout, explosionField, new GenricObjectCallback<Pot>() {
                 @Override
-                public void onEntity(Pot data) {
+                public void onEntity(Pot pot) {
 
                     game.getOnGameScoreUpdate().onStart();
                     if (game.isOver()) {
@@ -448,10 +439,13 @@ public class GameActivity extends BaseActivity {
                         tickerAnimator.stop();
                     } else {
                         tickerAnimator.reset();
-                        if (data.getOwnedByUserId().equals(game.getPlayer2Id()))
+                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id()))
                             onNewTurn.onStart(game.getPlayer1Id(), 1);
                         else
+                        {
+                            player2Listener.sendTapOnPotToPlayer2(pot);
                             onNewTurn.onStart(game.getPlayer2Id(), 2);
+                        }
 
                     }
                 }

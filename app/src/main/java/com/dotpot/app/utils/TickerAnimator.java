@@ -7,12 +7,15 @@ import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.utl;
 
+import lombok.Getter;
+
 public class TickerAnimator {
 
     GenricCallback onFinish;
     GenricDataCallback onTick;
     View view;
     CountDownTimer ctr;
+    @Getter
     int count = 10;
 
     public TickerAnimator(GenricDataCallback onTick,GenricCallback onFinish,  View view) {
