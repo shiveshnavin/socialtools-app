@@ -71,7 +71,7 @@ public class AddCreditFragment extends BaseFragment {
         String finalAction = action;
         if (action.equals("select_game_amount")) {
             if (arguments.getFloat("amount") > 0) {
-                checkWalletAndStartGame(arguments.getFloat("amount"), onDone,onInsuff);
+                checkWalletAndStartGame(arguments.getFloat("amount"), onDone,onInsuff, "");
             }
             setTitle(getString(R.string.select_game_credits));
             setUpAmounts(GameViewModel.getInstance().getGameAmounts().getValue(),finalAction);
@@ -127,7 +127,7 @@ public class AddCreditFragment extends BaseFragment {
 
                     ShowHideLoader.create().content(listTransactions).loader(loader).loading();
                     if (action.equals("select_game_amount")) {
-                        checkWalletAndStartGame(amount, onDone,onInsuff);
+                        checkWalletAndStartGame(amount, onDone,onInsuff,"");
                     } else {
                         startCreditAdd(amount);
                     }
@@ -180,8 +180,8 @@ public class AddCreditFragment extends BaseFragment {
     };
 
     public static void checkWalletAndStartGame(Float amount,
-                                                GenricObjectCallback<Game> onDone,
-                                                GenricObjectCallback<Game> onNoBalance) {
+                                               GenricObjectCallback<Game> onDone,
+                                               GenricObjectCallback<Game> onNoBalance, String s) {
 
         Wallet data = WalletViewModel.getInstance().getWallet().getValue();
 

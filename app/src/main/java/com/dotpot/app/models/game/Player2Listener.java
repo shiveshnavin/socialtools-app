@@ -34,7 +34,7 @@ public class Player2Listener {
     GenricObjectCallback<String> onEmoFromPlayer2;
     GenricObjectCallback<String> onReplayRequestFromPlayer2;
     private int MAX_USER_WAIT;
-    private boolean convoIsIced = true;
+    private boolean convoIsIcedBroke = true;
 
     public void sendTapOnPotToPlayer2(@Nullable Pot pot) {
         waitForPlayer2();
@@ -73,7 +73,7 @@ public class Player2Listener {
         CountDownTimer countDownTimer = new CountDownTimer(utl.randomInt(MAX_USER_WAIT/2,(int)(MAX_USER_WAIT*1.5)),300) {
             @Override
             public void onTick(long millisUntilFinished) {
-                onEmoFromPlayer2.onEntity((ems.get(utl.randomInt(0,ems.size()))));
+                onEmoFromPlayer2.onEntity((ems.get(utl.randomInt(0,ems.size()-1))));
             }
 
             @Override
@@ -107,9 +107,11 @@ public class Player2Listener {
             return;
         }
 
-        if(convoIsIced && unTappedPots.size() < game.getPots().size()/2){
-            convoIsIced = false;
-            onEmoFromPlayer2.onEntity(getEmos().get(utl.randomInt(0,getEmos().size()-1)));
+        if(!convoIsIcedBroke && unTappedPots.size() <= game.getPots().size()/2){
+            convoIsIcedBroke = true;
+            new Handler().postDelayed(()->{
+                onEmoFromPlayer2.onEntity(getEmos().get(utl.randomInt(0,getEmos().size()-1)));
+            },1000);
         }
         Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
         onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);
@@ -122,10 +124,10 @@ public class Player2Listener {
     }
 
     public List<String> goodEmos(){
-        return getEmos().subList(0,emoList.size()/2-1);
+        return getEmos().subList(0,emoList.size()/2);
     }
     public List<String> badEmos(){
-        return getEmos().subList(emoList.size()/2,emoList.size()-1);
+        return getEmos().subList(emoList.size()/2,emoList.size());
     }
 
     public List<String> getEmos() {

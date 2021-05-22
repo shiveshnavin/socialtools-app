@@ -105,7 +105,7 @@ public class GameActivity extends BaseActivity {
                             }
                         });
             }
-        });
+        }, game.getPlayer2Id());
     };
     boolean destroyedViews = false;
     /* ============== PRE-GAME : SELECT PLAYER ========= */
@@ -431,7 +431,7 @@ public class GameActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-
+//                setupConcludeGame(contView);
                 tickerAnimator.start(MAX_USER_WAIT);
                 createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
                 onNewTurn.onStart(game.getPlayer1Id(), 1);
@@ -630,13 +630,13 @@ public class GameActivity extends BaseActivity {
 //                            .duration(100)
 //                            .playOn(resultCup);
                     resultCup.setImageResource(R.drawable.win);
-                    if (utl.randomDecision(70)) {
+                        if (utl.randomDecision(50)) {
                         player2Listener.emoStorm(true);
                     }
                     resultText.setText(String.format(getString(R.string.you_won), getString(R.string.currency), data.getAward()));
                     resultTextSub.setText(String.format(getString(R.string.won_info), game.getPlayer2().getName(), Math.abs(game.getPlayer1wins() - game.getPlayer2wins())));
                 } else {
-                    if (utl.randomDecision(60)) {
+                    if (utl.randomDecision(70)) {
                         player2Listener.emoStorm(false);
                     }
                     resultText.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
