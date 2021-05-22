@@ -48,6 +48,7 @@ import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
 import com.dotpot.app.views.sparkbutton.SparkButton;
+import com.google.common.base.Strings;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -149,7 +150,13 @@ public class HomeFragment extends BaseFragment {
                         new ViewModelProvider(HomeFragment.this).get(HomeViewModel.class);
                 homeViewModel.refresh(act);
                 homeViewModel.getActions().observe(getViewLifecycleOwner(), (result) -> setUpActionList(result));
-                homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), (result) -> setUpLeaderboardList(result));
+                homeViewModel.getLeaderboard().observe(getViewLifecycleOwner(), (result) -> {
+                    try {
+                        setUpLeaderboardList(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
             setUpActionList(homeViewModel.getActions().getValue());
         });
@@ -331,9 +338,8 @@ public class HomeFragment extends BaseFragment {
                             if (!utl.isEmpty(item.title)) {
                                 vh.textView(R.id.walletBalance)
                                         .setText(item.title);
-                            }
-                            else
-                            vh.textView(R.id.walletBalance).setText("");
+                            } else
+                                vh.textView(R.id.walletBalance).setText("");
                     }
                 }
                 vh.itemView.setOnClickListener(view -> {
@@ -353,7 +359,7 @@ public class HomeFragment extends BaseFragment {
 
     private void setUpLeaderboardList(List<GenricUser> genricUsers) {
 
-        if(genricUsers==null){
+        if (genricUsers == null) {
             return;
         }
         try {
@@ -378,9 +384,14 @@ public class HomeFragment extends BaseFragment {
                 vh.textView(R.id.username).setText(leader.getName());
                 vh.textView(R.id.rank).setText(leader.getRank());
                 vh.textView(R.id.earnings).setText(ResourceUtils.getString(R.string.currency) + " " + leader.getAbout());
-                Picasso.get().load(leader.getImage())
-                        .placeholder(R.drawable.ic_users)
-                        .into(vh.imageView(R.id.userImage));
+                try {
+                    if (!Strings.isNullOrEmpty(leader.getImage()))
+                        Picasso.get().load(leader.getImage())
+                                .placeholder(R.drawable.account)
+                                .into(vh.imageView(R.id.userImage));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 vh.itemView.setOnClickListener(view -> {
 

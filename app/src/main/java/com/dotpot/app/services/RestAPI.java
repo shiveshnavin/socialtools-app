@@ -21,6 +21,7 @@ import com.dotpot.app.models.Wallet;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utl;
+import com.google.common.base.Strings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
 
@@ -240,19 +241,24 @@ public class RestAPI implements API {
     @Override
     public void getActionItems(BaseActivity activity, GenricObjectCallback<ActionItem> cb) {
 
+        String jstr = FirebaseRemoteConfig.getInstance().getString("home_menu");
         ArrayList<ActionItem> actionItems = new ArrayList<>();
 
-        ActionItem howToPlay = new ActionItem();
-        howToPlay.title = ResourceUtils.getString(R.string.help);
-        howToPlay.textAction = ResourceUtils.getString(R.string.view);
-        howToPlay.subTitle = ResourceUtils.getString(R.string.how_to_play);
-        howToPlay.dateTime = System.currentTimeMillis();
-        howToPlay.id = "howto";
-        howToPlay.rightTop = "skip";
-        howToPlay.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
-        howToPlay.actionType = Constants.ACTION_HOW_TO_PLAY;
+        if(Strings.isNullOrEmpty(jstr)) {
 
-        actionItems.add(howToPlay);
+
+
+            ActionItem howToPlay = new ActionItem();
+            howToPlay.title = ResourceUtils.getString(R.string.help);
+            howToPlay.textAction = ResourceUtils.getString(R.string.view);
+            howToPlay.subTitle = ResourceUtils.getString(R.string.how_to_play);
+            howToPlay.dateTime = System.currentTimeMillis();
+            howToPlay.id = "howto";
+            howToPlay.rightTop = "skip";
+            howToPlay.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+            howToPlay.actionType = Constants.ACTION_HOW_TO_PLAY;
+
+            actionItems.add(howToPlay);
 
 //        ActionItem actionShowWalletBalance = new ActionItem();
 //        actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
@@ -264,30 +270,34 @@ public class RestAPI implements API {
 //
 //        actionItems.add(actionShowWalletBalance);
 
-        ActionItem actionShowRewards = new ActionItem();
-        actionShowRewards.textAction = ResourceUtils.getString(R.string.redeem);
-        actionShowRewards.dateTime = System.currentTimeMillis();
-        actionShowRewards.id = "redeem";
-        actionShowRewards.subTitle = ResourceUtils.getString(R.string.help_award_bal);
-        actionShowRewards.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
-        actionShowRewards.actionType = Constants.ACTION_REDEEM_OPTIONS;
+            ActionItem actionShowRewards = new ActionItem();
+            actionShowRewards.textAction = ResourceUtils.getString(R.string.redeem);
+            actionShowRewards.dateTime = System.currentTimeMillis();
+            actionShowRewards.id = "redeem";
+            actionShowRewards.subTitle = ResourceUtils.getString(R.string.help_award_bal);
+            actionShowRewards.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+            actionShowRewards.actionType = Constants.ACTION_REDEEM_OPTIONS;
 
-        actionItems.add(actionShowRewards);
+            actionItems.add(actionShowRewards);
 
 
-        ActionItem earnByAds = new ActionItem();
-        earnByAds.textAction = ResourceUtils.getString(R.string.get_started);
-        earnByAds.dateTime = System.currentTimeMillis();
-        earnByAds.id = "earn";
-        earnByAds.title = ResourceUtils.getString(R.string.earn);
-        earnByAds.rightTop = "skip";
-        earnByAds.subTitle = ResourceUtils.getString(R.string.help_earn_bal);
-        earnByAds.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
-        earnByAds.actionType = Constants.ACTION_EARN_MONEY;
+            ActionItem earnByAds = new ActionItem();
+            earnByAds.textAction = ResourceUtils.getString(R.string.get_started);
+            earnByAds.dateTime = System.currentTimeMillis();
+            earnByAds.id = "earn";
+            earnByAds.title = ResourceUtils.getString(R.string.earn);
+            earnByAds.rightTop = "skip";
+            earnByAds.subTitle = ResourceUtils.getString(R.string.help_earn_bal);
+            earnByAds.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.material_teal_500));
+            earnByAds.actionType = Constants.ACTION_EARN_MONEY;
 
-        actionItems.add(earnByAds);
+            actionItems.add(earnByAds);
+        }
+        else {
+            utl.JSONParser<ActionItem> jsonParser = new utl.JSONParser<ActionItem>();
+            actionItems = jsonParser.parseJSONArray(jstr,ActionItem.class);
+        }
 
-        utl.e(">>>>>\n"+utl.js.toJson(actionItems));
 
         actionItems.stream().forEach(actionItem -> actionItem.act = activity);
         cb.onEntitySet(actionItems);

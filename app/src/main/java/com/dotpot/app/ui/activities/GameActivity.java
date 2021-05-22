@@ -37,7 +37,6 @@ import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
-import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.models.game.Player2Listener;
 import com.dotpot.app.models.game.Pot;
 import com.dotpot.app.services.RestAPI;
@@ -178,16 +177,6 @@ public class GameActivity extends BaseActivity {
             timerText.animate().setDuration(1000).scaleX(1);
             timerText.animate().setDuration(1000).scaleY(1);
 
-            if (game.getPlayer2() == null) {
-
-                //todo remove hardcoding once API sends player2 info
-                GenricUser genricUser = new GenricUser();
-                genricUser.setId(game.getPlayer2Id());
-                genricUser.setName("nikita.karn");
-                genricUser.setImage("https://i.pinimg.com/736x/f3/2b/4d/f32b4da70a38995d1d147704359414ea.jpg");
-                game.setPlayer2(genricUser);
-
-            }
             if (!player2Name.getText().toString().equals(game.getPlayer2().getName())) {
 
                 player2Image.setVisibility(View.VISIBLE);
@@ -405,10 +394,9 @@ public class GameActivity extends BaseActivity {
             @Override
             public void onFinish() {
 
-                setupConcludeGame(contView);
-//                tickerAnimator.start(MAX_USER_WAIT);
-//                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
-//                onNewTurn.onStart(game.getPlayer1Id(), 1);
+                tickerAnimator.start(MAX_USER_WAIT);
+                createPots(false, true, contView, getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+                onNewTurn.onStart(game.getPlayer1Id(), 1);
             }
         };
         countDownTimer.start();
@@ -629,8 +617,6 @@ public class GameActivity extends BaseActivity {
                     resultTextSub.setText(String.format(getString(R.string.defeated_info), game.getPlayer2().getName(), Math.abs(game.getPlayer2wins() - game.getPlayer1wins())));
                 }
 
-                //todo remove hardcoding
-                game.setRematch(true);
                 if (game.isRematch()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
