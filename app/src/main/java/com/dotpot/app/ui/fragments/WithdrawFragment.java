@@ -100,7 +100,7 @@ public class WithdrawFragment extends BaseFragment {
 
         });
         WalletViewModel.getInstance().getWallet().observe(getViewLifecycleOwner(), wallet -> {
-            available.setText(String.format(getString(R.string.available_award_balance_d), getString(R.string.currency),""+wallet.getWinningBalance()));
+            available.setText(String.format(getString(R.string.available_award_balance), getString(R.string.currency),""+wallet.getWinningBalance()));
         });
 
         String allowedPayments = FirebaseRemoteConfig.getInstance().getString("allowed_payment_methods");

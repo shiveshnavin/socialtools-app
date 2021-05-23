@@ -55,10 +55,14 @@ public class ShopFragment extends ViewListFragment<Product> {
         itemUI.bottomNote.setText("Valid till "+
                 utl.getDateTimeFormatted(new Date(item.getExpires())));
 
-        itemUI.root.setOnClickListener(v->{
 
+        itemUI.root.setOnClickListener(v->{
+            navService.startShopDetail(item,fragmentId);
         });
 
+        itemUI.actionBtn.setOnClickListener(v->{
+            itemUI.root.callOnClick();
+        });
     }
 
     @Override
@@ -69,7 +73,7 @@ public class ShopFragment extends ViewListFragment<Product> {
     private void get(int sizeOfExistingList, GenricObjectCallback<Product> onNewItems) {
 
         if (contextType.equals("myshop")) {
-            setTitle(getString(R.string.myshop));
+            setTitle(getString(R.string.awards));
 
             RestAPI.getInstance(App.getAppContext())
                     .getUserProducts(sizeOfExistingList, "", new GenricObjectCallback<Product>() {

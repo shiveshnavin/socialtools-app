@@ -2,6 +2,14 @@
 <defaultsMap>
 
     <entry>
+        <key>update_check_url</key>
+        <value>http://hoptech.in/save/dotpot_version.txt</value>
+    </entry>
+    <entry>
+        <key>reward_ratio</key>
+        <value>1.8</value>
+    </entry>
+    <entry>
         <key>support_user_id</key>
         <value>abcde</value>
     </entry>

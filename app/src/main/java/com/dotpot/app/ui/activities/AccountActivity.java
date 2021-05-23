@@ -1,7 +1,10 @@
 package com.dotpot.app.ui.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -20,8 +24,8 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.services.LoginService;
 import com.dotpot.app.ui.BaseActivity;
-import com.dotpot.app.ui.fragments.LoginFragment;
 import com.dotpot.app.ui.fragments.ChangePasswordFragment;
+import com.dotpot.app.ui.fragments.LoginFragment;
 import com.dotpot.app.ui.fragments.SignupFragment;
 import com.dotpot.app.ui.fragments.VerifyPhoneFragment;
 import com.dotpot.app.utl;
@@ -66,6 +70,18 @@ public class AccountActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         findViews();
+
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.REQUEST_INSTALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 1);
+            }
+        }
         loginService = new LoginService(this);
         action = getIntent().getStringExtra("action");
         String fgmtName = "androidx.navigation.fragment.NavHostFragment";
@@ -257,9 +273,9 @@ public class AccountActivity extends BaseActivity {
                 loginService.googleLogin(LoginService.RC_SIGN_UP);
             });
         }
-        if(action.equals(ACTION_CHANGE_PASSWORD) ||
+        if (action.equals(ACTION_CHANGE_PASSWORD) ||
                 action.equals(ACTION_ACCOUNT) ||
-                        action.equals(ACTION_VERIFY_PHONE)){
+                action.equals(ACTION_VERIFY_PHONE)) {
             contFooter.setVisibility(View.GONE);
             head.setText(R.string.edit_profile);
         }

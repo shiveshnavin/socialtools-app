@@ -579,4 +579,51 @@ public class RestAPI implements API {
                     }
                 });
     }
+
+    @Override
+    public void buyProduct(String productId, GenricObjectCallback<Product> cb) {
+
+
+
+        JSONObject jop = new JSONObject();
+        try {
+
+            jop.put("id", productId);
+
+        } catch (Exception e) {
+        }
+
+        networkService.callPost(Constants.API_BUY_PRODUCT(productId), jop,
+                false, new NetworkRequestCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        cb.onEntity(utl.js.fromJson(response.toString(), Product.class));
+                    }
+
+                    @Override
+                    public void onFail(ANError job) {
+                        cb.onError(getMessageFromANError(job));
+                    }
+                });
+
+
+    }
+
+
+    @Override
+    public void checkUpdate(int versionCode, GenricObjectCallback<JSONObject> cb) {
+
+        String updUrl = FirebaseRemoteConfig.getInstance().getString("update_check_url");
+        networkService.callGet(updUrl, false, new NetworkRequestCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+               cb.onEntity(response);
+            }
+
+            @Override
+            public void onFail(ANError job) {
+                cb.onError(getMessageFromANError(job));
+            }
+        });
+    }
 }

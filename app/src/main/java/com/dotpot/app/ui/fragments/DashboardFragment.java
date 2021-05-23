@@ -132,7 +132,7 @@ public class DashboardFragment extends BaseFragment {
         contMyShop.setOnClickListener(view -> navService.startUserShop(fragmentId));
         contsupportance.setOnClickListener(view -> navService.startSupport(fragmentId));
         contlogoutance.setOnClickListener(v->act.startLogout());
-        contguideance.setOnClickListener(view -> navService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help"));
+        contguideance.setOnClickListener(view -> navService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help.html"));
 
 
         GenericUserViewModel.getInstance().getUser().observe(getViewLifecycleOwner(), new Observer<GenricUser>() {

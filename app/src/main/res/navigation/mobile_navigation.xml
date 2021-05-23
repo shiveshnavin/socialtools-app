@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_home_to_shopFragment"
+            app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_withdrawFragment"
+            app:destination="@id/withdrawFragment" />
     </fragment>
 
     <fragment
@@ -24,6 +30,12 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" >
 
+        <action
+            android:id="@+id/action_navigation_dashboard_to_messagingFragment"
+            app:destination="@id/messagingFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_shopFragment"
+            app:destination="@id/shopFragment" />
     </fragment>
 
     <fragment
@@ -31,5 +43,25 @@
         android:name="com.dotpot.app.ui.fragments.WalletFragment"
         android:label="@string/title_wallet"
         tools:layout="@layout/fragment_wallet" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.dotpot.app.ui.fragments.ShopFragment"
+        android:label="ShopFragment" >
+        <action
+            android:id="@+id/action_shopFragment_to_shopDetailFragment"
+            app:destination="@id/shopDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopDetailFragment"
+        android:name="com.dotpot.app.ui.fragments.ShopDetailFragment"
+        android:label="ShopDetailFragment" />
+    <fragment
+        android:id="@+id/withdrawFragment"
+        android:name="com.dotpot.app.ui.fragments.WithdrawFragment"
+        android:label="WithdrawFragment" />
+    <fragment
+        android:id="@+id/messagingFragment"
+        android:name="com.dotpot.app.ui.messaging.MessagingFragment"
+        android:label="MessagingFragment" />
 
 </navigation>

@@ -2,6 +2,7 @@ package com.dotpot.app.models;
 
 import com.dotpot.app.interfaces.GenricCallback;
 import com.dotpot.app.models.game.Pot;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,10 @@ public class Game {
     private float player2Time=0;
     private long timeStamp;
     private boolean rematch = true;
+
+    public static String possibleAwards(Float amount) {
+        return ""+ (amount * FirebaseRemoteConfig.getInstance().getDouble("reward_ratio"));
+    }
 
     public boolean isPlayer1Won(){
         return getPlayer1Id().equals(getWinnerId());

@@ -86,6 +86,7 @@
             android:transitionName="player2Image"
             android:visibility="invisible"
             android:layout_margin="30dp"
+            android:scaleType="centerCrop"
             app:roundedCornerRadius="20"
             android:layout_centerVertical="true"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -119,6 +120,7 @@
         <com.dotpot.app.views.RoundRectCornerImageView
             android:transitionName="player1Image"
             android:layout_margin="30dp"
+            android:scaleType="centerCrop"
             app:roundedCornerRadius="20"
             android:layout_centerVertical="true"
             app:layout_constraintHorizontal_chainStyle="packed"

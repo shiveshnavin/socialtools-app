@@ -198,6 +198,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/contreferralBalance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -266,7 +267,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="3dp"
                 android:fontFamily="@font/font_text"
-                android:text="@string/myshop"
+                android:text="@string/awards"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="@dimen/text_head"
                 android:textStyle="bold"

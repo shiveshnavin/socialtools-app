@@ -12,261 +12,244 @@
         app:layout_constraintTop_toTopOf="parent"
         layout="@layout/utl_toolbar"/>
 
-    <LinearLayout
-        android:padding="30dp"
-        android:id="@+id/cont_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contScroll"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool_cont"
-        >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contamount"
-            style="@style/Theme.DotPot.TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_amount_to_withdraw"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPaytm"
-            app:startIconDrawable="@drawable/referral_bal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amount"
-                android:digits="@string/digits123"
-                style="@style/Theme.DotPot.TextEditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:text="" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/font_text"
-            android:gravity="left"
-            android:text="@string/available_award_balance_d"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/text_head"
-            app:layout_constraintBottom_toBottomOf="@id/paytmImg"
-            app:layout_constraintLeft_toRightOf="@+id/paytmImg"
-            app:layout_constraintTop_toTopOf="@id/paytmImg"
-            app:layout_constraintVertical_chainStyle="spread" />
-
-
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/selectPayMethod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/font_text"
-            android:gravity="center"
-            android:text="@string/select_pay_method"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/text_subhead"
-            app:layout_constraintLeft_toLeftOf="@+id/head"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:id="@+id/contPaytm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:background="@drawable/bg_selector"
-            >
-
-            <RadioButton
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/paytmImg"
-                app:layout_constraintBottom_toBottomOf="@id/paytmImg"
-                app:layout_constraintTop_toTopOf="@id/paytmImg"
-                android:id="@+id/paytmRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-
-                android:id="@+id/textPaytm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font_text"
-                android:gravity="left"
-                android:padding="10dp"
-                android:text="@string/paytm_number"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="@dimen/text_head"
-                app:layout_constraintBottom_toBottomOf="@id/paytmImg"
-                app:layout_constraintLeft_toRightOf="@+id/paytmImg"
-                app:layout_constraintTop_toTopOf="@id/paytmImg"
-                app:layout_constraintVertical_chainStyle="spread" />
-
-            <com.dotpot.app.views.RoundRectCornerImageView
-                android:id="@+id/paytmImg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_paytm"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/textPaytm"
-                app:layout_constraintTop_toTopOf="parent"
-                app:roundedCornerRadius="15" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:id="@+id/contPaytmNo"
-                style="@style/Theme.DotPot.TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_your_paytm_number"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textPaytm"
-                app:startIconDrawable="@drawable/phone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/paytmNo"
-                    android:digits="@string/digits123_"
-                    style="@style/Theme.DotPot.TextEditTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:text="" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:id="@+id/contUpi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:background="@drawable/bg_selector"
-            >
-
-            <RadioButton
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/UpiImg"
-                app:layout_constraintBottom_toBottomOf="@id/UpiImg"
-                app:layout_constraintTop_toTopOf="@id/UpiImg"
-                android:id="@+id/UpiRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-
-                android:id="@+id/textUpi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font_text"
-                android:gravity="left"
-                android:padding="10dp"
-                android:text="@string/upi_id"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="@dimen/text_head"
-                app:layout_constraintBottom_toBottomOf="@id/UpiImg"
-                app:layout_constraintLeft_toRightOf="@+id/UpiImg"
-                app:layout_constraintTop_toTopOf="@id/UpiImg"
-                app:layout_constraintVertical_chainStyle="spread" />
-
-            <com.dotpot.app.views.RoundRectCornerImageView
-                android:id="@+id/UpiImg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_upi"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/textUpi"
-                app:layout_constraintTop_toTopOf="parent"
-                app:roundedCornerRadius="15" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:id="@+id/contUpiId"
-                style="@style/Theme.DotPot.TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_upi_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textUpi"
-                app:startIconDrawable="@drawable/wallet">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/UpiIdNo"
-                    style="@style/Theme.DotPot.TextEditTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:text="" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-        <TextView
-            android:id="@+id/subtext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:fontFamily="@font/font_text"
-            android:gravity="center"
-            android:text="@string/withdraw_it_might_take"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/text_subhead"
-            app:layout_constraintLeft_toLeftOf="@+id/head"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
         <LinearLayout
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/linearLayout"
+            android:padding="30dp"
+            android:id="@+id/cont_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp"
-            android:weightSum="1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tool_cont"
+            >
 
-            <com.dotpot.app.views.LoadingView
-                android:visibility="gone"
-                android:id="@+id/loader"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/request"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:background="@drawable/bg_selector_dark"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/contRef"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:id="@+id/contRefCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/itemTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:fontFamily="@font/font_text"
+                        android:text="Shop offer title"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_subhead" />
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/itemAddTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_text"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_xhead" />
+
+
+                </LinearLayout>
+
+                <com.dotpot.app.views.RoundRectCornerImageView
+                    app:roundedCornerRadius="20"
+                    android:background="@drawable/bg_round_clip_outline"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/font_text"
+                    android:src="@drawable/win"
+                    android:layout_below="@+id/contRefCard"
+                    android:layout_alignLeft="@+id/actionBtn"
+                    android:layout_alignRight="@+id/actionBtn"
+
+                    />
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/itemDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_toLeftOf="@+id/image"
+                    android:layout_alignParentLeft="true"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_text"
+                    android:text="Get a chance to win exciting awards upto 10,000 "
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_head"
+                    android:layout_below="@+id/contRefCard"
+                    app:layout_constraintRight_toLeftOf="@+id/image"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:paddingTop="10dp"
+                    android:layout_below="@+id/itemDescription"
+                    android:id="@+id/bottomNote"
+                    android:fontFamily="@font/font_text"
+                    android:text="Expires in a few days"
+                    android:textColor="@color/colorTextPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <Button
+                    android:gravity="center"
+                    android:layout_below="@+id/image"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:textSize="@dimen/text_subhead"
+                    android:layout_alignParentRight="true"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:theme="@style/Theme.DotPot.DarkGreen"
+                    android:id="@+id/actionBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/redeem" />
+
+                <TextView
+                    android:paddingTop="10dp"
+                    android:layout_below="@+id/bottomNote"
+                    android:id="@+id/terms"
+                    android:fontFamily="@font/font_text"
+                    android:text="@string/reset_sent_info"
+                    android:textColor="@color/colorTextSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+            </RelativeLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="20dp"
+              android:visibility="gone"
+                android:padding="20dp"
+                android:id="@+id/contPaytm"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_selector_rounded_btn_filled"
-                android:padding="10dp"
-                android:text="@string/request" />
+                android:elevation="10dp"
+                android:background="@drawable/bg_selector"
+                >
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/textPaytm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_text"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:text="CODE"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_head"
+                    app:layout_constraintBottom_toBottomOf="@id/paytmImg"
+                    app:layout_constraintLeft_toRightOf="@+id/paytmImg"
+                    app:layout_constraintTop_toTopOf="@id/paytmImg"
+                    app:layout_constraintVertical_chainStyle="spread" />
+
+                <com.dotpot.app.views.RoundRectCornerImageView
+                    android:id="@+id/paytmImg"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/content_copy"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/textPaytm"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:roundedCornerRadius="15" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="20dp"
+                android:weightSum="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+                 <Button
+                    android:id="@+id/request"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_selector_rounded_btn_filled"
+                    android:padding="10dp"
+                    android:text="@string/redeem" />
+
+                <com.dotpot.app.views.LoadingView
+                    android:id="@+id/loader"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/available"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_text"
+                android:gravity="center"
+                android:text="@string/available_award_balance_d"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/text_head"/>
+
 
         </LinearLayout>
 
-    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

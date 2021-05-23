@@ -1,7 +1,12 @@
 package com.dotpot.app.models;
 
+import com.dotpot.app.R;
+import com.dotpot.app.utils.ResourceUtils;
+import com.dotpot.app.utl;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,4 +55,21 @@ public class Product {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("userid")
+    @Expose
+    private String userid;
+    @SerializedName("terms")
+    @Expose
+    private String terms;
+    @SerializedName("secret")
+    @Expose
+    private String secret;
+    @SerializedName("productid")
+    @Expose
+    private String productid;
+    
+    
+    public String expiry(){
+        return String.format(ResourceUtils.getString(R.string.expires), utl.getDateFormatted(new Date(expires)));
+    }
 }

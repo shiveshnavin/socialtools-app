@@ -51,6 +51,7 @@ public class Player2Listener {
                 return;
             }
         }
+
         lastEmoFromP1 = System.currentTimeMillis();
         int delay = utl.randomInt(2000, (MAX_USER_WAIT - 2000));
         boolean send = utl.randomDecision(50);

@@ -1,22 +1,35 @@
 package com.dotpot.app.ui.activities;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.dotpot.app.BuildConfig;
 import com.dotpot.app.R;
 import com.dotpot.app.binding.GameViewModel;
 import com.dotpot.app.binding.GenericUserViewModel;
 import com.dotpot.app.binding.WalletViewModel;
+import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.services.DownloadOpenService;
+import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONObject;
 
 public class HomeActivity extends BaseActivity {
 
@@ -29,6 +42,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         navView = findViewById(R.id.nav_view);
         setUpToolbar();
+        checkUpdate();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -87,5 +101,54 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+
+    public void checkUpdate() {
+
+        DownloadOpenService downloadOpenService = new DownloadOpenService();
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+        int versionCode = BuildConfig.VERSION_CODE;
+        RestAPI.getInstance().checkUpdate(versionCode, new GenricObjectCallback<JSONObject>() {
+            @Override
+            public void onEntity(JSONObject response) {
+                int codeUpdated = response.optInt("versionCode", versionCode);
+                if (codeUpdated > versionCode) {
+                    Dialog d = utl.diagInfo(navView, response.optString("message"),
+                            "Update", R.drawable.ic_logo,
+                            new utl.ClickCallBack() {
+                                @Override
+                                public void done(DialogInterface dialogInterface) {
+                                    try {
+
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(response.optString("url")));
+                                        startActivity(browserIntent);
+
+//                                        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.REQUEST_INSTALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
+//                                            downloadOpenService.downloadFile(act, response.optString("url"), getString(R.string.app_name) + ".apk");
+//
+//                                        } else {
+//
+//                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(response.optString("url")));
+//                                            startActivity(browserIntent);
+//                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                    d.setCancelable(!response.optBoolean("mandatory", false));
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+
+    }
 
 }

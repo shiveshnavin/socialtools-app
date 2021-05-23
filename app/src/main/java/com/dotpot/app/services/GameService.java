@@ -254,22 +254,26 @@ public class GameService {
                     @Override
                     public void onEntity(Pot data) {
                         game.registerTap();
+                        player2Listener.setOnlineTill(System.currentTimeMillis() + utl.randomInt(40000,60000));
                         long p1time = game.elapsedSinceLastRound;
                         long p2time = player2Listener.getTimeTaken(p1time);
                         game.setPlayer2Time(game.getPlayer2Time() + p2time);
                         player2Listener.waitForPlayer2();
+                        String sign = p1time < p2time ? "<" :">";
+                        if(p1time < p2time ){
+                            game.setPlayer1wins(game.getPlayer1wins() + 1);
+                        }
+                        else{
+                            game.setPlayer2wins(game.getPlayer2wins() + 1);
+                        }
                         contPlayers.postDelayed(() -> {
 
-                            String sign = ">";
                             if (p1time < p2time) {
-                                sign = "<";
-                                game.setPlayer1wins(game.getPlayer1wins() + 1);
                                 YoYo.with(Techniques.Bounce)
                                         .duration(700)
                                         .repeat(5)
                                         .playOn(player1Image);
                             } else {
-                                game.setPlayer2wins(game.getPlayer2wins() + 1);
                                 YoYo.with(Techniques.Bounce)
                                         .duration(700)
                                         .repeat(5)
@@ -339,7 +343,15 @@ public class GameService {
                 resetplayerTimeoutTimer2.onStart();
                 onNewTurn.onStart(game.getPlayer1Id(), 1);
                 playerTimeoutTimer.start(MAX_USER_WAIT);
-                info.setText(String.format(ResourceUtils.getString(R.string.find_char), "" + game.getCurrentMagicPot().getValue()));
+                String findChar = utl.getHtml(ctx,ResourceUtils.getString(R.string.find_char),R.color.offwhite)
+                        + "<b>"+utl.getHtml(ctx," "+game.getCurrentMagicPot().getValue(),R.color.colorGoldenWin)+"</b>"
+                        + utl.getHtml(ctx," !!!",R.color.offwhite);
+                info.setText(Html.fromHtml(findChar));
+                YoYo.with(Techniques.Bounce)
+                        .repeat(3)
+                        .duration(700)
+                        .playOn(info);
+//                info.setBackgroundTintList(ContextCompat.getColorStateList(ctx, R.color.colorPrimary));
 //                createGameView(false, true, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, playerTimeoutTimer);
             }
         };

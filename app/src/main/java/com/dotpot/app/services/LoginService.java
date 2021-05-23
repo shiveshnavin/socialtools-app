@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -287,7 +288,13 @@ public class LoginService {
                     } else {
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             onVerificatoinComplete.onError(ResourceUtils.getString(R.string.invalidotp));
-                        } else {
+                        }
+                        //com.google.firebase.FirebaseException: User has already been linked to the given provider.
+                        else if(task.getException() instanceof FirebaseException
+                        && task.getException().getMessage().contains("User has already been linked to the given provider.")){
+                            onVerificatoinComplete.onEntity(task);
+                        }
+                        else {
                             onVerificatoinComplete.onError(task.getException().getMessage());
                         }
                     }

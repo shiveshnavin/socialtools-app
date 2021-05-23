@@ -166,8 +166,7 @@ public class GameActivity extends BaseActivity {
         };
 
         final int MAX_COUNT = (int) mFirebaseRemoteConfig.getLong("max_game_waiting");
-        final int count = utl.randomInt(MAX_COUNT - MAX_COUNT / 2, MAX_COUNT);
-
+        final int count =Math.max(6,(utl.randomInt(MAX_COUNT - 10, MAX_COUNT)));
         utl.animate_avd(animLogo);
 
         TickerAnimator tickerAnimator = new TickerAnimator((message, time) -> {
@@ -364,6 +363,7 @@ public class GameActivity extends BaseActivity {
         RestAPI.getInstance().finishGame(game, new GenricObjectCallback<Game>() {
             @Override
             public void onEntity(Game data) {
+                game.setWinnerId(data.getWinnerId());
                 contPots.animate().alpha(0.0f).setListener(new AbstractAnimatorListener() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -392,7 +392,7 @@ public class GameActivity extends BaseActivity {
 //                            .duration(100)
 //                            .playOn(resultCup);
                     resultCup.setImageResource(R.drawable.win);
-                    if (utl.randomDecision(50)) {
+                    if (utl.randomDecision(70)) {
                         player2Listener.emoStorm(true);
                     }
                     resultText.setText(String.format(getString(R.string.you_won), getString(R.string.currency), data.getAward()));

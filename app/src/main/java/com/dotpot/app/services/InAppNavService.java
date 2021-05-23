@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
 import com.dotpot.app.models.Game;
+import com.dotpot.app.models.Product;
 import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.ui.BaseFragment;
 import com.dotpot.app.ui.activities.AccountActivity;
@@ -18,6 +19,7 @@ import com.dotpot.app.ui.activities.GameActivity;
 import com.dotpot.app.ui.activities.WebViewActivity;
 import com.dotpot.app.ui.fragments.AddCreditFragment;
 import com.dotpot.app.ui.fragments.GameListFragment;
+import com.dotpot.app.ui.fragments.ShopDetailFragment;
 import com.dotpot.app.ui.fragments.ShopFragment;
 import com.dotpot.app.ui.fragments.WithdrawFragment;
 import com.dotpot.app.ui.messaging.MessagingFragment;
@@ -156,7 +158,7 @@ public class InAppNavService {
 
         target.setActivityAndContext(ctx);
         target.setArguments(data);
-        fragmentTransaction.replace(fragmentViewId, target)
+        fragmentTransaction.add(fragmentViewId, target)
                 .setReorderingAllowed(true);
 
         if (addToBackStack) {
@@ -180,5 +182,9 @@ public class InAppNavService {
 
     public void startWithdraw(@IdRes int fragmentViewId) {
         fragmentTransaction(fragmentViewId, WithdrawFragment.getInstance(), "withdraw", null, true, Constants.TRANSITION_HORIZONTAL);
+    }
+
+    public void startShopDetail(Product item,@IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, ShopDetailFragment.getInstance(item), "product", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 }

@@ -48,6 +48,10 @@ public class Constants {
     public static String API_GET_USER_PRODUCTS(String userId) {
         return API_GET_USER_PRODUCTS+userId;
     }
+    public static String API_BUY_PRODUCT = "/api/products/buy/";
+    public static String API_BUY_PRODUCT(String productId) {
+        return Constants.u(API_BUY_PRODUCT+productId);
+    }
 
     public static String API_GET_LEADERBOARD= "/api/analytics/weeklyLeaderboard";
 

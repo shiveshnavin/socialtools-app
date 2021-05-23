@@ -148,6 +148,10 @@ public class MessagingService {
     }
 
     public void fetchMessages(InAppMessage latestMessage){
+        if(latestMessage==null){
+            latestMessage = new InAppMessage();
+            latestMessage.setDateTime(0l);
+        }
         AndroidNetworkService.getInstance(ctx).callGet(Constants.HOST+"/api/messages/"+groupId+"?after="+latestMessage.getDateTime(), false, new NetworkRequestCallback() {
             @Override
             public void onSuccessString(String response) {

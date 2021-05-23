@@ -82,4 +82,11 @@ public interface API {
     default void getProducts(int currentGameListSize,String type, GenricObjectCallback<Product> cb) {
         utl.e("Not Implemented API::getUserGames");
     }
+    default void buyProduct(String productId, GenricObjectCallback<Product> cb) {
+        utl.e("Not Implemented API::buyProduct");
+    }
+
+    default void checkUpdate(int versionCode, GenricObjectCallback<JSONObject> cb) {
+        utl.e("Not Implemented API::checkUpdate");
+    }
 }
