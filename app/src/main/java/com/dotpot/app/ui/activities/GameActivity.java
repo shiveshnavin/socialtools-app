@@ -425,7 +425,7 @@ public class GameActivity extends BaseActivity {
                     resultTextSub.setText(String.format(getString(R.string.defeated_info), game.getPlayer2().getName(), Math.abs(game.getPlayer2wins() - game.getPlayer1wins())));
                 }
 
-                if (game.isRematch()) {
+                if (data.isRematch()) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
