@@ -164,12 +164,12 @@ public class Player2Listener {
                 .get((int)game.getCurrentRound()-1)
                 .equals(game.getPlayer1Id());
 
-        if(isP1Won){
-            return utl.randomInt((int)p1Time+500 , (int)p1Time+2000);
-        }
-        else {
-            return utl.randomInt(100 , (int)p1Time-100);
-        }
+            if(isP1Won){
+                return utl.randomInt(Math.min(7000,(int)p1Time+500) , Math.min(8000,(int)p1Time+2000));
+            }
+            else {
+                return utl.randomInt(100 , Math.min((int)p1Time-100,3000));
+            }
     }
 
 }
