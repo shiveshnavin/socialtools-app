@@ -3,7 +3,7 @@
 
     <entry>
         <key>update_check_url</key>
-        <value>http://hoptech.in/save/dotpot_version.txt</value>
+        <value>https://api.jsonbin.io/b/60aa8333b2b1d74df21b783e</value>
     </entry>
     <entry>
         <key>reward_ratio</key>

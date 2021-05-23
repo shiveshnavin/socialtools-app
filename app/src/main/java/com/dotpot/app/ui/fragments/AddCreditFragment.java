@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +33,6 @@ import com.dotpot.app.ui.activities.WebViewActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.ShowHideLoader;
 import com.dotpot.app.utl;
-import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONObject;
 
@@ -242,26 +242,32 @@ public class AddCreditFragment extends BaseFragment {
                 String.format(ResourceUtils.getString(R.string.confirm_game)
                         ,ResourceUtils.getString(R.string.currency)
                         ,amount),R.color.colorTextPrimary));
-        sbr.append(String.format(getString(R.string.possible_rewards), getString(R.string.currency), "" + Game.possibleAwards(amount)));
+        sbr.append(String.format(" "+ getString(R.string.possible_rewards), getString(R.string.currency), "" + Game.possibleAwards(amount)));
 
         View rootView = getLayoutInflater().inflate(R.layout.diag_confirm,null);
 
         TextView info = (TextView)rootView.findViewById( R.id.info );
         ImageView img = (ImageView)rootView.findViewById( R.id.img );
         TextView text = (TextView)rootView.findViewById( R.id.text );
-        MaterialButton pokeBtn = (MaterialButton)rootView.findViewById( R.id.pokeBtn );
-        MaterialButton pokeBtn2 = (MaterialButton)rootView.findViewById( R.id.pokeBtn2 );
+        Button pokeBtn = rootView.findViewById( R.id.pokeBtn );
+        Button pokeBtn2 = rootView.findViewById( R.id.pokeBtn2 );
 
 
-        final Dialog dialog = new Dialog(ctx, android.R.style.Theme_Material_Light_Dialog_Alert);
+        final Dialog dialog = new Dialog(ctx);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(rootView);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ResourceUtils.getColor(R.color.transparent)));
         dialog.show();
+
+//        dialog.setContentView(layoutResId);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
 
         info.setText(String.format(getString(R.string.awards_possible), getString(R.string.currency), Game.possibleAwards(amount)));
         text.setText(Html.fromHtml(sbr.toString().replace("\n","<br>")));
         pokeBtn.setOnClickListener(c->{
             cb.onStart();
+            dialog.dismiss();
         });
         pokeBtn2.setOnClickListener(c->{
             dialog.dismiss();

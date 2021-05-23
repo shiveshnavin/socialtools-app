@@ -158,10 +158,11 @@
     <string name="find_char">Quickly Tap on </string>
     <string name="get_ready">Get Ready for next Round !</string>
     <string name="expires">Valid till %s</string>
-    <string name="confirm_game">Start game room for %s %s ? \n\n Tap on the highlighted number at the top as quickly as possible to win.</string>
+    <string name="confirm_game">Start game room for %s %s ? \n\n Tip : Once game starts Tap on the box with the number shown at the top as quickly as possible to win.</string>
     <string name="confirm_redeem">Redeem for %s %s</string>
     <string name="rewards_success">Redeem Success ! Tap the code to copy and use it . You can also view all your rewards by tapping on Rewards in home screen menu .</string>
     <string name="awards_possible">Awards : %s %s</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

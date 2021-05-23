@@ -115,6 +115,18 @@ public class GameActivity extends BaseActivity {
         if (game.getState() < 2)
             utl.diagBottom(ctx, "", getString(R.string.are_you_sure_back), true, getString(R.string.confirm), () -> {
                 game.setState(2);
+
+                try{
+                    destroyedViews = true;
+                    game.setState(2);
+                    game.setCurrentRound(game.getMAX_GAME_ROUNDS());
+
+                    if(gameService!=null){
+                        gameService.cancelAllTimers();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 finish();
             });
         else
@@ -214,7 +226,7 @@ public class GameActivity extends BaseActivity {
 
         }, () -> {
 //            TransitionManager.beginDelayedTransition(container);
-            GameService gameService =
+            gameService =
                     new GameService(act, game, delay, player2Listener, MAX_USER_WAIT, new GenricObjectCallback<LinearLayout>() {
                         @Override
                         public void onEntity(LinearLayout data) {
@@ -227,7 +239,7 @@ public class GameActivity extends BaseActivity {
 
         tickerAnimator.start(MAX_COUNT * 1000);
 
-    }
+    }GameService gameService;
 
     /* -------------- IN-GAME --------- */
 
@@ -438,7 +450,7 @@ public class GameActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        destroyedViews = true;
+
         super.onDestroy();
     }
 

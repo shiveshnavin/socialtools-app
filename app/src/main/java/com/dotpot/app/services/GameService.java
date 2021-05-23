@@ -112,6 +112,8 @@ public class GameService {
         soundId = soundPool.load(ctx, R.raw.glass_break, 1);
         game.setMAX_GAME_ROUNDS(FirebaseRemoteConfig.getInstance().getLong("game_rounds"));
         playSOund = (player, pid) -> {
+            if(true)
+                return;
             soundPool.play(soundId, pid == 1 ? 1.0f : 0.5f, pid == 1 ? 0.5f : 1f, 0, 0, 1);
         };
         GenricObjectCallback<Pot> onTapPotRecieved = new GenricObjectCallback<Pot>() {
@@ -481,6 +483,12 @@ public class GameService {
             }));
         }
 
+    }
+
+    public void cancelAllTimers(){
+        waitForNextRoundTimer.cancel();
+        playerTimeoutTimer.stop();
+        playerTimeoutTimer2.cancel();
     }
 
 }
