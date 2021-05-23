@@ -47,6 +47,7 @@ public class Game {
     private transient Pot currentMagicPot;
     public transient long elapsedSinceLastRound;
     long MAX_GAME_ROUNDS;
+    long currentRound=0;
 
 
     public List<Pot> generatePots(boolean forceRefresh){
@@ -68,13 +69,13 @@ public class Game {
     }
 
     public boolean registerTap(){
-        MAX_GAME_ROUNDS--;
+        currentRound++;
         setPlayer1Time(getPlayer1Time() + elapsedSinceLastRound);
         return true;
     }
 
     public boolean isOver() {
-       return   MAX_GAME_ROUNDS <= 0;
+       return   currentRound  >= MAX_GAME_ROUNDS;
 //        return pots.stream().allMatch(Pot::isOwned);
     }
 

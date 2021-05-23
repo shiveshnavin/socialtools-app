@@ -8,12 +8,11 @@ import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
 import com.dotpot.app.models.GenricUser;
 import com.dotpot.app.utl;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -98,28 +97,28 @@ public class Player2Listener {
         },utl.randomInt(4000,MAX_USER_WAIT));
     }
 
-    void waitForPlayer2() {
-        List<Pot> unTappedPots = game.getPots().stream().filter(pot -> !pot.isOwned()).collect(Collectors.toList());
-        MAX_USER_WAIT = (int) FirebaseRemoteConfig.getInstance().getLong("max_user_waiting") * 1000;
+    public void waitForPlayer2() {
+//        List<Pot> unTappedPots = game.getPots().stream().filter(pot -> !pot.isOwned()).collect(Collectors.toList());
+//        MAX_USER_WAIT = (int) FirebaseRemoteConfig.getInstance().getLong("max_user_waiting") * 1000;
+//
+//        Random rand = new Random();
+//        if (unTappedPots.isEmpty()) {
+//            return;
+//        }
 
-        Random rand = new Random();
-        if (unTappedPots.isEmpty()) {
-            return;
-        }
-
-        if(!convoIsIcedBroke && unTappedPots.size() <= game.getPots().size()/2){
+        if(!convoIsIcedBroke && game.getCurrentRound() >= game.getMAX_GAME_ROUNDS() / 2){
             convoIsIcedBroke = true;
             new Handler().postDelayed(()->{
                 onEmoFromPlayer2.onEntity(getEmos().get(utl.randomInt(0,getEmos().size()-1)));
             },1000);
         }
-        Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
-        onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);
-        int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));
-        new Handler().postDelayed(() -> {
-            if (game.getTurnOfPlayerId().equals(game.getPlayer2Id()))
-                onTapPotFromPlayer2.onEntity(randomElement);
-        }, delay);
+//        Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
+//        onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);
+//        int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));
+//        new Handler().postDelayed(() -> {
+//            if (game.getTurnOfPlayerId().equals(game.getPlayer2Id()))
+//                onTapPotFromPlayer2.onEntity(randomElement);
+//        }, delay);
 
     }
 
@@ -141,6 +140,36 @@ public class Player2Listener {
                     "\uD83E\uDD2C");
         }
         return emoList;
+    }
+
+    List<String> roundWinners ;
+    public List<String> findRoundWinners(boolean ip1w,long rounds){
+        if(roundWinners!=null && roundWinners.size()>0)
+            return roundWinners;
+        roundWinners = new ArrayList<>();
+        long half=rounds / 2 + 1;
+        for(int i=0;i<half;i++){
+            roundWinners.add(ip1w?game.getPlayer1Id():game.getPlayer2Id());
+        }
+        for(long i=half;i<rounds;i++){
+            roundWinners.add(!ip1w?game.getPlayer1Id():game.getPlayer2Id());
+        }
+        Collections.shuffle(roundWinners);
+        return roundWinners;
+    }
+
+    public long getTimeTaken(long p1Time){
+        boolean isP1Won = findRoundWinners(game.isPlayer1Won(),
+                game.getMAX_GAME_ROUNDS())
+                .get((int)game.getCurrentRound()-1)
+                .equals(game.getPlayer1Id());
+
+        if(isP1Won){
+            return utl.randomInt((int)p1Time+500 , (int)p1Time+2000);
+        }
+        else {
+            return utl.randomInt(100 , (int)p1Time-100);
+        }
     }
 
 }

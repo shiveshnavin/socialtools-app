@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,7 @@ public class GameService {
     private ExtendedFloatingActionButton pokeBtn;
     private ConstraintLayout contEmos;
     private RecyclerView listEmos;
+
     public GameService(BaseActivity ctx,
                        Game game,
                        long delay,
@@ -252,28 +254,57 @@ public class GameService {
                     @Override
                     public void onEntity(Pot data) {
                         game.registerTap();
+                        long p1time = game.elapsedSinceLastRound;
+                        long p2time = player2Listener.getTimeTaken(p1time);
+                        game.setPlayer2Time(game.getPlayer2Time() + p2time);
+                        player2Listener.waitForPlayer2();
+                        contPlayers.postDelayed(() -> {
+
+                            String sign = ">";
+                            if (p1time < p2time) {
+                                sign = "<";
+                                game.setPlayer1wins(game.getPlayer1wins() + 1);
+                                YoYo.with(Techniques.Bounce)
+                                        .duration(700)
+                                        .repeat(5)
+                                        .playOn(player1Image);
+                            } else {
+                                game.setPlayer2wins(game.getPlayer2wins() + 1);
+                                YoYo.with(Techniques.Bounce)
+                                        .duration(700)
+                                        .repeat(5)
+                                        .playOn(player2Image);
+                            }
+
+                            timerText.setText(
+                                    Html.fromHtml(utl.getHtml(ctx, String.format("%.3f", p1time / 1000f), R.color.dotpotblue)
+                                            + " " + sign + " " +
+                                            utl.getHtml(ctx, String.format("%.3f", p2time / 1000f), R.color.material_orange_700)
+                                    ));
+
+                                game.getOnGameScoreUpdate().onStart();
+
+                        }, utl.randomInt(1000, 2500));
                         playerTimeoutTimer.stop();
                         playerTimeoutTimer2.cancel();
                         waitForNextRoundTimer.cancel();
                         if (game.isOver()) {
                             timerText.setVisibility(View.GONE);
                             onGameConclude.onEntity(contView);
-                        }
-                        else
-                            {
+                        } else {
                             playSOund.onStart(game.getPlayer1Id(), 1);
-                            onNewTurn.onStart("",0);
+                            onNewTurn.onStart("", 0);
                             info.setText(R.string.get_ready);
                             waitForNextRoundTimer.start();
                         }
                     }
-                } ;
-        
+                };
+
 
         playerTimeoutTimer2 = new CountDownTimer(MAX_USER_WAIT, 50) {
             @Override
             public void onTick(long millisUntilFinished) {
-                game.elapsedSinceLastRound = millisUntilFinished;
+                game.elapsedSinceLastRound = MAX_USER_WAIT - millisUntilFinished;
                 float f = (MAX_USER_WAIT - millisUntilFinished) / 1000.0f;
                 timerText.setText(String.format("%.3f", f));
 
@@ -320,7 +351,7 @@ public class GameService {
             autoTransition.removeTransition(autoTransition.getTransitionAt(0));
             autoTransition.removeTransition(autoTransition.getTransitionAt(1));
 //            autoTransition.addTransition(new ChangeBounds());
-            autoTransition.setDuration(playerTimeoutTimer.getINTERVAL()/4);
+            autoTransition.setDuration(playerTimeoutTimer.getINTERVAL() / 4);
 
             ChangeBounds myTransition = new ChangeBounds();
             myTransition.setDuration(1000L);
@@ -401,7 +432,7 @@ public class GameService {
 
         utl.animate_land(info);
         info.setText(R.string.get_ready);
-        onNewTurn.onStart("",0);
+        onNewTurn.onStart("", 0);
         waitForNextRoundTimer.start();
 
     }
@@ -423,11 +454,9 @@ public class GameService {
                 @Override
                 public void onEntity(Pot pot) {
 
-                    if (game.getState() == 1)
-                        game.getOnGameScoreUpdate().onStart();
 
-                        tickerAnimator.onEntity(pot);
-                        onNewTurn.onStart(game.getPlayer1Id(), 1);
+                    tickerAnimator.onEntity(pot);
+                    onNewTurn.onStart(game.getPlayer1Id(), 1);
 //                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id())) {
 //                            onNewTurn.onStart(game.getPlayer1Id(), 1);
 //                        } else {

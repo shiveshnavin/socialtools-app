@@ -78,11 +78,11 @@ public class Pot {
 
         if(game.getPlayer1Id().equals(ownedByUserId)){
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_accent));
-            game.setPlayer1wins(game.getPlayer1wins()+(int)value);
+//            game.setPlayer1wins(game.getPlayer1wins()+(int)value);
         }
         else if(game.getPlayer2Id().equals(ownedByUserId)){
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_orange));
-            game.setPlayer2wins(game.getPlayer2wins()+(int)value);
+//            game.setPlayer2wins(game.getPlayer2wins()+(int)value);
         }
 
         return rootView;
@@ -93,11 +93,11 @@ public class Pot {
         isOwned = true;
         if(game.getPlayer1Id().equals(ownedByUserId)){
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_accent));
-            game.setPlayer1wins(game.getPlayer1wins()+(int)value);
+//            game.setPlayer1wins(game.getPlayer1wins()+(int)value);
         }
         else if(game.getPlayer2Id().equals(ownedByUserId)){
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_orange));
-            game.setPlayer2wins(game.getPlayer2wins()+(int)value);
+//            game.setPlayer2wins(game.getPlayer2wins()+(int)value);
         }
         animLogo.setVisibility(View.VISIBLE);
         isOwned = true;
