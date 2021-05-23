@@ -181,12 +181,13 @@ public class AddCreditFragment extends BaseFragment {
 
     public static void checkWalletAndStartGame(Float amount,
                                                GenricObjectCallback<Game> onDone,
-                                               GenricObjectCallback<Game> onNoBalance, String s) {
+                                               GenricObjectCallback<Game> onNoBalance,
+                                               String player2Id) {
 
         Wallet data = WalletViewModel.getInstance().getWallet().getValue();
 
         if (data == null || data.getCreditBalance() >= amount) {
-            RestAPI.getInstance().createGame(amount,onDone);
+            RestAPI.getInstance().createGame(amount,player2Id,onDone);
         } else {
             onNoBalance.onError( ResourceUtils.getString(R.string.insufficient_credits_header));
         }

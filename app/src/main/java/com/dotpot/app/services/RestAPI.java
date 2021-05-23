@@ -471,7 +471,7 @@ public class RestAPI implements API {
     }
 
     @Override
-    public void createGame(Float amount, GenricObjectCallback<Game> cb) {
+    public void createGame(Float amount, String player2Id, GenricObjectCallback<Game> cb) {
 
         invalidateCacheWalletAndTxns();
         invalidateCacheGames();
@@ -480,6 +480,7 @@ public class RestAPI implements API {
 
             jop.put("gameType", amount > 0 ? "paid" : "free");
             jop.put("amount", amount);
+            jop.put("player2Id",player2Id);
 
         } catch (Exception e) {
         }

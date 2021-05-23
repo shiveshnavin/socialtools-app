@@ -58,7 +58,7 @@ public interface API {
         utl.e("Not Implemented API::getPayAmounts");
     }
 
-    default void createGame(Float amount, GenricObjectCallback<Game> gameGenricObjectCallback) {
+    default void createGame(Float amount, String player2Id, GenricObjectCallback<Game> cb) {
         utl.e("Not Implemented API::createGame");
     }
 

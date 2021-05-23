@@ -624,6 +624,7 @@ public class GameActivity extends BaseActivity {
                 resultCup.setVisibility(View.VISIBLE);
                 pokeBtn.setVisibility(View.VISIBLE);
                 pokeBtn.setOnClickListener(v -> {
+                    pokeBtn.setTag("loading");
                     loader.animate().alpha(1f).setDuration(500).start();
                     resultTextSub.setText(String.format(getString(R.string.waiting_for_player), game.getPlayer2().getName()));
                     player2Listener.sendReplayRequest(onReplayStart);
@@ -658,6 +659,7 @@ public class GameActivity extends BaseActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if(pokeBtn.getTag()==null)
                             onReplayRequested.onEntity("Rematch ?");
                         }
                     }, utl.randomInt(1000, MAX_USER_WAIT));

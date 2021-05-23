@@ -118,7 +118,7 @@
     <string name="show">Show</string>
     <string name="view">View</string>
     <string name="you">You</string>
-    <string name="searching_for_player">Searching for a opponent…</string>
+    <string name="searching_for_player">Connecting to a opponent…</string>
     <string name="no_opponent">Couldn\'t find a opponent ! Please try again .</string>
     <string name="watch">Watch !</string>
     <string name="break_the_pot_with_highest_values">Your Turn</string>
@@ -153,6 +153,7 @@
     <string name="min_withdrawl">Minimum withdrawal amount is %s</string>
     <string name="insufficient_award">insufficient award balance .</string>
     <string name="select_pay">Please select a payment method .</string>
+    <string name="requesting">Sending Request…</string>
 
 
 </resources>
