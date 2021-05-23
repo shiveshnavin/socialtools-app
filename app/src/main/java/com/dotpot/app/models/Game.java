@@ -30,8 +30,8 @@ public class Game {
     private String currency;
     private int player1wins=0;
     private int player2wins=0;
-    private int player1Time;
-    private int player2Time;
+    private float player1Time=0;
+    private float player2Time=0;
     private long timeStamp;
     private boolean rematch = true;
 
@@ -44,10 +44,13 @@ public class Game {
     private transient int state; // 0 = loading , 1 = started , 2 = finished
     private transient volatile String turnOfPlayerId;
     private GenricCallback onGameScoreUpdate;
+    private transient Pot currentMagicPot;
+    public transient long elapsedSinceLastRound;
+    long MAX_GAME_ROUNDS;
 
 
-    public List<Pot> generatePots(){
-        if(pots !=null && !pots.isEmpty())
+    public List<Pot> generatePots(boolean forceRefresh){
+        if(!forceRefresh && pots !=null && !pots.isEmpty())
             return pots;
 
         pots = new ArrayList<>();
@@ -64,9 +67,15 @@ public class Game {
         return pots;
     }
 
+    public boolean registerTap(){
+        MAX_GAME_ROUNDS--;
+        setPlayer1Time(getPlayer1Time() + elapsedSinceLastRound);
+        return true;
+    }
 
     public boolean isOver() {
-        return pots.stream().allMatch(Pot::isOwned);
+       return   MAX_GAME_ROUNDS <= 0;
+//        return pots.stream().allMatch(Pot::isOwned);
     }
 
     public boolean isPlayer1Turn() {

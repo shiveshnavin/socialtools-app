@@ -20,7 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contPlayers"
-        android:paddingTop="50dp"
+        android:paddingTop="20dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layout_marginTop="-100dp"
@@ -42,7 +42,6 @@
             android:text="@string/you"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_subhead"
-            app:layout_constraintLeft_toLeftOf="@id/player1Image"
             app:layout_constraintRight_toRightOf="@id/player1Image"
             app:layout_constraintTop_toBottomOf="@id/player1Image"
             />
@@ -91,21 +90,6 @@
             app:layout_constraintRight_toRightOf="@+id/vsText"
             app:layout_constraintTop_toBottomOf="@+id/vsText" />
 
-        <TextView
-            android:alpha="0"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:id="@+id/timerText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/font_bold"
-            android:gravity="center"
-            android:text="30"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_xhead"
-            app:layout_constraintLeft_toLeftOf="@+id/vsText"
-            app:layout_constraintRight_toRightOf="@+id/vsText"
-            app:layout_constraintTop_toBottomOf="@+id/vsText" />
 
         <TextView
             android:id="@+id/player2Name"
@@ -117,7 +101,6 @@
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_subhead"
             app:layout_constraintLeft_toLeftOf="@id/player2Image"
-            app:layout_constraintRight_toRightOf="@id/player2Image"
             app:layout_constraintTop_toBottomOf="@id/player2Image"
             />
 
@@ -235,7 +218,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/contMid"
-        app:layout_constraintBottom_toTopOf="@+id/contEmos"
+        app:layout_constraintBottom_toTopOf="@+id/timerText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contPlayers"
@@ -306,6 +289,21 @@
     </GridLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font_bold"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_xxhead"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/contEmos"
+
+        />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
        android:visibility="gone"

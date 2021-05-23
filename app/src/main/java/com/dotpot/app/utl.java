@@ -121,6 +121,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1833,6 +1834,10 @@ public class utl {
         return ret;
     }
 
+    public static <T> T randomElement( Collection<T> c) {
+        int index = utl.randomInt(0,c.size()-1);
+        return (T) c.toArray()[index];
+    }
     public static int randomInt() {
 
         int ret = 1;

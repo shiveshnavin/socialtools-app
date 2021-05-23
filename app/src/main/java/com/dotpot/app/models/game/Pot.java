@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
 import com.dotpot.app.models.Game;
@@ -25,7 +27,7 @@ public class Pot {
 
     transient Game game;
     transient View rootView;
-    float value;
+    int value;
 
     String ownedByUserId;
     boolean isOwned;
@@ -38,7 +40,7 @@ public class Pot {
         return "ID" + value;
     }
 
-    public View inflate(boolean isPreview, boolean startGame, LayoutInflater inflater, ViewGroup contView, ExplosionField explosionField, GenricObjectCallback<Pot> onDestroy) {
+    public View inflate(boolean allowNumberPreview, boolean startGame, LayoutInflater inflater, ViewGroup contView, ExplosionField explosionField, GenricObjectCallback<Pot> onDestroy) {
 
 
         rootView = inflater.inflate(R.layout.row_pot, contView, false);
@@ -48,23 +50,40 @@ public class Pot {
         this.onDestroy = onDestroy;
 
         textView.setText("" + getValue());
-        if (isOwned() || isPreview) {
+        if (isOwned()) {
             animLogo.setVisibility(View.INVISIBLE);
-            textView.setVisibility(View.VISIBLE);
-        } else {
+//            textView.setVisibility(View.VISIBLE);
+        }
+        else {
             animLogo.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
+//            textView.setVisibility(View.GONE);
         }
 
         rootView.setTransitionName(getId());
 
-        if (!isPreview && startGame)
+        if (startGame)
             rootView.setOnClickListener(v -> {
                 if (!isOwned() && game.isPlayer1Turn()) {
-                    own(game.getPlayer1Id());
+                    if(game.getCurrentMagicPot().getValue() == value){
+                        own(game.getPlayer1Id());
+                    }
+                    else {
+                        YoYo.with(Techniques.Shake)
+                                .duration(700)
+                                .playOn(rootView);
+                    }
                 }
 
             });
+
+        if(game.getPlayer1Id().equals(ownedByUserId)){
+            rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_accent));
+            game.setPlayer1wins(game.getPlayer1wins()+(int)value);
+        }
+        else if(game.getPlayer2Id().equals(ownedByUserId)){
+            rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_orange));
+            game.setPlayer2wins(game.getPlayer2wins()+(int)value);
+        }
 
         return rootView;
     }
@@ -76,10 +95,13 @@ public class Pot {
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_accent));
             game.setPlayer1wins(game.getPlayer1wins()+(int)value);
         }
-        else {
+        else if(game.getPlayer2Id().equals(ownedByUserId)){
             rootView.setBackground(ResourceUtils.getDrawable(R.drawable.bg_round_clip_outline_orange));
             game.setPlayer2wins(game.getPlayer2wins()+(int)value);
         }
+        animLogo.setVisibility(View.VISIBLE);
+        isOwned = true;
+        onDestroy.onEntity(Pot.this);
 
         Animation animation = utl.animate_shake(animLogo);
         if (animation != null) {
@@ -90,14 +112,14 @@ public class Pot {
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-
                     explosionField.explode(animLogo);
-                    isOwned = true;
-                    animLogo.setVisibility(View.INVISIBLE);
                     textView.setVisibility(View.VISIBLE);
-                    onDestroy.onEntity(Pot.this);
+                    textView.setTextColor(ResourceUtils.getColor(R.color.colorTextPrimary));
                     utl.animate_shake(textView);
 
+                    animLogo.postDelayed(()->{
+                        animLogo.setVisibility(View.INVISIBLE);
+                    },500);
                 }
 
                 @Override

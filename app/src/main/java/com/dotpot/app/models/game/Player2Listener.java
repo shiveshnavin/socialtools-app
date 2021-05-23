@@ -47,13 +47,13 @@ public class Player2Listener {
         if(System.currentTimeMillis() > onlineTill){
             return;
         }
-        if(System.currentTimeMillis() - lastEmoFromP1 < 2000){
+        if(System.currentTimeMillis() - lastEmoFromP1 < 1000){
             if(utl.randomDecision(50)){
                 return;
             }
         }
         lastEmoFromP1 = System.currentTimeMillis();
-        int delay = utl.randomInt(3000, (MAX_USER_WAIT - 1000));
+        int delay = utl.randomInt(2000, (MAX_USER_WAIT - 2000));
         boolean send = utl.randomDecision(50);
         if (send)
             new Handler().postDelayed(() -> {

@@ -154,6 +154,8 @@
     <string name="insufficient_award">insufficient award balance .</string>
     <string name="select_pay">Please select a payment method .</string>
     <string name="requesting">Sending Request…</string>
+    <string name="find_char">Find %s</string>
+    <string name="get_ready">Get Ready for next Round !</string>
 
 
 </resources>

@@ -8,6 +8,7 @@ import com.dotpot.app.interfaces.GenricDataCallback;
 import com.dotpot.app.utl;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class TickerAnimator {
 
@@ -17,6 +18,9 @@ public class TickerAnimator {
     CountDownTimer ctr;
     @Getter
     int count = 10;
+    @Getter
+    @Setter
+    private long INTERVAL = 1000;
 
     public TickerAnimator(GenricDataCallback onTick,GenricCallback onFinish,  View view) {
         this.onFinish = onFinish;
@@ -30,7 +34,7 @@ public class TickerAnimator {
             count = utl.randomInt(0, count) * 1000;
         this.count = count;
 
-        ctr = new CountDownTimer(count, 1000) {
+        ctr = new CountDownTimer(count, INTERVAL) {
             @Override
             public void onTick(long l) {
 

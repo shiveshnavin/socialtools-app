@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
 import androidx.transition.ChangeBounds;
+import androidx.transition.Scene;
 import androidx.transition.TransitionManager;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.dotpot.app.R;
 import com.dotpot.app.adapters.GenriXAdapter;
 import com.dotpot.app.interfaces.AbstractAnimatorListener;
@@ -37,6 +42,7 @@ import com.dotpot.app.utl;
 import com.dotpot.app.views.LoadingView;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -60,39 +66,10 @@ public class GameService {
     int soundId;
     GenricDataCallback playSOund;
     GenricObjectCallback<LinearLayout> onGameConclude;
-
-    public GameService(BaseActivity ctx,
-                       Game game,
-                       long delay,
-                       Player2Listener player2Listener,
-                       int MAX_USER_WAIT, GenricObjectCallback<LinearLayout> onGameConclude) {
-
-        this.ctx = ctx;
-        this.game = game;
-        this.delay = delay;
-        this.player2Listener = player2Listener;
-        this.MAX_USER_WAIT = MAX_USER_WAIT;
-        this.onGameConclude = onGameConclude;
-        explosionField = ExplosionField.attach2Window(ctx);
-
-        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        soundId = soundPool.load(ctx, R.raw.glass_break, 1);
-        playSOund = (player, pid) -> {
-            soundPool.play(soundId, pid == 1 ? 1.0f : 0.5f, pid == 1 ? 0.5f : 1f, 0, 0, 1);
-        };
-        GenricObjectCallback<Pot> onTapPotRecieved = new GenricObjectCallback<Pot>() {
-            @Override
-            public void onEntity(Pot data) {
-
-                if (game.getState() == 1) {
-                    playSOund.onStart(game.getPlayer2Id(), 2);
-                    data.own(game.getPlayer2Id());
-                }
-            }
-        };
-        player2Listener .setOnTapPotFromPlayer2(onTapPotRecieved);
-    }
-
+    Handler handler = new Handler();
+    CountDownTimer waitForNextRoundTimer;
+    TickerAnimator playerTimeoutTimer;
+    CountDownTimer playerTimeoutTimer2;
     private Button startGame;
     private ConstraintLayout contPlayers;
     private TextView player1Name;
@@ -116,31 +93,62 @@ public class GameService {
     private ExtendedFloatingActionButton pokeBtn;
     private ConstraintLayout contEmos;
     private RecyclerView listEmos;
+    public GameService(BaseActivity ctx,
+                       Game game,
+                       long delay,
+                       Player2Listener player2Listener,
+                       int MAX_USER_WAIT, GenricObjectCallback<LinearLayout> onGameConclude) {
+
+        this.ctx = ctx;
+        this.game = game;
+        this.delay = delay;
+        this.player2Listener = player2Listener;
+        this.MAX_USER_WAIT = MAX_USER_WAIT;
+        this.onGameConclude = onGameConclude;
+        explosionField = ExplosionField.attach2Window(ctx);
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundId = soundPool.load(ctx, R.raw.glass_break, 1);
+        game.setMAX_GAME_ROUNDS(FirebaseRemoteConfig.getInstance().getLong("game_rounds"));
+        playSOund = (player, pid) -> {
+            soundPool.play(soundId, pid == 1 ? 1.0f : 0.5f, pid == 1 ? 0.5f : 1f, 0, 0, 1);
+        };
+        GenricObjectCallback<Pot> onTapPotRecieved = new GenricObjectCallback<Pot>() {
+            @Override
+            public void onEntity(Pot data) {
+
+                if (game.getState() == 1) {
+                    playSOund.onStart(game.getPlayer2Id(), 2);
+                    data.own(game.getPlayer2Id());
+                }
+            }
+        };
+        player2Listener.setOnTapPotFromPlayer2(onTapPotRecieved);
+    }
 
     private void findViews(View rootView) {
-        startGame = (Button)rootView.findViewById( R.id.startGame );
-        contPlayers = (ConstraintLayout)rootView.findViewById( R.id.contPlayers );
-        player1Name = (TextView)rootView.findViewById( R.id.player1Name );
-        vsText = (TextView)rootView.findViewById( R.id.vsText );
-        circularProgressbar = (ProgressBar)rootView.findViewById( R.id.circularProgressbar );
-        loader = (LoadingView)rootView.findViewById( R.id.loader );
-        timerText = (TextView)rootView.findViewById( R.id.timerText );
-        player2Name = (TextView)rootView.findViewById( R.id.player2Name );
-        player2score = (TextView)rootView.findViewById( R.id.player2score );
-        player2Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player2Image );
-        player2Emo = (TextView)rootView.findViewById( R.id.player2Emo );
-        player1score = (TextView)rootView.findViewById( R.id.player1score );
-        player1Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player1Image );
-        player1Emo = (TextView)rootView.findViewById( R.id.player1Emo );
-        info = (TextView)rootView.findViewById( R.id.info );
-        contMid = (ConstraintLayout)rootView.findViewById( R.id.contMid );
-        resultCup = (ImageView)rootView.findViewById( R.id.resultCup );
-        resultText = (TextView)rootView.findViewById( R.id.resultText );
-        resultTextSub = (TextView)rootView.findViewById( R.id.resultTextSub );
-        contPots = (GridLayout)rootView.findViewById( R.id.contPots );
-        pokeBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.pokeBtn );
-        contEmos = (ConstraintLayout)rootView.findViewById( R.id.contEmos );
-        listEmos = (RecyclerView)rootView.findViewById( R.id.listEmos );
+        startGame = (Button) rootView.findViewById(R.id.startGame);
+        contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
+        player1Name = (TextView) rootView.findViewById(R.id.player1Name);
+        vsText = (TextView) rootView.findViewById(R.id.vsText);
+        circularProgressbar = (ProgressBar) rootView.findViewById(R.id.circularProgressbar);
+        loader = (LoadingView) rootView.findViewById(R.id.loader);
+        timerText = (TextView) rootView.findViewById(R.id.timerText);
+        player2Name = (TextView) rootView.findViewById(R.id.player2Name);
+        player2score = (TextView) rootView.findViewById(R.id.player2score);
+        player2Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player2Image);
+        player2Emo = (TextView) rootView.findViewById(R.id.player2Emo);
+        player1score = (TextView) rootView.findViewById(R.id.player1score);
+        player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
+        player1Emo = (TextView) rootView.findViewById(R.id.player1Emo);
+        info = (TextView) rootView.findViewById(R.id.info);
+        contMid = (ConstraintLayout) rootView.findViewById(R.id.contMid);
+        resultCup = (ImageView) rootView.findViewById(R.id.resultCup);
+        resultText = (TextView) rootView.findViewById(R.id.resultText);
+        resultTextSub = (TextView) rootView.findViewById(R.id.resultTextSub);
+        contPots = (GridLayout) rootView.findViewById(R.id.contPots);
+        pokeBtn = (ExtendedFloatingActionButton) rootView.findViewById(R.id.pokeBtn);
+        contEmos = (ConstraintLayout) rootView.findViewById(R.id.contEmos);
+        listEmos = (RecyclerView) rootView.findViewById(R.id.listEmos);
     }
 
     public void setupInGame(LinearLayout contView) {
@@ -221,38 +229,152 @@ public class GameService {
 
         GenricDataCallback onNewTurn = (playerId, statusCode) -> {
             game.setTurnOfPlayerId(playerId);
-            if (playerId.equals(game.getPlayer1Id())) {
-                info.setText(R.string.break_the_pot_with_highest_values);
-                utl.animate_land(info);
-            } else {
-                info.setText(game.getPlayer2().getName() + "'s " + ResourceUtils.getString(R.string.turn));
-                utl.animate_land(info);
+//            if (playerId.equals(game.getPlayer1Id())) {
+//                info.setText(String.format(ResourceUtils.getString(R.string.find_char),
+//                        game.getCurrentMagicPot().getValue()));
+//                utl.animate_land(info);
+//            } else if (playerId.equals(game.getPlayer2Id())) {
+//                info.setText(game.getPlayer2().getName() + "'s " + ResourceUtils.getString(R.string.turn));
+//                utl.animate_land(info);
+//            }
+        };
+        List<Pot> pots = game.generatePots(true);
+
+        GenricCallback setNewPot = () -> {
+
+            pots.clear();
+            pots.addAll(game.generatePots(true));
+            game.setCurrentMagicPot(utl.randomElement(pots));
+        };
+
+        GenricObjectCallback<Pot> onTapped =
+                new GenricObjectCallback<Pot>() {
+                    @Override
+                    public void onEntity(Pot data) {
+                        game.registerTap();
+                        playerTimeoutTimer.stop();
+                        playerTimeoutTimer2.cancel();
+                        waitForNextRoundTimer.cancel();
+                        if (game.isOver()) {
+                            timerText.setVisibility(View.GONE);
+                            onGameConclude.onEntity(contView);
+                        }
+                        else
+                            {
+                            playSOund.onStart(game.getPlayer1Id(), 1);
+                            onNewTurn.onStart("",0);
+                            info.setText(R.string.get_ready);
+                            waitForNextRoundTimer.start();
+                        }
+                    }
+                } ;
+        
+
+        playerTimeoutTimer2 = new CountDownTimer(MAX_USER_WAIT, 50) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                game.elapsedSinceLastRound = millisUntilFinished;
+                float f = (MAX_USER_WAIT - millisUntilFinished) / 1000.0f;
+                timerText.setText(String.format("%.3f", f));
+
+
+                long progress = millisUntilFinished * 100 / (MAX_USER_WAIT);
+                circularProgressbar.setProgress((int) progress);
+            }
+
+            @Override
+            public void onFinish() {
+                YoYo.with(Techniques.Flash)
+                        .duration(700)
+                        .playOn(timerText);
             }
         };
-        TickerAnimator tickerAnimator = new TickerAnimator(new GenricDataCallback() {
+        GenricCallback resetplayerTimeoutTimer2 = () -> {
+
+            playerTimeoutTimer2.cancel();
+            playerTimeoutTimer2.onFinish();
+            playerTimeoutTimer2.start();
+        };
+        waitForNextRoundTimer = new CountDownTimer(10000, 1000) {
             @Override
-            public void onStart(String message, int statusCode) {
-                int progress = statusCode * 100 / (MAX_USER_WAIT);
-                circularProgressbar.setProgress(progress);
-                timerText.setText("" + statusCode / 1000);
+            public void onTick(long statusCode) {
+                long progress = statusCode * 100 / (MAX_USER_WAIT);
+                circularProgressbar.setProgress((int) progress);
             }
+
+            @Override
+            public void onFinish() {
+                setNewPot.onStart();
+                resetplayerTimeoutTimer2.onStart();
+                onNewTurn.onStart(game.getPlayer1Id(), 1);
+                playerTimeoutTimer.start(MAX_USER_WAIT);
+                info.setText(String.format(ResourceUtils.getString(R.string.find_char), "" + game.getCurrentMagicPot().getValue()));
+//                createGameView(false, true, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, playerTimeoutTimer);
+            }
+        };
+
+
+        playerTimeoutTimer = new TickerAnimator((message, statusCode) -> {
+
+            AutoTransition autoTransition = new AutoTransition();
+            autoTransition.removeTransition(autoTransition.getTransitionAt(0));
+            autoTransition.removeTransition(autoTransition.getTransitionAt(1));
+//            autoTransition.addTransition(new ChangeBounds());
+            autoTransition.setDuration(playerTimeoutTimer.getINTERVAL()/4);
+
+            ChangeBounds myTransition = new ChangeBounds();
+            myTransition.setDuration(1000L);
+
+            TransitionManager.go(new Scene(contPots), autoTransition);
+            Collections.shuffle(pots);
+            createGameView(true,
+                    true,
+                    contView,
+                    ctx.getLayoutInflater(),
+                    contPots,
+                    pots,
+                    onNewTurn,
+                    onTapped);
         }, () -> {
-            // Turn finished
-        }, timerText) {
+        }, new TextView(ctx)) {
+
+            @Override
+            public void start(int count) {
+                super.start(count);
+
+            }
+
+            @Override
+            public void stop() {
+                super.stop();
+            }
+
+            @Override
+            public void reset() {
+                setNewPot.onStart();
+                resetplayerTimeoutTimer2.onStart();
+                super.reset();
+            }
+
             @Override
             public void onCompleted() {
                 if (game.getState() != 1) {
                     return;
                 }
-                if (game.getTurnOfPlayerId().equals(game.getPlayer1Id())) {
-                    player2Listener.sendTapOnPotToPlayer2(null);
-                    onNewTurn.onStart(game.getPlayer2Id(), 2);
-                } else {
-                    onNewTurn.onStart(game.getPlayer1Id(), 1);
-                }
-                reset();
+
+                onTapped.onEntity(null);
+
+//
+//                if (game.getTurnOfPlayerId().equals(game.getPlayer1Id())) {
+//                    player2Listener.sendTapOnPotToPlayer2(null);
+//                    onNewTurn.onStart(game.getPlayer2Id(), 2);
+//                } else {
+//                    onNewTurn.onStart(game.getPlayer1Id(), 1);
+//                }
+
             }
         };
+        playerTimeoutTimer.setINTERVAL(3000);
 
         if (!utl.isEmpty(ctx.user.getImage()))
             Picasso.get().load(ctx.user.getImage()).error(R.drawable.account)
@@ -268,41 +390,30 @@ public class GameService {
         utl.addPressReleaseAnimation(player2Image);
 
 
-        List<Pot> pots = game.generatePots();
-        createGameView(true, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+        createGameView(true,
+                false,
+                contView,
+                ctx.getLayoutInflater(),
+                contPots,
+                pots,
+                onNewTurn,
+                onTapped);
 
-        info.setText(R.string.watch);
         utl.animate_land(info);
-        CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timerText.setText(String.format("%d", millisUntilFinished / 1000));
-                utl.animate_land(timerText);
-                int progress = (int) millisUntilFinished * 100 / (MAX_USER_WAIT);
-                circularProgressbar.setProgress(progress);
-
-                if (millisUntilFinished < 6000) {
-
-                    TransitionManager.beginDelayedTransition(contPots, new ChangeBounds());
-                    Collections.shuffle(pots);
-                    createGameView(false, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
-
-                }
-            }
-
-            @Override
-            public void onFinish() {
-//                setupConcludeGame(contView);
-                tickerAnimator.start(MAX_USER_WAIT);
-                createGameView(false, true, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
-                onNewTurn.onStart(game.getPlayer1Id(), 1);
-            }
-        };
-        countDownTimer.start();
+        info.setText(R.string.get_ready);
+        onNewTurn.onStart("",0);
+        waitForNextRoundTimer.start();
 
     }
 
-    protected void createGameView(boolean isPreview, boolean startGame, LinearLayout contView, LayoutInflater inflater, ViewGroup layout, List<Pot> titles, GenricDataCallback onNewTurn, TickerAnimator tickerAnimator) {
+    protected void createGameView(boolean isPreview,
+                                  boolean startGame,
+                                  LinearLayout contView,
+                                  LayoutInflater inflater,
+                                  ViewGroup layout,
+                                  List<Pot> titles,
+                                  GenricDataCallback onNewTurn,
+                                  GenricObjectCallback<Pot> tickerAnimator) {
         layout.removeAllViews();
 
 
@@ -315,19 +426,16 @@ public class GameService {
                     if (game.getState() == 1)
                         game.getOnGameScoreUpdate().onStart();
 
-                    if (game.isOver()) {
-                        onGameConclude.onEntity(contView);
-                        tickerAnimator.stop();
-                    } else {
-                        tickerAnimator.reset();
-                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id())) {
-                            onNewTurn.onStart(game.getPlayer1Id(), 1);
-                        } else {
-                            playSOund.onStart(game.getPlayer1Id(), 1);
-                            player2Listener.sendTapOnPotToPlayer2(pot);
-                            onNewTurn.onStart(game.getPlayer2Id(), 2);
-                        }
-                    }
+                        tickerAnimator.onEntity(pot);
+                        onNewTurn.onStart(game.getPlayer1Id(), 1);
+//                        if (pot.getOwnedByUserId().equals(game.getPlayer2Id())) {
+//                            onNewTurn.onStart(game.getPlayer1Id(), 1);
+//                        } else {
+//                            playSOund.onStart(game.getPlayer1Id(), 1);
+//                            player2Listener.sendTapOnPotToPlayer2(pot);
+//                            onNewTurn.onStart(game.getPlayer2Id(), 2);
+//                        }
+
                 }
             }));
         }
