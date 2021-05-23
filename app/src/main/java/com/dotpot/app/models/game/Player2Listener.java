@@ -136,8 +136,8 @@ public class Player2Listener {
                     "\uD83E\uDD2D",
                     "\uD83D\uDE02",
                     "\uD83D\uDD95",
-                    "\uD83D\uDE0E",
-                    "\uD83E\uDD2C");
+                    "\uD83E\uDD2C",
+                    "\uD83D\uDE0E");
         }
         return emoList;
     }
@@ -165,7 +165,7 @@ public class Player2Listener {
                 .equals(game.getPlayer1Id());
 
             if(isP1Won){
-                return utl.randomInt(Math.min(7000,(int)p1Time+500) , Math.min(8000,(int)p1Time+2000));
+                return utl.randomInt(Math.min(4000,(int)p1Time+500) , Math.min(6000,(int)p1Time+2000));
             }
             else {
                 return utl.randomInt(100 , Math.min((int)p1Time-100,3000));
