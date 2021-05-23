@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.dotpot.app.ui.BaseActivity;
 import com.dotpot.app.utils.ResourceUtils;
 import com.dotpot.app.utils.TickerAnimator;
 import com.dotpot.app.utl;
+import com.dotpot.app.views.LoadingView;
 import com.dotpot.app.views.RoundRectCornerImageView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
@@ -91,32 +93,63 @@ public class GameService {
         player2Listener .setOnTapPotFromPlayer2(onTapPotRecieved);
     }
 
+    private Button startGame;
+    private ConstraintLayout contPlayers;
+    private TextView player1Name;
+    private TextView vsText;
+    private ProgressBar circularProgressbar;
+    private LoadingView loader;
+    private TextView timerText;
+    private TextView player2Name;
+    private TextView player2score;
+    private RoundRectCornerImageView player2Image;
+    private TextView player2Emo;
+    private TextView player1score;
+    private RoundRectCornerImageView player1Image;
+    private TextView player1Emo;
+    private TextView info;
+    private ConstraintLayout contMid;
+    private ImageView resultCup;
+    private TextView resultText;
+    private TextView resultTextSub;
+    private GridLayout contPots;
+    private ExtendedFloatingActionButton pokeBtn;
+    private ConstraintLayout contEmos;
+    private RecyclerView listEmos;
+
+    private void findViews(View rootView) {
+        startGame = (Button)rootView.findViewById( R.id.startGame );
+        contPlayers = (ConstraintLayout)rootView.findViewById( R.id.contPlayers );
+        player1Name = (TextView)rootView.findViewById( R.id.player1Name );
+        vsText = (TextView)rootView.findViewById( R.id.vsText );
+        circularProgressbar = (ProgressBar)rootView.findViewById( R.id.circularProgressbar );
+        loader = (LoadingView)rootView.findViewById( R.id.loader );
+        timerText = (TextView)rootView.findViewById( R.id.timerText );
+        player2Name = (TextView)rootView.findViewById( R.id.player2Name );
+        player2score = (TextView)rootView.findViewById( R.id.player2score );
+        player2Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player2Image );
+        player2Emo = (TextView)rootView.findViewById( R.id.player2Emo );
+        player1score = (TextView)rootView.findViewById( R.id.player1score );
+        player1Image = (RoundRectCornerImageView)rootView.findViewById( R.id.player1Image );
+        player1Emo = (TextView)rootView.findViewById( R.id.player1Emo );
+        info = (TextView)rootView.findViewById( R.id.info );
+        contMid = (ConstraintLayout)rootView.findViewById( R.id.contMid );
+        resultCup = (ImageView)rootView.findViewById( R.id.resultCup );
+        resultText = (TextView)rootView.findViewById( R.id.resultText );
+        resultTextSub = (TextView)rootView.findViewById( R.id.resultTextSub );
+        contPots = (GridLayout)rootView.findViewById( R.id.contPots );
+        pokeBtn = (ExtendedFloatingActionButton)rootView.findViewById( R.id.pokeBtn );
+        contEmos = (ConstraintLayout)rootView.findViewById( R.id.contEmos );
+        listEmos = (RecyclerView)rootView.findViewById( R.id.listEmos );
+    }
+
     public void setupInGame(LinearLayout contView) {
         if (contView.getChildCount() > 0)
             contView.removeAllViews();
         game.setState(1);
 
         View rootView = ctx.getLayoutInflater().inflate(R.layout.fragment_game, contView);
-
-        Button startGame = (Button) rootView.findViewById(R.id.startGame);
-        ConstraintLayout contPlayers = (ConstraintLayout) rootView.findViewById(R.id.contPlayers);
-        TextView player1Name = (TextView) rootView.findViewById(R.id.player1Name);
-        TextView vsText = (TextView) rootView.findViewById(R.id.vsText);
-        TextView timerText = (TextView) rootView.findViewById(R.id.timerText);
-        TextView player2Name = (TextView) rootView.findViewById(R.id.player2Name);
-        TextView player2score = (TextView) rootView.findViewById(R.id.player2score);
-        RoundRectCornerImageView player2Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player2Image);
-        TextView player2Emo = (TextView) rootView.findViewById(R.id.player2Emo);
-        TextView player1score = (TextView) rootView.findViewById(R.id.player1score);
-        RoundRectCornerImageView player1Image = (RoundRectCornerImageView) rootView.findViewById(R.id.player1Image);
-        TextView player1Emo = (TextView) rootView.findViewById(R.id.player1Emo);
-        TextView info = (TextView) rootView.findViewById(R.id.info);
-        GridLayout contPots = (GridLayout) rootView.findViewById(R.id.contPots);
-        ConstraintLayout contEmos = (ConstraintLayout) rootView.findViewById(R.id.contEmos);
-        ExtendedFloatingActionButton pokeBtn = (ExtendedFloatingActionButton) rootView.findViewById(R.id.pokeBtn);
-        RecyclerView listEmos = (RecyclerView) rootView.findViewById(R.id.listEmos);
-        ProgressBar circularProgressbar = rootView.findViewById(R.id.circularProgressbar);
-
+        findViews(rootView);
         ConstraintLayout.LayoutParams params1 = (ConstraintLayout.LayoutParams) player1Emo.getLayoutParams();
         ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) player2Emo.getLayoutParams();
 
@@ -236,7 +269,7 @@ public class GameService {
 
 
         List<Pot> pots = game.generatePots();
-        createPots(true, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+        createGameView(true, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
 
         info.setText(R.string.watch);
         utl.animate_land(info);
@@ -252,7 +285,7 @@ public class GameService {
 
                     TransitionManager.beginDelayedTransition(contPots, new ChangeBounds());
                     Collections.shuffle(pots);
-                    createPots(false, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+                    createGameView(false, false, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
 
                 }
             }
@@ -261,7 +294,7 @@ public class GameService {
             public void onFinish() {
 //                setupConcludeGame(contView);
                 tickerAnimator.start(MAX_USER_WAIT);
-                createPots(false, true, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
+                createGameView(false, true, contView, ctx.getLayoutInflater(), contPots, pots, onNewTurn, tickerAnimator);
                 onNewTurn.onStart(game.getPlayer1Id(), 1);
             }
         };
@@ -269,7 +302,7 @@ public class GameService {
 
     }
 
-    private void createPots(boolean isPreview, boolean startGame, LinearLayout contView, LayoutInflater inflater, ViewGroup layout, List<Pot> titles, GenricDataCallback onNewTurn, TickerAnimator tickerAnimator) {
+    protected void createGameView(boolean isPreview, boolean startGame, LinearLayout contView, LayoutInflater inflater, ViewGroup layout, List<Pot> titles, GenricDataCallback onNewTurn, TickerAnimator tickerAnimator) {
         layout.removeAllViews();
 
 
