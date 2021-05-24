@@ -34,13 +34,6 @@ public class InAppNavService {
         this.ctx = ctx;
         fragmentManager = ctx.fragmentManager;
     }
-//
-//    private static InAppNavService inAppNavService;
-//    public static InAppNavService getInstance(BaseActivity ctx) {
-//        if(inAppNavService==null)
-//            inAppNavService  = new InAppNavService(ctx);
-//        return inAppNavService;
-//    }
 
     private void startActivity(Intent it) {
         ctx.startActivity(it);
@@ -110,7 +103,7 @@ public class InAppNavService {
         fragmentTransaction(fragmentViewId, MessagingFragment.getInstance(), "suport", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
-    public void startWebsite(String title,String url){
+    public void startWebsite(String title, String url) {
         Intent it = new Intent(ctx, WebViewActivity.class);
         it.putExtra("title", title);
         it.putExtra("url", url);
@@ -146,8 +139,14 @@ public class InAppNavService {
 
     }
 
+
     public <T extends BaseFragment> void fragmentTransaction(@IdRes int fragmentViewId, T target
             , String name, Bundle data, boolean addToBackStack, int transition) {
+        fragmentTransaction(fragmentViewId,target,name,data,addToBackStack,transition,true);
+    }
+
+    public <T extends BaseFragment> void fragmentTransaction(@IdRes int fragmentViewId, T target
+            , String name, Bundle data, boolean addToBackStack, int transition, boolean replaceFragment) {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -158,8 +157,12 @@ public class InAppNavService {
 
         target.setActivityAndContext(ctx);
         target.setArguments(data);
-        fragmentTransaction.add(fragmentViewId, target)
-                .setReorderingAllowed(true);
+        if (replaceFragment)
+            fragmentTransaction.replace(fragmentViewId, target)
+                    .setReorderingAllowed(true);
+        else
+            fragmentTransaction.add(fragmentViewId, target)
+                    .setReorderingAllowed(true);
 
         if (addToBackStack) {
             fragmentTransaction = fragmentTransaction.addToBackStack(name);
@@ -173,9 +176,9 @@ public class InAppNavService {
 
     public void startGame(Game data) {
 
-        ObjectTransporter.getInstance().put(data.getId(),data);
+        ObjectTransporter.getInstance().put(data.getId(), data);
         Intent it = new Intent(ctx, GameActivity.class);
-        it.putExtra("gameId",data.getId());
+        it.putExtra("gameId", data.getId());
         startActivity(it);
     }
 
@@ -184,7 +187,7 @@ public class InAppNavService {
         fragmentTransaction(fragmentViewId, WithdrawFragment.getInstance(), "withdraw", null, true, Constants.TRANSITION_HORIZONTAL);
     }
 
-    public void startShopDetail(Product item,@IdRes int fragmentViewId) {
-        fragmentTransaction(fragmentViewId, ShopDetailFragment.getInstance(item), "product", null, true, Constants.TRANSITION_HORIZONTAL);
+    public void startShopDetail(Product item, @IdRes int fragmentViewId) {
+        fragmentTransaction(fragmentViewId, ShopDetailFragment.getInstance(item), "product", null, true, Constants.TRANSITION_HORIZONTAL,false);
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,11 @@ public class BaseFragment extends Fragment {
         act = (BaseActivity) getActivity();
         ctx = getContext();
         navService = new InAppNavService(act);
+        try{
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
