@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.json.JSONObject;
 
@@ -51,7 +52,7 @@ public class LoginService {
     private GoogleSignInClient mGoogleSignInClient;
     private GenricUser tempGenricUser;
     private FirebaseAuth firebaseAuth;
-    private NetworkService networkService;
+    public NetworkService networkService;
     private GoogleSignInOptions gso;
 
     public LoginService(BaseActivity ctx) {
@@ -451,5 +452,10 @@ public class LoginService {
                 });
 
 
+    }
+
+
+    public static boolean isPasswordMandatoryForSignup(){
+        return FirebaseRemoteConfig.getInstance().getBoolean("password_manadatory");
     }
 }

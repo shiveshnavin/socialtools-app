@@ -51,6 +51,8 @@
             <item name="boxBackgroundMode">filled</item>
             <item name="hintTextColor">@color/colorTextSecondary</item>
             <item name="android:background">@drawable/bg_selector</item>
+            <item name="errorTextColor">@color/colorTextWarning</item>
+            <item name="errorIconTint">@color/colorTextWarning</item>
             <item name="endIconMode">clear_text</item>
             <item name="endIconTint">@color/colorBackground</item>
         </style>

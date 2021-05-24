@@ -122,40 +122,44 @@ public class WalletFragment extends BaseFragment {
         }
         showTransactions.setOnClickListener(v->{
             showTransactions.setVisibility(View.GONE);
-            showHideLoader.loading();
             walletViewModel.getTransactions().observe(getViewLifecycleOwner(), this::setUpTransactionsList);
+            walletViewModel.refresh("all");
+            showHideLoader.loading();
         });
 
         walletViewModel.getWallet().observe(getViewLifecycleOwner(), this::setUpWallet);
         addBtn.setOnClickListener(view -> navService.startAddCredits(fragmentId));
 
-        tabTxns.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                showHideLoader.loading();
-                if(showTransactions.getVisibility()==View.VISIBLE)
-                    showTransactions.callOnClick();
-                if (tab.getText().toString().contains(getString(R.string.credit))) {
-                    walletViewModel.refresh("wallet_credit");
-                } else if (tab.getText().toString().contains(getString(R.string.debit))) {
-                    walletViewModel.refresh("wallet_debit");
-                } else {
-                    walletViewModel.refresh(null);
+        tabTxns.postDelayed(()->{
+
+            tabTxns.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    showHideLoader.loading();
+                    if(showTransactions.getVisibility()==View.VISIBLE)
+                        showTransactions.callOnClick();
+                    if (tab.getText().toString().contains(getString(R.string.credit))) {
+                        walletViewModel.refresh("wallet_credit");
+                    } else if (tab.getText().toString().contains(getString(R.string.debit))) {
+                        walletViewModel.refresh("wallet_debit");
+                    } else {
+                        walletViewModel.refresh(null);
+                    }
                 }
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
+                }
+            });
 
 
+        },1000);
         return root;
     }
 
@@ -168,6 +172,8 @@ public class WalletFragment extends BaseFragment {
     }
 
     private void setUpTransactionsList(List<Transaction> transactionsList) {
+        if(transactionsList==null)
+            return;
         showHideLoader.loaded();
 
         Collections.sort(transactionsList, (t1,transaction) -> transaction.getTimeStamp().compareTo(t1.getTimeStamp()));

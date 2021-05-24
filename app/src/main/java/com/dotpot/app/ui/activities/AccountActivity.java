@@ -133,6 +133,7 @@ public class AccountActivity extends BaseActivity {
 
     public void handleSignInResult(GoogleSignInAccount account, int requestCode) {
 
+
         ProgressDialog progressDialog = new ProgressDialog(ctx);
         progressDialog.setMessage(getString(R.string.processing));
         progressDialog.show();
@@ -140,47 +141,53 @@ public class AccountActivity extends BaseActivity {
             @Override
             public void onEntity(FirebaseUser firebaseUser) {
 
-                loginService.refreshProviderToken((token, data2) ->
-                        loginService.firebaseId(token, new GenricObjectCallback<GenricUser>() {
-                            @Override
-                            public void onEntity(GenricUser genricUser) {
-                                progressDialog.dismiss();
-                                loginService.setTempGenricUser(genricUser);
-                                GenericUserViewModel.getInstance().updateLocalAndNotify(act, genricUser);
-                                if (requestCode == RC_SIGN_IN && genricUser.validate()) {
-                                    inAppNavService.startHome();
-                                } else
+                loginService.refreshProviderToken((token, data2) -> {
+
+                    GenericUserViewModel.getInstance().getUser().setValue(null);
+                    utl.removeUserData();
+                    loginService.networkService.invalidateAllRuntimeValues();
+
+                    loginService.firebaseId(token, new GenricObjectCallback<GenricUser>() {
+                        @Override
+                        public void onEntity(GenricUser genricUser) {
+                            progressDialog.dismiss();
+                            loginService.setTempGenricUser(genricUser);
+                            GenericUserViewModel.getInstance().updateLocalAndNotify(act, genricUser);
+                            if (requestCode == RC_SIGN_IN && genricUser.validate()) {
+                                inAppNavService.startHome();
+                            } else
+                                beginSignup(false);
+
+                        }
+
+                        @Override
+                        public void onError(String message) {
+
+                            loginService.setTempGenricUser(new GenricUser());
+                            loginService.getTempGenricUser().setType(Constants.userCategories[0]);
+                            loginService.getTempGenricUser().setId(firebaseUser.getUid());
+                            loginService.getTempGenricUser().setName(account.getDisplayName());
+                            loginService.getTempGenricUser().setEmail(account.getEmail());
+                            loginService.getTempGenricUser().setImage("" + account.getPhotoUrl());
+                            loginService.commitTemporaryUserToServer(new GenricObjectCallback<GenricUser>() {
+                                @Override
+                                public void onEntity(GenricUser data) {
+                                    progressDialog.dismiss();
+                                    GenericUserViewModel.getInstance().updateLocalAndNotify(act, loginService.getTempGenricUser());
                                     beginSignup(false);
+                                }
 
-                            }
-
-                            @Override
-                            public void onError(String message) {
-
-                                loginService.setTempGenricUser(new GenricUser());
-                                loginService.getTempGenricUser().setType(Constants.userCategories[0]);
-                                loginService.getTempGenricUser().setId(firebaseUser.getUid());
-                                loginService.getTempGenricUser().setName(account.getDisplayName());
-                                loginService.getTempGenricUser().setEmail(account.getEmail());
-                                loginService.getTempGenricUser().setImage("" + account.getPhotoUrl());
-                                loginService.commitTemporaryUserToServer(new GenricObjectCallback<GenricUser>() {
-                                    @Override
-                                    public void onEntity(GenricUser data) {
-                                        progressDialog.dismiss();
-                                        GenericUserViewModel.getInstance().updateLocalAndNotify(act, loginService.getTempGenricUser());
-                                        beginSignup(false);
-                                    }
-
-                                    @Override
-                                    public void onError(String message) {
-                                        progressDialog.dismiss();
-                                        utl.snack(act, message);
-                                    }
-                                });
+                                @Override
+                                public void onError(String message) {
+                                    progressDialog.dismiss();
+                                    utl.snack(act, message);
+                                }
+                            });
 
 
-                            }
-                        }));
+                        }
+                    });
+                });
 
             }
         });
@@ -288,6 +295,8 @@ public class AccountActivity extends BaseActivity {
             } catch (ApiException e) {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                 utl.toast(act, getString(R.string.error_msg) + e.getMessage());
+                startActivity(new Intent(ctx, SplashActivity.class));
+                finishAffinity();
             }
 
         }

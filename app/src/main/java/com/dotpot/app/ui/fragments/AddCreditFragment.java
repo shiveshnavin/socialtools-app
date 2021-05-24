@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public class AddCreditFragment extends BaseFragment {
 
             navService.startGame(data);
             if (data.getAmount() > 0)
-                WalletViewModel.getInstance().refresh("");
+                WalletViewModel.getInstance().refresh(null);
 
         }
 
@@ -255,16 +254,14 @@ public class AddCreditFragment extends BaseFragment {
         Button pokeBtn = rootView.findViewById( R.id.pokeBtn );
         Button pokeBtn2 = rootView.findViewById( R.id.pokeBtn2 );
 
+        utl.addPressReleaseAnimation(pokeBtn);
+        utl.addPressReleaseAnimation(pokeBtn2);
 
-        final Dialog dialog = new Dialog(ctx);
+        final Dialog dialog = new Dialog(ctx,R.style.PopupDialogNoFullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(rootView);
 //        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ResourceUtils.getColor(R.color.transparent)));
-        if(itemView!=null){
-            itemView.setTransitionName("showdig");
-            rootView.setTransitionName("showdig");
-            TransitionManager.beginDelayedTransition(root);
-        }
+
         dialog.show();
 
 

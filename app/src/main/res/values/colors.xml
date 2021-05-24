@@ -18,8 +18,8 @@
     <color name="colorGoldenWin">#FFD700</color>
     <color name="colorIcon">#DDDBDB</color>
     <color name="colorIconSecondary">#6AFFFFFF</color>
-    <color name="inputBackground">#43FFFFFF</color>
-    <color name="inputBackgroundFocused">#6AFFFFFF</color>
+    <color name="inputBackground">#27FFFFFF</color>
+    <color name="inputBackgroundFocused">#40FFFFFF</color>
     <color name="dotpotblue">@color/material_teal_700</color>
 
 <!--    <color name="posterBg0">#8C81BB</color>-->

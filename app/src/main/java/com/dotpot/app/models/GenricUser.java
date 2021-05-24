@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.dotpot.app.Constants;
 import com.dotpot.app.R;
+import com.dotpot.app.services.LoginService;
 import com.dotpot.app.utl;
 import com.squareup.picasso.Picasso;
 
@@ -142,7 +143,7 @@ public class GenricUser {
                 !utl.isEmpty(dateofbirthLong) &&
                 !utl.isEmpty(email) &&
                 !utl.isEmpty(name) &&
-                !utl.isEmpty(password) ;
+                (!LoginService.isPasswordMandatoryForSignup() || !utl.isEmpty(password)) ;
     }
 
 }

@@ -27,6 +27,7 @@ public class Player2Listener {
 
     public List<String> emoList;
 
+    Handler handler;
     GenricUser player2;
     Game game;
     GenricObjectCallback<Pot> onTapPotFromPlayer2;
@@ -36,7 +37,7 @@ public class Player2Listener {
     private boolean convoIsIcedBroke = true;
 
     public void sendTapOnPotToPlayer2(@Nullable Pot pot) {
-        waitForPlayer2();
+        waitForPlayer2(false);
     }
 
     long lastEmoFromP1 = 0;
@@ -53,27 +54,45 @@ public class Player2Listener {
         }
 
         lastEmoFromP1 = System.currentTimeMillis();
-        int delay = utl.randomInt(2000, (MAX_USER_WAIT - 2000));
-        boolean send = utl.randomDecision(50);
+        int delay = utl.randomInt(2000, 6000);
+        boolean send = utl.randomDecision(70);
         if (send)
-            new Handler().postDelayed(() -> {
-                if (emoList.indexOf(emo) <= emoList.size() / 2) {
-                    int random = utl.randomInt(0, emoList.size() / 2);
-                    onEmoFromPlayer2.onEntity(emoList.get(random));
-                } else {
-                    int random = utl.randomInt(emoList.size() / 2, emoList.size() - 1);
-                    onEmoFromPlayer2.onEntity(emoList.get(random));
+            handler.postDelayed(() -> {
+
+                if(game.getState()==1){
+                    if (goodEmos().contains(emo)) {
+                        int random = utl.randomInt(0, goodEmos().size()-1);
+                        onEmoFromPlayer2.onEntity(goodEmos().get(random));
+                    } else {
+                        int random = utl.randomInt(0, badEmos().size()-1);
+                        onEmoFromPlayer2.onEntity( badEmos().get(random));
+                    }
                 }
+                else {
+                    if(game.isPlayer1Won()){
+                        int random = utl.randomInt(0, badEmos().size()-1);
+                        onEmoFromPlayer2.onEntity( badEmos().get(random));
+                    }
+                    else {
+                        int random = utl.randomInt(0, emoList.size()-1);
+                        onEmoFromPlayer2.onEntity( emoList.get(random));
+                    }
+                }
+
+
             }, delay);
     }
 
     public void emoStorm(boolean isCurses){
 
         List<String> ems = (isCurses ? badEmos():getEmos());
-        CountDownTimer countDownTimer = new CountDownTimer(utl.randomInt(MAX_USER_WAIT/2,(int)(MAX_USER_WAIT*1.5)),300) {
+        String mEmo = ems.get(utl.randomInt(0,getEmos().size()-1));
+        int times = utl.randomInt(1,10);
+
+        CountDownTimer countDownTimer = new CountDownTimer(times * 400,400) {
             @Override
             public void onTick(long millisUntilFinished) {
-                onEmoFromPlayer2.onEntity((ems.get(utl.randomInt(0,ems.size()-1))));
+                onEmoFromPlayer2.onEntity(mEmo);
             }
 
             @Override
@@ -82,6 +101,8 @@ public class Player2Listener {
             }
         };
         countDownTimer.start();
+
+
     }
 
 
@@ -93,12 +114,12 @@ public class Player2Listener {
 
             }
         });
-        new Handler().postDelayed(()->{
+        handler.postDelayed(()->{
             onReplayStart.onStart();
         },utl.randomInt(4000,MAX_USER_WAIT));
     }
 
-    public void waitForPlayer2() {
+    public void waitForPlayer2(boolean isPlayer1Won) {
 //        List<Pot> unTappedPots = game.getPots().stream().filter(pot -> !pot.isOwned()).collect(Collectors.toList());
 //        MAX_USER_WAIT = (int) FirebaseRemoteConfig.getInstance().getLong("max_user_waiting") * 1000;
 //
@@ -107,12 +128,29 @@ public class Player2Listener {
 //            return;
 //        }
 
-        if(!convoIsIcedBroke && game.getCurrentRound() >= game.getMAX_GAME_ROUNDS() / 2){
-            convoIsIcedBroke = true;
-            new Handler().postDelayed(()->{
-                onEmoFromPlayer2.onEntity(getEmos().get(utl.randomInt(0,getEmos().size()-1)));
-            },1000);
+        if(utl.randomDecision(40)){
+            if(!game.isOver()){
+                handler.postDelayed(()->{
+                    List<String > eml = (isPlayer1Won?badEmos():getEmos());
+                    String mEmo = eml.get(utl.randomInt(0,getEmos().size()-1));
+                    int times = utl.randomInt(1,4);
+                    CountDownTimer countDownTimer = new CountDownTimer(times * 400,400) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            onEmoFromPlayer2.onEntity(mEmo);
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    };
+                    countDownTimer.start();
+                },utl.randomInt(3000,6000));
+            }
         }
+
+
 //        Pot randomElement = unTappedPots.get(rand.nextInt(unTappedPots.size()));
 //        onlineTill = System.currentTimeMillis() + utl.randomInt(30000 , 60000);
 //        int delay = utl.randomInt(1500, (MAX_USER_WAIT - 1000));

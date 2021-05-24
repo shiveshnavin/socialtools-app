@@ -166,7 +166,7 @@ public class ShopDetailFragment extends BaseFragment {
 
                         ShopDetailFragment.this.product = data;
                         setUpProduct(data);
-                        WalletViewModel.getInstance().refresh("all");
+                        WalletViewModel.getInstance().refresh(null);
                     }
 
                     @Override

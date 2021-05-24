@@ -82,7 +82,7 @@ public class AndroidNetworkService implements NetworkService {
 
 
     public String getBasicAuthHeader(){
-        GenricUser user = GenericUserViewModel.getInstance().getUser().getValue();
+        user = GenericUserViewModel.getInstance().getUser().getValue();
         if(user == null)
             user = utl.readUserData();
         if(user!=null){
@@ -155,6 +155,12 @@ public class AndroidNetworkService implements NetworkService {
                 call.onFail(anError);
             }
         });
+    }
+
+    @Override
+    public void invalidateAllRuntimeValues() {
+        authHeader = null;
+        user = null;
     }
 
     private Map<String, String> getAllHeaders() {

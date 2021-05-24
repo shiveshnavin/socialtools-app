@@ -260,14 +260,16 @@ public class GameService {
                         long p1time = game.elapsedSinceLastRound;
                         long p2time = player2Listener.getTimeTaken(p1time);
                         game.setPlayer2Time(game.getPlayer2Time() + p2time);
-                        player2Listener.waitForPlayer2();
                         String sign = p1time < p2time ? "<" :">";
-                        if(p1time < p2time ){
+                        boolean isPlayer1Won = p1time < p2time;
+                        if(isPlayer1Won){
                             game.setPlayer1wins(game.getPlayer1wins() + 1);
                         }
                         else{
                             game.setPlayer2wins(game.getPlayer2wins() + 1);
                         }
+                        player2Listener.waitForPlayer2(isPlayer1Won);
+
                         contPlayers.postDelayed(() -> {
 
                             if (p1time < p2time) {

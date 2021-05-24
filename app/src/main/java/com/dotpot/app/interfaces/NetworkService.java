@@ -32,4 +32,6 @@ public interface NetworkService {
     };
 
     void updateTokens(String googleToken,String firebaseToken);
+
+    void invalidateAllRuntimeValues();
 }

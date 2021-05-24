@@ -16,7 +16,8 @@
     <entry>
         <key>cache_config</key>
         <value>{
-            "/api/transactions/user/${userId}":1800
+            "/api/transactions/user/${userId}":1800,
+            "/api/analytics/weeklyLeaderboard":8600
             }
         </value>
     </entry>
@@ -114,6 +115,10 @@
         <value>paytm,upi</value>
     </entry>
 
+    <entry>
+        <key>password_manadatory</key>
+        <value>false</value>
+    </entry>
 
 
 

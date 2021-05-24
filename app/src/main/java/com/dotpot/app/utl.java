@@ -1877,7 +1877,7 @@ public class utl {
         return false;
     }
     public static int randomInt(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        return (int) ((Math.random() * (max - min + 1)) + min);
     }
     public static int getIntLen(int n) {
 

@@ -124,13 +124,25 @@ public class SignupFragment extends BaseFragment {
                         login.setVisibility(View.VISIBLE);
                         GenericUserViewModel.getInstance().updateLocalAndNotify(act, data);
                         Intent it = getActivity().getIntent();
+
+                        // from edit profile after logging in
                         if(it!=null && it.getStringExtra("action")!=null
                         && it.getStringExtra("action").equals(Constants.ACTION_ACCOUNT))
                         {
                             act.finish();
                         }
+
+
+                        // user has entered a valid phone
                         else if (LoginService.isValidPhone(user.getPhone())) {
-                            act.beginChangePassword(true);
+                            {
+                                if(utl.isEmpty(user.getPassword())){
+                                    act.beginChangePassword(true);
+                                }
+                                else {
+                                    act.inAppNavService.startHome();
+                                }
+                            }
                         } else
                             act.beginPhone(true);
                     }

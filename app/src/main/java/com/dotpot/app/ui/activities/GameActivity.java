@@ -202,6 +202,7 @@ public class GameActivity extends BaseActivity {
 
 
                 player2Listener = Player2Listener.builder()
+                        .handler(contView.getHandler())
                         .game(game)
                         .player2(game.getPlayer2()).build();
 
@@ -386,7 +387,7 @@ public class GameActivity extends BaseActivity {
                 loader.animate().alpha(0f).setDuration(500).start();
 //                utl.snack(act, "Game Finished !!! " + data.isPlayer1Won());
                 RestAPI.getInstance().invalidateCacheWalletAndTxns();
-                WalletViewModel.getInstance().refresh("");
+                WalletViewModel.getInstance().refresh(null);
 
                 resultTextSub.setVisibility(View.VISIBLE);
                 resultText.setVisibility(View.VISIBLE);
