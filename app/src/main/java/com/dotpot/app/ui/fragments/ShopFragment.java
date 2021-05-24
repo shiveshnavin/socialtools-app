@@ -3,8 +3,10 @@ package com.dotpot.app.ui.fragments;
 import com.dotpot.app.App;
 import com.dotpot.app.R;
 import com.dotpot.app.interfaces.GenricObjectCallback;
+import com.dotpot.app.models.ActionItem;
 import com.dotpot.app.models.Product;
 import com.dotpot.app.models.Wallet;
+import com.dotpot.app.services.EventBusService;
 import com.dotpot.app.services.RestAPI;
 import com.dotpot.app.utl;
 import com.google.common.base.Strings;
@@ -51,13 +53,27 @@ public class ShopFragment extends ViewListFragment<Product> {
         else {
             itemUI.image.setImageResource(R.drawable.ic_logo);
         }
-        itemUI.actionBtn.setText(Wallet.wrap(item.getAmount()));
+        if(item.getType().equals(Product.TYPE_EARN)) {
+            itemUI.actionBtn.setText(R.string.start);
+        }
+        else
+            itemUI.actionBtn.setText(Wallet.wrap(item.getAmount()));
+
         itemUI.bottomNote.setText("Valid till "+
                 utl.getDateTimeFormatted(new Date(item.getExpires())));
 
 
         itemUI.root.setOnClickListener(v->{
-            navService.startShopDetail(item,fragmentId);
+            if(item.getType().equals(Product.TYPE_EARN)){
+                ActionItem actionItem = item.actionItem();
+                if(actionItem!=null){
+                    actionItem.act = act;
+                    EventBusService.getInstance().doActionItem(actionItem);
+                }
+            }
+            else {
+                navService.startShopDetail(item,fragmentId);
+            }
         });
 
         itemUI.actionBtn.setOnClickListener(v->{

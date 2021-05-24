@@ -163,6 +163,7 @@
     <string name="rewards_success">Redeem Success ! Tap the code to copy and use it . You can also view all your rewards by tapping on Rewards in home screen menu .</string>
     <string name="awards_possible">Awards : %s %s</string>
     <string name="cancel">Cancel</string>
+    <string name="start">Start</string>
 
 
 </resources>

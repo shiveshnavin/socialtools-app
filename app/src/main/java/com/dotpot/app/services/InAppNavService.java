@@ -88,7 +88,7 @@ public class InAppNavService {
         if (amount != null)
             bundle.putFloat("amount", amount);
         bundle.putString("action", "select_game_amount");
-        fragmentTransaction(fragmentViewId, AddCreditFragment.getInstance(), "credits", bundle, true, Constants.TRANSITION_HORIZONTAL);
+        fragmentTransaction(fragmentViewId, AddCreditFragment.getInstance(), "credits", bundle, true, Constants.TRANSITION_HORIZONTAL,false);
     }
 
     public void startAddCredits(@IdRes int fragmentViewId) {

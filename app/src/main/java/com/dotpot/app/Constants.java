@@ -77,6 +77,7 @@ public class Constants {
     public static final String ACTION_HOW_TO_PLAY = "ACTION_HOW_TO_PLAY";
     public static final String ACTION_REDEEM_OPTIONS = "ACTION_REDEEM_OPTIONS";
     public static final String ACTION_EARN_MONEY = "ACTION_EARN_MONEY";
+    public static final String ACTION_PLAY_GAME = "ACTION_PLAY_GAME";
     public static final String ACTION_WITHDRAW = "ACTION_WITHDRAW";
     public static final String ACTION_SHOP = "ACTION_SHOP";
     public static final String ACTION_TOC = "ACTION_TOC";

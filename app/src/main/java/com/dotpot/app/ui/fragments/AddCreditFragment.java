@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -102,11 +104,12 @@ public class AddCreditFragment extends BaseFragment {
         }
     }
 
+    ConstraintLayout root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         act = (BaseActivity) getActivity();
-        View root = inflater.inflate(R.layout.fragment_credit, container, false);
+        root = (ConstraintLayout) inflater.inflate(R.layout.fragment_credit, container, false);
         listTransactions = root.findViewById(R.id.list);
         loader = root.findViewById(R.id.loader);
 
@@ -134,7 +137,7 @@ public class AddCreditFragment extends BaseFragment {
                     public void onStart() {
                         checkWalletAndStartGame(arguments.getFloat("amount"), onDone,onInsuff,"");
                     }
-                });
+                }, null);
             }
             setTitle(getString(R.string.select_game_credits));
             setUpAmounts(GameViewModel.getInstance().getGameAmounts().getValue(), finalAction);
@@ -192,7 +195,7 @@ public class AddCreditFragment extends BaseFragment {
                                 ShowHideLoader.create().content(listTransactions).loader(loader).loading();
                                 checkWalletAndStartGame(amount, onDone, onInsuff, "");
                             }
-                        });
+                        },vh.itemView);
                     } else {
                         startCreditAdd(amount);
                     }
@@ -234,7 +237,7 @@ public class AddCreditFragment extends BaseFragment {
 
     }
 
-    public void showDialog(float amount,GenricCallback cb){
+    public void showDialog(float amount, GenricCallback cb, View itemView){
 
         StringBuilder sbr = new StringBuilder();
 
@@ -257,7 +260,13 @@ public class AddCreditFragment extends BaseFragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(rootView);
 //        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ResourceUtils.getColor(R.color.transparent)));
+        if(itemView!=null){
+            itemView.setTransitionName("showdig");
+            rootView.setTransitionName("showdig");
+            TransitionManager.beginDelayedTransition(root);
+        }
         dialog.show();
+
 
 //        dialog.setContentView(layoutResId);
         View v = dialog.getWindow().getDecorView();

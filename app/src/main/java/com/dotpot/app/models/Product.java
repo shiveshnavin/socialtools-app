@@ -67,8 +67,19 @@ public class Product {
     @SerializedName("productid")
     @Expose
     private String productid;
-    
-    
+
+    public transient static final String TYPE_EARN = "earn";
+
+    public ActionItem actionItem(){
+        try{
+            ActionItem item = utl.js.fromJson(terms,ActionItem.class);
+            return item;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public String expiry(){
         return String.format(ResourceUtils.getString(R.string.expires), utl.getDateFormatted(new Date(expires)));
     }

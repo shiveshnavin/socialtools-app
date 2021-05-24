@@ -110,6 +110,10 @@ public class EventBusService {
                     if (act instanceof HomeActivity)
                         act.inAppNavService.startEarnShop(R.id.nav_host_fragment);
                 }
+                else if (actionType.equals(Constants.ACTION_PLAY_GAME)) {
+                    if (act instanceof HomeActivity)
+                        act.inAppNavService.startSelectGameAmount(R.id.nav_host_fragment,null);
+                }
                 else if (actionType.equals(Constants.ACTION_HOW_TO_PLAY)) {
                     act.inAppNavService.startWebsite(getString(R.string.help_and_guide),Constants.HOST+"/help.html");
                 }
