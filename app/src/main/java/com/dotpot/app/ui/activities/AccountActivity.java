@@ -1,10 +1,7 @@
 package com.dotpot.app.ui.activities;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -71,17 +67,17 @@ public class AccountActivity extends BaseActivity {
         setContentView(R.layout.activity_account);
         findViews();
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
-
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.REQUEST_INSTALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 1);
-            }
-        }
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+//            }
+//        }
+//
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.REQUEST_INSTALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 1);
+//            }
+//        }
         loginService = new LoginService(this);
         action = getIntent().getStringExtra("action");
         String fgmtName = "androidx.navigation.fragment.NavHostFragment";
@@ -291,8 +287,7 @@ public class AccountActivity extends BaseActivity {
                 handleSignInResult(account, requestCode);
             } catch (ApiException e) {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-                utl.snack(act, getString(R.string.error_msg) + e.getMessage());
-                finish();
+                utl.toast(act, getString(R.string.error_msg) + e.getMessage());
             }
 
         }

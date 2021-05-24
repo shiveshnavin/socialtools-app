@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -139,10 +138,10 @@ public class MessagingFragment extends BaseFragment {
         this.navService = act.inAppNavService;
     }
 
-    private RelativeLayout contChat;
+    private ConstraintLayout contChat;
     private RecyclerView list;
     private LinearProgressIndicator loader;
-    private RelativeLayout messgCont;
+    private ConstraintLayout messgCont;
     private EditText messageEdit;
     private ImageView attach;
     private ImageView send;
@@ -151,23 +150,23 @@ public class MessagingFragment extends BaseFragment {
 
 
     private void findViews(View root) {
-        contChat = (RelativeLayout)root.findViewById( R.id.cont_chat );
-        list = (RecyclerView)root.findViewById( R.id.list );
-        loader = (LinearProgressIndicator)root.findViewById( R.id.loader );
-        messgCont = (RelativeLayout)root.findViewById( R.id.messg_cont );
-        messageEdit = (EditText)root.findViewById( R.id.message_edit );
-        attach = (ImageView)root.findViewById( R.id.attach );
+        contChat = root.findViewById( R.id.cont_chat );
+        list = root.findViewById( R.id.list );
+        loader = root.findViewById( R.id.loader );
+        messgCont = root.findViewById( R.id.messg_cont );
+        messageEdit = root.findViewById( R.id.message_edit );
+        attach = root.findViewById( R.id.attach );
         attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        send = (ImageView)root.findViewById( R.id.send );
-        toolCont = (ConstraintLayout)root.findViewById( R.id.tool_cont );
-        logo = (ImageView)root.findViewById( R.id.logo );
-        headCont = (LinearLayout)root.findViewById( R.id.head_cont );
-        title = (TextView)root.findViewById( R.id.title );
+        send = root.findViewById( R.id.send );
+        toolCont = root.findViewById( R.id.tool_cont );
+        logo = root.findViewById( R.id.logo );
+        headCont = root.findViewById( R.id.head_cont );
+        title = root.findViewById( R.id.title );
     }
 
 }

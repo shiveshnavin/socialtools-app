@@ -1,6 +1,5 @@
 package com.dotpot.app.ui.activities;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +48,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         findViews();
-        final MediaPlayer mp = MediaPlayer.create(this, R.raw.notif_tone);
+//        final MediaPlayer mp = MediaPlayer.create(this, R.raw.notif_tone);
         //mp.start();
 
         animLogo = findViewById(R.id.animLogo);
