@@ -2,7 +2,9 @@ package com.igramassistant.app.domain.igram.fragments;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
@@ -71,7 +73,17 @@ public class AutomatorFragment extends BaseFragment {
         root.findViewById(R.id.bgg).setOnClickListener(c -> {
 
         });
+        logger.setMovementMethod(new ScrollingMovementMethod());
 
+        contScroll.setOnTouchListener((v, event) -> {
+            logger.getParent().requestDisallowInterceptTouchEvent(false);
+            return false;
+        });
+
+        logger.setOnTouchListener((v, event) -> {
+            logger.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
         prepare("https://www.instagram.com/accounts/login/");
         request.setOnClickListener(c -> {
             start("https://www.instagram.com/accounts/login/");
@@ -129,9 +141,9 @@ public class AutomatorFragment extends BaseFragment {
         });
 
 
-        onMessage = (msg, code) -> {
+        onMessage = (msg, sno) -> {
             act.runOnUiThread(()->{
-                logger.append(msg + "\n");
+                logger.append(""+sno+". "+msg + "\n");
                 final int scrollAmount = logger.getLayout().getLineTop(logger.getLineCount()) - logger.getHeight();
                 logger.scrollTo(0, Math.max(scrollAmount, 0));
             });

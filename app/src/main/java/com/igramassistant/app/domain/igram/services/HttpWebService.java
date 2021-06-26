@@ -15,6 +15,8 @@ public class HttpWebService extends NanoHTTPD {
     @Getter
     @Setter
     GenricDataCallback callback;
+    @Setter
+    AutomatorService automatorService;
 
     public HttpWebService() {
         super(8080);
@@ -30,17 +32,24 @@ public class HttpWebService extends NanoHTTPD {
             String uri = session.getUri();
             final HashMap<String, String> map = new HashMap<String, String>();
             session.parseBody(map);
-            final String json = map.get("postData");
+            final String payload = map.get("postData");
             answer = "not found";
             if (uri.equals("/runjs")) {
-                callback.onStart(json, AutomatorService.RUN_JS);
+                callback.onStart(payload, AutomatorService.RUN_JS);
                 answer = "ok";
             } else if (uri.equals("/loadpage") || uri.equals("/loadurl")) {
                 if (session.getParameters().get("url") != null)
                     callback.onStart(session.getParameters().get("url").get(0), AutomatorService.LOAD_URL);
                 else
-                    callback.onStart(json, AutomatorService.LOAD_URL);
+                    callback.onStart(payload, AutomatorService.LOAD_URL);
                 answer = "ok";
+            }
+            else if (uri.equals("/evaluate")) {
+               automatorService.evaluate(payload);
+               answer = "ok";
+            }
+            else if (uri.equals("/geteval")) {
+                answer = automatorService.getEval();
             }
         } catch (IOException | ResponseException ioe) {
             utl.e("Httpd", ioe.toString());
