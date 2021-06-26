@@ -77,13 +77,6 @@ public class AutomatorFragment extends BaseFragment {
             start("https://www.instagram.com/accounts/login/");
         });
 
-        onMessage = (msg, code) -> {
-            act.runOnUiThread(()->{
-                logger.append(msg + "\n");
-                final int scrollAmount = logger.getLayout().getLineTop(logger.getLineCount()) - logger.getHeight();
-                logger.scrollTo(0, Math.max(scrollAmount, 0));
-            });
-        };
 
         return root;
 
@@ -99,7 +92,6 @@ public class AutomatorFragment extends BaseFragment {
 
         WebSettings mWebSettings = mWebView.getSettings();
 
-        mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setSupportZoom(false);
         mWebSettings.setAllowFileAccess(true);
         mWebSettings.setAllowFileAccess(true);
@@ -135,6 +127,15 @@ public class AutomatorFragment extends BaseFragment {
 
             }
         });
+
+
+        onMessage = (msg, code) -> {
+            act.runOnUiThread(()->{
+                logger.append(msg + "\n");
+                final int scrollAmount = logger.getLayout().getLineTop(logger.getLineCount()) - logger.getHeight();
+                logger.scrollTo(0, Math.max(scrollAmount, 0));
+            });
+        };
         JavaScriptInterface jsInterface = new JavaScriptInterface(act,onMessage);
         mWebView.addJavascriptInterface(jsInterface, "igram");
 
