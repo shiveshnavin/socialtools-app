@@ -82,6 +82,8 @@ public class Constants {
     public static final String ACTION_SHOP = "ACTION_SHOP";
     public static final String ACTION_TOC = "ACTION_TOC";
 
+    public static final String ACTION_IG_AUTOREPLY = "ACTION_IG_AUTOREPLY";
+
     public final static String ATTACHMENT_TYPE_IMAGE = "Image";
     public final static String ATTACHMENT_TYPE_DOC = "Doc";
     public final static String ATTACHMENT_TYPE_DEFAULT = "Text";

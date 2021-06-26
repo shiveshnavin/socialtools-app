@@ -18,6 +18,7 @@ import com.igramassistant.app.ui.activities.AccountActivity;
 import com.igramassistant.app.ui.activities.GameActivity;
 import com.igramassistant.app.ui.activities.WebViewActivity;
 import com.igramassistant.app.ui.fragments.AddCreditFragment;
+import com.igramassistant.app.ui.fragments.AutomatorFragment;
 import com.igramassistant.app.ui.fragments.GameListFragment;
 import com.igramassistant.app.ui.fragments.ShopDetailFragment;
 import com.igramassistant.app.ui.fragments.ShopFragment;
@@ -189,5 +190,9 @@ public class InAppNavService {
 
     public void startShopDetail(Product item, @IdRes int fragmentViewId) {
         fragmentTransaction(fragmentViewId, ShopDetailFragment.getInstance(item), "product", null, true, Constants.TRANSITION_HORIZONTAL,false);
+    }
+
+    public void startIgAutomation( @IdRes int fragmentViewId, String actionType) {
+        fragmentTransaction(fragmentViewId, AutomatorFragment.getInstance(actionType), "product", null, true, Constants.TRANSITION_HORIZONTAL,false);
     }
 }

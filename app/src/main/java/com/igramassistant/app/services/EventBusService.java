@@ -120,6 +120,10 @@ public class EventBusService {
                 else if (actionType.equals(Constants.ACTION_TOC)) {
                     act.inAppNavService.startWebsite(act.getString(R.string.terms),Constants.HOST+"/toc.html");
                 }
+                else if (actionType.equals(Constants.ACTION_IG_AUTOREPLY)) {
+                    if (act instanceof HomeActivity)
+                        act.inAppNavService.startIgAutomation(R.id.nav_host_fragment,actionType);
+                }
             }
             if (cm.doFinish)
                 if (act != null) {

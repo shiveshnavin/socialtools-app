@@ -123,8 +123,8 @@
 
 
 
-    <entry>
-        <key>home_menu</key>
-        <value>[{"accentColorId":"#57BB8A","actionType":"ACTION_HOW_TO_PLAY","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907031,"doFinish":false,"id":"howto","image":"","priority":1,"rightBottom":"","rightTop":"skip","subTitle":"How to play ? Learn the tips and tricks to win .","textAction":"View","title":"Help"},{"accentColorId":"#00BCD4","actionType":"ACTION_REDEEM_OPTIONS","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907031,"doFinish":false,"id":"redeem","image":"","priority":1,"rightBottom":"","rightTop":"","subTitle":"Reward Credits you can shop with or withdraw to your bank account .","textAction":"Redeem","title":""},{"accentColorId":"#00BCD4","actionType":"ACTION_EARN_MONEY","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907032,"doFinish":false,"id":"earn","image":"","priority":1,"rightBottom":"","rightTop":"skip","subTitle":"Earn credits by watching ads or doing simple actions .","textAction":"Get Started","title":"Earn"}]</value>
-    </entry>
+<!--    <entry>-->
+<!--        <key>home_menu</key>-->
+<!--        <value>[{"accentColorId":"#57BB8A","actionType":"ACTION_HOW_TO_PLAY","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907031,"doFinish":false,"id":"howto","image":"","priority":1,"rightBottom":"","rightTop":"skip","subTitle":"How to play ? Learn the tips and tricks to win .","textAction":"View","title":"Help"},{"accentColorId":"#00BCD4","actionType":"ACTION_REDEEM_OPTIONS","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907031,"doFinish":false,"id":"redeem","image":"","priority":1,"rightBottom":"","rightTop":"","subTitle":"Reward Credits you can shop with or withdraw to your bank account .","textAction":"Redeem","title":""},{"accentColorId":"#00BCD4","actionType":"ACTION_EARN_MONEY","bgColor":"","dataId":"","dataIdEx":"","dateTime":1621701907032,"doFinish":false,"id":"earn","image":"","priority":1,"rightBottom":"","rightTop":"skip","subTitle":"Earn credits by watching ads or doing simple actions .","textAction":"Get Started","title":"Earn"}]</value>-->
+<!--    </entry>-->
 </defaultsMap>

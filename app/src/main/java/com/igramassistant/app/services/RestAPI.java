@@ -3,6 +3,9 @@ package com.igramassistant.app.services;
 import android.content.Context;
 
 import com.androidnetworking.error.ANError;
+import com.google.common.base.Strings;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.gson.Gson;
 import com.igramassistant.app.App;
 import com.igramassistant.app.Constants;
 import com.igramassistant.app.R;
@@ -21,9 +24,6 @@ import com.igramassistant.app.models.Wallet;
 import com.igramassistant.app.ui.BaseActivity;
 import com.igramassistant.app.utils.ResourceUtils;
 import com.igramassistant.app.utl;
-import com.google.common.base.Strings;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -297,6 +297,19 @@ public class RestAPI implements API {
 
             actionItems.add(howToPlay);
 
+            ActionItem autoReply = new ActionItem();
+            autoReply.title = activity.getstring(R.string.auto_msg_start);
+            howToPlay.textAction = activity.getstring(R.string.enable);
+            autoReply.subTitle = activity.getstring(R.string.auto_msgs_desc);
+            autoReply.dateTime = System.currentTimeMillis();
+            autoReply.id = "autoreply";
+            autoReply.accentColorId = utl.colorToHexNoAlpha(ResourceUtils.getColor(R.color.colorTextSuccess));
+            autoReply.actionType = Constants.ACTION_IG_AUTOREPLY;
+            howToPlay.rightTop = "skip";
+
+            actionItems.add(autoReply);
+
+
 //        ActionItem actionShowWalletBalance = new ActionItem();
 //        actionShowWalletBalance.textAction = ResourceUtils.getString(R.string.add_credits);
 //        actionShowWalletBalance.subTitle = ResourceUtils.getString(R.string.help_wallet_bal);
@@ -480,7 +493,7 @@ public class RestAPI implements API {
 
             jop.put("gameType", amount > 0 ? "paid" : "free");
             jop.put("amount", amount);
-            jop.put("player2Id",player2Id);
+            jop.put("player2Id", player2Id);
 
         } catch (Exception e) {
         }
@@ -584,7 +597,6 @@ public class RestAPI implements API {
     public void buyProduct(String productId, GenricObjectCallback<Product> cb) {
 
 
-
         JSONObject jop = new JSONObject();
         try {
 
@@ -617,7 +629,7 @@ public class RestAPI implements API {
         networkService.callGet(updUrl, false, new NetworkRequestCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-               cb.onEntity(response);
+                cb.onEntity(response);
             }
 
             @Override

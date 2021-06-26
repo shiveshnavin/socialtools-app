@@ -267,6 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/marginHome"
+                    android:layout_marginRight="@dimen/marginHome"
                     android:layout_marginTop="@dimen/marginHomeDouble"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"

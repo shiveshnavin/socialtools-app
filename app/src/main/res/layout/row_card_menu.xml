@@ -3,7 +3,7 @@
     android:elevation="@dimen/default_elevation"
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:padding="@dimen/marginHomeDouble"
     android:layout_margin="@dimen/marginHome"
     android:background="@drawable/bg_selector_dark"
@@ -11,7 +11,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:gravity="center"
-    android:maxWidth="200dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -28,6 +27,7 @@
 
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
