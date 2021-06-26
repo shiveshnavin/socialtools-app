@@ -18,7 +18,7 @@ import com.igramassistant.app.ui.activities.AccountActivity;
 import com.igramassistant.app.ui.activities.GameActivity;
 import com.igramassistant.app.ui.activities.WebViewActivity;
 import com.igramassistant.app.ui.fragments.AddCreditFragment;
-import com.igramassistant.app.ui.fragments.AutomatorFragment;
+import com.igramassistant.app.domain.igram.fragments.AutomatorFragment;
 import com.igramassistant.app.ui.fragments.GameListFragment;
 import com.igramassistant.app.ui.fragments.ShopDetailFragment;
 import com.igramassistant.app.ui.fragments.ShopFragment;
