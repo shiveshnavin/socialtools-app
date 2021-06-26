@@ -1,12 +1,14 @@
 package com.igramassistant.app.domain.igram.fragments;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -17,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.widget.NestedScrollView;
 
 import com.igramassistant.app.R;
@@ -28,6 +31,14 @@ import com.igramassistant.app.ui.activities.HomeActivity;
 import com.igramassistant.app.utils.ShowHideLoader;
 import com.igramassistant.app.views.AdvancedWebView;
 import com.igramassistant.app.views.LoadingView;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AutomatorFragment extends BaseFragment {
 
@@ -101,6 +112,7 @@ public class AutomatorFragment extends BaseFragment {
         mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
         mWebView.getSettings().setAppCacheEnabled(true);
         mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
 
         WebSettings mWebSettings = mWebView.getSettings();
 
@@ -136,7 +148,20 @@ public class AutomatorFragment extends BaseFragment {
             public void onPageFinished(WebView view, String url) {
 
                 showHideLoader.loaded();
+                automatorService.seemsPageLoadfinished();
 
+            }
+
+
+        });
+
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if(newProgress > 5){
+                    automatorService.seemsHtmlLoaded();
+                }
             }
         });
 
@@ -150,9 +175,10 @@ public class AutomatorFragment extends BaseFragment {
         };
         JavaScriptInterface jsInterface = new JavaScriptInterface(act,onMessage);
         mWebView.addJavascriptInterface(jsInterface, "igram");
+        mWebView.addJavascriptInterface(jsInterface, "console");
 
         automatorService = new AutomatorService(mWebView, act, this);
-
+        automatorService.onMessage = onMessage;
         start(base);
     }
 

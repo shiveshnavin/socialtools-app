@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -13,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,10 +77,17 @@ import com.stfalcon.imageviewer.loader.ImageLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Created by shivesh on 7/1/18.
@@ -840,7 +849,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         return bodyTextTo;
     }
 
+    public String  readAssetFile(String path){
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream inputStream = assetManager.open(path);
 
+            String text = null;
+            try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
+                text = scanner.useDelimiter("\\A").next();
+            }
+            return text;
+        }
+        catch (Exception e){
+            Log.e("message: ",e.getMessage());
+        }
+        return "";
+    }
 
     public boolean isShowing=false;
 

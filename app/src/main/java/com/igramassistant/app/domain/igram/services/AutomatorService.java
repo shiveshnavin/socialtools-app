@@ -3,6 +3,7 @@ package com.igramassistant.app.domain.igram.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.base.Strings;
+import com.igramassistant.app.interfaces.GenricDataCallback;
 import com.igramassistant.app.ui.BaseActivity;
 import com.igramassistant.app.ui.BaseFragment;
 import com.igramassistant.app.utl;
@@ -16,16 +17,17 @@ public class AutomatorService {
     public static final int RUN_JS = 100;
     public static final int LOAD_URL = 101;
     public static final int GET_HTML = 102;
+    public GenricDataCallback onMessage;
 
     AdvancedWebView mWebView;
-    BaseActivity baseActivity;
+    BaseActivity act;
     BaseFragment baseFragment;
     HttpWebService httpWebService;
     String lastResponse;
 
     public AutomatorService(AdvancedWebView mWebView, BaseActivity baseActivity, BaseFragment baseFragment) {
         this.mWebView = mWebView;
-        this.baseActivity = baseActivity;
+        this.act = baseActivity;
         this.baseFragment = baseFragment;
         httpWebService = new HttpWebService();
         httpWebService.setAutomatorService(this);
@@ -37,8 +39,8 @@ public class AutomatorService {
     }
 
     public void handleMessage(String payload, int action) {
-        baseActivity.runOnUiThread(() -> {
-            utl.toast(baseActivity, "Received : " + action);
+        act.runOnUiThread(() -> {
+            utl.toast(act, "Received : " + action);
         });
 
         switch (action) {
@@ -83,7 +85,7 @@ public class AutomatorService {
             jsCode = "(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();";
         }
         String finalJsCode = jsCode;
-        baseActivity.runOnUiThread(() -> {
+        act.runOnUiThread(() -> {
             mWebView.evaluateJavascript(finalJsCode
                     ,
                     response -> {
@@ -104,5 +106,27 @@ public class AutomatorService {
 
     public String getEval() {
         return lastResponse;
+    }
+
+
+
+    String jquery;
+
+    public void initInjections(){
+        String url = mWebView.getUrl();
+        if(jquery ==null)
+            jquery = act.readAssetFile("jquery.js");
+        injectJSAndRun(jquery);
+        onMessage.onStart("Jquery Loaded!",0);
+
+    }
+
+
+    public void seemsHtmlLoaded() {
+        initInjections();
+    }
+
+    public void seemsPageLoadfinished() {
+
     }
 }
