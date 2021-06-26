@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dotpot.app">
+    package="com.igramassistant.app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".App"
+        android:name="com.igramassistant.app.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
@@ -16,7 +16,7 @@
         android:theme="@style/Theme.DotPot">
         <activity
             android:theme="@style/SplashScreenTheme"
-            android:name=".ui.activities.SplashActivity"
+            android:name="com.igramassistant.app.ui.activities.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,16 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.HomeActivity"
+        <activity android:name="com.igramassistant.app.ui.activities.HomeActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             />
-        <activity android:name=".ui.activities.AccountActivity"/>
-        <activity android:name=".ui.activities.WebViewActivity"/>
-        <activity android:name=".ui.activities.GameActivity"/>
+        <activity android:name="com.igramassistant.app.ui.activities.AccountActivity"/>
+        <activity android:name="com.igramassistant.app.ui.activities.WebViewActivity"/>
+        <activity android:name="com.igramassistant.app.ui.activities.GameActivity"/>
 
 
         <service
-            android:name=".services.FirebaseMsgService"
+            android:name="com.igramassistant.app.services.FirebaseMsgService"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

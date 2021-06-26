@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.dotpot.app.views.parallax.ParallaxScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.igramassistant.app.views.parallax.ParallaxScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread_inside" />
 
-            <com.dotpot.app.views.sparkbutton.SparkButton
+            <com.igramassistant.app.views.sparkbutton.SparkButton
                 android:id="@+id/sparkButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
                 android:layout_height="wrap_content">
 
 
-                <com.dotpot.app.views.LoadingView
+                <com.igramassistant.app.views.LoadingView
                     android:layout_centerInParent="true"
                     android:id="@+id/loader"
                     android:layout_width="wrap_content"
@@ -286,4 +286,4 @@
             android:layout_height="@dimen/fragment_bottom_padding"/>
     </LinearLayout>
 
-</com.dotpot.app.views.parallax.ParallaxScrollView>
+</com.igramassistant.app.views.parallax.ParallaxScrollView>

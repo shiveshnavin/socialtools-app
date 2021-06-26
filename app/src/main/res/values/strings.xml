@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">CashPot</string>
+    <string name="app_name">IGram Assistant</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -15,7 +15,7 @@
     <string name="ccode">+91</string>
 
     <string name="signup">Signup</string>
-    <string name="welcome">Welcome to CashPot</string>
+    <string name="welcome">Welcome to IGram Assistant</string>
     <string name="tagline">Break Pot Win Lot !</string>
     <string name="emailorphone">Enter Email or Phone</string>
     <string name="enter_your_password">Enter your password</string>

@@ -17,7 +17,7 @@
     </WebView>
 
 
-    <com.dotpot.app.utils.GradientLoader
+    <com.igramassistant.app.utils.GradientLoader
         android:id="@+id/loader"
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -27,7 +27,7 @@
         app:gradientEndColor="@color/colorPrimary"
         app:gradientStartColor="@color/colorBackgroundDark">
 
-    </com.dotpot.app.utils.GradientLoader>
+    </com.igramassistant.app.utils.GradientLoader>
 
     <include
         android:id="@+id/tool_cont"

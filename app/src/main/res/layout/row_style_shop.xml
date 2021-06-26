@@ -55,7 +55,7 @@
 
         </LinearLayout>
 
-        <com.dotpot.app.views.RoundRectCornerImageView
+        <com.igramassistant.app.views.RoundRectCornerImageView
             app:roundedCornerRadius="20"
             android:background="@drawable/bg_round_clip_outline"
             android:layout_marginTop="10dp"

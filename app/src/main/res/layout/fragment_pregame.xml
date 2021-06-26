@@ -82,7 +82,7 @@
             />
 
 
-        <com.dotpot.app.views.RoundRectCornerImageView
+        <com.igramassistant.app.views.RoundRectCornerImageView
             android:transitionName="player2Image"
             android:visibility="invisible"
             android:layout_margin="30dp"
@@ -117,7 +117,7 @@
             />
 
 
-        <com.dotpot.app.views.RoundRectCornerImageView
+        <com.igramassistant.app.views.RoundRectCornerImageView
             android:transitionName="player1Image"
             android:layout_margin="30dp"
             android:scaleType="centerCrop"

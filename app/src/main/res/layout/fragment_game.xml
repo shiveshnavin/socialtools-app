@@ -80,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@+id/vsText" />
 
 
-        <com.dotpot.app.views.LoadingView
+        <com.igramassistant.app.views.LoadingView
             android:alpha="0"
             android:padding="10dp"
             android:layout_margin="10dp"
@@ -126,7 +126,7 @@
             />
 
 
-        <com.dotpot.app.views.RoundRectCornerImageView
+        <com.igramassistant.app.views.RoundRectCornerImageView
             android:scaleType="centerCrop"
             android:transitionName="player2Image"
             android:id="@+id/player2Image"
@@ -170,7 +170,7 @@
             app:layout_constraintTop_toTopOf="@id/player1Image"
             />
 
-        <com.dotpot.app.views.RoundRectCornerImageView
+        <com.igramassistant.app.views.RoundRectCornerImageView
             android:scaleType="centerCrop"
             android:transitionName="player1Image"
             android:id="@+id/player1Image"

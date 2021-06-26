@@ -81,7 +81,7 @@
 
                 </LinearLayout>
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     app:roundedCornerRadius="20"
                     android:background="@drawable/bg_round_clip_outline"
                     android:layout_marginTop="10dp"
@@ -187,7 +187,7 @@
                     app:layout_constraintTop_toTopOf="@id/paytmImg"
                     app:layout_constraintVertical_chainStyle="spread" />
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/paytmImg"
                     android:layout_marginLeft="20dp"
                     android:layout_width="30dp"
@@ -225,7 +225,7 @@
                     android:padding="10dp"
                     android:text="@string/redeem" />
 
-                <com.dotpot.app.views.LoadingView
+                <com.igramassistant.app.views.LoadingView
                     android:id="@+id/loader"
                     android:visibility="gone"
                     android:layout_gravity="center"

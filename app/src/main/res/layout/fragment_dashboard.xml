@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.dotpot.app.views.RoundRectCornerImageView
+            <com.igramassistant.app.views.RoundRectCornerImageView
                 app:roundedCornerRadius="20"
                 android:layout_centerVertical="true"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -112,7 +112,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/awardBalIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/expandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -168,7 +168,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/passwordIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/passwordexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -223,7 +223,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/referralBalIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/referralexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -277,7 +277,7 @@
 
 
 
-            <com.dotpot.app.views.RoundRectCornerImageView
+            <com.igramassistant.app.views.RoundRectCornerImageView
                 android:id="@+id/myShopIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
 
 
 
-            <com.dotpot.app.views.RoundRectCornerImageView
+            <com.igramassistant.app.views.RoundRectCornerImageView
                 android:id="@+id/myShopExpandIcon"
                 android:layout_marginLeft="5dp"
                 android:tint="@color/colorTextPrimary"
@@ -333,7 +333,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/notifBalIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/notifexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -392,7 +392,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/walletIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -406,7 +406,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/walletexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -448,7 +448,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/guideIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -462,7 +462,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/guideexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -505,7 +505,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/supportIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -519,7 +519,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/supportexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"
@@ -561,7 +561,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/logoutIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -575,7 +575,7 @@
 
 
 
-                <com.dotpot.app.views.RoundRectCornerImageView
+                <com.igramassistant.app.views.RoundRectCornerImageView
                     android:id="@+id/logoutexpandIcon"
                     android:layout_marginLeft="5dp"
                     android:tint="@color/colorTextPrimary"

@@ -111,7 +111,7 @@
                 app:layout_constraintTop_toTopOf="@id/paytmImg"
                 app:layout_constraintVertical_chainStyle="spread" />
 
-            <com.dotpot.app.views.RoundRectCornerImageView
+            <com.igramassistant.app.views.RoundRectCornerImageView
                 android:id="@+id/paytmImg"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -184,7 +184,7 @@
                 app:layout_constraintTop_toTopOf="@id/UpiImg"
                 app:layout_constraintVertical_chainStyle="spread" />
 
-            <com.dotpot.app.views.RoundRectCornerImageView
+            <com.igramassistant.app.views.RoundRectCornerImageView
                 android:id="@+id/UpiImg"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -249,7 +249,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
-            <com.dotpot.app.views.LoadingView
+            <com.igramassistant.app.views.LoadingView
                 android:visibility="gone"
                 android:id="@+id/loader"
                 android:layout_gravity="center"

@@ -3,13 +3,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.dotpot.app.views.sparkbutton.helpers.DotsView
+    <com.igramassistant.app.views.sparkbutton.helpers.DotsView
         android:id="@+id/vDotsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <com.dotpot.app.views.sparkbutton.helpers.CircleView
+    <com.igramassistant.app.views.sparkbutton.helpers.CircleView
         android:id="@+id/vCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -30,7 +30,7 @@
                 android:orientation="horizontal">
 
 
-                <com.dotpot.app.views.RoundedImageView
+                <com.igramassistant.app.views.RoundedImageView
                     android:layout_marginTop="1dp"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/disease_thumb"
