@@ -1,1 +1,1 @@
-# dotpot-app
+# Social Automation
